@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CF1C9252-948E-4326-B0D1-498775210733}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MCPApp</RootNamespace>
+    <AssemblyName>MCPApp</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddCustomerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddCustomerForm.Designer.cs">
+      <DependentUpon>AddCustomerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddNewPhaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddNewPhaseForm.Designer.cs">
+      <DependentUpon>AddNewPhaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddPONumberForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddPONumberForm.Designer.cs">
+      <DependentUpon>AddPONumberForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddSupplierForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddSupplierForm.Designer.cs">
+      <DependentUpon>AddSupplierForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddUserForm.Designer.cs">
+      <DependentUpon>AddUserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CancelledJobsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CancelledJobsForm.Designer.cs">
+      <DependentUpon>CancelledJobsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ColourPickerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ColourPickerForm.Designer.cs">
+      <DependentUpon>ColourPickerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreateParentJobForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateParentJobForm.Designer.cs">
+      <DependentUpon>CreateParentJobForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Crypto.cs" />
+    <Compile Include="CustomerListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomerListForm.Designer.cs">
+      <DependentUpon>CustomerListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomersOverviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomersOverviewForm.Designer.cs">
+      <DependentUpon>CustomersOverviewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DateSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DateSelectorForm.Designer.cs">
+      <DependentUpon>DateSelectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DeletedJobsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DeletedJobsForm.Designer.cs">
+      <DependentUpon>DeletedJobsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditParentJobForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditParentJobForm.Designer.cs">
+      <DependentUpon>EditParentJobForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorAuditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ErrorAuditForm.Designer.cs">
+      <DependentUpon>ErrorAuditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExcelUtlity.cs" />
+    <Compile Include="JobCommentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JobCommentForm.Designer.cs">
+      <DependentUpon>JobCommentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JobDateAuditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JobDateAuditForm.Designer.cs">
+      <DependentUpon>JobDateAuditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JobEntryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JobEntryForm.Designer.cs">
+      <DependentUpon>JobEntryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JobPlannerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JobPlannerForm.Designer.cs">
+      <DependentUpon>JobPlannerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JobPlannerRptForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JobPlannerRptForm.Designer.cs">
+      <DependentUpon>JobPlannerRptForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JobPlannerTestBedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JobPlannerTestBedForm.Designer.cs">
+      <DependentUpon>JobPlannerTestBedForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LockedJobsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LockedJobsForm.Designer.cs">
+      <DependentUpon>LockedJobsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Logger.cs" />
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MeltonData.cs" />
+    <Compile Include="NotOnShopRptsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NotOnShopRptsForm.Designer.cs">
+      <DependentUpon>NotOnShopRptsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OutstandingRamsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OutstandingRamsForm.Designer.cs">
+      <DependentUpon>OutstandingRamsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProductSelectorForm.Designer.cs">
+      <DependentUpon>ProductSelectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RaisePOForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RaisePOForm.Designer.cs">
+      <DependentUpon>RaisePOForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RecreatePhaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RecreatePhaseForm.Designer.cs">
+      <DependentUpon>RecreatePhaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SearchJobForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SearchJobForm.Designer.cs">
+      <DependentUpon>SearchJobForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SuppliersListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SuppliersListForm.Designer.cs">
+      <DependentUpon>SuppliersListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SuppliersOverviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SuppliersOverviewForm.Designer.cs">
+      <DependentUpon>SuppliersOverviewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SuppliersReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SuppliersReportForm.Designer.cs">
+      <DependentUpon>SuppliersReportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserMaintenanceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserMaintenanceForm.Designer.cs">
+      <DependentUpon>UserMaintenanceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserOverviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserOverviewForm.Designer.cs">
+      <DependentUpon>UserOverviewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WhiteboardDayCommentAuditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WhiteboardDayCommentAuditForm.Designer.cs">
+      <DependentUpon>WhiteboardDayCommentAuditForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WhiteboardDayCommentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WhiteboardDayCommentForm.Designer.cs">
+      <DependentUpon>WhiteboardDayCommentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WhiteboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WhiteboardForm.Designer.cs">
+      <DependentUpon>WhiteboardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WhiteboardJobExtensionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WhiteboardJobExtensionsForm.Designer.cs">
+      <DependentUpon>WhiteboardJobExtensionsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WhiteboardParametersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WhiteboardParametersForm.Designer.cs">
+      <DependentUpon>WhiteboardParametersForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WhiteboardRptForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WhiteboardRptForm.Designer.cs">
+      <DependentUpon>WhiteboardRptForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="AddCustomerForm.resx">
+      <DependentUpon>AddCustomerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddNewPhaseForm.resx">
+      <DependentUpon>AddNewPhaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddPONumberForm.resx">
+      <DependentUpon>AddPONumberForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddSupplierForm.resx">
+      <DependentUpon>AddSupplierForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddUserForm.resx">
+      <DependentUpon>AddUserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CancelledJobsForm.resx">
+      <DependentUpon>CancelledJobsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ColourPickerForm.resx">
+      <DependentUpon>ColourPickerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateParentJobForm.resx">
+      <DependentUpon>CreateParentJobForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomerListForm.resx">
+      <DependentUpon>CustomerListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomersOverviewForm.resx">
+      <DependentUpon>CustomersOverviewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DateSelectorForm.resx">
+      <DependentUpon>DateSelectorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DeletedJobsForm.resx">
+      <DependentUpon>DeletedJobsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditParentJobForm.resx">
+      <DependentUpon>EditParentJobForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ErrorAuditForm.resx">
+      <DependentUpon>ErrorAuditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JobCommentForm.resx">
+      <DependentUpon>JobCommentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JobDateAuditForm.resx">
+      <DependentUpon>JobDateAuditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JobEntryForm.resx">
+      <DependentUpon>JobEntryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JobPlannerForm.resx">
+      <DependentUpon>JobPlannerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JobPlannerRptForm.resx">
+      <DependentUpon>JobPlannerRptForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JobPlannerTestBedForm.resx">
+      <DependentUpon>JobPlannerTestBedForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LockedJobsForm.resx">
+      <DependentUpon>LockedJobsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NotOnShopRptsForm.resx">
+      <DependentUpon>NotOnShopRptsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OutstandingRamsForm.resx">
+      <DependentUpon>OutstandingRamsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductSelectorForm.resx">
+      <DependentUpon>ProductSelectorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="RaisePOForm.resx">
+      <DependentUpon>RaisePOForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RecreatePhaseForm.resx">
+      <DependentUpon>RecreatePhaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchJobForm.resx">
+      <DependentUpon>SearchJobForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SuppliersListForm.resx">
+      <DependentUpon>SuppliersListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SuppliersOverviewForm.resx">
+      <DependentUpon>SuppliersOverviewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SuppliersReportForm.resx">
+      <DependentUpon>SuppliersReportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserMaintenanceForm.resx">
+      <DependentUpon>UserMaintenanceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserOverviewForm.resx">
+      <DependentUpon>UserOverviewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WhiteboardDayCommentAuditForm.resx">
+      <DependentUpon>WhiteboardDayCommentAuditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WhiteboardDayCommentForm.resx">
+      <DependentUpon>WhiteboardDayCommentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WhiteboardForm.resx">
+      <DependentUpon>WhiteboardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WhiteboardJobExtensionsForm.resx">
+      <DependentUpon>WhiteboardJobExtensionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WhiteboardParametersForm.resx">
+      <DependentUpon>WhiteboardParametersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WhiteboardRptForm.resx">
+      <DependentUpon>WhiteboardRptForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
