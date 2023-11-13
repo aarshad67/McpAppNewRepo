@@ -71,8 +71,8 @@ namespace MCPApp
                     MessageBox.Show("You are not a valid user. Please contact IT support", "Sign In", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     UserIDTextBox.Focus();
                     UserIDTextBox.SelectAll();
-                    stopFlag = true;
-                    LoginForm.ActiveForm.Close();
+                    //stopFlag = true;
+                    //LoginForm.ActiveForm.Close();
                     return;
 
                 }
@@ -116,8 +116,8 @@ namespace MCPApp
                 MessageBox.Show("You are not a valid user. Please contact IT support", "Sign In", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 UserIDTextBox.Focus();
                 UserIDTextBox.SelectAll();
-                stopFlag = true;
-                LoginForm.ActiveForm.Close();
+                //stopFlag = true;
+                //LoginForm.ActiveForm.Close();
                 return;
 
             }

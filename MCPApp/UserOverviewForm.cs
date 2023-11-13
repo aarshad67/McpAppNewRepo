@@ -94,7 +94,7 @@ namespace MCPApp
             reportsParentNode.Nodes.Add(supplierRptsNode);
             reportsParentNode.Nodes.Add(notOnShopRptsNode);
             menuTreeView.Nodes.Add(whiteboardParentNode);
-            if (loggedInUser == "sp" || loggedInUser == "dm" || loggedInUser == "aa" || loggedInUser == "ac")
+            if (loggedInUser == "sp" || loggedInUser == "dm" || loggedInUser == "aa" || loggedInUser == "ac" || loggedInUser == "eb")
             {
                 menuTreeView.Nodes.Add(lockedJobsNode);
                 menuTreeView.Nodes.Add(cancelledJobsNode);

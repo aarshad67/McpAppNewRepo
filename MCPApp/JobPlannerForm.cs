@@ -1513,6 +1513,7 @@ namespace MCPApp
                 {
                     MessageBox.Show(String.Format("Error Creating Whiteboard Record : {0}", wbErr));
                     int num = mcData.DeleteJobPlannerByJobNo(nextJobNo);
+                    string response = mcData.CreateJobDeletionAudit(nextJobNo, DateTime.MinValue, "n/a", "n/a", 0, "n/a", "addNewPhaseToolStripMenuItem1_Click errored out in JobPlanner.cs");
                     return;
                 }
                 

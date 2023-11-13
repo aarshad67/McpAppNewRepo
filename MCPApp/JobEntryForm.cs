@@ -98,15 +98,32 @@ namespace MCPApp
             if (MessageBox.Show("Confirm you want to cancel job creation", "Cancel Job", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
             {
                 cancelJob = true;
+                int parentJobNo = Convert.ToInt32(parentJobNoTextBox.Text);
+                DataTable jobsDT = mcData.GetJobPlannerDT(parentJobNo);
+
                 int numDeleted = mcData.DeleteJobPlannerByParentJob(Convert.ToInt32(parentJobNoTextBox.Text));
+                if(numDeleted > 0)
+                {
+                    string job = "";
+
+                    if (jobsDT.Rows.Count > 1)
+                    {
+                        foreach (DataRow dr in jobsDT.Rows)
+                        {
+                            if (dr["jobNo"] == null) { continue; }
+                            job = dr["jobNo"].ToString();
+
+                            string err = mcData.CreateJobDeletionAudit(job, DateTime.MinValue, "n/a", "n/a", 0, "n/a", "cancelButton_Click from JobEntryForm.cs");
+                        }
+                    }
+                }
                 int num = mcData.DeleteParentJob(Convert.ToInt32(parentJobNoTextBox.Text));
+                jobsDT.Clear();
                 cancelJob = true;
                 this.Dispose();
                 this.Close();
             }
         }
-
-        
 
 
         private DataTable GetSupplyTypeDT()

@@ -1616,6 +1616,53 @@ namespace MCPApp
 
         }
 
+
+        
+
+        public void GetCancelledJobDetails(string jobNo, out DateTime reqDate, out string custName, out string siteAddress, out decimal invValue, out string lastComment)
+        {
+            string error;
+
+
+            string custCode = "";
+            custName = "";
+            siteAddress = "";
+            invValue = 0;
+            lastComment = "";
+            reqDate = DateTime.MinValue;
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(String.Format("SELECT * FROM dbo.JobPlanner WHERE jobNo = '{0}'", jobNo), conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                reqDate = reader["requiredDate"] == null ? DateTime.MinValue : Convert.ToDateTime(reader["requiredDate"].ToString());
+                                custCode = GetCustomerCodeByJobNo(jobNo);
+                                custName = GetCustName(custCode);
+                                siteAddress = reader["siteAddress"] == null ? "" : reader["siteAddress"].ToString();
+                                invValue = reader["phaseInvValue"] == null ? 0 : Convert.ToDecimal(reader["phaseInvValue"].ToString());
+                                lastComment = GetLastComment(jobNo);
+                            }
+                        }
+                    }
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    error = ex.Message.ToString();
+                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("GetCancelledJobDetails({0})", jobNo), ex.Message.ToString());
+                    return;
+                }
+
+            }
+        }
+
         public string CreateJobDeletionAudit(string jobNo, DateTime reqDate, string custName, string siteAddress, decimal invValue, string lastComment, string deleteTrigger)
         {
             string query = "";
@@ -2817,49 +2864,7 @@ namespace MCPApp
 
         }
 
-        public void GetCancelledJobDetails(string jobNo, out DateTime reqDate,out string custName, out string siteAddress, out decimal invValue, out string lastComment)
-        {
-            string error;
-
-
-            string custCode = "";
-            custName = "";
-            siteAddress = "";
-            invValue = 0;
-            lastComment = "";
-            reqDate = DateTime.MinValue;
-
-            using (SqlConnection conn = new SqlConnection(connStr))
-            {
-                conn.Open();
-                try
-                {
-                    using (SqlCommand command = new SqlCommand(String.Format("SELECT * FROM dbo.JobPlanner WHERE jobNo = '{0}'", jobNo), conn))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                reqDate = reader["requiredDate"] == null ? DateTime.MinValue : Convert.ToDateTime(reader["requiredDate"].ToString());
-                                custCode = GetCustomerCodeByJobNo(jobNo);
-                                custName = GetCustName(custCode);
-                                siteAddress = reader["siteAddress"] == null ? "" : reader["siteAddress"].ToString();
-                                invValue = reader["phaseInvValue"] == null ? 0 : Convert.ToDecimal(reader["phaseInvValue"].ToString());
-                                lastComment = GetLastComment(jobNo);
-                            }
-                        }
-                    }
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    error = ex.Message.ToString();
-                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("GetCancelledJobDetails({0})", jobNo), ex.Message.ToString());
-                    return;
-                }
-
-            }
-        }
+        
 
         public void GetSiteDetailFromParentJob(int parentJob, out string siteContact, out string siteContactTel, out string siteContactEmail)
         {
@@ -4482,7 +4487,9 @@ namespace MCPApp
         public DataTable GetWhiteboardByDateRangeDT(DateTime startDate, DateTime endDate)
         {
             //string qry1 = "SELECT * FROM dbo.Whiteboard WHERE requiredDate between @startDate and @endDate AND completedFlag != 'Y' ORDER BY supplyType,requiredDate";
-            string qry1 = "SELECT * FROM dbo.Whiteboard WHERE requiredDate between @startDate and @endDate ORDER BY sortType,requiredDate,jobNo";
+            string qry1 = @"SELECT * FROM dbo.Whiteboard WHERE requiredDate between @startDate and @endDate 
+                            AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
+                            ORDER BY sortType,requiredDate,jobNo";
 
 
 

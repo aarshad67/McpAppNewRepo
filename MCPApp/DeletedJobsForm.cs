@@ -86,8 +86,8 @@ namespace MCPApp
 
                 //6
                 DataGridViewTextBoxColumn auditUserColumn = new DataGridViewTextBoxColumn();
-                auditUserColumn.HeaderText = "Deleted By";
-                auditUserColumn.Width = 50;
+                auditUserColumn.HeaderText = "Deleted On";
+                auditUserColumn.Width = 120;
                 auditUserColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
                 auditUserColumn.ReadOnly = true;
                 dgv.Columns.Add(auditUserColumn);
@@ -95,8 +95,8 @@ namespace MCPApp
 
                 //7
                 DataGridViewTextBoxColumn auditDateColumn = new DataGridViewTextBoxColumn();
-                auditDateColumn.HeaderText = "On";
-                auditDateColumn.Width = 80;
+                auditDateColumn.HeaderText = "By";
+                auditDateColumn.Width = 20;
                 auditDateColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
                 auditDateColumn.ReadOnly = true;
                 dgv.Columns.Add(auditDateColumn);
@@ -104,7 +104,7 @@ namespace MCPApp
                 //8
                 DataGridViewTextBoxColumn triggerColumn = new DataGridViewTextBoxColumn();
                 triggerColumn.HeaderText = "Delete Triggered By";
-                triggerColumn.Width = 100;
+                triggerColumn.Width = 300;
                 triggerColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
                 triggerColumn.ReadOnly = true;
                 dgv.Columns.Add(triggerColumn);
