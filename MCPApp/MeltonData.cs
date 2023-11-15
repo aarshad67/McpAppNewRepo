@@ -2659,7 +2659,11 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND OnShop != 'Y' ORDER BY sortType,requiredDate";
+                    qry = @"SELECT * FROM dbo.JobPlanner 
+                            WHERE completedFlag != 'Y' 
+                            AND OnShop != 'Y' 
+                            AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
+                            ORDER BY sortType,requiredDate";
 
 
                     SqlCommand cmd = new SqlCommand(qry, conn);
