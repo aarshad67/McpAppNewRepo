@@ -135,6 +135,12 @@
       <DependentUpon>ErrorAuditForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ExcelUtlity.cs" />
+    <Compile Include="ResetWebPasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResetWebPasswordForm.Designer.cs">
+      <DependentUpon>ResetWebPasswordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="JobCommentForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -330,6 +336,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ErrorAuditForm.resx">
       <DependentUpon>ErrorAuditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResetWebPasswordForm.resx">
+      <DependentUpon>ResetWebPasswordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="JobCommentForm.resx">
       <DependentUpon>JobCommentForm.cs</DependentUpon>

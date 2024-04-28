@@ -200,5 +200,13 @@ namespace MCPApp
                 return;
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ResetWebPasswordForm resetForm = new ResetWebPasswordForm(userIDTextBox.Text.Trim(),userNameTextBox.Text.Trim(),fullNameTextBox.Text.Trim());
+            resetForm.ShowDialog();
+            return;
+
+        }
     }
 }

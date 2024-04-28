@@ -90,6 +90,37 @@ namespace MCPApp
             }
         }
 
+        public bool UpdateWebPassword(string userName,string newPwd)
+        {
+
+            string updateCommand = "UPDATE dbo.WebCredentials SET webPassword=@webPassword WHERE webUserName = @webUserName";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand())
+                    {
+                        command.Connection = conn;
+                        command.CommandText = updateCommand;
+                        command.CommandType = System.Data.CommandType.Text;
+                        command.Parameters.AddWithValue("@webPassword", newPwd);
+                        command.Parameters.AddWithValue("@webUserName", userName);
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    string msg = "UpdateWebPassword() ERROR : " + ex.Message.ToString();
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "UpdateWebPassword(...)", msg);
+                    return false;
+                }
+
+            }
+        }
+
         public string GetPassword(string username)
         {
 

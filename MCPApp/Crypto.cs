@@ -19,6 +19,7 @@ namespace MCPApp
 
         private const string CRYPT_DEFAULT_PASSWORD = "CB06cfE507a1";
         private const CryptoTypes CRYPT_DEFAULT_METHOD = CryptoTypes.encTypeRijndael;
+        private const string hash = @"foxle@rn";
 
         private byte[] mKey = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 };
         private byte[] mIV = { 65, 110, 68, 26, 69, 178, 200, 219 };
@@ -196,6 +197,86 @@ namespace MCPApp
             this.CryptoType = cryptoType;
             return Decrypt(inputText);
         }
+        #endregion
+
+        #region Base64 Encryption/Decrypotion
+
+        public string EncodePasswordToBase64(string password)
+        {
+            try
+            {
+                byte[] encData_byte = new byte[password.Length];
+                encData_byte = System.Text.Encoding.UTF8.GetBytes(password);
+                string encodedData = Convert.ToBase64String(encData_byte);
+                return encodedData;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in base64Encode" + ex.Message);
+            }
+        }
+        //this function Convert to Decord your Password
+        public string DecodeFrom64(string encodedData)
+        {
+            System.Text.UTF8Encoding encoder = new System.Text.UTF8Encoding();
+            System.Text.Decoder utf8Decode = encoder.GetDecoder();
+            byte[] todecode_byte = Convert.FromBase64String(encodedData);
+            int charCount = utf8Decode.GetCharCount(todecode_byte, 0, todecode_byte.Length);
+            char[] decoded_char = new char[charCount];
+            utf8Decode.GetChars(todecode_byte, 0, todecode_byte.Length, decoded_char, 0);
+            string result = new String(decoded_char);
+            return result;
+        }
+
+        #endregion
+
+        #region Web Encryption and Decryption
+
+        public string WebEncrypt(string decryptedPwd)
+        {
+            try
+            {
+                byte[] data = UTF8Encoding.UTF8.GetBytes(decryptedPwd);
+                using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+                {
+                    byte[] keys = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(hash));
+                    using (TripleDESCryptoServiceProvider tripleDes = new TripleDESCryptoServiceProvider() { Key = keys, Mode = CipherMode.ECB, Padding = PaddingMode.PKCS7 })
+                    {
+                        ICryptoTransform transform = tripleDes.CreateEncryptor();
+                        byte[] results = transform.TransformFinalBlock(data, 0, data.Length);
+                        return Convert.ToBase64String(results);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"ERROR - {ex.InnerException.ToString()}";
+            }
+            
+        }
+
+        public string WebDecrypt(string encryptedPwd)
+        {
+            try
+            {
+                byte[] data = Convert.FromBase64String(encryptedPwd);
+                using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+                {
+                    byte[] keys = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(hash));
+                    using (TripleDESCryptoServiceProvider tripleDes = new TripleDESCryptoServiceProvider() { Key = keys, Mode = CipherMode.ECB, Padding = PaddingMode.PKCS7 })
+                    {
+                        ICryptoTransform transform = tripleDes.CreateDecryptor();
+                        byte[] results = transform.TransformFinalBlock(data, 0, data.Length);
+                        return UTF8Encoding.UTF8.GetString(results);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return $"ERROR - {ex.InnerException.ToString()}";
+            }
+        }
+
         #endregion
 
         #region Symmetric Engine
