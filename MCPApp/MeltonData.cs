@@ -19,6 +19,64 @@ namespace MCPApp
 
         #region Connection and Security
 
+        public int SwitchPasswordEncryption()
+        {
+            Crypto c = new Crypto();
+            DataTable dt = new DataTable();
+            int counter = 0;
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+
+                    try
+                    {
+                        conn.Open();
+                        string qry = "SELECT username FROM dbo.Users ORDER BY userName";
+
+                        SqlCommand cmd = new SqlCommand(qry, conn);
+                       
+                        SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                        sda.Fill(dt);
+                        string username = "";
+                        string encryptedPwd1 = "";
+                        string encryptedPwd2 = "";
+                        string decryptedPwd = "";
+                        
+                        foreach (DataRow dr in dt.Rows)
+                        {
+                            username = dr["username"].ToString();
+
+                            encryptedPwd1 = GetPassword(username);
+                            decryptedPwd = c.Decrypt(GetPassword(username));
+                            encryptedPwd2 = c.WebEncrypt(decryptedPwd);
+                            if(UpdatePassword(username, encryptedPwd2))
+                            {
+                                counter++;
+                            }
+                            
+                        }
+                        return counter;
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        string audit = CreateErrorAudit("MeltonData.cs", "SwitchPasswordEncryption()", ex.Message);
+                        return counter;
+                        
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
         public int CheckSQLConnection()
         {
             int maxSeqNo = 0;

@@ -152,6 +152,8 @@ namespace MCPApp
                 confirmPwdFlag = false;
 
                 MessageBox.Show("Web Access Password successfully updated!!");
+                this.Dispose();
+                this.Close();
                 return;
             }
         }

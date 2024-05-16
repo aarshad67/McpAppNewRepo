@@ -40,7 +40,7 @@ namespace MCPApp
             this.cancelButton.BackColor = System.Drawing.Color.Red;
             this.cancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelButton.ForeColor = System.Drawing.Color.White;
-            this.cancelButton.Location = new System.Drawing.Point(1678, 645);
+            this.cancelButton.Location = new System.Drawing.Point(1650, 645);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(262, 68);
             this.cancelButton.TabIndex = 10;
@@ -58,14 +58,14 @@ namespace MCPApp
             this.dgv.Name = "dgv";
             this.dgv.RowHeadersWidth = 62;
             this.dgv.RowTemplate.Height = 28;
-            this.dgv.Size = new System.Drawing.Size(1928, 596);
+            this.dgv.Size = new System.Drawing.Size(1900, 596);
             this.dgv.TabIndex = 9;
             // 
             // DeletedJobsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1952, 754);
+            this.ClientSize = new System.Drawing.Size(1924, 754);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.dgv);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

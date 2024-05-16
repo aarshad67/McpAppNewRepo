@@ -203,6 +203,8 @@ namespace MCPApp
 
         private void button1_Click(object sender, EventArgs e)
         {
+           // int num = mcData.SwitchPasswordEncryption();
+           // MessageBox.Show($"[{num}] users' password changed");
             ResetWebPasswordForm resetForm = new ResetWebPasswordForm(userIDTextBox.Text.Trim(),userNameTextBox.Text.Trim(),fullNameTextBox.Text.Trim());
             resetForm.ShowDialog();
             return;
