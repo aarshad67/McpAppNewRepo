@@ -96,7 +96,7 @@
             // 
             // SelectBFolderButton
             // 
-            this.SelectBFolderButton.Location = new System.Drawing.Point(534, 122);
+            this.SelectBFolderButton.Location = new System.Drawing.Point(371, 118);
             this.SelectBFolderButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.SelectBFolderButton.Name = "SelectBFolderButton";
             this.SelectBFolderButton.Size = new System.Drawing.Size(240, 77);
@@ -120,7 +120,7 @@
             this.pathTextBox.Location = new System.Drawing.Point(22, 82);
             this.pathTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pathTextBox.Name = "pathTextBox";
-            this.pathTextBox.Size = new System.Drawing.Size(750, 26);
+            this.pathTextBox.Size = new System.Drawing.Size(589, 26);
             this.pathTextBox.TabIndex = 0;
             // 
             // groupBox2
@@ -128,11 +128,11 @@
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.GenerateButton);
-            this.groupBox2.Location = new System.Drawing.Point(1186, 309);
+            this.groupBox2.Location = new System.Drawing.Point(1208, 331);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox2.Size = new System.Drawing.Size(806, 275);
+            this.groupBox2.Size = new System.Drawing.Size(629, 275);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Generate Supplier Reports";
@@ -144,7 +144,7 @@
             this.label3.Location = new System.Drawing.Point(46, 175);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(482, 31);
+            this.label3.Size = new System.Drawing.Size(565, 100);
             this.label3.TabIndex = 2;
             // 
             // label2
@@ -162,10 +162,10 @@
             // GenerateButton
             // 
             this.GenerateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GenerateButton.Location = new System.Drawing.Point(51, 35);
+            this.GenerateButton.Location = new System.Drawing.Point(8, 29);
             this.GenerateButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.GenerateButton.Name = "GenerateButton";
-            this.GenerateButton.Size = new System.Drawing.Size(723, 71);
+            this.GenerateButton.Size = new System.Drawing.Size(603, 71);
             this.GenerateButton.TabIndex = 0;
             this.GenerateButton.Text = "Generate Selected Suppliers Rpt";
             this.GenerateButton.UseVisualStyleBackColor = true;
@@ -176,7 +176,7 @@
             this.closeButton.BackColor = System.Drawing.Color.Red;
             this.closeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.closeButton.ForeColor = System.Drawing.Color.White;
-            this.closeButton.Location = new System.Drawing.Point(1720, 875);
+            this.closeButton.Location = new System.Drawing.Point(1547, 856);
             this.closeButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(272, 88);
@@ -190,8 +190,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(2010, 1000);
-            this.ControlBox = false;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(1924, 1000);
             this.Controls.Add(this.closeButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -203,6 +203,7 @@
             this.Name = "SuppliersReportForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SuppliersReportForm";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.SuppliersReportForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.suppDGV)).EndInit();
             this.groupBox1.ResumeLayout(false);

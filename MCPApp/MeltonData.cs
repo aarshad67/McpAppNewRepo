@@ -2898,6 +2898,75 @@ namespace MCPApp
 
         }
 
+        public DataTable GetBeamLmJobPlannerDT(DateTime startDate, DateTime endDate)
+        {
+            string qry = "";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND beamLm > 0 AND ( requiredDate between @startDate and @endDate ) AND LEN(productSupplier) > 0 ORDER BY productSupplier,beamLm DESC";
+
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    cmd.Parameters.Add(new SqlParameter("startDate", startDate.Date));
+                    cmd.Parameters.Add(new SqlParameter("endDate", endDate.Date));
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetJobPlannerDT() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "GetJobPlannerDT()", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
+        public int GetTotalLMBySupplier(string productSupplier, DateTime startDate, DateTime endDate)
+        {
+            string error;
+            decimal total = 0;
+            string qry = "SELECT beamLm FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND beamLm > 0 AND ( requiredDate between @startDate and @endDate ) AND productSupplier = @productSupplier ";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(qry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("startDate", startDate.Date));
+                        command.Parameters.Add(new SqlParameter("endDate", endDate.Date));
+                        command.Parameters.Add(new SqlParameter("productSupplier", productSupplier));
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                total += Convert.ToDecimal(reader["beamLm"].ToString());
+                            }
+                        }
+                    }
+                    return Convert.ToInt32(total);
+                }
+                catch (Exception ex)
+                {
+                    error = ex.InnerException.ToString();
+                    return 0;
+                }
+
+            }
+        }
+
+
         public DataTable GetJobPlannerDTByQry(string myQuery)
         {
             using (SqlConnection conn = new SqlConnection(connStr))

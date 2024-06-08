@@ -162,7 +162,7 @@
             this.removeSupplierToolStripMenuItem,
             this.jobDateAuditToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(342, 389);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(342, 356);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // amendParentJobToolStripMenuItem

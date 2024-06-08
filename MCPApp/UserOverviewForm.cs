@@ -42,6 +42,10 @@ namespace MCPApp
         TreeNode cancelledJobsNode = new TreeNode("View CANCELLED Jobs");
         TreeNode deletedJobsNode = new TreeNode("View DELETED Jobs Audit");
         TreeNode quitParentNode = new TreeNode("Quit Program");
+        TreeNode jobPlannerRptsNode = new TreeNode("Job Planner Reports");
+        TreeNode beamLmRptNode = new TreeNode("Beam LM Per Year Per Supplier");
+        TreeNode beamM2RptNode = new TreeNode("Beam M² Per Year Per Supplier");
+        TreeNode slabM2RptNode = new TreeNode("Slab M² Per Year Per Supplier");
 
         string mcpFullName = "";
         string mcpUserID = "";
@@ -91,8 +95,12 @@ namespace MCPApp
             jobPlannerParentNode.Nodes.Add(jobPlannerNode);
             jobPlannerParentNode.Nodes.Add(jobPlannerBeamNode);
             jobPlannerParentNode.Nodes.Add(jobPlannerSlabNode);
+            reportsParentNode.Nodes.Add(jobPlannerRptsNode);
             reportsParentNode.Nodes.Add(supplierRptsNode);
             reportsParentNode.Nodes.Add(notOnShopRptsNode);
+            jobPlannerRptsNode.Nodes.Add(beamLmRptNode);
+            jobPlannerRptsNode.Nodes.Add(beamM2RptNode);
+            jobPlannerRptsNode.Nodes.Add(slabM2RptNode);
             menuTreeView.Nodes.Add(whiteboardParentNode);
             if (loggedInUser == "sp" || loggedInUser == "dm" || loggedInUser == "aa" || loggedInUser == "ac" || loggedInUser == "eb")
             {
@@ -172,6 +180,30 @@ namespace MCPApp
                 this.menuTreeView.SelectedNode = null;
                 return;
 
+            }
+
+            if (menuTreeView.SelectedNode == beamLmRptNode)
+            {
+                JobPlannerRptNewForm jpRptForm = new JobPlannerRptNewForm(beamLmRptNode.Text,"BeamLM");
+                jpRptForm.ShowDialog();
+                this.menuTreeView.SelectedNode = null;
+                return;
+            }
+
+            if (menuTreeView.SelectedNode == beamM2RptNode)
+            {
+                JobPlannerRptNewForm jpRptForm = new JobPlannerRptNewForm(beamM2RptNode.Text, "BeamM2");
+                jpRptForm.ShowDialog();
+                this.menuTreeView.SelectedNode = null;
+                return;
+            }
+
+            if (menuTreeView.SelectedNode == slabM2RptNode)
+            {
+                JobPlannerRptNewForm jpRptForm = new JobPlannerRptNewForm(slabM2RptNode.Text, "SlabM2");
+                jpRptForm.ShowDialog();
+                this.menuTreeView.SelectedNode = null;
+                return;
             }
 
             //lockedJobsNode
