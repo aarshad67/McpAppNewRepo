@@ -134,6 +134,12 @@
     <Compile Include="ErrorAuditForm.Designer.cs">
       <DependentUpon>ErrorAuditForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="excelTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="excelTestForm.Designer.cs">
+      <DependentUpon>excelTestForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ExcelUtlity.cs" />
     <Compile Include="JobPlannerRptNewForm.cs">
       <SubType>Form</SubType>
@@ -342,6 +348,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ErrorAuditForm.resx">
       <DependentUpon>ErrorAuditForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="excelTestForm.resx">
+      <DependentUpon>excelTestForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="JobPlannerRptNewForm.resx">
       <DependentUpon>JobPlannerRptNewForm.cs</DependentUpon>

@@ -20,8 +20,7 @@ namespace MCPApp
         /// <returns></returns>
         /// 
 
-        private Microsoft.Office.Interop.Excel.Application excel;
-        private Microsoft.Office.Interop.Excel.Workbook excelworkBook;
+        
 
 
         public bool WriteDataTableToExcel(System.Data.DataTable dataTable, string worksheetName, string saveAsLocation, string ReporType,int dateColumnIndex)
@@ -126,147 +125,7 @@ namespace MCPApp
 
         }
 
-        public void CreateWorkBook(string saveAsLocation, out Microsoft.Office.Interop.Excel.Application excel, out Microsoft.Office.Interop.Excel.Workbook excelworkBook)
-        {
-            //Microsoft.Office.Interop.Excel.Application excel;
-            excelworkBook = null;
-            excel = null;
-
-
-            try
-            {
-                // Start Excel and get Application object.
-                excel = new Microsoft.Office.Interop.Excel.Application();
-
-                // for making Excel visible
-                excel.Visible = false;
-                excel.DisplayAlerts = false;
-
-                // Creation a new Workbook
-                excelworkBook = excel.Workbooks.Add(Type.Missing);
-
-                // Workk sheet
-                
-
-
-                excelworkBook.SaveAs(saveAsLocation); ;
-                excelworkBook.Close();
-                excel.Quit();
-                //return;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                //return;
-            }
-            finally
-            {
-                excelworkBook = null;
-            }
-
-        }
-
-        public bool WriteJobPlannerRptDataTableToExcel(Microsoft.Office.Interop.Excel.Workbook excelworkBook,System.Data.DataTable dataTable, string worksheetName, string saveAsLocation, string ReporType, int dateColumnIndex)
-        {
-         //   Microsoft.Office.Interop.Excel.Application excel;
-          //  Microsoft.Office.Interop.Excel.Workbook excelworkBook;
-            Microsoft.Office.Interop.Excel.Worksheet excelSheet;
-            Microsoft.Office.Interop.Excel.Range excelCellrange;
-            Microsoft.Office.Interop.Excel.Range excelDateCellrange;
-
-            try
-            {
-                // Start Excel and get Application object.
-                excel = new Microsoft.Office.Interop.Excel.Application();
-
-                // for making Excel visible
-                excel.Visible = false;
-                excel.DisplayAlerts = false;
-
-                // Creation a new Workbook
-                excelworkBook = excel.Workbooks.Add(Type.Missing);
-
-                // Workk sheet
-                //var xlSheets = excelworkBook.Sheets as Microsoft.Office.Interop.Excel.Sheets;
-                //excelSheet =
-                excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelworkBook.Worksheets.Add();
-                //excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelworkBook.ActiveSheet;
-                excelSheet.Name = worksheetName;
-
-
-                excelSheet.Cells[1, 1] = ReporType;
-                excelSheet.Cells[1, 2] = "Date : " + DateTime.Now.ToShortDateString();
-
-                // loop through each row and add values to our sheet
-                int rowcount = 2;
-
-                foreach (DataRow datarow in dataTable.Rows)
-                {
-                    rowcount += 1;
-                    
-                    for (int i = 1; i <= dataTable.Columns.Count; i++)
-                    {
-                        // on the first iteration we add the column headers
-                        if (rowcount == 3)
-                        {
-                            excelSheet.Cells[2, i] = dataTable.Columns[i - 1].ColumnName;
-                            excelSheet.Cells.Font.Color = System.Drawing.Color.Black;
-
-                        }
-                        
-                        excelSheet.Cells[rowcount, i] = datarow[i - 1].ToString();
-                        
-                    }
-                    if(excelSheet.Cells[rowcount, 4].Value == "TOTAL:")
-                    {
-                        excelSheet.Cells[rowcount,4].EntireRow.Font.Bold = true;
-                        excelSheet.Cells[rowcount, 3].Value = "";
-                    }
-                    excelSheet.Columns[5].NumberFormat = "#,##";
-                }
-
-                // now we resize the columns
-                excelCellrange = excelSheet.Range[excelSheet.Cells[1, 1], excelSheet.Cells[rowcount, dataTable.Columns.Count]];
-                excelCellrange.EntireColumn.WrapText = false;
-                excelCellrange.EntireColumn.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignLeft;
-                excelCellrange.EntireColumn.AutoFit();
-                excelDateCellrange = excelSheet.Range[excelSheet.Cells[1, dateColumnIndex], excelSheet.Cells[rowcount, dateColumnIndex]];
-                excelDateCellrange.EntireColumn.NumberFormat = "DD/MM/YYYY";
-                Microsoft.Office.Interop.Excel.Borders border = excelCellrange.Borders;
-                border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
-                border.Weight = 2d;
-
-
-                excelCellrange = excelSheet.Range[excelSheet.Cells[1, 1], excelSheet.Cells[2, dataTable.Columns.Count]];
-                FormattingExcelCells(excelCellrange, "#000099", System.Drawing.Color.White, true);
-
-                //iterate through rows and BOLD row if cell value is "Total"
-                Microsoft.Office.Interop.Excel.Range visibleCells = excelSheet.UsedRange.SpecialCells(
-                               Microsoft.Office.Interop.Excel.XlCellType.xlCellTypeVisible,
-                               Type.Missing);
-                
-
-                //now save the workbook and exit Excel
-
-
-                excelworkBook.SaveAs(saveAsLocation); ;
-                excelworkBook.Close();
-                excel.Quit();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return false;
-            }
-            finally
-            {
-                excelSheet = null;
-                excelCellrange = null;
-                excelworkBook = null;
-            }
-
-        }
+        
 
         /// <summary>
         /// FUNCTION FOR FORMATTING EXCEL CELLS

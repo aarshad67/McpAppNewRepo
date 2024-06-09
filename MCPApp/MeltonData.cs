@@ -2965,11 +2965,11 @@ namespace MCPApp
 
         }
 
-        public int GetTotalLMBySupplier(string productSupplier, DateTime startDate, DateTime endDate)
+        public int GetTotalLMBySupplier(string productSupplier, DateTime startDate, DateTime endDate, int year)
         {
             string error;
             decimal total = 0;
-            string qry = "SELECT beamLm FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND beamLm > 0 AND ( requiredDate between @startDate and @endDate ) AND productSupplier = @productSupplier ";
+            string qry = "SELECT beamLm FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND beamLm > 0 AND ( requiredDate between @startDate and @endDate ) AND productSupplier = @productSupplier AND YEAR(requiredDate) = @year ";
 
             using (SqlConnection conn = new SqlConnection(connStr))
             {
@@ -2981,6 +2981,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("startDate", startDate.Date));
                         command.Parameters.Add(new SqlParameter("endDate", endDate.Date));
                         command.Parameters.Add(new SqlParameter("productSupplier", productSupplier));
+                        command.Parameters.Add(new SqlParameter("year", year));
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             while (reader.Read())
