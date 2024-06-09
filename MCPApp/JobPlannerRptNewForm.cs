@@ -19,7 +19,9 @@ namespace MCPApp
         private DateTime _endDate = DateTime.MaxValue;
         private DataTable _rptDT = new DataTable();
         MeltonData mcData = new MeltonData();
-        ExcelUtlity excel = new ExcelUtlity();
+        ExcelUtlity excelUtil = new ExcelUtlity();
+        private string filename = "BeamLM_" + DateTime.Now.ToString("ddMMMyyyyhhmmss") + ".xlsx";
+        private string fullFilePath = "";
 
         public JobPlannerRptNewForm()
         {
@@ -75,15 +77,34 @@ namespace MCPApp
         
         private void FillBeamLMRpt()
         {
+            Microsoft.Office.Interop.Excel.Application excel;
+            Microsoft.Office.Interop.Excel.Workbook excelworkBook;
+            excelUtil.CreateWorkBook(fullFilePath, out excel, out excelworkBook);
+        //Microsoft.Office.Interop.Excel.Workbook excelworkBook = excel.CreateWorkBook(fullFilePath);
+        this.Cursor = Cursors.WaitCursor;
+            DataTable yearsDT = mcData.GetYearsDT(_startDate, _endDate);
+            foreach (DataRow yearDR in yearsDT.Rows)
+            {
+                FillBeamLMRptByYear(Convert.ToInt32(yearDR["year"]), excelworkBook);
+            }
+            
+            this.Cursor = Cursors.Default;
+            Process.Start(fullFilePath);
+        }
+
+        private void FillBeamLMRptByYear(int year, Microsoft.Office.Interop.Excel.Workbook excelworkBook)
+        {
             this.Cursor = Cursors.WaitCursor;
-            DataTable dt = mcData.GetBeamLmJobPlannerDT(_startDate, _endDate);
+            DataTable yearsDT = mcData.GetYearsDT(_startDate, _endDate);
+            
+            DataTable dt = mcData.GetBeamLmJobPlannerDT(_startDate, _endDate, year);
+
 
             DataTable newDT = new DataTable();
             string jobNo = "";
             string custName = "";
             string custCode = "";
-            string filename = "BeamLM_" + DateTime.Now.ToString("ddMMMyyyyhhmmss") + ".xlsx";
-            string fullFilePath = System.IO.Path.Combine(pathTextBox.Text, filename);
+            
             DateTime reqDate;
             Double dateValue;
 
@@ -99,7 +120,7 @@ namespace MCPApp
             string currSupplier = "";
             string nextSupplier = "";
             int numRows = 0;
-            
+
             foreach (DataRow row in dt.Rows)
             {
                 nextSupplier = row["productSupplier"].ToString();
@@ -117,7 +138,7 @@ namespace MCPApp
                     newDT.Rows.Add(dr);
                     dr = newDT.NewRow();
                 }
-               // DataRow dr = newDT.NewRow();
+                // DataRow dr = newDT.NewRow();
                 jobNo = row["jobNo"].ToString();
                 custCode = mcData.GetCustomerCodeByJobNo(jobNo);
                 custName = mcData.GetCustName(custCode);
@@ -130,12 +151,15 @@ namespace MCPApp
                 dr["BeamLM"] = row["beamLM"];
                 dr["SupplyType"] = row["supplyType"].ToString();
                 dr["ProductSupplier"] = row["productSupplier"].ToString();
-                
+                lblYear.Text = year.ToString();
+                lblJobNo.Text = jobNo;
+                lblDate.Text = reqDate.ToString("ddd, dd MMM yyyy");
                 currSupplier = row["productSupplier"].ToString();
                 newDT.Rows.Add(dr);
+                
                 numRows++;
             }
-            if(numRows > 0)
+            if (numRows > 0)
             {
                 DataRow dr = newDT.NewRow();
                 var subTotal = mcData.GetTotalLMBySupplier(currSupplier, _startDate, _endDate);
@@ -148,10 +172,10 @@ namespace MCPApp
                 dr["ProductSupplier"] = currSupplier;
                 newDT.Rows.Add(dr);
             }
-          //  dataGridView1.DataSource = newDT;
-            excel.WriteJobPlannerRptDataTableToExcel(newDT, "Beam LM", fullFilePath, "Beam LM", 3);
+        //  dataGridView1.DataSource = newDT;
+        excelUtil.WriteJobPlannerRptDataTableToExcel(excelworkBook,newDT, year.ToString(), fullFilePath, "Beam LM", 3);
             this.Cursor = Cursors.Default;
-            Process.Start(fullFilePath);
+            //Process.Start(fullFilePath);
         }
 
         private void FillBeamM2Rpt()
@@ -200,6 +224,7 @@ namespace MCPApp
             if (result == DialogResult.OK)
             {
                 pathTextBox.Text = folderDlg.SelectedPath;
+                fullFilePath = System.IO.Path.Combine(pathTextBox.Text, filename);
                 Environment.SpecialFolder root = folderDlg.RootFolder;
             }
         }

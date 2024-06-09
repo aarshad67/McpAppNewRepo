@@ -18,6 +18,12 @@ namespace MCPApp
         /// <param name="worksheetName"></param>
         /// <param name="saveAsLocation"></param>
         /// <returns></returns>
+        /// 
+
+        private Microsoft.Office.Interop.Excel.Application excel;
+        private Microsoft.Office.Interop.Excel.Workbook excelworkBook;
+
+
         public bool WriteDataTableToExcel(System.Data.DataTable dataTable, string worksheetName, string saveAsLocation, string ReporType,int dateColumnIndex)
         {
             Microsoft.Office.Interop.Excel.Application excel;
@@ -120,10 +126,50 @@ namespace MCPApp
 
         }
 
-        public bool WriteJobPlannerRptDataTableToExcel(System.Data.DataTable dataTable, string worksheetName, string saveAsLocation, string ReporType, int dateColumnIndex)
+        public void CreateWorkBook(string saveAsLocation, out Microsoft.Office.Interop.Excel.Application excel, out Microsoft.Office.Interop.Excel.Workbook excelworkBook)
         {
-            Microsoft.Office.Interop.Excel.Application excel;
-            Microsoft.Office.Interop.Excel.Workbook excelworkBook;
+            //Microsoft.Office.Interop.Excel.Application excel;
+            excelworkBook = null;
+            excel = null;
+
+
+            try
+            {
+                // Start Excel and get Application object.
+                excel = new Microsoft.Office.Interop.Excel.Application();
+
+                // for making Excel visible
+                excel.Visible = false;
+                excel.DisplayAlerts = false;
+
+                // Creation a new Workbook
+                excelworkBook = excel.Workbooks.Add(Type.Missing);
+
+                // Workk sheet
+                
+
+
+                excelworkBook.SaveAs(saveAsLocation); ;
+                excelworkBook.Close();
+                excel.Quit();
+                //return;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                //return;
+            }
+            finally
+            {
+                excelworkBook = null;
+            }
+
+        }
+
+        public bool WriteJobPlannerRptDataTableToExcel(Microsoft.Office.Interop.Excel.Workbook excelworkBook,System.Data.DataTable dataTable, string worksheetName, string saveAsLocation, string ReporType, int dateColumnIndex)
+        {
+         //   Microsoft.Office.Interop.Excel.Application excel;
+          //  Microsoft.Office.Interop.Excel.Workbook excelworkBook;
             Microsoft.Office.Interop.Excel.Worksheet excelSheet;
             Microsoft.Office.Interop.Excel.Range excelCellrange;
             Microsoft.Office.Interop.Excel.Range excelDateCellrange;
@@ -141,7 +187,10 @@ namespace MCPApp
                 excelworkBook = excel.Workbooks.Add(Type.Missing);
 
                 // Workk sheet
-                excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelworkBook.ActiveSheet;
+                //var xlSheets = excelworkBook.Sheets as Microsoft.Office.Interop.Excel.Sheets;
+                //excelSheet =
+                excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelworkBook.Worksheets.Add();
+                //excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelworkBook.ActiveSheet;
                 excelSheet.Name = worksheetName;
 
 

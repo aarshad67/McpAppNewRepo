@@ -90,7 +90,8 @@ namespace MCPApp
             string message = "Report(s) successfully created in [" + pathTextBox.Text + "] location." + Environment.NewLine + "" + Environment.NewLine + "Do you wish to check the excel file(s) now?";
             if (MessageBox.Show(message, "Open Excel Files ? ", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
             {
-                OpenLocationFolder();
+                System.Diagnostics.Process.Start(fullFilePath);
+               // OpenLocationFolder();
             }
         }
 

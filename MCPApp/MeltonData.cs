@@ -2898,7 +2898,7 @@ namespace MCPApp
 
         }
 
-        public DataTable GetBeamLmJobPlannerDT(DateTime startDate, DateTime endDate)
+        public DataTable GetBeamLmJobPlannerDT(DateTime startDate, DateTime endDate, int year)
         {
             string qry = "";
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -2907,7 +2907,41 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND beamLm > 0 AND ( requiredDate between @startDate and @endDate ) AND LEN(productSupplier) > 0 ORDER BY productSupplier,beamLm DESC";
+                    qry = "SELECT jobNo,floorLevel,requiredDate,beamLM,supplyType,productSupplier FROM dbo.JobPlanner WHERE YEAR(requiredDate) = @year AND completedFlag = 'Y' AND beamLm > 0 AND ( requiredDate between @startDate and @endDate ) AND LEN(productSupplier) > 0 ORDER BY productSupplier,beamLm DESC";
+
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    cmd.Parameters.Add(new SqlParameter("year", year));
+                    cmd.Parameters.Add(new SqlParameter("startDate", startDate.Date));
+                    cmd.Parameters.Add(new SqlParameter("endDate", endDate.Date));
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetJobPlannerDT() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "GetJobPlannerDT()", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
+        public DataTable GetYearsDT(DateTime startDate, DateTime endDate)
+        {
+            string qry = "";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    qry = "SELECT DISTINCT YEAR(requiredDate) as year FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND beamLm > 0 AND ( requiredDate between @startDate and @endDate ) AND LEN(productSupplier) > 0 ORDER BY YEAR(requiredDate)";
 
 
                     SqlCommand cmd = new SqlCommand(qry, conn);
