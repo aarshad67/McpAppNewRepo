@@ -1647,6 +1647,8 @@ namespace MCPApp
         #endregion
 
         #region Jobs
+
+        
         public DataTable GetCancelledJobsDT()
         {
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -2898,7 +2900,7 @@ namespace MCPApp
 
         }
 
-        public DataTable GetBeamLmJobPlannerDT(DateTime startDate, DateTime endDate, int year)
+        public DataTable GetJobPlannerDT(string rptMode,DateTime startDate, DateTime endDate, int year)
         {
             string qry = "";
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -2907,7 +2909,30 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    qry = "SELECT jobNo,floorLevel,requiredDate,beamLM,supplyType,productSupplier FROM dbo.JobPlanner WHERE YEAR(requiredDate) = @year AND completedFlag = 'Y' AND beamLm > 0 AND ( requiredDate between @startDate and @endDate ) AND LEN(productSupplier) > 0 ORDER BY productSupplier,beamLm DESC";
+                    switch (rptMode)
+                    {
+                        case "BeamLM":
+                            qry = "SELECT jobNo,floorLevel,requiredDate,beamLM,supplyType,productSupplier FROM dbo.JobPlanner " 
+                                + "WHERE YEAR(requiredDate) = @year AND completedFlag = 'Y' AND beamLm > 0 "
+                                + "AND ( requiredDate between @startDate and @endDate ) AND LEN(productSupplier) > 0 "
+                                + "ORDER BY productSupplier,beamLm DESC";
+                            break;
+                        case "BeamM2":
+                            qry = "SELECT jobNo,floorLevel,requiredDate,beamM2,supplyType,productSupplier FROM dbo.JobPlanner "
+                                + "WHERE YEAR(requiredDate) = @year AND completedFlag = 'Y' AND beamM2 > 0 "
+                                + "AND ( requiredDate between @startDate and @endDate ) AND LEN(productSupplier) > 0 "
+                                + "ORDER BY productSupplier,beamM2 DESC";
+                            break;
+                        case "SlabM2":
+                            qry = "SELECT jobNo,floorLevel,requiredDate,slabM2,supplyType,productSupplier FROM dbo.JobPlanner "
+                                + "WHERE YEAR(requiredDate) = @year AND completedFlag = 'Y' AND slabM2 > 0 "
+                                + "AND ( requiredDate between @startDate and @endDate ) AND LEN(productSupplier) > 0 "
+                                + "ORDER BY productSupplier,slabM2 DESC";
+                            break;
+                        default:
+                            break;
+                    }
+                    
 
 
                     SqlCommand cmd = new SqlCommand(qry, conn);
@@ -2932,7 +2957,7 @@ namespace MCPApp
 
         }
 
-        public DataTable GetYearsDT(DateTime startDate, DateTime endDate)
+        public DataTable GetSupplierSummaryByYearDT(string rptMode, int year)
         {
             string qry = "";
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -2941,7 +2966,88 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    qry = "SELECT DISTINCT YEAR(requiredDate) as year FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND beamLm > 0 AND ( requiredDate between @startDate and @endDate ) AND LEN(productSupplier) > 0 ORDER BY YEAR(requiredDate)";
+                    switch (rptMode)
+                    {
+                        case "BeamLM":
+                            qry = "SELECT YEAR(requiredDate) as year,productSupplier,SUM(beamLm)  as 'BeamLM' FROM dbo.JobPlanner "
+                                + $"WHERE completedFlag = 'Y' AND YEAR(requiredDate) = {year} "
+                                + "AND COALESCE (productSupplier, '') <> '' "
+                                + "AND beamLm > 0 "
+                                + "GROUP BY YEAR(requiredDate),productSupplier "
+                                + "ORDER BY YEAR(requiredDate),productSupplier ";
+                            break;
+                        case "BeamM2":
+                            qry = "SELECT YEAR(requiredDate) as year,productSupplier,SUM(beamM2)  as 'BeamM2' FROM dbo.JobPlanner "
+                                + $"WHERE completedFlag = 'Y' AND YEAR(requiredDate) = {year} "
+                                + "AND COALESCE (productSupplier, '') <> '' "
+                                + "AND beamM2 > 0 "
+                                + "GROUP BY YEAR(requiredDate),productSupplier "
+                                + "ORDER BY YEAR(requiredDate),productSupplier ";
+                            break;
+                        case "SlabM2":
+                            qry = "SELECT YEAR(requiredDate) as year,productSupplier,SUM(slabM2)  as 'SlabM2' dbo.JobPlanner "
+                                + $"WHERE completedFlag = 'Y' AND YEAR(requiredDate) = {year} "
+                                + "AND COALESCE (productSupplier, '') <> '' "
+                                + "AND slabM2 > 0 "
+                                + "GROUP BY YEAR(requiredDate),productSupplier "
+                                + "ORDER BY YEAR(requiredDate),productSupplier ";
+                            break;
+                        default:
+                            break;
+                    }
+                    
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    cmd.Parameters.Add(new SqlParameter("year", year));
+                    
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetSupplierSummaryByYearDT() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "GetSupplierSummaryByYearDT()", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
+        public DataTable GetYearsDT(string rptMode,DateTime startDate, DateTime endDate)
+        {
+            string qry = "";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    switch (rptMode)
+                    {
+                        case "BeamLM":
+                            qry = "SELECT DISTINCT YEAR(requiredDate) as year FROM dbo.JobPlanner " 
+                                + "WHERE completedFlag = 'Y' AND beamLm > 0 AND ( requiredDate between @startDate and @endDate ) "
+                                + "AND LEN(productSupplier) > 0 ORDER BY YEAR(requiredDate)";
+                            break;
+                        case "BeamM2":
+                            qry = "SELECT DISTINCT YEAR(requiredDate) as year FROM dbo.JobPlanner "
+                                + "WHERE completedFlag = 'Y' AND beamM2 > 0 AND ( requiredDate between @startDate and @endDate ) "
+                                + "AND LEN(productSupplier) > 0 ORDER BY YEAR(requiredDate)";
+                            break;
+                        case "SlabM2":
+                            qry = "SELECT DISTINCT YEAR(requiredDate) as year FROM dbo.JobPlanner "
+                                + "WHERE completedFlag = 'Y' AND slabM2 > 0 AND ( requiredDate between @startDate and @endDate ) "
+                                + "AND LEN(productSupplier) > 0 ORDER BY YEAR(requiredDate)";
+                            break;
+                        default:
+                            break;
+                    }
+                    
 
 
                     SqlCommand cmd = new SqlCommand(qry, conn);
@@ -2965,11 +3071,32 @@ namespace MCPApp
 
         }
 
-        public int GetTotalLMBySupplier(string productSupplier, DateTime startDate, DateTime endDate, int year)
+        public int GetTotalBySupplier(string rptMode, string productSupplier, DateTime startDate, DateTime endDate, int year)
         {
             string error;
             decimal total = 0;
-            string qry = "SELECT beamLm FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND beamLm > 0 AND ( requiredDate between @startDate and @endDate ) AND productSupplier = @productSupplier AND YEAR(requiredDate) = @year ";
+            string qry = "";
+            switch (rptMode)
+            {
+                case "BeamLM":
+                    qry = "SELECT beamLm FROM dbo.JobPlanner WHERE completedFlag = 'Y' "
+                        + "AND beamLm > 0 AND ( requiredDate between @startDate and @endDate ) " 
+                        + "AND productSupplier = @productSupplier AND YEAR(requiredDate) = @year ";
+                    break;
+                case "BeamM2":
+                    qry = "SELECT beamM2 FROM dbo.JobPlanner WHERE completedFlag = 'Y' "
+                        + "AND beamM2 > 0 AND ( requiredDate between @startDate and @endDate ) "
+                        + "AND productSupplier = @productSupplier AND YEAR(requiredDate) = @year ";
+                    break;
+                case "SlabM2":
+                    qry = "SELECT slabM2 FROM dbo.JobPlanner WHERE completedFlag = 'Y' "
+                        + "AND slabM2 > 0 AND ( requiredDate between @startDate and @endDate ) "
+                        + "AND productSupplier = @productSupplier AND YEAR(requiredDate) = @year ";
+                    break;
+                default:
+                    break;
+            }
+            
 
             using (SqlConnection conn = new SqlConnection(connStr))
             {
@@ -2986,7 +3113,21 @@ namespace MCPApp
                         {
                             while (reader.Read())
                             {
-                                total += Convert.ToDecimal(reader["beamLm"].ToString());
+                                switch (rptMode)
+                                {
+                                    case "BeamLM":
+                                        total += Convert.ToDecimal(reader["beamLm"].ToString());
+                                        break;
+                                    case "BeamM2":
+                                        total += Convert.ToDecimal(reader["beamM2"].ToString());
+                                        break;
+                                    case "SlabM2":
+                                        total += Convert.ToDecimal(reader["slabM2"].ToString());
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                
                             }
                         }
                     }

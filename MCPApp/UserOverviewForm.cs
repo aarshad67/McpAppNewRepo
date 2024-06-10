@@ -17,7 +17,7 @@ namespace MCPApp
     public partial class UserOverviewForm : Form
     {
         private bool actionListClicked = false;
-        TreeNode testExcelNode = new TreeNode("Test Excel Run");
+      //  TreeNode testExcelNode = new TreeNode("Test Excel Run");
         TreeNode jobPlannerParentNode = new TreeNode("Job Planner");
         TreeNode jobPlannerNode = new TreeNode("Job Planner - All Jobs");
         TreeNode jobPlannerBeamNode = new TreeNode("Job Planner - BEAM Jobs");
@@ -99,7 +99,7 @@ namespace MCPApp
             reportsParentNode.Nodes.Add(jobPlannerRptsNode);
             reportsParentNode.Nodes.Add(supplierRptsNode);
             reportsParentNode.Nodes.Add(notOnShopRptsNode);
-            jobPlannerRptsNode.Nodes.Add(testExcelNode);
+           // jobPlannerRptsNode.Nodes.Add(testExcelNode);
             jobPlannerRptsNode.Nodes.Add(beamLmRptNode); //
             jobPlannerRptsNode.Nodes.Add(beamM2RptNode);
             jobPlannerRptsNode.Nodes.Add(slabM2RptNode);
@@ -177,14 +177,14 @@ namespace MCPApp
             //   bool nodeClicked = false;
             //testExcelNode
 
-            if (menuTreeView.SelectedNode == testExcelNode)
-            {
-                excelTestForm frm = new excelTestForm();
-                frm.ShowDialog();
-                this.menuTreeView.SelectedNode = null;
-                return;
+            //if (menuTreeView.SelectedNode == testExcelNode)
+            //{
+            //    excelTestForm frm = new excelTestForm();
+            //    frm.ShowDialog();
+            //    this.menuTreeView.SelectedNode = null;
+            //    return;
 
-            }
+            //}
 
             if (menuTreeView.SelectedNode == supplierRptsNode)
             {

@@ -20,7 +20,7 @@ namespace MCPApp
         private DataTable _rptDT = new DataTable();
         MeltonData mcData = new MeltonData();
         ExcelUtlity excelUtil = new ExcelUtlity();
-        private string filename = "BeamLM_" + DateTime.Now.ToString("ddMMMyyyyhhmmss") + ".xlsx";
+        private string filename = "";
         private string fullFilePath = "";
         private object missing = Type.Missing;
 
@@ -76,27 +76,44 @@ namespace MCPApp
             _rptDT.Columns.Add("productSupplier", typeof(string));
         }
 
-        private void GenerateBeamLMRpt()
+        private void GenerateRpt(string rptMode)
         {
-            groupBox3.Text = "Report Progress - (1) CREATE EXCEL FILE";
+            filename = $"{rptMode}_by_Supplier_{DateTime.Now.ToString("ddMMMyyyyhhmmss")}.xlsx";
+            fullFilePath = System.IO.Path.Combine(pathTextBox.Text, filename);
+            groupBox3.Text = "Report Progress - (Step 1 of 10) CREATE EXCEL FILE";
             Microsoft.Office.Interop.Excel.Application oXL = new Microsoft.Office.Interop.Excel.Application();
             oXL.Visible = false;
             this.Cursor = Cursors.WaitCursor;
+            string colName = "";
+            switch (rptMode)
+            {
+                case "BeamLM":
+                    colName = "beamLM";
+                    break;
+                case "BeamM2":
+                    colName = "beamM2";
+                    break;
+                case "SlabM2":
+                    colName = "slabM2";
+                    break;
+                default:
+                    break;
+            }
             Microsoft.Office.Interop.Excel.Workbook oWB = oXL.Workbooks.Add(missing);
-            DataTable yearsDT = mcData.GetYearsDT(_startDate, _endDate);
+            DataTable yearsDT = mcData.GetYearsDT(rptMode,_startDate, _endDate);
             List<int> rptYears = new List<int>();
             foreach (DataRow yearDR in yearsDT.Rows)
             {
                 rptYears.Add(Convert.ToInt32(yearDR["year"]));
             }
             int year = DateTime.Now.Year;
-            groupBox3.Text = "Report Progress - (2) CREATING DATA";
+            groupBox3.Text = "Report Progress - (Step 1 of 10) CREATING DATA";
             for (int j = 0; j < rptYears.Count; j++)
             {
                 Microsoft.Office.Interop.Excel.Worksheet sheetCurrent = oXL.Worksheets.Add();
                 sheetCurrent.Name = rptYears[j].ToString();
                 year = rptYears[j];
-                DataTable dt = mcData.GetBeamLmJobPlannerDT(_startDate, _endDate, year);
+                DataTable dt = mcData.GetJobPlannerDT(rptMode, _startDate, _endDate, year);
                 DataTable newDT = new DataTable();
                 string jobNo = "";
                 string custName = "";
@@ -110,26 +127,26 @@ namespace MCPApp
                 newDT.Columns.Add("FloorLevel", typeof(string));
                 newDT.Columns.Add("RequiredDate", typeof(Double));
                 newDT.Columns.Add("Customer", typeof(string));
-                newDT.Columns.Add("BeamLM", typeof(int));
+                newDT.Columns.Add(rptMode, typeof(int));
                 newDT.Columns.Add("SupplyType", typeof(string));
                 newDT.Columns.Add("ProductSupplier", typeof(string));
 
                 string currSupplier = "";
                 string nextSupplier = "";
                 int numRows = 0;
-                
+
                 foreach (DataRow row in dt.Rows)
                 {
                     nextSupplier = row["productSupplier"].ToString();
                     DataRow dr = newDT.NewRow();
                     if ((!String.IsNullOrWhiteSpace(currSupplier) || String.IsNullOrWhiteSpace(nextSupplier)) && nextSupplier != currSupplier)
                     {
-                        var subTotal = mcData.GetTotalLMBySupplier(currSupplier, _startDate, _endDate,year);
+                        var subTotal = mcData.GetTotalBySupplier(rptMode, currSupplier, _startDate, _endDate, year);
                         dr["JobNo"] = "";
                         dr["FloorLevel"] = "";
                         dr["RequiredDate"] = 0;
                         dr["Customer"] = "TOTAL:";
-                        dr["BeamLM"] = subTotal;
+                        dr[rptMode] = subTotal;
                         dr["SupplyType"] = "";
                         dr["ProductSupplier"] = currSupplier;
                         newDT.Rows.Add(dr);
@@ -145,7 +162,7 @@ namespace MCPApp
                     dr["FloorLevel"] = row["floorLevel"].ToString();
                     dr["RequiredDate"] = dateValue;
                     dr["Customer"] = custName;
-                    dr["BeamLM"] = row["beamLM"];
+                    dr[rptMode] = row[colName];
                     dr["SupplyType"] = row["supplyType"].ToString();
                     dr["ProductSupplier"] = row["productSupplier"].ToString();
                     lblYear.Text = year.ToString();
@@ -153,28 +170,28 @@ namespace MCPApp
                     lblDate.Text = reqDate.ToString("ddd, dd MMM yyyy");
                     currSupplier = row["productSupplier"].ToString();
                     newDT.Rows.Add(dr);
-                    
+
                     numRows++;
                 }
                 if (numRows > 0)
                 {
                     DataRow dr = newDT.NewRow();
-                    var subTotal = mcData.GetTotalLMBySupplier(currSupplier, _startDate, _endDate,year);
+                    var subTotal = mcData.GetTotalBySupplier(rptMode, currSupplier, _startDate, _endDate, year);
                     dr["JobNo"] = "";
                     dr["FloorLevel"] = "";
                     dr["RequiredDate"] = 0;
                     dr["Customer"] = "TOTAL:";
-                    dr["BeamLM"] = subTotal;
+                    dr[rptMode] = subTotal;
                     dr["SupplyType"] = "";
                     dr["ProductSupplier"] = currSupplier;
                     newDT.Rows.Add(dr);
                 }
-                
+
                 sheetCurrent.Name = year.ToString();
-                sheetCurrent.Cells[1, 1] = "Beam By LM Report";
-                sheetCurrent.Cells[1, 2] = "Date Rpt Ran : " + DateTime.Now.ToString("ddd, dd MMM yyyy");
+                sheetCurrent.Cells[1, 1] = $"{rptMode} by Supplier Rpt";
+                sheetCurrent.Cells[1, 2] = "Ran : " + DateTime.Now.ToString("ddd,dd MMM yyyy");
                 int rowcount = 2;
-                groupBox3.Text = "Report Progress - (3) GENERATING EXCEL DATA";
+                groupBox3.Text = "Report Progress - (Step 1 of 10) GENERATING EXCEL DATA";
                 foreach (DataRow datarow in newDT.Rows)
                 {
                     lblYear.Text = year.ToString();
@@ -186,8 +203,10 @@ namespace MCPApp
                     {
                         sheetCurrent.Cells[1, i].EntireRow.Font.Bold = true;
                         sheetCurrent.Cells[2, i].EntireRow.Font.Bold = true;
-                        sheetCurrent.Cells[1, i].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
-                        sheetCurrent.Cells[2, i].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Yellow);
+                        sheetCurrent.Cells[1, i].EntireRow.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                        sheetCurrent.Cells[2, i].EntireRow.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                        sheetCurrent.Cells[1, i].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
+                        sheetCurrent.Cells[2, i].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Blue);
                         if (rowcount == 3)
                         {
                             sheetCurrent.Cells[2, i] = newDT.Columns[i - 1].ColumnName;
@@ -207,11 +226,66 @@ namespace MCPApp
                     sheetCurrent.Columns[3].NumberFormat = "DD/MM/YYYY";
                     sheetCurrent.Columns[5].NumberFormat = "#,##";
                 }
-                sheetCurrent.Columns.AutoFit();
+                
                 sheetCurrent.Application.ActiveSheet.Rows[3].Select();
                 sheetCurrent.Application.ActiveWindow.FreezePanes = true;
+
+                sheetCurrent.Cells[2, 9].Value = "YEAR";
+                sheetCurrent.Cells[2, 10].Value = "SUPPLIER";
+                sheetCurrent.Cells[2, 11].Value = rptMode;
+                sheetCurrent.Cells[2, 9].EntireRow.Font.Bold = true;
+                sheetCurrent.Cells[2, 9].EntireRow.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                sheetCurrent.Cells[2, 9].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Green);
+                sheetCurrent.Cells[2, 10].EntireRow.Font.Bold = true;
+                sheetCurrent.Cells[2, 10].EntireRow.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                sheetCurrent.Cells[2, 10].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Green);
+                sheetCurrent.Cells[2, 11].EntireRow.Font.Bold = true;
+                sheetCurrent.Cells[2, 11].EntireRow.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                sheetCurrent.Cells[2, 11].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Green);
+
+                groupBox3.Text = "Report Progress - (Step 1 of 10) CREATING SUMMARY TABLE";
+
+                DataTable myDT = mcData.GetSupplierSummaryByYearDT(rptMode, year);
+                DataTable newSummaryDT = new DataTable();
+                newSummaryDT.Columns.Clear();
+                newSummaryDT.Columns.Add("YEAR", typeof(string));
+                newSummaryDT.Columns.Add("SUPPLIER", typeof(string));
+                newSummaryDT.Columns.Add(rptMode, typeof(int));
+                int sumTotal = 0;
+                foreach (DataRow datarow in myDT.Rows)
+                {
+                    lblYear.Text = year.ToString();
+                    lblJobNo.Text = "";
+                    lblDate.Text = "";
+                    sumTotal++;
+                    DataRow sdr = newSummaryDT.NewRow();
+                    sdr["Year"] = year;
+                    sdr["Supplier"] = datarow["productSupplier"];
+                    sdr[rptMode] = Convert.ToInt32(datarow[rptMode]);
+                    newSummaryDT.Rows.Add(sdr);
+                }
+                int summaryRowNo = 0;
+                
+                int total = 0;
+                foreach (DataRow row in newSummaryDT.Rows)
+                {
+                    //total = Convert.ToInt32(row[rptMode]);
+                    summaryRowNo++;
+                    sheetCurrent.Cells[summaryRowNo + 2, 9] = row["YEAR"].ToString();
+                    sheetCurrent.Cells[summaryRowNo + 2, 10] = row["SUPPLIER"].ToString();
+                    sheetCurrent.Cells[summaryRowNo + 2, 11] = sumTotal.ToString();
+                    //++;
+                }
+                summaryRowNo++;
+                sheetCurrent.Cells[summaryRowNo + 2, 9] = year.ToString();
+                sheetCurrent.Cells[summaryRowNo + 2, 10] = "SUPPLIER";
+                sheetCurrent.Cells[summaryRowNo + 2, 11] = sumTotal;
+                sheetCurrent.Columns[11].NumberFormat = "#,##";
+                sheetCurrent.Columns.AutoFit();
             }
-            groupBox3.Text = "Report Progress - (4) SAVING EXCEL FILE AND OPENING";
+            
+
+            groupBox3.Text = "Report Progress - (Step 1 of 10) SAVING EXCEL FILE AND OPENING";
             oWB.SaveAs(fullFilePath, Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook,
                 missing, missing, missing, missing,
                 Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange,
@@ -225,17 +299,6 @@ namespace MCPApp
             this.Close();
         }
 
-
-        private void FillBeamM2Rpt()
-        {
-
-        }
-
-        private void FillSlabM2Rpt()
-        {
-
-        }
-
         private void closeButton_Click(object sender, EventArgs e)
         {
             this.Dispose();
@@ -247,21 +310,8 @@ namespace MCPApp
             BuildDataTable();
             _startDate = dateTimePicker1.Value.Date;
             _endDate = dateTimePicker2.Value.Date.AddDays(1).AddSeconds(-1);
-            switch (_rptMode)
-            {
-                case "BeamLM":
-                    GenerateBeamLMRpt();
-                    //FillBeamLMRpt();
-                    break;
-                case "BeamM2":
-                    FillBeamM2Rpt();
-                    break;
-                case "SlabM2":
-                    FillSlabM2Rpt();
-                    break;
-                default:
-                    break;
-            }
+            GenerateRpt(_rptMode);
+            
         }
 
         private void SelectBFolderButton_Click(object sender, EventArgs e)
@@ -273,7 +323,7 @@ namespace MCPApp
             if (result == DialogResult.OK)
             {
                 pathTextBox.Text = folderDlg.SelectedPath;
-                fullFilePath = System.IO.Path.Combine(pathTextBox.Text, filename);
+                //fullFilePath = System.IO.Path.Combine(pathTextBox.Text, filename);
                 Environment.SpecialFolder root = folderDlg.RootFolder;
             }
         }
