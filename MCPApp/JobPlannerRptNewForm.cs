@@ -80,8 +80,9 @@ namespace MCPApp
         {
             filename = $"{rptMode}_by_Supplier_{DateTime.Now.ToString("ddMMMyyyyhhmmss")}.xlsx";
             fullFilePath = System.IO.Path.Combine(pathTextBox.Text, filename);
-            groupBox3.Text = "Report Progress - (Step 1 of 10) CREATE EXCEL FILE";
+            groupBox3.Text = "Report Progress - (Step 1 of 5) CREATE EXCEL FILE";
             Microsoft.Office.Interop.Excel.Application oXL = new Microsoft.Office.Interop.Excel.Application();
+            oXL.DisplayAlerts = false;
             oXL.Visible = false;
             this.Cursor = Cursors.WaitCursor;
             string colName = "";
@@ -107,7 +108,8 @@ namespace MCPApp
                 rptYears.Add(Convert.ToInt32(yearDR["year"]));
             }
             int year = DateTime.Now.Year;
-            groupBox3.Text = "Report Progress - (Step 1 of 10) CREATING DATA";
+            int rowNum = 0;
+            groupBox3.Text = "Report Progress - (Step 2 of 5) CREATING DATA";
             for (int j = 0; j < rptYears.Count; j++)
             {
                 Microsoft.Office.Interop.Excel.Worksheet sheetCurrent = oXL.Worksheets.Add();
@@ -137,6 +139,7 @@ namespace MCPApp
 
                 foreach (DataRow row in dt.Rows)
                 {
+                    rowNum++;
                     nextSupplier = row["productSupplier"].ToString();
                     DataRow dr = newDT.NewRow();
                     if ((!String.IsNullOrWhiteSpace(currSupplier) || String.IsNullOrWhiteSpace(nextSupplier)) && nextSupplier != currSupplier)
@@ -167,7 +170,7 @@ namespace MCPApp
                     dr["ProductSupplier"] = row["productSupplier"].ToString();
                     lblYear.Text = year.ToString();
                     lblJobNo.Text = jobNo;
-                    lblDate.Text = reqDate.ToString("ddd, dd MMM yyyy");
+                    lblDate.Text = year > 2000 ? reqDate.ToString("ddd, dd MMM yyyy") : "";
                     currSupplier = row["productSupplier"].ToString();
                     newDT.Rows.Add(dr);
 
@@ -191,12 +194,12 @@ namespace MCPApp
                 sheetCurrent.Cells[1, 1] = $"{rptMode} by Supplier Rpt";
                 sheetCurrent.Cells[1, 2] = "Ran : " + DateTime.Now.ToString("ddd,dd MMM yyyy");
                 int rowcount = 2;
-                groupBox3.Text = "Report Progress - (Step 1 of 10) GENERATING EXCEL DATA";
+                groupBox3.Text = "Report Progress - (Step 3 of 5) GENERATING EXCEL DATA";
                 foreach (DataRow datarow in newDT.Rows)
                 {
                     lblYear.Text = year.ToString();
                     lblJobNo.Text = datarow["JobNo"].ToString();
-                    lblDate.Text = DateTime.FromOADate((double)datarow["requiredDate"]).ToString("ddd, dd MMM yyyy");
+                    lblDate.Text = year > 2000 ? DateTime.FromOADate((double)datarow["requiredDate"]).ToString("ddd, dd MMM yyyy") : "";
                     rowcount += 1;
 
                     for (int i = 1; i <= newDT.Columns.Count; i++)
@@ -219,9 +222,12 @@ namespace MCPApp
                     }
                     if (sheetCurrent.Cells[rowcount, 4].Value == "TOTAL:")
                     {
-                        sheetCurrent.Cells[rowcount, 4].EntireRow.Font.Bold = true;
+                        //sheetCurrent.Cells[rowcount, 4].EntireRow.Font.Bold = true;
                         sheetCurrent.Cells[rowcount, 3].Value = "";
-                        sheetCurrent.Cells[rowcount, 4].Style.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+                        //sheetCurrent.Cells[rowcount, 4].Style.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
+
+                        sheetCurrent.Range[sheetCurrent.Cells[rowcount, 4], sheetCurrent.Cells[rowcount, 7]].Font.Bold = true;
+                        sheetCurrent.Range[sheetCurrent.Cells[rowcount, 4], sheetCurrent.Cells[rowcount, 7]].Style.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignRight;
                     }
                     sheetCurrent.Columns[3].NumberFormat = "DD/MM/YYYY";
                     sheetCurrent.Columns[5].NumberFormat = "#,##";
@@ -242,8 +248,13 @@ namespace MCPApp
                 sheetCurrent.Cells[2, 11].EntireRow.Font.Bold = true;
                 sheetCurrent.Cells[2, 11].EntireRow.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
                 sheetCurrent.Cells[2, 11].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Green);
+                sheetCurrent.Range[sheetCurrent.Cells[1, 1], sheetCurrent.Cells[1, 7]].Merge();
+                sheetCurrent.Range[sheetCurrent.Cells[1, 9], sheetCurrent.Cells[1, 11]].Merge();
+                sheetCurrent.Cells[1, 1].Value = $"{rptMode} per Supplier for {year.ToString()} given date range from {_startDate.ToString("dd/MMM/yyyy")} to {_endDate.ToString("dd/MMM/yyyy")}";
 
-                groupBox3.Text = "Report Progress - (Step 1 of 10) CREATING SUMMARY TABLE";
+                sheetCurrent.UsedRange.Cells.Borders.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+
+                groupBox3.Text = "Report Progress - (Step 4 of 5) CREATING SUMMARY TABLE";
 
                 DataTable myDT = mcData.GetSupplierSummaryByYearDT(rptMode, year);
                 DataTable newSummaryDT = new DataTable();
@@ -252,12 +263,13 @@ namespace MCPApp
                 newSummaryDT.Columns.Add("SUPPLIER", typeof(string));
                 newSummaryDT.Columns.Add(rptMode, typeof(int));
                 int sumTotal = 0;
+                int qty = 0;
                 foreach (DataRow datarow in myDT.Rows)
                 {
                     lblYear.Text = year.ToString();
                     lblJobNo.Text = "";
                     lblDate.Text = "";
-                    sumTotal++;
+                    sumTotal = sumTotal + Convert.ToInt32(datarow[rptMode]);
                     DataRow sdr = newSummaryDT.NewRow();
                     sdr["Year"] = year;
                     sdr["Supplier"] = datarow["productSupplier"];
@@ -265,16 +277,12 @@ namespace MCPApp
                     newSummaryDT.Rows.Add(sdr);
                 }
                 int summaryRowNo = 0;
-                
-                int total = 0;
                 foreach (DataRow row in newSummaryDT.Rows)
                 {
-                    //total = Convert.ToInt32(row[rptMode]);
                     summaryRowNo++;
                     sheetCurrent.Cells[summaryRowNo + 2, 9] = row["YEAR"].ToString();
                     sheetCurrent.Cells[summaryRowNo + 2, 10] = row["SUPPLIER"].ToString();
-                    sheetCurrent.Cells[summaryRowNo + 2, 11] = sumTotal.ToString();
-                    //++;
+                    sheetCurrent.Cells[summaryRowNo + 2, 11] = Convert.ToInt32(row[rptMode]).ToString();
                 }
                 summaryRowNo++;
                 sheetCurrent.Cells[summaryRowNo + 2, 9] = year.ToString();
@@ -282,10 +290,11 @@ namespace MCPApp
                 sheetCurrent.Cells[summaryRowNo + 2, 11] = sumTotal;
                 sheetCurrent.Columns[11].NumberFormat = "#,##";
                 sheetCurrent.Columns.AutoFit();
+                sheetCurrent.Range[sheetCurrent.Cells[summaryRowNo + 2, 9], sheetCurrent.Cells[summaryRowNo + 2, 11]].Font.Bold = true;
             }
             
 
-            groupBox3.Text = "Report Progress - (Step 1 of 10) SAVING EXCEL FILE AND OPENING";
+            groupBox3.Text = "Report Progress - (Step 5 of 5) SAVING EXCEL FILE AND OPENING";
             oWB.SaveAs(fullFilePath, Microsoft.Office.Interop.Excel.XlFileFormat.xlOpenXMLWorkbook,
                 missing, missing, missing, missing,
                 Microsoft.Office.Interop.Excel.XlSaveAsAccessMode.xlNoChange,

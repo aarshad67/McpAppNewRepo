@@ -2915,19 +2915,19 @@ namespace MCPApp
                             qry = "SELECT jobNo,floorLevel,requiredDate,beamLM,supplyType,productSupplier FROM dbo.JobPlanner " 
                                 + "WHERE YEAR(requiredDate) = @year AND completedFlag = 'Y' AND beamLm > 0 "
                                 + "AND ( requiredDate between @startDate and @endDate ) AND LEN(productSupplier) > 0 "
-                                + "ORDER BY productSupplier,beamLm DESC";
+                                + "ORDER BY productSupplier,requiredDate";
                             break;
                         case "BeamM2":
                             qry = "SELECT jobNo,floorLevel,requiredDate,beamM2,supplyType,productSupplier FROM dbo.JobPlanner "
                                 + "WHERE YEAR(requiredDate) = @year AND completedFlag = 'Y' AND beamM2 > 0 "
                                 + "AND ( requiredDate between @startDate and @endDate ) AND LEN(productSupplier) > 0 "
-                                + "ORDER BY productSupplier,beamM2 DESC";
+                                + "ORDER BY productSupplier,requiredDate";
                             break;
                         case "SlabM2":
                             qry = "SELECT jobNo,floorLevel,requiredDate,slabM2,supplyType,productSupplier FROM dbo.JobPlanner "
                                 + "WHERE YEAR(requiredDate) = @year AND completedFlag = 'Y' AND slabM2 > 0 "
                                 + "AND ( requiredDate between @startDate and @endDate ) AND LEN(productSupplier) > 0 "
-                                + "ORDER BY productSupplier,slabM2 DESC";
+                                + "ORDER BY productSupplier,requiredDate";
                             break;
                         default:
                             break;
@@ -2972,7 +2972,7 @@ namespace MCPApp
                             qry = "SELECT YEAR(requiredDate) as year,productSupplier,SUM(beamLm)  as 'BeamLM' FROM dbo.JobPlanner "
                                 + $"WHERE completedFlag = 'Y' AND YEAR(requiredDate) = {year} "
                                 + "AND COALESCE (productSupplier, '') <> '' "
-                                + "AND beamLm > 0 "
+                               // + "AND beamLm > 0 "
                                 + "GROUP BY YEAR(requiredDate),productSupplier "
                                 + "ORDER BY YEAR(requiredDate),productSupplier ";
                             break;
@@ -2980,15 +2980,15 @@ namespace MCPApp
                             qry = "SELECT YEAR(requiredDate) as year,productSupplier,SUM(beamM2)  as 'BeamM2' FROM dbo.JobPlanner "
                                 + $"WHERE completedFlag = 'Y' AND YEAR(requiredDate) = {year} "
                                 + "AND COALESCE (productSupplier, '') <> '' "
-                                + "AND beamM2 > 0 "
+                             //   + "AND beamM2 > 0 "
                                 + "GROUP BY YEAR(requiredDate),productSupplier "
                                 + "ORDER BY YEAR(requiredDate),productSupplier ";
                             break;
                         case "SlabM2":
-                            qry = "SELECT YEAR(requiredDate) as year,productSupplier,SUM(slabM2)  as 'SlabM2' dbo.JobPlanner "
+                            qry = "SELECT YEAR(requiredDate) as year,productSupplier,SUM(slabM2)  as 'SlabM2' FROM dbo.JobPlanner "
                                 + $"WHERE completedFlag = 'Y' AND YEAR(requiredDate) = {year} "
                                 + "AND COALESCE (productSupplier, '') <> '' "
-                                + "AND slabM2 > 0 "
+                           //     + "AND slabM2 > 0 "
                                 + "GROUP BY YEAR(requiredDate),productSupplier "
                                 + "ORDER BY YEAR(requiredDate),productSupplier ";
                             break;
