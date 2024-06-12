@@ -2957,6 +2957,110 @@ namespace MCPApp
 
         }
 
+        public DataTable GetJobPlannerMIssingDataDT(string rptMode)
+        {
+            string qry = "";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    switch (rptMode)
+                    {
+                        case "BEAMZERO": // beam jobs
+                            qry = "SELECT jobNo,floorLevel,siteAddress,requiredDate,beamLM,beamM2,slabM2,supplyType,productSupplier,supplierRef,phaseInvValue FROM dbo.JobPlanner "
+                                + "WHERE completedFlag = 'Y' AND (beamLm = 0 or beamM2 = 0) AND slabM2 = 0 and stairsIncl != 'Y' "
+                                + "ORDER BY supplyType,requiredDate";
+                            break;
+                        case "SLABZERO": //slab jobs
+                            qry = "SELECT jobNo,floorLevel,siteAddress,requiredDate,beamLM,beamM2,slabM2,supplyType,productSupplier,supplierRef,phaseInvValue FROM dbo.JobPlanner "
+                                + "WHERE completedFlag = 'Y' AND slabM2 = 0 AND beamLm = 0 and beamM2 = 0 "
+                                + "ORDER BY supplyType,requiredDate";
+                            break;
+                        case "ALLZERO": // beam and slab jobs
+                            qry = "SELECT jobNo,floorLevel,siteAddress,requiredDate,beamLM,beamM2,slabM2,supplyType,productSupplier,supplierRef,phaseInvValue FROM dbo.JobPlanner "
+                                + "WHERE completedFlag = 'Y' AND slabM2 = 0 AND beamLm = 0 and beamM2 = 0 "
+                                + "ORDER BY supplyType,requiredDate";
+                            break;
+                        case "MISSINGSUPPLIER": // beam and slab jobs
+                            qry = "SELECT jobNo,floorLevel,siteAddress,requiredDate,beamLM,beamM2,slabM2,supplyType,productSupplier,supplierRef,phaseInvValue FROM dbo.JobPlanner "
+                                + "WHERE LEN(productSupplier) < 1 "
+                                + "ORDER BY productSupplier,requiredDate";
+                            break;
+                        default:
+                            break;
+                    }
+
+
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetJobPlannerDT() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "GetJobPlannerDT()", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
+        public int GetNumMissingData(string rptMode)
+        {
+            string error;
+            string qry = "";
+            switch (rptMode)
+            {
+                case "BEAMZERO": // beam jobs
+                    qry = "SELECT COUNT(*) FROM dbo.JobPlanner "
+                        + "WHERE completedFlag = 'Y' AND (beamLm = 0 or beamM2 = 0) AND slabM2 = 0 and stairsIncl != 'Y' ";
+                    break;
+                case "SLABZERO": //slab jobs
+                    qry = "SELECT COUNT(*) FROM dbo.JobPlanner "
+                        + "WHERE completedFlag = 'Y' AND slabM2 = 0 AND beamLm = 0 and beamM2 = 0 ";
+                    break;
+                case "ALLZERO": // beam and slab jobs
+                    qry = "SELECT COUNT(*) FROM dbo.JobPlanner "
+                        + "WHERE completedFlag = 'Y' AND slabM2 = 0 AND beamLm = 0 and beamM2 = 0 ";
+                    break;
+                case "MISSINGSUPPLIER": // beam and slab jobs
+                    qry = "SELECT COUNT(*) FROM dbo.JobPlanner "
+                        + "WHERE LEN(productSupplier) < 1 ";
+                    break;
+                default:
+                    break;
+            }
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(qry, conn))
+                    {
+
+                        int numRows = (Int32)command.ExecuteScalar();
+                        return numRows;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    error = ex.InnerException.ToString();
+                    return 0;
+                }
+
+            }
+        }
+
         public DataTable GetSupplierSummaryByYearDT(string rptMode, int year)
         {
             string qry = "";
@@ -3747,6 +3851,110 @@ namespace MCPApp
                     string msg = String.Format("UpdateJobPlannerJobDate() Error : {0}", ex.Message.ToString());
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", "UpdateJobPlannerJobDate(.....)", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateMissingJobPlannerBeamLM(string jobNo,int beamLM)
+        {
+            string insertQry = $"UPDATE dbo.JobPlanner SET beamLm = {beamLM} WHERE jobNo = '{jobNo}'";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("UpdateMissingJobPlannerBeamLM() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "UpdateMissingJobPlannerBeamLM(.....)", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateMissingJobPlannerBeamM2(string jobNo, int beamM2)
+        {
+            string insertQry = $"UPDATE dbo.JobPlanner SET beamM2 = {beamM2} WHERE jobNo = '{jobNo}'";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("UpdateMissingJobPlannerBeamM2() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "UpdateMissingJobPlannerBeamM2(.....)", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateMissingJobPlannerSlabM2(string jobNo, int slabM2)
+        {
+            string insertQry = $"UPDATE dbo.JobPlanner SET slabM2 = {slabM2} WHERE jobNo = '{jobNo}'";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("UpdateMissingJobPlannerSlabM2() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "UpdateMissingJobPlannerSlabM2(.....)", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateMissingJobPlannerSupplier(string jobNo, string supplier)
+        {
+            string insertQry = $"UPDATE dbo.JobPlanner SET productSupplier = '{supplier}' WHERE jobNo = '{jobNo}'";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("UpdateMissingJobPlannerSupplier() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "UpdateMissingJobPlannerSupplier(.....)", ex.Message.ToString());
                     return msg;
                 }
 

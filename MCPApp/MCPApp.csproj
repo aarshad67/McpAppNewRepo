@@ -147,6 +147,12 @@
     <Compile Include="JobPlannerRptNewForm.Designer.cs">
       <DependentUpon>JobPlannerRptNewForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="JobsMissingDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JobsMissingDataForm.Designer.cs">
+      <DependentUpon>JobsMissingDataForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ResetWebPasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -354,6 +360,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="JobPlannerRptNewForm.resx">
       <DependentUpon>JobPlannerRptNewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JobsMissingDataForm.resx">
+      <DependentUpon>JobsMissingDataForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ResetWebPasswordForm.resx">
       <DependentUpon>ResetWebPasswordForm.cs</DependentUpon>

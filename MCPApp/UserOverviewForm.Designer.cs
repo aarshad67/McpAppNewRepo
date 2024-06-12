@@ -103,7 +103,7 @@
             // 
             this.bulletinTreeView.Location = new System.Drawing.Point(17, 92);
             this.bulletinTreeView.Name = "bulletinTreeView";
-            this.bulletinTreeView.Size = new System.Drawing.Size(762, 661);
+            this.bulletinTreeView.Size = new System.Drawing.Size(762, 650);
             this.bulletinTreeView.TabIndex = 1;
             // 
             // UserOverviewForm

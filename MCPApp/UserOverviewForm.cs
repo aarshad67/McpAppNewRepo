@@ -47,6 +47,11 @@ namespace MCPApp
         TreeNode beamLmRptNode = new TreeNode("Beam LM Per Year Per Supplier");
         TreeNode beamM2RptNode = new TreeNode("Beam M² Per Year Per Supplier");
         TreeNode slabM2RptNode = new TreeNode("Slab M² Per Year Per Supplier");
+        TreeNode jobHouseKeepingNode = new TreeNode("Job Planner Housekeeping");
+        TreeNode updateBeamJobsQtyNode = new TreeNode("Update Missing LM/M² On Completed BEAM jobs");
+        TreeNode updateSlabJobsQtyNode = new TreeNode("Update Missing M² On Completed SLAB jobs");
+        TreeNode updateNonSpecifiedJobsQtyNode = new TreeNode("Update Completed jobs where Beam Lm/M² and SLAB M² are all ZERO  ");
+        TreeNode missingSuppliersNode = new TreeNode("Update Missing SUPPLIERS on Completed Jobs");
 
         string mcpFullName = "";
         string mcpUserID = "";
@@ -95,7 +100,12 @@ namespace MCPApp
             menuTreeView.Nodes.Add(reportsParentNode);
             jobPlannerParentNode.Nodes.Add(jobPlannerNode);
             jobPlannerParentNode.Nodes.Add(jobPlannerBeamNode);
-            jobPlannerParentNode.Nodes.Add(jobPlannerSlabNode);
+            jobPlannerParentNode.Nodes.Add(jobPlannerSlabNode);//
+            jobPlannerParentNode.Nodes.Add(jobHouseKeepingNode);
+            jobHouseKeepingNode.Nodes.Add(updateBeamJobsQtyNode);
+            jobHouseKeepingNode.Nodes.Add(updateSlabJobsQtyNode);
+            jobHouseKeepingNode.Nodes.Add(updateNonSpecifiedJobsQtyNode);//
+            jobHouseKeepingNode.Nodes.Add(missingSuppliersNode);
             reportsParentNode.Nodes.Add(jobPlannerRptsNode);
             reportsParentNode.Nodes.Add(supplierRptsNode);
             reportsParentNode.Nodes.Add(notOnShopRptsNode);
@@ -134,10 +144,27 @@ namespace MCPApp
             this.Cursor = Cursors.WaitCursor;
             bulletinTreeView.Nodes.Clear();
             TreeNode OnStopCustomersNode = new TreeNode("Customers flagged as ON STOP");
+            TreeNode HousekeepingNode = new TreeNode("Job Planner Housekeeping Notifications");
             TreeNode customerNode = new TreeNode("N/A");
+            TreeNode alertNode = new TreeNode("N/A");
             bulletinTreeView.Nodes.Add(OnStopCustomersNode);
-            
+            bulletinTreeView.Nodes.Add(HousekeepingNode);
+
             DataTable dt = mcData.GetAllOnStopCustomersDT();
+            int missingBeamCount = mcData.GetNumMissingData("BEAMZERO");
+            int missingSlabCount = mcData.GetNumMissingData("SLABZERO");
+            int missingAllCount = mcData.GetNumMissingData("ALLZERO");
+            int missingSuppCount = mcData.GetNumMissingData("MISSINGSUPPLIER");
+
+            alertNode = new TreeNode($"Number of completed BEAM jobs with Missing LM or M²: {missingBeamCount}");
+            HousekeepingNode.Nodes.Add(alertNode);
+            alertNode = new TreeNode($"Number of completed SLAB jobs with Missing LM or M²: {missingSlabCount}");
+            HousekeepingNode.Nodes.Add(alertNode);
+            alertNode = new TreeNode($"Number of COMPLETED jobs where Beam LM/M² and Slab M² are all ZERO: {missingAllCount}");
+            HousekeepingNode.Nodes.Add(alertNode);
+            alertNode = new TreeNode($"Number of completed jobs where SUPPLIERS are Missing:: {missingSuppCount}");
+            HousekeepingNode.Nodes.Add(alertNode);
+
             int onStopCount = 0;
             if(dt == null)
             {
@@ -185,6 +212,42 @@ namespace MCPApp
             //    return;
 
             //}
+
+            if (menuTreeView.SelectedNode == updateBeamJobsQtyNode)
+            {
+                JobsMissingDataForm jobForm = new JobsMissingDataForm("BEAMZERO");
+                jobForm.ShowDialog();
+                //    nodeClicked = true;
+                this.menuTreeView.SelectedNode = null;
+                return;
+            }
+
+            if (menuTreeView.SelectedNode == updateSlabJobsQtyNode)
+            {
+                JobsMissingDataForm jobForm = new JobsMissingDataForm("SLABZERO");
+                jobForm.ShowDialog();
+                //    nodeClicked = true;
+                this.menuTreeView.SelectedNode = null;
+                return;
+            }
+
+            if (menuTreeView.SelectedNode == updateNonSpecifiedJobsQtyNode)
+            {
+                JobsMissingDataForm jobForm = new JobsMissingDataForm("ALLZERO");
+                jobForm.ShowDialog();
+                //    nodeClicked = true;
+                this.menuTreeView.SelectedNode = null;
+                return;
+            }
+
+            if (menuTreeView.SelectedNode == missingSuppliersNode)
+            {
+                JobsMissingDataForm jobForm = new JobsMissingDataForm("MISSINGSUPPLIER");
+                jobForm.ShowDialog();
+                //    nodeClicked = true;
+                this.menuTreeView.SelectedNode = null;
+                return;
+            }
 
             if (menuTreeView.SelectedNode == supplierRptsNode)
             {

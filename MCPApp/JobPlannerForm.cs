@@ -167,7 +167,7 @@ namespace MCPApp
 
                 DataGridViewComboBoxColumn levelColumn = new DataGridViewComboBoxColumn();
                 levelColumn.DataPropertyName = "Levels";
-                levelColumn.HeaderText = "Floor Levsls";
+                levelColumn.HeaderText = "Floor Levels";
                 levelColumn.Width = 150;
                 levelColumn.DataSource = levelsBindngSource;
                 levelColumn.ValueMember = "level";
