@@ -316,10 +316,16 @@ namespace MCPApp
 
         private void GenerateButton_Click(object sender, EventArgs e)
         {
+            if(String.IsNullOrWhiteSpace(pathTextBox.Text))
+            {
+                MessageBox.Show("Reports Folder not specified.");
+                return;
+            }
             BuildDataTable();
             _startDate = dateTimePicker1.Value.Date;
             _endDate = dateTimePicker2.Value.Date.AddDays(1).AddSeconds(-1);
             GenerateRpt(_rptMode);
+            return;
             
         }
 
