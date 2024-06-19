@@ -144,7 +144,7 @@ namespace MCPApp
             this.Cursor = Cursors.WaitCursor;
             bulletinTreeView.Nodes.Clear();
             TreeNode OnStopCustomersNode = new TreeNode("Customers flagged as ON STOP");
-            TreeNode HousekeepingNode = new TreeNode("Job Planner Housekeeping Notifications");
+            TreeNode HousekeepingNode = new TreeNode("Job Planner / Whiteboard Housekeeping Notifications");
             TreeNode customerNode = new TreeNode("N/A");
             TreeNode alertNode = new TreeNode("N/A");
             bulletinTreeView.Nodes.Add(OnStopCustomersNode);
@@ -155,14 +155,17 @@ namespace MCPApp
             int missingSlabCount = mcData.GetNumMissingData("SLABZERO");
             int missingAllCount = mcData.GetNumMissingData("ALLZERO");
             int missingSuppCount = mcData.GetNumMissingData("MISSINGSUPPLIER");
+            int missingProducts = mcData.GetNumMissingData("MISSINGPRODUCTS");
 
             alertNode = new TreeNode($"Number of completed BEAM jobs with Missing LM or M²: {missingBeamCount}");
             HousekeepingNode.Nodes.Add(alertNode);
-            alertNode = new TreeNode($"Number of completed SLAB jobs with Missing LM or M²: {missingSlabCount}");
-            HousekeepingNode.Nodes.Add(alertNode);
+            //alertNode = new TreeNode($"Number of completed SLAB jobs with Missing M²: {missingSlabCount}");
+            //HousekeepingNode.Nodes.Add(alertNode);
             alertNode = new TreeNode($"Number of COMPLETED jobs where Beam LM/M² and Slab M² are all ZERO: {missingAllCount}");
             HousekeepingNode.Nodes.Add(alertNode);
-            alertNode = new TreeNode($"Number of completed jobs where SUPPLIERS are Missing:: {missingSuppCount}");
+            alertNode = new TreeNode($"Number of completed jobs where SUPPLIERS are Missing: {missingSuppCount}");
+            HousekeepingNode.Nodes.Add(alertNode);
+            alertNode = new TreeNode($"Number of WHITEBOARD jobs with missing Products: {missingProducts}");
             HousekeepingNode.Nodes.Add(alertNode);
 
             int onStopCount = 0;

@@ -2981,6 +2981,7 @@ namespace MCPApp
                         case "ALLZERO": // beam and slab jobs
                             qry = "SELECT jobNo,floorLevel,siteAddress,requiredDate,beamLM,beamM2,slabM2,supplyType,productSupplier,supplierRef,phaseInvValue FROM dbo.JobPlanner "
                                 + "WHERE completedFlag = 'Y' AND slabM2 = 0 AND beamLm = 0 and beamM2 = 0 "
+                                + "AND productSupplier NOT IN ('LEROC','RightCast','Kalisto') "
                                 + "ORDER BY supplyType,requiredDate";
                             break;
                         case "MISSINGSUPPLIER": // beam and slab jobs
@@ -3035,6 +3036,10 @@ namespace MCPApp
                 case "MISSINGSUPPLIER": // beam and slab jobs
                     qry = "SELECT COUNT(*) FROM dbo.JobPlanner "
                         + "WHERE LEN(productSupplier) < 1 ";
+                    break;
+                case "MISSINGPRODUCTS": // whiteboard jobs
+                    qry = "SELECT COUNT(*) FROM dbo.Whiteboard "
+                        + "WHERE LEN(products) < 1 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )";
                     break;
                 default:
                     break;
