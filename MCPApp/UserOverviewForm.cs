@@ -161,7 +161,7 @@ namespace MCPApp
             HousekeepingNode.Nodes.Add(alertNode);
             //alertNode = new TreeNode($"Number of completed SLAB jobs with Missing M²: {missingSlabCount}");
             //HousekeepingNode.Nodes.Add(alertNode);
-            alertNode = new TreeNode($"Number of COMPLETED jobs where Beam LM/M² and Slab M² are all ZERO: {missingAllCount}");
+            alertNode = new TreeNode($"Number of completed jobs where Beam LM/M² and Slab M² are all ZERO: {missingAllCount}");
             HousekeepingNode.Nodes.Add(alertNode);
             alertNode = new TreeNode($"Number of completed jobs where SUPPLIERS are Missing: {missingSuppCount}");
             HousekeepingNode.Nodes.Add(alertNode);

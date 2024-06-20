@@ -3035,7 +3035,7 @@ namespace MCPApp
                     break;
                 case "MISSINGSUPPLIER": // beam and slab jobs
                     qry = "SELECT COUNT(*) FROM dbo.JobPlanner "
-                        + "WHERE LEN(productSupplier) < 1 ";
+                        + "WHERE completedFlag = 'Y' AND LEN(productSupplier) < 1 ";
                     break;
                 case "MISSINGPRODUCTS": // whiteboard jobs
                     qry = "SELECT COUNT(*) FROM dbo.Whiteboard "
