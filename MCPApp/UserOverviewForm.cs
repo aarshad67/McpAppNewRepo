@@ -48,6 +48,8 @@ namespace MCPApp
         TreeNode beamM2RptNode = new TreeNode("Beam M² Per Year Per Supplier");
         TreeNode slabM2RptNode = new TreeNode("Slab M² Per Year Per Supplier");
         TreeNode jobHouseKeepingNode = new TreeNode("Job Planner Housekeeping");
+        TreeNode wbHouseKeepingNode = new TreeNode("Whitebioard Housekeeping");
+        TreeNode wbEmptyProductsNode = new TreeNode("Missing PRODUCTS Completed Whiteboard jobs");
         TreeNode updateBeamJobsQtyNode = new TreeNode("Update Missing LM/M² On Completed BEAM jobs");
         TreeNode updateSlabJobsQtyNode = new TreeNode("Update Missing M² On Completed SLAB jobs");
         TreeNode updateNonSpecifiedJobsQtyNode = new TreeNode("Update Completed jobs where Beam Lm/M² and SLAB M² are all ZERO  ");
@@ -86,6 +88,7 @@ namespace MCPApp
 
             whiteboardParentNode.Nodes.Add(whiteboardNode);
             whiteboardParentNode.Nodes.Add(whiteboardJobExtensionsNode);
+            whiteboardParentNode.Nodes.Add(wbHouseKeepingNode);
             menuTreeView.Nodes.Add(dummyNode);
             if (mcData.IsUserManager(loggedInUser))
             {
@@ -103,9 +106,10 @@ namespace MCPApp
             jobPlannerParentNode.Nodes.Add(jobPlannerSlabNode);//
             jobPlannerParentNode.Nodes.Add(jobHouseKeepingNode);
             jobHouseKeepingNode.Nodes.Add(updateBeamJobsQtyNode);
-            jobHouseKeepingNode.Nodes.Add(updateSlabJobsQtyNode);
+          //  jobHouseKeepingNode.Nodes.Add(updateSlabJobsQtyNode);
             jobHouseKeepingNode.Nodes.Add(updateNonSpecifiedJobsQtyNode);//
             jobHouseKeepingNode.Nodes.Add(missingSuppliersNode);
+            wbHouseKeepingNode.Nodes.Add(wbEmptyProductsNode);
             reportsParentNode.Nodes.Add(jobPlannerRptsNode);
             reportsParentNode.Nodes.Add(supplierRptsNode);
             reportsParentNode.Nodes.Add(notOnShopRptsNode);
@@ -215,6 +219,16 @@ namespace MCPApp
             //    return;
 
             //}
+
+            //WhiteboardEmptyProductsForm
+            if (menuTreeView.SelectedNode == wbEmptyProductsNode)
+            {
+                WhiteboardEmptyProductsForm wbForm = new WhiteboardEmptyProductsForm();
+                wbForm.ShowDialog();
+                //    nodeClicked = true;
+                this.menuTreeView.SelectedNode = null;
+                return;
+            }
 
             if (menuTreeView.SelectedNode == updateBeamJobsQtyNode)
             {

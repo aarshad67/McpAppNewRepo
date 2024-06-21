@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+//using Microsoft.Office.Interop.Excel;
+
 
 namespace MCPApp
 {
@@ -116,7 +118,7 @@ namespace MCPApp
             try
             {
                 suppDGV.Rows.Clear();
-                DataTable dt = mcData.GetAllSuppliers();
+                System.Data.DataTable dt = mcData.GetAllSuppliers();
                 foreach (DataRow dr in dt.Rows)
                 {
                     rgb1 = dr["rgb1"] == null ? 255 : Convert.ToInt16(dr["rgb1"].ToString());
@@ -183,6 +185,10 @@ namespace MCPApp
         {
 
         }
+
+        
+
+        
     }
 
 }

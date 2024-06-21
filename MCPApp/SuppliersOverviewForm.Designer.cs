@@ -32,6 +32,7 @@
             this.suppDGV = new System.Windows.Forms.DataGridView();
             this.AddSupplierBtn = new System.Windows.Forms.Button();
             this.CloseButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.suppDGV)).BeginInit();
             this.SuspendLayout();
             // 
@@ -79,11 +80,25 @@
             this.CloseButton.UseVisualStyleBackColor = false;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.button1.Location = new System.Drawing.Point(1195, 776);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(247, 100);
+            this.button1.TabIndex = 124;
+            this.button1.Text = "Export to Excel";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // SuppliersOverviewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1734, 890);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.AddSupplierBtn);
             this.Controls.Add(this.suppDGV);
@@ -105,5 +120,6 @@
         private System.Windows.Forms.DataGridView suppDGV;
         private System.Windows.Forms.Button AddSupplierBtn;
         private System.Windows.Forms.Button CloseButton;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -4937,6 +4937,35 @@ namespace MCPApp
             return jobNo.Substring(0, jobNo.Length - 1) + nextChar;
         }
 
+        public DataTable GetCompletedWhiteboardJobsWithMissingProducts()
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    string qry = "SELECT * FROM dbo.Whiteboard WHERE completedFlag = 'Y' and LEN(products) < 1 ORDER BY requiredDate DESC";
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetCompletedWhiteboardJobsWithMissingProducts() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "GetCompletedWhiteboardJobsWithMissingProducts()", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
         public DataTable GetWhiteboardByJobDT(string jobNo)
         {
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -5108,6 +5137,34 @@ namespace MCPApp
                 catch (Exception ex)
                 {
                     string msg = String.Format("GetWhiteboardJobExtensionsWithDatesAndCompleteFlagsDT() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    return null;
+                }
+
+            }
+
+        }
+
+        public DataTable GetWhiteboardCompletedJobsWithMissingProductsFromView()
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+
+                    string qry = "SELECT * from dbo.CompletedWhiteboardJobsWithMissingProducts";
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+                    return dt;
+
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetWhiteboardCompletedJobsWithMissingProductsFromView() Error : {0}", ex.Message.ToString());
                     logger.LogLine(msg);
                     return null;
                 }
