@@ -1354,6 +1354,38 @@ namespace MCPApp
             }
         }
 
+        public bool IsStairsSupplier(string suppCode)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(String.Format("SELECT count(*) FROM dbo.Supplier WHERE shortname = '{0}' AND productType = 'STAIRS'", suppCode), conn))
+                    {
+                        Int32 numSuppliersFound = (Int32)command.ExecuteScalar();
+
+                        if (numSuppliersFound > 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("IsSupplierExists() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("IsSupplierExists({0})", suppCode), ex.Message.ToString());
+                    return false;
+                }
+
+            }
+        }
+
         public bool IsSuppShortnameUsedInJobPlanner(string shortname)
         {
 
@@ -5145,6 +5177,53 @@ namespace MCPApp
 
         }
 
+        public DataTable GetAllWhiteboardJobProductsByQtyDT()
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    string qry = @"
+                        select wb.jobNo as job,
+                        wb.completedFlag as Completed,
+                        wb.requiredDate as RequiredDate,
+                        wb.floorlevel as FloorLevel,
+                        wb.supplyType as jobType,
+                        wb.products as CurrentProduct,
+                        '' as RevisedProduct,
+                        wb.stairsIncl as stairs,
+                        wb.totalM2 as TotalM2,
+                        jp.beamLm as BeamLm,
+                        jp.beamLm as BeamM2,
+                        jp.slabM2 as SlabM2,
+                        wb.suppShortname as Supplier,
+                        wb.custCode as CustomerCode,
+                        wb.siteAddress as SiteAddress
+                        from dbo.Whiteboard wb inner join dbo.JobPlanner jp 
+                        on wb.jobNo = jp.jobNo
+                        order by wb.products, wb.completedFlag DESC ,wb.jobNo
+                        ";
+                    //   string qry = "SELECT * from dbo.ExtendedWhiteboardJobsView ORDER BY jobNo";
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+                    return dt;
+
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetAllWhiteboardJobProductsByQtyDT() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    return null;
+                }
+
+            }
+
+        }
+
         public DataTable GetWhiteboardCompletedJobsWithMissingProductsFromView()
         {
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -5733,6 +5812,37 @@ namespace MCPApp
                     string msg = String.Format("UpdateWhiteBoardJobDate() Error : {0}", ex.Message.ToString());
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", String.Format("UpdateWhiteBoardJobDate({0},{1})", jobNo, requiredDate.ToShortDateString()), ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateWhiteBoardJobProduct(string jobNo, string revisedProduct)
+        {
+           string insertQry = "UPDATE dbo.WhiteBoard "
+                                + "SET products = @products "
+                                + "WHERE jobNo = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("products", revisedProduct));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("UpdateWhiteBoardJobProduct() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("UpdateWhiteBoardJobProduct({0},{1})", jobNo, revisedProduct), ex.Message.ToString());
                     return msg;
                 }
 
@@ -6856,6 +6966,18 @@ namespace MCPApp
 
         }
 
+        public string GetRevisedProductFromQtyAndSupplier(string product,string supplier, int beamLm, int beamM2, int slabM2)
+        {
+            string revisedProduct = "";
+            if(IsStairsSupplier(supplier)) { return "ST Only"; }
+            if(beamLm > 0 || beamM2 > 0) { return "BB Only"; }
+            if(beamLm < 1 && beamM2 < 1 && slabM2 > 0) { return "SL Only"; }
+            if(product == "SLAB") { return "SL Only"; }
+
+            return revisedProduct;
+
+        }
+         
         #endregion
 
 
