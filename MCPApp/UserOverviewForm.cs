@@ -17,7 +17,8 @@ namespace MCPApp
     public partial class UserOverviewForm : Form
     {
         private bool actionListClicked = false;
-      //  TreeNode testExcelNode = new TreeNode("Test Excel Run");
+        //  TreeNode testExcelNode = new TreeNode("Test Excel Run");
+        TreeNode alertNode = new TreeNode("N/A");
         TreeNode jobPlannerParentNode = new TreeNode("Job Planner");
         TreeNode jobPlannerNode = new TreeNode("Job Planner - All Jobs");
         TreeNode jobPlannerBeamNode = new TreeNode("Job Planner - BEAM Jobs");
@@ -48,8 +49,10 @@ namespace MCPApp
         TreeNode beamM2RptNode = new TreeNode("Beam M² Per Year Per Supplier");
         TreeNode slabM2RptNode = new TreeNode("Slab M² Per Year Per Supplier");
         TreeNode jobHouseKeepingNode = new TreeNode("Job Planner Housekeeping");
-        TreeNode wbHouseKeepingNode = new TreeNode("Whitebioard Housekeeping");
-        TreeNode wbEmptyProductsNode = new TreeNode("Missing PRODUCTS on Whiteboard jobs");
+        TreeNode wbHouseKeepingNode = new TreeNode("Whiteboard Housekeeping");
+        TreeNode wbAllProductsOnWhiteboardNode = new TreeNode("Products with Qty on ALL Whiteboard jobs");
+        TreeNode wbMissingProductsOnCompletedJobsNode = new TreeNode("Missing Products on COMPLETED Whiteboard jobs");
+        TreeNode wbMissingProductsOnInProgressJobsNode = new TreeNode("Missing Products on IN-PROGRESS Whiteboard jobs");
         TreeNode updateBeamJobsQtyNode = new TreeNode("Update Missing LM/M² On Completed BEAM jobs");
         TreeNode updateSlabJobsQtyNode = new TreeNode("Update Missing M² On Completed SLAB jobs");
         TreeNode updateNonSpecifiedJobsQtyNode = new TreeNode("Update Completed jobs where Beam Lm/M² and SLAB M² are all ZERO  ");
@@ -84,6 +87,7 @@ namespace MCPApp
             quitParentNode.ForeColor = Color.Red;
             quitParentNode.BackColor = Color.White;
             newParentJobNode.ForeColor = Color.Blue;
+            alertNode.ForeColor = Color.Red;
 
 
             whiteboardParentNode.Nodes.Add(whiteboardNode);
@@ -109,7 +113,9 @@ namespace MCPApp
           //  jobHouseKeepingNode.Nodes.Add(updateSlabJobsQtyNode);
             jobHouseKeepingNode.Nodes.Add(updateNonSpecifiedJobsQtyNode);//
             jobHouseKeepingNode.Nodes.Add(missingSuppliersNode);
-            wbHouseKeepingNode.Nodes.Add(wbEmptyProductsNode);
+            wbHouseKeepingNode.Nodes.Add(wbAllProductsOnWhiteboardNode);
+            wbHouseKeepingNode.Nodes.Add(wbMissingProductsOnCompletedJobsNode);
+            wbHouseKeepingNode.Nodes.Add(wbMissingProductsOnInProgressJobsNode);
             reportsParentNode.Nodes.Add(jobPlannerRptsNode);
             reportsParentNode.Nodes.Add(supplierRptsNode);
             reportsParentNode.Nodes.Add(notOnShopRptsNode);
@@ -150,7 +156,7 @@ namespace MCPApp
             TreeNode OnStopCustomersNode = new TreeNode("Customers flagged as ON STOP");
             TreeNode HousekeepingNode = new TreeNode("Job Planner / Whiteboard Housekeeping Notifications");
             TreeNode customerNode = new TreeNode("N/A");
-            TreeNode alertNode = new TreeNode("N/A");
+            
             bulletinTreeView.Nodes.Add(OnStopCustomersNode);
             bulletinTreeView.Nodes.Add(HousekeepingNode);
 
@@ -159,8 +165,9 @@ namespace MCPApp
             int missingSlabCount = mcData.GetNumMissingData("SLABZERO");
             int missingAllCount = mcData.GetNumMissingData("ALLZERO");
             int missingSuppCount = mcData.GetNumMissingData("MISSINGSUPPLIER");
-            int missingProducts = mcData.GetNumMissingData("MISSINGPRODUCTS");
-
+            int missingProducts1 = mcData.GetNumMissingData("MISSINGPRODUCTS1");
+            int missingProducts2 = mcData.GetNumMissingData("MISSINGPRODUCTS2");
+            alertNode.ForeColor = Color.Red;
             alertNode = new TreeNode($"Number of completed BEAM jobs with Missing LM or M²: {missingBeamCount}");
             HousekeepingNode.Nodes.Add(alertNode);
             //alertNode = new TreeNode($"Number of completed SLAB jobs with Missing M²: {missingSlabCount}");
@@ -169,8 +176,11 @@ namespace MCPApp
             HousekeepingNode.Nodes.Add(alertNode);
             alertNode = new TreeNode($"Number of completed jobs where SUPPLIERS are Missing: {missingSuppCount}");
             HousekeepingNode.Nodes.Add(alertNode);
-            alertNode = new TreeNode($"Number of WHITEBOARD jobs with missing Products: {missingProducts}");
+            alertNode = new TreeNode($"Number of COMPLETED Whiteboard jobs with missing Products: {missingProducts1}");
             HousekeepingNode.Nodes.Add(alertNode);
+            alertNode = new TreeNode($"Number of IN-PROGRESS Whiteboard jobs with missing Products: {missingProducts2}");
+            HousekeepingNode.Nodes.Add(alertNode);
+            //string.Format("You are <span style='color:red'>{0}</span> km. in city <span style='color:red'>{1}</span> km.", kmTotalMil, allTotal);
 
             int onStopCount = 0;
             if(dt == null)
@@ -221,9 +231,25 @@ namespace MCPApp
             //}
 
             //WhiteboardEmptyProductsForm
-            if (menuTreeView.SelectedNode == wbEmptyProductsNode)
+            if (menuTreeView.SelectedNode == wbAllProductsOnWhiteboardNode)
             {
-                WhiteboardEmptyProductsForm wbForm = new WhiteboardEmptyProductsForm();
+                WhiteboardEmptyProductsForm wbForm = new WhiteboardEmptyProductsForm("ALL");
+                wbForm.ShowDialog();
+                //    nodeClicked = true;
+                this.menuTreeView.SelectedNode = null;
+                return;
+            }
+            if (menuTreeView.SelectedNode == wbMissingProductsOnCompletedJobsNode)
+            {
+                WhiteboardEmptyProductsForm wbForm = new WhiteboardEmptyProductsForm("COMPLETED");
+                wbForm.ShowDialog();
+                //    nodeClicked = true;
+                this.menuTreeView.SelectedNode = null;
+                return;
+            }
+            if (menuTreeView.SelectedNode == wbMissingProductsOnInProgressJobsNode)
+            {
+                WhiteboardEmptyProductsForm wbForm = new WhiteboardEmptyProductsForm("INPROGRESS");
                 wbForm.ShowDialog();
                 //    nodeClicked = true;
                 this.menuTreeView.SelectedNode = null;

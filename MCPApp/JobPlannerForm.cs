@@ -1216,6 +1216,8 @@ namespace MCPApp
                     
                     suppForm.ShowDialog();
                     string suppShortName = suppForm.Shortname;
+                    string productType = mcData.GetSupplierProductTypeFromShortname(suppShortName);
+                    string result = mcData.UpdateWhiteBoardJobProductWithSupplierProductType(job, productType);
                     jobDGV.Rows[e.RowIndex].Cells[12].Value = suppShortName;
                     int rgb1, rgb2, rgb3 = 0;
 

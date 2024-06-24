@@ -1789,6 +1789,10 @@ namespace MCPApp
                 }
                 myForm.ShowDialog();
                 suppShortName = myForm.Shortname;
+                string productType = mcData.GetSupplierProductTypeFromShortname(suppShortName);
+                string result = mcData.UpdateWhiteBoardJobProductWithSupplierProductType(jobNo, productType);
+                string wbProduct = mcData.GetWhiteboardProductFromSupplierProductType(productType);
+                wbDataGridView[5, rowIndex].Value = wbProduct;
                 wbDataGridView[10, rowIndex].Value = suppShortName;
                 mcData.GetSupplierColourByShortname(suppShortName, out rgb1, out rgb2, out rgb3);
                 wbDataGridView[10, rowIndex].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);

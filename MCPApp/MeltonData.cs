@@ -1452,6 +1452,38 @@ namespace MCPApp
             }
         }
 
+        public string GetSupplierProductTypeFromShortname(string shortname)
+        {
+            //string error;
+            string productType = "";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(String.Format("SELECT productType FROM dbo.Supplier WHERE shortname = '{0}'", shortname), conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                productType = reader["productType"].ToString();
+                            }
+                        }
+                    }
+                    return productType;
+                }
+                catch (Exception ex)
+                {
+                    string msg = "GetSupplierProductTypeFromShortname() ERROR : " + ex.Message.ToString();
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("GetSupplierProductTypeFromShortname({0})", shortname), ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
         public DataTable GetAllSuppliersForCombo()
         {
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -1567,6 +1599,8 @@ namespace MCPApp
             }
 
         }
+
+
 
         public void GetSupplierColour(string suppCode, out int rgb1, out int rgb2, out int rgb3)
         {
@@ -3069,9 +3103,13 @@ namespace MCPApp
                     qry = "SELECT COUNT(*) FROM dbo.JobPlanner "
                         + "WHERE completedFlag = 'Y' AND LEN(productSupplier) < 1 ";
                     break;
-                case "MISSINGPRODUCTS": // whiteboard jobs
+                case "MISSINGPRODUCTS1": // whiteboard jobs
                     qry = "SELECT COUNT(*) FROM dbo.Whiteboard "
-                        + "WHERE LEN(products) < 1 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )";
+                        + "WHERE completedFlag = 'Y' AND LEN(products) < 1 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )";
+                    break;
+                case "MISSINGPRODUCTS2": // whiteboard jobs
+                    qry = "SELECT COUNT(*) FROM dbo.Whiteboard "
+                        + "WHERE completedFlag != 'Y' AND LEN(products) < 1 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )";
                     break;
                 default:
                     break;
@@ -5177,7 +5215,7 @@ namespace MCPApp
 
         }
 
-        public DataTable GetAllWhiteboardJobProductsByQtyDT()
+        public DataTable GetWhiteboardJobProductsByQtyDT(string rptMode)
         {
             using (SqlConnection conn = new SqlConnection(connStr))
             {
@@ -5185,26 +5223,82 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    string qry = @"
-                        select wb.jobNo as job,
-                        wb.completedFlag as Completed,
-                        wb.requiredDate as RequiredDate,
-                        wb.floorlevel as FloorLevel,
-                        wb.supplyType as jobType,
-                        wb.products as CurrentProduct,
-                        '' as RevisedProduct,
-                        wb.stairsIncl as stairs,
-                        wb.totalM2 as TotalM2,
-                        jp.beamLm as BeamLm,
-                        jp.beamLm as BeamM2,
-                        jp.slabM2 as SlabM2,
-                        wb.suppShortname as Supplier,
-                        wb.custCode as CustomerCode,
-                        wb.siteAddress as SiteAddress
-                        from dbo.Whiteboard wb inner join dbo.JobPlanner jp 
-                        on wb.jobNo = jp.jobNo
-                        order by wb.products, wb.completedFlag DESC ,wb.jobNo
-                        ";
+                    string qry = "";
+                    switch (rptMode)
+                    {
+                        case "ALL":
+                            qry = @"
+                                    select wb.jobNo as job,
+                                    wb.completedFlag as Completed,
+                                    wb.requiredDate as RequiredDate,
+                                    wb.floorlevel as FloorLevel,
+                                    wb.supplyType as jobType,
+                                    wb.products as CurrentProduct,
+                                    '' as RevisedProduct,
+                                    wb.stairsIncl as stairs,
+                                    wb.totalM2 as TotalM2,
+                                    jp.beamLm as BeamLm,
+                                    jp.beamLm as BeamM2,
+                                    jp.slabM2 as SlabM2,
+                                    wb.suppShortname as Supplier,
+                                    wb.custCode as CustomerCode,
+                                    REPLACE(REPLACE(wb.siteAddress, CHAR(13), ''), CHAR(10), '') as SiteAddress
+                                    from dbo.Whiteboard wb inner join dbo.JobPlanner jp 
+                                    on wb.jobNo = jp.jobNo
+                                    order by wb.products, wb.completedFlag DESC ,wb.jobNo
+                                    ";
+                            break;
+                        case "COMPLETED":
+                            qry = @"
+                                    select wb.jobNo as job,
+                                    wb.completedFlag as Completed,
+                                    wb.requiredDate as RequiredDate,
+                                    wb.floorlevel as FloorLevel,
+                                    wb.supplyType as jobType,
+                                    wb.products as CurrentProduct,
+                                    '' as RevisedProduct,
+                                    wb.stairsIncl as stairs,
+                                    wb.totalM2 as TotalM2,
+                                    jp.beamLm as BeamLm,
+                                    jp.beamLm as BeamM2,
+                                    jp.slabM2 as SlabM2,
+                                    wb.suppShortname as Supplier,
+                                    wb.custCode as CustomerCode,
+                                    REPLACE(REPLACE(wb.siteAddress, CHAR(13), ''), CHAR(10), '') as SiteAddress
+                                    from dbo.Whiteboard wb inner join dbo.JobPlanner jp 
+                                    on wb.jobNo = jp.jobNo
+                                    WHERE (wb.completedFlag = 'Y'AND jp.completedFlag = 'Y') AND LEN(wb.products) < 1
+                                    order by wb.products, wb.jobNo
+                                    ";
+                            break;
+                        case "INPROGRESS":
+                            qry = @"
+                                    select wb.jobNo as job,
+                                    wb.completedFlag as Completed,
+                                    wb.requiredDate as RequiredDate,
+                                    wb.floorlevel as FloorLevel,
+                                    wb.supplyType as jobType,
+                                    wb.products as CurrentProduct,
+                                    '' as RevisedProduct,
+                                    wb.stairsIncl as stairs,
+                                    wb.totalM2 as TotalM2,
+                                    jp.beamLm as BeamLm,
+                                    jp.beamLm as BeamM2,
+                                    jp.slabM2 as SlabM2,
+                                    wb.suppShortname as Supplier,
+                                    wb.custCode as CustomerCode,
+                                    REPLACE(REPLACE(wb.siteAddress, CHAR(13), ''), CHAR(10), '') as SiteAddress
+                                    from dbo.Whiteboard wb inner join dbo.JobPlanner jp 
+                                    on wb.jobNo = jp.jobNo
+                                    WHERE wb.completedFlag <> 'Y'AND jp.completedFlag <> 'Y' AND LEN(wb.products) < 1
+                                    order by wb.products,wb.jobNo
+                                    ";
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                    
                     //   string qry = "SELECT * from dbo.ExtendedWhiteboardJobsView ORDER BY jobNo";
                     SqlCommand cmd = new SqlCommand(qry, conn);
                     DataTable dt = new DataTable();
@@ -5843,6 +5937,38 @@ namespace MCPApp
                     string msg = String.Format("UpdateWhiteBoardJobProduct() Error : {0}", ex.Message.ToString());
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", String.Format("UpdateWhiteBoardJobProduct({0},{1})", jobNo, revisedProduct), ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateWhiteBoardJobProductWithSupplierProductType(string jobNo, string suppProductType)
+        {
+            string wbProduct = GetWhiteboardProductFromSupplierProductType(suppProductType);
+            string insertQry = "UPDATE dbo.WhiteBoard "
+                                 + "SET products = @products "
+                                 + "WHERE jobNo = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("products", wbProduct));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("UpdateWhiteBoardJobProduct() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("UpdateWhiteBoardJobProduct({0},{1})", jobNo, suppProductType), ex.Message.ToString());
                     return msg;
                 }
 
@@ -6976,6 +7102,37 @@ namespace MCPApp
 
             return revisedProduct;
 
+        }
+
+        public string GetWhiteboardProductFromSupplierProductType(string productType)
+        {
+            /*
+             
+            BB Only
+            SL Only
+            SLAB
+            ST Only
+            */
+            string wbProduct = "";
+
+            switch (productType)
+            {
+                case "BEAM":
+                    wbProduct = "BB Only";
+                    break;
+                case "SLAB":
+                    wbProduct = "SL Only";
+                    break;
+                case "SLAB&STAIRS":
+                    wbProduct = "SL Only";
+                    break;
+                case "STAIRS":
+                    wbProduct = "ST Only";
+                    break;
+                default:
+                    break;
+            }
+            return wbProduct;
         }
          
         #endregion

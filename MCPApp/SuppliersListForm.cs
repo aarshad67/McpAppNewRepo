@@ -96,6 +96,14 @@ namespace MCPApp
                 shortnameTextBoxColumn.ReadOnly = true;
                 suppDGV.Columns.Add(shortnameTextBoxColumn);
 
+                //3
+                DataGridViewTextBoxColumn productTypeTextBoxColumn = new DataGridViewTextBoxColumn();
+                productTypeTextBoxColumn.HeaderText = "Prod Type";
+                productTypeTextBoxColumn.Width = 80;
+                productTypeTextBoxColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                productTypeTextBoxColumn.ReadOnly = true;
+                suppDGV.Columns.Add(productTypeTextBoxColumn);
+
                 suppDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 suppDGV.EnableHeadersVisualStyles = false;
                 
@@ -128,7 +136,8 @@ namespace MCPApp
                     suppDGV[0, row].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
                     suppDGV[0, row].Value = dr["suppCode"].ToString();
                     suppDGV[1, row].Value = dr["suppName"].ToString();
-                    suppDGV[2, row++].Value = dr["shortname"].ToString();
+                    suppDGV[2, row].Value = dr["shortname"].ToString();
+                    suppDGV[3, row++].Value = dr["productType"].ToString();
 
                 }
                 suppDGV.CurrentCell = suppDGV.Rows[0].Cells[0];
