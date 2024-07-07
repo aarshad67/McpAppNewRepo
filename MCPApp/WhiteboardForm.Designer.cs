@@ -57,6 +57,7 @@
             this.cancelButton = new System.Windows.Forms.Button();
             this.refreshButton = new System.Windows.Forms.Button();
             this.btnJobLocks = new System.Windows.Forms.Button();
+            this.viewAnyIssuesReportedOnSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wbDailyContextMenuStrip1.SuspendLayout();
             this.wbJobContextMenuStrip.SuspendLayout();
             this.supplierContextMenuStrip.SuspendLayout();
@@ -112,9 +113,10 @@
             this.completeJobToolStripMenuItem,
             this.saveJobLineMenuItem,
             this.exportToEXCELToolStripMenuItem,
-            this.putJobCustomerONSTOPToolStripMenuItem});
+            this.putJobCustomerONSTOPToolStripMenuItem,
+            this.viewAnyIssuesReportedOnSiteToolStripMenuItem});
             this.wbJobContextMenuStrip.Name = "wbContextMenuStrip";
-            this.wbJobContextMenuStrip.Size = new System.Drawing.Size(375, 356);
+            this.wbJobContextMenuStrip.Size = new System.Drawing.Size(375, 421);
             this.wbJobContextMenuStrip.Text = "JOB Option(s)";
             // 
             // spanJobMenuItem
@@ -279,10 +281,10 @@
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.statusStrip1.Location = new System.Drawing.Point(0, 987);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 993);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1688, 28);
+            this.statusStrip1.Size = new System.Drawing.Size(1688, 22);
             this.statusStrip1.TabIndex = 14;
             this.statusStrip1.Text = "statusStrip1";
             this.statusStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.statusStrip1_ItemClicked);
@@ -325,6 +327,13 @@
             this.btnJobLocks.Text = "LOCKED JOBS";
             this.btnJobLocks.UseVisualStyleBackColor = false;
             this.btnJobLocks.Click += new System.EventHandler(this.btnJobLocks_Click);
+            // 
+            // viewAnyIssuesReportedOnSiteToolStripMenuItem
+            // 
+            this.viewAnyIssuesReportedOnSiteToolStripMenuItem.Name = "viewAnyIssuesReportedOnSiteToolStripMenuItem";
+            this.viewAnyIssuesReportedOnSiteToolStripMenuItem.Size = new System.Drawing.Size(374, 32);
+            this.viewAnyIssuesReportedOnSiteToolStripMenuItem.Text = "View Any Issues Reported on Site";
+            this.viewAnyIssuesReportedOnSiteToolStripMenuItem.Click += new System.EventHandler(this.viewAnyIssuesReportedOnSiteToolStripMenuItem_Click);
             // 
             // WhiteboardForm
             // 
@@ -389,5 +398,6 @@
         private System.Windows.Forms.ToolStripMenuItem exportToEXCELToolStripMenuItem;
         private System.Windows.Forms.Button btnJobLocks;
         private System.Windows.Forms.ToolStripMenuItem putJobCustomerONSTOPToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewAnyIssuesReportedOnSiteToolStripMenuItem;
     }
 }

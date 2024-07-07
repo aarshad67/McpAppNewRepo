@@ -2482,5 +2482,13 @@ namespace MCPApp
         {
 
         }
+
+        private void viewAnyIssuesReportedOnSiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (wbDataGridView[0, rowIndex].Value == null) { return; }
+            string jobNo = wbDataGridView[0, this.rowIndex].Value.ToString();
+            WhiteboardJobIssueReportedForm issueForm = new WhiteboardJobIssueReportedForm(jobNo);
+            issueForm.ShowDialog();
+        }
     }
 }

@@ -6369,7 +6369,34 @@ namespace MCPApp
 
         }
 
+        public DataTable GetWBJobIssuesDT(string jobNo)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
 
+                try
+                {
+                    conn.Open();
+                    string qry = $"SELECT * FROM dbo.JobIssue WHERE jobNo = '{jobNo}' ORDER BY jobIssueDate DESC";
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"GetWBJobIssuesDT() Error : ex.Message.ToString()";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetWBJobIssuesDT({jobNo})", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
 
         public DataTable WhiteboardDatesDT(string jobNo)
         {
@@ -6422,6 +6449,8 @@ namespace MCPApp
             }
 
         }
+
+        
 
         public void GetWhiteboardDays(string jobNo, out string mon, out string tue, out string wed, out string thu, out string fri, out string sat, out string sun)
         {

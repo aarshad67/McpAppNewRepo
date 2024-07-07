@@ -307,6 +307,12 @@
     <Compile Include="WhiteboardJobExtensionsForm.Designer.cs">
       <DependentUpon>WhiteboardJobExtensionsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="WhiteboardJobIssueReportedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WhiteboardJobIssueReportedForm.Designer.cs">
+      <DependentUpon>WhiteboardJobIssueReportedForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="WhiteboardParametersForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -453,6 +459,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WhiteboardJobExtensionsForm.resx">
       <DependentUpon>WhiteboardJobExtensionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WhiteboardJobIssueReportedForm.resx">
+      <DependentUpon>WhiteboardJobIssueReportedForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WhiteboardParametersForm.resx">
       <DependentUpon>WhiteboardParametersForm.cs</DependentUpon>
