@@ -15,6 +15,7 @@ namespace MCPApp
         MeltonData mcData = new MeltonData();
         Logger logger = new Logger();
 
+        private static bool _isNewSupplier = false;
         string suppName = "";
         string suppCode = "";
         string origSuppCode = "";
@@ -65,11 +66,13 @@ namespace MCPApp
             {
                 EmptyDetails();
                 suppCodeTextBox.ReadOnly = false;
+                _isNewSupplier = true;
             }
             else
             {
                 FillSupplierDetails(suppCode);
                 suppCodeTextBox.ReadOnly = true;
+                _isNewSupplier = false;
             }
             FillProductTypeCombo();
             
@@ -103,6 +106,21 @@ namespace MCPApp
                 MessageBox.Show("[Shortname] is a MANDATORY field when creating a supplier account");
                 shortnameTextBox.Focus();
                 return;
+            }
+
+            if(_isNewSupplier)
+            {
+                if(mcData.IsSupplierShortNameExists(shortnameTextBox.Text.Trim()))
+                {
+                    string existingSuppCode = "";
+                    string existingSuppName = "";
+                    mcData.GetSupplierDetailsByShortname(shortnameTextBox.Text.Trim(), out existingSuppCode,out existingSuppName);
+                    string warning = $"Shortname[{shortnameTextBox.Text.Trim()}] already exists for : {Environment.NewLine} Supplier Name : {existingSuppName} {Environment.NewLine} Account :  {existingSuppCode}";
+                    MessageBox.Show(warning, "WARNING");
+                    shortnameTextBox.Text = "";
+                    shortnameTextBox.Focus();
+                    return;
+                }
             }
 
             if (updateSuppCodeCheckBox.Checked)

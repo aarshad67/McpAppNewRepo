@@ -25,7 +25,7 @@ namespace MCPApp
 
         private void SuppliersOverviewForm_Load(object sender, EventArgs e)
         {
-            this.Text = "Supplier Maintanance Screen";
+            this.Text = "Supplier Maintanance Screen ( DOUBLE CLICK on a supplier to edit it )";
             BuildSuppliersDGV();
             PopulateDGV();
         }

@@ -230,11 +230,11 @@ namespace MCPApp
                 suppCode = suppDGV.Rows[i].Cells[1].Value.ToString();
                 suppName = suppDGV.Rows[i].Cells[2].Value.ToString();
                 shortName = suppDGV.Rows[i].Cells[3].Value.ToString();
-                fileName = shortName.ToUpper() + DateTime.Now.ToString("ddMMMyyyyhhmmss") + ".xlsx";
+                fileName = $"{shortName.ToUpper()}_{suppCode.ToUpper()}_{DateTime.Now.ToString("ddMMMyyyyhhmmss")}.xlsx";
                 fullFilePath = Path.Combine(pathTextBox.Text, fileName);
                 sourceDT = mcData.GetOnShopJobPlannerDTByShortNameDT(shortName);
-                label3.Text = shortName.ToUpper();
-                GenerateDataTable(excludeAddressFlag,excludeCustFlag, shortName, suppName, fullFilePath);
+                label3.Text = $"{shortName.ToUpper()} - A/C {suppCode.ToUpper()}"; 
+                GenerateDataTable(excludeAddressFlag,excludeCustFlag, shortName, suppName, suppCode, fullFilePath);
             }
             label3.Text = "*** Supplier reports generated successfully ***";
             this.Cursor = Cursors.Default;
@@ -260,7 +260,7 @@ namespace MCPApp
             }
         }
 
-        private void GenerateDataTable(bool excludeSiteAddressFlag, bool excludeCustFlag, string tabName, string supplierName, string fullFilePath)
+        private void GenerateDataTable(bool excludeSiteAddressFlag, bool excludeCustFlag, string tabName, string supplierName,string supplierCode, string fullFilePath)
         {
             DataTable jobsDT = new DataTable();
             string jobNo = "";
@@ -318,7 +318,7 @@ namespace MCPApp
 
             }
             
-            excel.WriteDataTableToExcel(jobsDT, tabName, fullFilePath, "Supplier : " + supplierName,2);
+            excel.WriteDataTableToExcel(jobsDT, tabName, fullFilePath, $"Supplier : {supplierName} (A/C {supplierCode})" ,2);
             
         }
 
