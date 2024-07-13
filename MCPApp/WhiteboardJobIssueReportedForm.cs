@@ -12,12 +12,14 @@ namespace MCPApp
 {
     public partial class WhiteboardJobIssueReportedForm : Form
     {
+        MeltonData mcData = new MeltonData();
         Logger logger = new Logger();
         private string _jobNo = "";
-        public WhiteboardJobIssueReportedForm(string jobNo)
+        private static DataTable _issuesDT = new DataTable();
+        public WhiteboardJobIssueReportedForm(DataTable dt)
         {
             InitializeComponent();
-            _jobNo = jobNo;
+            _issuesDT = dt;
         }
 
         public WhiteboardJobIssueReportedForm()
@@ -29,7 +31,9 @@ namespace MCPApp
         {
             this.Text = $"Issues Reported on Site for Job {_jobNo}";
             BuildDGV();
-            PopulateDGV();
+            PopulateDGV(_issuesDT);
+            return;
+
         }
 
         private void BuildDGV()
@@ -78,11 +82,12 @@ namespace MCPApp
             }
         }
 
-        private void PopulateDGV()
+        private void PopulateDGV(DataTable dt)
         {
-            MeltonData mcData = new MeltonData();
+           
 
-            DataTable dt = mcData.GetWBJobIssuesDT(_jobNo);
+
+            
             int row = 0;
             
             try

@@ -2487,8 +2487,15 @@ namespace MCPApp
         {
             if (wbDataGridView[0, rowIndex].Value == null) { return; }
             string jobNo = wbDataGridView[0, this.rowIndex].Value.ToString();
-            WhiteboardJobIssueReportedForm issueForm = new WhiteboardJobIssueReportedForm(jobNo);
-            issueForm.ShowDialog();
+            DataTable issuesDT = mcData.GetWBJobIssuesDT(jobNo);
+            if (issuesDT != null && issuesDT.Rows.Count > 0)
+            {
+                WhiteboardJobIssueReportedForm issueForm = new WhiteboardJobIssueReportedForm(issuesDT);
+                issueForm.ShowDialog();
+                return;
+            }
+            MessageBox.Show($"There were no issues raised at site for Job [{jobNo}]");
+            return;
         }
     }
 }

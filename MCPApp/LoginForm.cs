@@ -22,7 +22,8 @@ namespace MCPApp
         public string mcpUserID = "";
         public string mcpFullName = "";
         private string userIDUpdated = "";
-        
+        private static string mcpVersion = ConfigurationManager.AppSettings["AppVersion"];
+
 
         public LoginForm()
         {
@@ -32,7 +33,9 @@ namespace MCPApp
         private void LoginForm_Load(object sender, EventArgs e)
         {
             this.Width = 790;
-            this.Text = mcData.GetConnectionString().Contains("TestMeltonConcreteDB") ? "Welcome to Melton Concrete Portal (MCP) *** TEST VERSION ***" : "Welcome to Melton Concrete Portal (MCP)";
+            this.Text = mcData.GetConnectionString().Contains("TestMeltonConcreteDB") 
+                    ? $"Welcome to Melton Concrete Portal (version {mcpVersion}) *** TEST MODE ***" 
+                    : $"Welcome to Melton Concrete Portal (version {mcpVersion})";
             UserFullNameLabel.Text = "";
             ConfirmPasswordLabel.Visible = false;
             ConfirmPasswordTextBox.Visible = false;
