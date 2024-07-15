@@ -2497,5 +2497,30 @@ namespace MCPApp
             MessageBox.Show($"There were no issues raised at site for Job [{jobNo}]");
             return;
         }
+
+        private void updateCOMPLETEDJobDetailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (wbDataGridView[0, rowIndex].Value == null) { return; }
+            string jobNo = wbDataGridView[0, this.rowIndex].Value.ToString();
+            if(!mcData.IsJobCompleted(jobNo)) 
+            {
+                MessageBox.Show($"Job No {jobNo} is NOT completed");
+                return; 
+            }
+            EditCompletedJobDetailForm frm = new EditCompletedJobDetailForm(jobNo);
+            frm.ShowDialog();
+            if(frm.IsUpdated == true)
+            {
+                int rgb1, rgb2, rgb3 = 0;
+                wbDataGridView[6, this.rowIndex].Value = frm.WbTotalM2.ToString();
+                wbDataGridView[10, this.rowIndex].Value = frm.SupplierShortname;
+                mcData.GetSupplierColourByShortname(frm.SupplierShortname, out rgb1, out rgb2, out rgb3);
+                wbDataGridView[10, this.rowIndex].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
+                
+                
+            }
+            return;
+
+        }
     }
 }

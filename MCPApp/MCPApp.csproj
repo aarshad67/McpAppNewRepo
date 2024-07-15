@@ -122,6 +122,12 @@
     <Compile Include="DeletedJobsForm.Designer.cs">
       <DependentUpon>DeletedJobsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditCompletedJobDetailForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditCompletedJobDetailForm.Designer.cs">
+      <DependentUpon>EditCompletedJobDetailForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditParentJobForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -360,6 +366,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DeletedJobsForm.resx">
       <DependentUpon>DeletedJobsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditCompletedJobDetailForm.resx">
+      <DependentUpon>EditCompletedJobDetailForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditParentJobForm.resx">
       <DependentUpon>EditParentJobForm.cs</DependentUpon>

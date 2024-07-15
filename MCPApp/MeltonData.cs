@@ -1516,6 +1516,38 @@ namespace MCPApp
             }
         }
 
+        public string GetSupplierCodeFromShortname(string shortname)
+        {
+            //string error;
+            string productType = "";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(String.Format("SELECT suppCode FROM dbo.Supplier WHERE shortname = '{0}'", shortname), conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                productType = reader["suppCode"].ToString();
+                            }
+                        }
+                    }
+                    return productType;
+                }
+                catch (Exception ex)
+                {
+                    string msg = "GetSupplierCodeFromShortname() ERROR : " + ex.Message.ToString();
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetSupplierCodeFromShortname({shortname})", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
         public DataTable GetAllSuppliersForCombo()
         {
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -4000,6 +4032,32 @@ namespace MCPApp
             }
         }
 
+        public string UpdateJobPlannerQty(string jobNo, int beamLM, int beamM2, int slabM2)
+        {
+            string insertQry = $"UPDATE dbo.JobPlanner SET beamLm = {beamLM}, beamM2 = {beamM2}, slabM2 = {slabM2} WHERE jobNo = '{jobNo}'";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("UpdateJobPlannerQty() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "UpdateJobPlannerQty(.....)", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
         public string UpdateMissingJobPlannerBeamLM(string jobNo,int beamLM)
         {
             string insertQry = $"UPDATE dbo.JobPlanner SET beamLm = {beamLM} WHERE jobNo = '{jobNo}'";
@@ -4951,6 +5009,68 @@ namespace MCPApp
         #endregion
 
         #region WHITEBOARD
+
+        public void GetKeyWhiteboardDetails(string jobNo, out DateTime reqDate, out string site, out string suppType, out string product, out string supplier, 
+                out int beamLm, out int beamM2, out int slabM2, out int totalM2)
+        {
+            string error;
+
+            reqDate = DateTime.MinValue;
+            site = "";
+            suppType = "";
+            product = "";
+            supplier = "";
+            beamLm = 0;
+            beamM2 = 0;
+            slabM2 = 0;
+            totalM2 = 0;
+
+            string qry = $@"
+                        select wb.jobNo as jobNo,wb.siteAddress as siteAddress,  
+                        jp.beamLm as beamLm,jp.beamM2 as beamM2, 
+                        jp.slabM2 as slabM2,wb.totalM2 as totalM2,  
+                        wb.suppShortname as supplier, 
+                        wb.products as product, wb.supplyType as supplyType, 
+                        wb.requiredDate as requiredDate  
+                        from dbo.Whiteboard wb  
+                        inner join dbo.JobPlanner jp 
+                        on wb.jobNo = jp.jobNo 
+                        where wb.jobNo = '{jobNo}'";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(qry, conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                reqDate = reader["requiredDate"] == null ? DateTime.MinValue : Convert.ToDateTime(reader["requiredDate"].ToString());
+                                site = reader["siteAddress"] == null ? "" : reader["siteAddress"].ToString();
+                                suppType = reader["supplyType"] == null ? "" : reader["supplyType"].ToString();
+                                product = reader["product"] == null ? "" : reader["product"].ToString();
+                                supplier = reader["supplier"] == null ? "" : reader["supplier"].ToString();
+                                beamLm = reader["beamLm"] == null ? 0 : Convert.ToInt32(reader["beamLm"].ToString());
+                                beamM2 = reader["beamM2"] == null ? 0 : Convert.ToInt32(reader["beamM2"].ToString());
+                                slabM2 = reader["slabM2"] == null ? 0 : Convert.ToInt32(reader["slabM2"].ToString());
+                                totalM2 = reader["totalM2"] == null ? 0 : Convert.ToInt32(reader["totalM2"].ToString());
+                            }
+                        }
+                    }
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    error = ex.Message.ToString();
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetKeyWhiteboardDetails({jobNo})", ex.Message.ToString());
+                    return;
+                }
+
+            }
+        }
 
         public int EmptyCurrentInvoicedWhiteboardJobList()
         {
@@ -6074,6 +6194,43 @@ namespace MCPApp
                     string msg = String.Format("UpdateWhiteBoardSupplierShortName() Error : {0}", ex.Message.ToString());
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", String.Format("UpdateWhiteBoardSupplierShortName({0},{1})", jobNo, shortname), ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateWhiteBoardJobQty(string jobNo, int totalM2)
+        {
+            //  string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
+
+            string updateQry = "UPDATE dbo.WhiteBoard "
+                                + "SET totalM2 = @totalM2,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE LEFT(jobNo,8) = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(updateQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo.Substring(0, 8)));
+                        command.Parameters.Add(new SqlParameter("totalM2", totalM2));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateWhiteBoardJobQty() Error : {ex.Message}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateWhiteBoardJobQty({jobNo},{totalM2.ToString()})", ex.Message.ToString());
                     return msg;
                 }
 
