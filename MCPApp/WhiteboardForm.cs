@@ -1829,7 +1829,10 @@ namespace MCPApp
         {
             ProductSelectorForm myForm = new ProductSelectorForm();
             myForm.ShowDialog();
-            wbDataGridView[5, rowIndex].Value = myForm.Product;
+            if(!String.IsNullOrWhiteSpace(myForm.Product))
+            {
+                wbDataGridView[5, rowIndex].Value = myForm.Product;
+            }
             return;
         }
 
@@ -2485,6 +2488,10 @@ namespace MCPApp
 
         private void viewAnyIssuesReportedOnSiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            MessageBox.Show($"This option is NOT yet available in the version of MCP");
+            return; 
+
+
             if (wbDataGridView[0, rowIndex].Value == null) { return; }
             string jobNo = wbDataGridView[0, this.rowIndex].Value.ToString();
             DataTable issuesDT = mcData.GetWBJobIssuesDT(jobNo);

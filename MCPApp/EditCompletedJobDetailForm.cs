@@ -145,7 +145,7 @@ namespace MCPApp
 
         private void EditCompletedJobDetailForm_Load(object sender, EventArgs e)
         {
-            this.Text = $"Job No {_jobNo}";
+            this.Text = $"Completed Job No {_jobNo} - Edit QUANTITIES or SUPPLIER only";
             lblRequiredDate.Text = reqDate.ToString("ddd,dd MMM yyyy");
             lblSiteAddress.Text = Regex.Replace(site, @"\r\n?|\n", ""); 
             lblProduct.Text = product;

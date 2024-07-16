@@ -481,10 +481,10 @@ namespace MCPApp
                     jobDGV.CurrentCell.Selected = true;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                MessageBox.Show($"jobDGV_CellDoubleClick() ERROR : {ex.Message.ToString()}");
+                return;
             }
         }
     }

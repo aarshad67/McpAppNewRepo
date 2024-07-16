@@ -64,11 +64,10 @@ namespace MCPApp
             // lblSiteAddress
             // 
             this.lblSiteAddress.AutoSize = true;
-            this.lblSiteAddress.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblSiteAddress.ForeColor = System.Drawing.Color.Blue;
             this.lblSiteAddress.Location = new System.Drawing.Point(36, 104);
             this.lblSiteAddress.Name = "lblSiteAddress";
-            this.lblSiteAddress.Size = new System.Drawing.Size(114, 22);
+            this.lblSiteAddress.Size = new System.Drawing.Size(168, 30);
             this.lblSiteAddress.TabIndex = 1;
             this.lblSiteAddress.Text = "Site Address : ";
             // 
@@ -78,18 +77,17 @@ namespace MCPApp
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(32, 23);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(204, 30);
+            this.label3.Size = new System.Drawing.Size(136, 20);
             this.label3.TabIndex = 2;
             this.label3.Text = "Required Date :";
             // 
             // lblRequiredDate
             // 
             this.lblRequiredDate.AutoSize = true;
-            this.lblRequiredDate.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblRequiredDate.ForeColor = System.Drawing.Color.Blue;
             this.lblRequiredDate.Location = new System.Drawing.Point(205, 23);
             this.lblRequiredDate.Name = "lblRequiredDate";
-            this.lblRequiredDate.Size = new System.Drawing.Size(114, 22);
+            this.lblRequiredDate.Size = new System.Drawing.Size(168, 30);
             this.lblRequiredDate.TabIndex = 3;
             this.lblRequiredDate.Text = "Site Address : ";
             // 
@@ -99,29 +97,27 @@ namespace MCPApp
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(32, 156);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(174, 30);
+            this.label2.Size = new System.Drawing.Size(116, 20);
             this.label2.TabIndex = 4;
             this.label2.Text = "Supply Type :";
             // 
             // lblSupplyType
             // 
             this.lblSupplyType.AutoSize = true;
-            this.lblSupplyType.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblSupplyType.ForeColor = System.Drawing.Color.Blue;
             this.lblSupplyType.Location = new System.Drawing.Point(205, 156);
             this.lblSupplyType.Name = "lblSupplyType";
-            this.lblSupplyType.Size = new System.Drawing.Size(114, 22);
+            this.lblSupplyType.Size = new System.Drawing.Size(168, 30);
             this.lblSupplyType.TabIndex = 5;
             this.lblSupplyType.Text = "Site Address : ";
             // 
             // lblProduct
             // 
             this.lblProduct.AutoSize = true;
-            this.lblProduct.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblProduct.ForeColor = System.Drawing.Color.Blue;
             this.lblProduct.Location = new System.Drawing.Point(567, 156);
             this.lblProduct.Name = "lblProduct";
-            this.lblProduct.Size = new System.Drawing.Size(70, 22);
+            this.lblProduct.Size = new System.Drawing.Size(102, 30);
             this.lblProduct.TabIndex = 7;
             this.lblProduct.Text = "Product:";
             // 
@@ -141,19 +137,18 @@ namespace MCPApp
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(32, 237);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(482, 38);
+            this.label4.Size = new System.Drawing.Size(321, 25);
             this.label4.TabIndex = 8;
             this.label4.Text = "Supplier ( Dbl click to change ) :";
             // 
             // lblSupplier
             // 
             this.lblSupplier.AutoSize = true;
-            this.lblSupplier.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblSupplier.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSupplier.ForeColor = System.Drawing.Color.Blue;
-            this.lblSupplier.Location = new System.Drawing.Point(550, 237);
+            this.lblSupplier.Location = new System.Drawing.Point(391, 237);
             this.lblSupplier.Name = "lblSupplier";
-            this.lblSupplier.Size = new System.Drawing.Size(87, 27);
+            this.lblSupplier.Size = new System.Drawing.Size(128, 38);
             this.lblSupplier.TabIndex = 9;
             this.lblSupplier.Text = "Product:";
             this.lblSupplier.Click += new System.EventHandler(this.lblSupplier_Click);
@@ -164,7 +159,7 @@ namespace MCPApp
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(32, 366);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(168, 38);
+            this.label6.Size = new System.Drawing.Size(112, 25);
             this.label6.TabIndex = 10;
             this.label6.Text = "Beam M² :";
             // 
@@ -174,7 +169,7 @@ namespace MCPApp
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(34, 407);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(152, 38);
+            this.label7.Size = new System.Drawing.Size(101, 25);
             this.label7.TabIndex = 11;
             this.label7.Text = "Slab M² :";
             // 
@@ -212,11 +207,10 @@ namespace MCPApp
             // lblTotalM2
             // 
             this.lblTotalM2.AutoSize = true;
-            this.lblTotalM2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblTotalM2.ForeColor = System.Drawing.Color.Blue;
             this.lblTotalM2.Location = new System.Drawing.Point(529, 365);
             this.lblTotalM2.Name = "lblTotalM2";
-            this.lblTotalM2.Size = new System.Drawing.Size(70, 22);
+            this.lblTotalM2.Size = new System.Drawing.Size(102, 30);
             this.lblTotalM2.TabIndex = 17;
             this.lblTotalM2.Text = "Product:";
             // 
@@ -226,7 +220,7 @@ namespace MCPApp
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(398, 365);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(149, 30);
+            this.label10.Size = new System.Drawing.Size(99, 20);
             this.label10.TabIndex = 16;
             this.label10.Text = "TOTAL M² :";
             // 
