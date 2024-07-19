@@ -46,6 +46,7 @@
             this.exportToEXCELToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.putJobCustomerONSTOPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewAnyIssuesReportedOnSiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateCOMPLETEDJobDetailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.supplierContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -58,7 +59,7 @@
             this.cancelButton = new System.Windows.Forms.Button();
             this.refreshButton = new System.Windows.Forms.Button();
             this.btnJobLocks = new System.Windows.Forms.Button();
-            this.updateCOMPLETEDJobDetailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewJobsQUANTITIESToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wbDailyContextMenuStrip1.SuspendLayout();
             this.wbJobContextMenuStrip.SuspendLayout();
             this.supplierContextMenuStrip.SuspendLayout();
@@ -116,9 +117,10 @@
             this.exportToEXCELToolStripMenuItem,
             this.putJobCustomerONSTOPToolStripMenuItem,
             this.viewAnyIssuesReportedOnSiteToolStripMenuItem,
-            this.updateCOMPLETEDJobDetailToolStripMenuItem});
+            this.updateCOMPLETEDJobDetailToolStripMenuItem,
+            this.viewJobsQUANTITIESToolStripMenuItem});
             this.wbJobContextMenuStrip.Name = "wbContextMenuStrip";
-            this.wbJobContextMenuStrip.Size = new System.Drawing.Size(375, 453);
+            this.wbJobContextMenuStrip.Size = new System.Drawing.Size(375, 485);
             this.wbJobContextMenuStrip.Text = "JOB Option(s)";
             // 
             // spanJobMenuItem
@@ -199,6 +201,13 @@
             this.viewAnyIssuesReportedOnSiteToolStripMenuItem.Size = new System.Drawing.Size(374, 32);
             this.viewAnyIssuesReportedOnSiteToolStripMenuItem.Text = "View Any Issues Reported on Site";
             this.viewAnyIssuesReportedOnSiteToolStripMenuItem.Click += new System.EventHandler(this.viewAnyIssuesReportedOnSiteToolStripMenuItem_Click);
+            // 
+            // updateCOMPLETEDJobDetailToolStripMenuItem
+            // 
+            this.updateCOMPLETEDJobDetailToolStripMenuItem.Name = "updateCOMPLETEDJobDetailToolStripMenuItem";
+            this.updateCOMPLETEDJobDetailToolStripMenuItem.Size = new System.Drawing.Size(374, 32);
+            this.updateCOMPLETEDJobDetailToolStripMenuItem.Text = "Update COMPLETED Job Detail";
+            this.updateCOMPLETEDJobDetailToolStripMenuItem.Click += new System.EventHandler(this.updateCOMPLETEDJobDetailToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -337,12 +346,12 @@
             this.btnJobLocks.UseVisualStyleBackColor = false;
             this.btnJobLocks.Click += new System.EventHandler(this.btnJobLocks_Click);
             // 
-            // updateCOMPLETEDJobDetailToolStripMenuItem
+            // viewJobsQUANTITIESToolStripMenuItem
             // 
-            this.updateCOMPLETEDJobDetailToolStripMenuItem.Name = "updateCOMPLETEDJobDetailToolStripMenuItem";
-            this.updateCOMPLETEDJobDetailToolStripMenuItem.Size = new System.Drawing.Size(374, 32);
-            this.updateCOMPLETEDJobDetailToolStripMenuItem.Text = "Update COMPLETED Job Detail";
-            this.updateCOMPLETEDJobDetailToolStripMenuItem.Click += new System.EventHandler(this.updateCOMPLETEDJobDetailToolStripMenuItem_Click);
+            this.viewJobsQUANTITIESToolStripMenuItem.Name = "viewJobsQUANTITIESToolStripMenuItem";
+            this.viewJobsQUANTITIESToolStripMenuItem.Size = new System.Drawing.Size(374, 32);
+            this.viewJobsQUANTITIESToolStripMenuItem.Text = "View Job\'s QUANTITIES";
+            this.viewJobsQUANTITIESToolStripMenuItem.Click += new System.EventHandler(this.viewJobsQUANTITIESToolStripMenuItem_Click);
             // 
             // WhiteboardForm
             // 
@@ -409,5 +418,6 @@
         private System.Windows.Forms.ToolStripMenuItem putJobCustomerONSTOPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewAnyIssuesReportedOnSiteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateCOMPLETEDJobDetailToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewJobsQUANTITIESToolStripMenuItem;
     }
 }

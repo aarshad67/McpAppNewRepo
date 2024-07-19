@@ -472,7 +472,7 @@ namespace MCPApp
                     if (!String.IsNullOrWhiteSpace(suppShortName))
                     {
                         string err1 = mcData.UpdateJobPlannerSupplierShortName(job, suppShortName);
-                        string err2 = mcData.UpdateWhiteBoardSupplierShortName(job, suppShortName);
+                        string err2 = mcData.UpdateWhiteBoardSupplierShortName(job, suppShortName, rgb1, rgb2, rgb3);
                     }
                     jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[8];
                     jobDGV.Rows[e.RowIndex].Cells[8].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);

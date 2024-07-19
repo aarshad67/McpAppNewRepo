@@ -33,6 +33,7 @@
             this.AddSupplierBtn = new System.Windows.Forms.Button();
             this.CloseButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.btnFixSuppliers = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.suppDGV)).BeginInit();
             this.SuspendLayout();
             // 
@@ -93,11 +94,24 @@
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // btnFixSuppliers
+            // 
+            this.btnFixSuppliers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnFixSuppliers.Location = new System.Drawing.Point(840, 776);
+            this.btnFixSuppliers.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnFixSuppliers.Name = "btnFixSuppliers";
+            this.btnFixSuppliers.Size = new System.Drawing.Size(336, 100);
+            this.btnFixSuppliers.TabIndex = 125;
+            this.btnFixSuppliers.Text = "ADD SUPPLIER";
+            this.btnFixSuppliers.UseVisualStyleBackColor = true;
+            this.btnFixSuppliers.Click += new System.EventHandler(this.btnFixSuppliers_Click);
+            // 
             // SuppliersOverviewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1734, 890);
+            this.Controls.Add(this.btnFixSuppliers);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.CloseButton);
             this.Controls.Add(this.AddSupplierBtn);
@@ -121,5 +135,6 @@
         private System.Windows.Forms.Button AddSupplierBtn;
         private System.Windows.Forms.Button CloseButton;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnFixSuppliers;
     }
 }

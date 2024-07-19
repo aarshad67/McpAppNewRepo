@@ -147,6 +147,12 @@
       <DependentUpon>excelTestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ExcelUtlity.cs" />
+    <Compile Include="FixSuppliersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FixSuppliersForm.Designer.cs">
+      <DependentUpon>FixSuppliersForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="JobPlannerRptNewForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -378,6 +384,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="excelTestForm.resx">
       <DependentUpon>excelTestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FixSuppliersForm.resx">
+      <DependentUpon>FixSuppliersForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="JobPlannerRptNewForm.resx">
       <DependentUpon>JobPlannerRptNewForm.cs</DependentUpon>

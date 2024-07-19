@@ -26,6 +26,7 @@ namespace MCPApp
         private void SuppliersOverviewForm_Load(object sender, EventArgs e)
         {
             this.Text = "Supplier Maintanance Screen ( DOUBLE CLICK on a supplier to edit it )";
+            btnFixSuppliers.Text = "Fix Jobs' Suppliers to Align With Suppliers Set Up";
             BuildSuppliersDGV();
             PopulateDGV();
         }
@@ -347,6 +348,12 @@ namespace MCPApp
             xlWorkBook.Close();
             xlexcel.Quit();
             return;
+        }
+
+        private void btnFixSuppliers_Click(object sender, EventArgs e)
+        {
+            FixSuppliersForm fixForm = new FixSuppliersForm();
+            fixForm.ShowDialog();
         }
     }
 }

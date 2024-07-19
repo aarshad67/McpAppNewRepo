@@ -98,7 +98,10 @@ namespace MCPApp
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             int totalM2 = ReCalculateTotalM2();
-            string err1 = mcData.UpdateWhiteBoardSupplierShortName(_jobNo, lblSupplier.Text);
+            int rgb1, rgb2, rgb3 = 0;
+
+            mcData.GetSupplierColourByShortname(lblSupplier.Text, out rgb1, out rgb2, out rgb3);
+            string err1 = mcData.UpdateWhiteBoardSupplierShortName(_jobNo, lblSupplier.Text, rgb1, rgb2, rgb3);
             string err2 = mcData.UpdateJobPlannerSupplierShortName(_jobNo, lblSupplier.Text);
             string err3 = mcData.UpdateWhiteBoardJobQty(_jobNo, totalM2);
             string err4 = mcData.UpdateJobPlannerQty(_jobNo, Convert.ToInt32(txtBeamLM.Text), Convert.ToInt32(txtBeamM2.Text), Convert.ToInt32(txtSlabM2.Text));

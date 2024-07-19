@@ -1798,7 +1798,7 @@ namespace MCPApp
                 wbDataGridView[10, rowIndex].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
                 if (!String.IsNullOrWhiteSpace(suppShortName))
                 {
-                    string err1 = mcData.UpdateWhiteBoardSupplierShortName(jobNo, suppShortName);
+                    string err1 = mcData.UpdateWhiteBoardSupplierShortName(jobNo, suppShortName, rgb1, rgb2, rgb3);
                     string err2 = mcData.UpdateJobPlannerSupplierShortName(jobNo, suppShortName);
 
                 }
@@ -2528,6 +2528,26 @@ namespace MCPApp
             }
             return;
 
+        }
+
+        private void viewJobsQUANTITIESToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (wbDataGridView[0, rowIndex].Value == null) { return; }
+            string jobNo = wbDataGridView[0, this.rowIndex].Value.ToString();
+            string suppType, product, supplier = "";
+            int beamLm, beamM2, slabM2, totalM2 = 0;
+            
+            mcData.GetKeyWhiteboardQuantities(jobNo, out suppType, out product, out supplier, out beamLm, out beamM2, out slabM2, out totalM2);
+            string output = $@"JOB DETAILS :{Environment.NewLine}{Environment.NewLine}
+                                Supply Type : {suppType}{Environment.NewLine}
+                                Product : {product}{Environment.NewLine}
+                                Supplier : {supplier}{Environment.NewLine}
+                                Beam LM : {beamLm}{Environment.NewLine}
+                                Beam M² : {beamM2}{Environment.NewLine}
+                                Slab M² : {slabM2}{Environment.NewLine}
+                                Total M² : {totalM2}{Environment.NewLine}";
+            MessageBox.Show(output, $"Job No. {jobNo}");
+            return;
         }
     }
 }

@@ -1548,7 +1548,71 @@ namespace MCPApp
             }
         }
 
-        public DataTable GetAllSuppliersForCombo()
+        public DataTable GetAllSupplierShortnamesForCombo()
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    string qry = "SELECT shortname FROM dbo.Supplier WHERE LEN(shortname) > 0 ORDER BY shortname";
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetAllSupplierShortnamesForCombo() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "GetAllSupplierShortnamesForCombo()", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
+        public DataTable GetAllWhiteboardSupplierShortnamesForCombo()
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    string qry = @"SELECT DISTINCT suppShortname 
+                                FROM dbo.Whiteboard 
+                                WHERE LEN(suppShortname) > 0 
+                                AND suppShortname NOT LIKE '%SLAB%' 
+                                AND suppShortname NOT LIKE '%BEAMS%' 
+                                AND suppShortname NOT LIKE '%STAIRS%' 
+                                ORDER BY suppShortname";
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetAllWhiteboardSupplierShortnamesForCombo() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "GetAllWhiteboardSupplierShortnamesForCombo()", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
+        public DataTable GetAllSuppliersForComboOLD()
         {
             using (SqlConnection conn = new SqlConnection(connStr))
             {
@@ -1586,6 +1650,35 @@ namespace MCPApp
                 {
                     conn.Open();
                     string qry = "SELECT * FROM dbo.Supplier ORDER BY suppCode";
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetAllSuppliers() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "GetAllSuppliers()", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
+        public DataTable GetAllNonStairsSuppliers()
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    string qry = "SELECT * FROM dbo.Supplier WHERE productType IN {'BEAM','SLAB'} ORDER BY suppCode";
 
                     SqlCommand cmd = new SqlCommand(qry, conn);
                     DataTable dt = new DataTable();
@@ -5010,6 +5103,83 @@ namespace MCPApp
 
         #region WHITEBOARD
 
+        public DataTable GetKeyWhiteboardDetailsBySupplier(string supplier)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    string qry = $@"
+                        select wb.jobNo as jobNo,jp.beamLm as beamLm,jp.beamM2 as beamM2, 
+                        jp.slabM2 as slabM2,wb.totalM2 as totalM2,  wb.stairsIncl as stairsIncl,
+                        wb.suppShortname as supplier, 
+                        wb.products as product
+                        from dbo.Whiteboard wb  
+                        inner join dbo.JobPlanner jp 
+                        on wb.jobNo = jp.jobNo 
+                        where wb.suppShortname = '{supplier}'";
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetKeyWhiteboardDetailsBySupplier() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetKeyWhiteboardDetailsBySupplier({supplier})", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+        }
+
+        public DataTable GetWhiteboardSupplierSummary()
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    string qry = @"
+                                SELECT 
+                                WB.completedFlag as Completed,
+                                WB.suppShortname as Supplier, 
+                                COUNT(WB.jobNo) as NumJobs,
+                                SUM(JP.beamLm) as BeamLM,
+                                SUM(JP.beamM2) as BeamM2,
+                                SUM(JP.slabM2) as SlabM2
+                                FROM dbo.Whiteboard WB
+                                LEFT JOIN dbo.JobPlanner JP
+                                ON WB.jobNo = JP.jobNo
+                                GROUP BY WB.completedFlag,WB.suppShortname
+                                ORDER BY WB.completedFlag DESC,WB.suppShortname
+                                ";
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetWhiteboardSupplierSummary() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetWhiteboardSupplierSummary()", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+        }
+
         public void GetKeyWhiteboardDetails(string jobNo, out DateTime reqDate, out string site, out string suppType, out string product, out string supplier, 
                 out int beamLm, out int beamM2, out int slabM2, out int totalM2)
         {
@@ -5050,6 +5220,63 @@ namespace MCPApp
                             {
                                 reqDate = reader["requiredDate"] == null ? DateTime.MinValue : Convert.ToDateTime(reader["requiredDate"].ToString());
                                 site = reader["siteAddress"] == null ? "" : reader["siteAddress"].ToString();
+                                suppType = reader["supplyType"] == null ? "" : reader["supplyType"].ToString();
+                                product = reader["product"] == null ? "" : reader["product"].ToString();
+                                supplier = reader["supplier"] == null ? "" : reader["supplier"].ToString();
+                                beamLm = reader["beamLm"] == null ? 0 : Convert.ToInt32(reader["beamLm"].ToString());
+                                beamM2 = reader["beamM2"] == null ? 0 : Convert.ToInt32(reader["beamM2"].ToString());
+                                slabM2 = reader["slabM2"] == null ? 0 : Convert.ToInt32(reader["slabM2"].ToString());
+                                totalM2 = reader["totalM2"] == null ? 0 : Convert.ToInt32(reader["totalM2"].ToString());
+                            }
+                        }
+                    }
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    error = ex.Message.ToString();
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetKeyWhiteboardDetails({jobNo})", ex.Message.ToString());
+                    return;
+                }
+
+            }
+        }
+
+        public void GetKeyWhiteboardQuantities(string jobNo, out string suppType, out string product, out string supplier, out int beamLm, out int beamM2, out int slabM2, out int totalM2)
+        {
+            string error;
+
+            suppType = "";
+            product = "";
+            supplier = "";
+            beamLm = 0;
+            beamM2 = 0;
+            slabM2 = 0;
+            totalM2 = 0;
+
+            string qry = $@"
+                        select wb.jobNo as jobNo,
+                        jp.beamLm as beamLm,jp.beamM2 as beamM2, 
+                        jp.slabM2 as slabM2,wb.totalM2 as totalM2,  
+                        wb.suppShortname as supplier, 
+                        wb.products as product, wb.supplyType as supplyType 
+                        from dbo.Whiteboard wb  
+                        inner join dbo.JobPlanner jp 
+                        on wb.jobNo = jp.jobNo 
+                        where wb.jobNo = '{jobNo}'";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(qry, conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                
                                 suppType = reader["supplyType"] == null ? "" : reader["supplyType"].ToString();
                                 product = reader["product"] == null ? "" : reader["product"].ToString();
                                 supplier = reader["supplier"] == null ? "" : reader["supplier"].ToString();
@@ -6163,12 +6390,15 @@ namespace MCPApp
             }
         }
 
-        public string UpdateWhiteBoardSupplierShortName(string jobNo, string shortname)
+        public string UpdateWhiteBoardSupplierShortName(string jobNo, string shortname, int rgb1, int rgb2, int rgb3)
         {
             //  string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
 
             string insertQry = "UPDATE dbo.WhiteBoard "
                                 + "SET suppShortname = @suppShortname,"
+                                + "rgb1 = @rgb1,"
+                                + "rgb2 = @rgb2,"
+                                + "rgb3 = @rgb3,"
                                 + "modifiedDate = @modifiedDate,"
                                 + "modifiedBy = @modifiedBy "
                                 + "WHERE LEFT(jobNo,8) = @jobNo";
@@ -6232,6 +6462,43 @@ namespace MCPApp
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", $"UpdateWhiteBoardJobQty({jobNo},{totalM2.ToString()})", ex.Message.ToString());
                     return msg;
+                }
+
+            }
+        }
+
+        public bool UpdateWhiteBoardSupplier(string jobNo, string suppShortname)
+        {
+            
+
+            string updateQry = "UPDATE dbo.WhiteBoard "
+                                + "SET suppShortname = @suppShortname,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE LEFT(jobNo,8) = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(updateQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo.Substring(0, 8)));
+                        command.Parameters.Add(new SqlParameter("suppShortname", suppShortname));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateWhiteBoardSupplier() Error : {ex.Message}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateWhiteBoardSupplier({jobNo},{suppShortname})", ex.Message.ToString());
+                    return false;
                 }
 
             }

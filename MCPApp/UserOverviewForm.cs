@@ -57,6 +57,7 @@ namespace MCPApp
         TreeNode updateSlabJobsQtyNode = new TreeNode("Update Missing M² On Completed SLAB jobs");
         TreeNode updateNonSpecifiedJobsQtyNode = new TreeNode("Update Completed jobs where Beam Lm/M² and SLAB M² are all ZERO  ");
         TreeNode missingSuppliersNode = new TreeNode("Update Missing SUPPLIERS on Completed Jobs");
+      //  TreeNode fixSupplierNode = new TreeNode("Fix Suppliers Across All Jobs ( *** RESTRICTED ACCESS ***)");
 
         string mcpFullName = "";
         string mcpUserID = "";
@@ -105,6 +106,7 @@ namespace MCPApp
             menuTreeView.Nodes.Add(searchParentJobNode);
             menuTreeView.Nodes.Add(jobPlannerParentNode);
             menuTreeView.Nodes.Add(reportsParentNode);
+         //   menuTreeView.Nodes.Add(fixSupplierNode);
             jobPlannerParentNode.Nodes.Add(jobPlannerNode);
             jobPlannerParentNode.Nodes.Add(jobPlannerBeamNode);
             jobPlannerParentNode.Nodes.Add(jobPlannerSlabNode);//
@@ -228,6 +230,16 @@ namespace MCPApp
             //    this.menuTreeView.SelectedNode = null;
             //    return;
 
+            //}
+
+            //fixSupplierNode
+            //if (menuTreeView.SelectedNode == fixSupplierNode)
+            //{
+            //    FixSuppliersForm fixForm = new FixSuppliersForm();
+            //    fixForm.ShowDialog();
+            //    //    nodeClicked = true;
+            //    this.menuTreeView.SelectedNode = null;
+            //    return;
             //}
 
             //WhiteboardEmptyProductsForm
