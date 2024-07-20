@@ -1966,8 +1966,43 @@ namespace MCPApp
 
         }
 
+        public bool UpdateJobPlannerSupplier(string jobNo, string productSupplier)
+        {
 
-        
+
+            string updateQry = "UPDATE dbo.JobPlanner "
+                                + "SET productSupplier = @productSupplier,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE LEFT(jobNo,8) = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(updateQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo.Substring(0, 8)));
+                        command.Parameters.Add(new SqlParameter("productSupplier", productSupplier));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateJobPlannerSupplier() Error : {ex.Message}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateJobPlannerSupplier({jobNo},{productSupplier})", ex.Message.ToString());
+                    return false;
+                }
+
+            }
+        }
+
 
         public void GetCancelledJobDetails(string jobNo, out DateTime reqDate, out string custName, out string siteAddress, out decimal invValue, out string lastComment)
         {
@@ -5139,6 +5174,35 @@ namespace MCPApp
             }
         }
 
+        public DataTable GetKeyJobPlannerDetailsBySupplier(string supplier)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    string qry = $@"
+                        select jobNo,beamLm,beamM2, slabM2,stairsIncl, productSupplier FROM dbo.JobPlanner WHERE productSupplier = '{supplier}'";
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetKeyJobPlannerDetailsBySupplier() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetKeyJobPlannerDetailsBySupplier({supplier})", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+        }
+
         public DataTable GetWhiteboardSupplierSummary()
         {
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -5174,6 +5238,45 @@ namespace MCPApp
                     string msg = String.Format("GetWhiteboardSupplierSummary() Error : {0}", ex.Message.ToString());
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", $"GetWhiteboardSupplierSummary()", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+        }
+
+        public DataTable GetJobPlannerSupplierSummary()
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    string qry = @"
+                                SELECT 
+                                completedFlag as Completed,
+                                productSupplier as Supplier, 
+                                COUNT(jobNo) as NumJobs,
+                                SUM(beamLm) as BeamLM,
+                                SUM(beamM2) as BeamM2,
+                                SUM(slabM2) as SlabM2
+                                FROM dbo.JobPlanner
+                                GROUP BY completedFlag,productSupplier
+                                ORDER BY completedFlag DESC,productSupplier
+                                ";
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetJobPlannerSupplierSummary() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetJobPlannerSupplierSummary()", ex.Message.ToString());
                     return null;
                 }
 

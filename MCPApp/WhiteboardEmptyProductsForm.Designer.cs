@@ -54,7 +54,6 @@ namespace MCPApp
             // 
             // CloseButton
             // 
-            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CloseButton.BackColor = System.Drawing.Color.Red;
             this.CloseButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CloseButton.ForeColor = System.Drawing.Color.White;
@@ -75,14 +74,13 @@ namespace MCPApp
             this.myDGV.ReadOnly = true;
             this.myDGV.RowHeadersWidth = 62;
             this.myDGV.RowTemplate.Height = 28;
-            this.myDGV.Size = new System.Drawing.Size(2128, 872);
+            this.myDGV.Size = new System.Drawing.Size(1902, 696);
             this.myDGV.TabIndex = 6;
             // 
             // button1
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.button1.Location = new System.Drawing.Point(68, 3039);
+            this.button1.Location = new System.Drawing.Point(102, 3972);
             this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(247, 100);
@@ -92,8 +90,7 @@ namespace MCPApp
             // 
             // button2
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button2.Location = new System.Drawing.Point(1458, 3039);
+            this.button2.Location = new System.Drawing.Point(2187, 3972);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(262, 99);
             this.button2.TabIndex = 126;
@@ -102,8 +99,7 @@ namespace MCPApp
             // 
             // button3
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button3.Location = new System.Drawing.Point(2907, 3053);
+            this.button3.Location = new System.Drawing.Point(4361, 3993);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(227, 96);
             this.button3.TabIndex = 127;
@@ -114,7 +110,7 @@ namespace MCPApp
             // 
             this.progressBar1.Location = new System.Drawing.Point(12, 15);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(2128, 36);
+            this.progressBar1.Size = new System.Drawing.Size(1902, 36);
             this.progressBar1.TabIndex = 128;
             // 
             // label1
@@ -133,7 +129,7 @@ namespace MCPApp
             this.lblJob.ForeColor = System.Drawing.Color.Blue;
             this.lblJob.Location = new System.Drawing.Point(98, 76);
             this.lblJob.Name = "lblJob";
-            this.lblJob.Size = new System.Drawing.Size(47, 30);
+            this.lblJob.Size = new System.Drawing.Size(31, 20);
             this.lblJob.TabIndex = 130;
             this.lblJob.Text = "n/a";
             // 
@@ -143,7 +139,7 @@ namespace MCPApp
             this.lblCurrentProduct.ForeColor = System.Drawing.Color.Blue;
             this.lblCurrentProduct.Location = new System.Drawing.Point(489, 76);
             this.lblCurrentProduct.Name = "lblCurrentProduct";
-            this.lblCurrentProduct.Size = new System.Drawing.Size(47, 30);
+            this.lblCurrentProduct.Size = new System.Drawing.Size(31, 20);
             this.lblCurrentProduct.TabIndex = 132;
             this.lblCurrentProduct.Text = "n/a";
             // 
@@ -173,7 +169,7 @@ namespace MCPApp
             this.lblSupplier.ForeColor = System.Drawing.Color.Blue;
             this.lblSupplier.Location = new System.Drawing.Point(1318, 76);
             this.lblSupplier.Name = "lblSupplier";
-            this.lblSupplier.Size = new System.Drawing.Size(47, 30);
+            this.lblSupplier.Size = new System.Drawing.Size(31, 20);
             this.lblSupplier.TabIndex = 134;
             this.lblSupplier.Text = "n/a";
             // 
@@ -183,7 +179,7 @@ namespace MCPApp
             this.lblRevisedProduct.ForeColor = System.Drawing.Color.Blue;
             this.lblRevisedProduct.Location = new System.Drawing.Point(893, 76);
             this.lblRevisedProduct.Name = "lblRevisedProduct";
-            this.lblRevisedProduct.Size = new System.Drawing.Size(47, 30);
+            this.lblRevisedProduct.Size = new System.Drawing.Size(31, 20);
             this.lblRevisedProduct.TabIndex = 136;
             this.lblRevisedProduct.Text = "n/a";
             // 
@@ -199,14 +195,13 @@ namespace MCPApp
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.button6);
             this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.cancelButton);
-            this.groupBox1.Location = new System.Drawing.Point(16, 1009);
+            this.groupBox1.Location = new System.Drawing.Point(13, 835);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(2127, 140);
+            this.groupBox1.Size = new System.Drawing.Size(1901, 140);
             this.groupBox1.TabIndex = 137;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
@@ -223,7 +218,6 @@ namespace MCPApp
             // 
             // button5
             // 
-            this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button5.Location = new System.Drawing.Point(294, 43);
             this.button5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -236,7 +230,6 @@ namespace MCPApp
             // 
             // button4
             // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.button4.Location = new System.Drawing.Point(24, 43);
             this.button4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -249,11 +242,10 @@ namespace MCPApp
             // 
             // cancelButton
             // 
-            this.cancelButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cancelButton.BackColor = System.Drawing.Color.Red;
             this.cancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelButton.ForeColor = System.Drawing.Color.White;
-            this.cancelButton.Location = new System.Drawing.Point(1826, 25);
+            this.cancelButton.Location = new System.Drawing.Point(1591, 25);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(282, 83);
             this.cancelButton.TabIndex = 154;
@@ -265,7 +257,7 @@ namespace MCPApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2170, 1172);
+            this.ClientSize = new System.Drawing.Size(1927, 989);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblRevisedProduct);
             this.Controls.Add(this.label5);

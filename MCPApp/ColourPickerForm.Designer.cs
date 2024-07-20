@@ -41,7 +41,7 @@
             this.colourDGV.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.colourDGV.Name = "colourDGV";
             this.colourDGV.RowHeadersWidth = 62;
-            this.colourDGV.Size = new System.Drawing.Size(969, 954);
+            this.colourDGV.Size = new System.Drawing.Size(969, 835);
             this.colourDGV.TabIndex = 0;
             this.colourDGV.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.colourDGV_CellDoubleClick);
             // 
@@ -50,11 +50,11 @@
             this.cancelButton.BackColor = System.Drawing.Color.Red;
             this.cancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelButton.ForeColor = System.Drawing.Color.White;
-            this.cancelButton.Location = new System.Drawing.Point(726, 980);
+            this.cancelButton.Location = new System.Drawing.Point(725, 870);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(262, 66);
             this.cancelButton.TabIndex = 97;
-            this.cancelButton.Text = "CANCEL";
+            this.cancelButton.Text = "CLOSE";
             this.cancelButton.UseVisualStyleBackColor = false;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
@@ -63,7 +63,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1005, 1060);
+            this.ClientSize = new System.Drawing.Size(1005, 952);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.colourDGV);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

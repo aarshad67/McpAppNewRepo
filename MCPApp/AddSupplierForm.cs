@@ -57,6 +57,7 @@ namespace MCPApp
             productTypeCombo.Items.Add("SLAB");
             productTypeCombo.Items.Add("SLAB & STAIRS");
             productTypeCombo.Items.Add("STAIRS");
+            productTypeCombo.Items.Add("AUXILLARY");
         }
 
         private void AddSupplierForm_Load(object sender, EventArgs e)

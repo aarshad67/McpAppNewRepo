@@ -35,6 +35,8 @@ namespace MCPApp
             comboBox1.DisplayMember = dt.Columns[0].ColumnName.ToString();
             BuildSuppliersDGV();
             PopulateDGV();
+            summaryDGV.DataSource = null;
+            summaryDGV.DataSource = mcData.GetWhiteboardSupplierSummary();
         }
 
         private void BuildSuppliersDGV()
@@ -140,13 +142,13 @@ namespace MCPApp
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            UpdateSupplier(comboBox1.Text);
+            UpdateSupplieronWB(comboBox1.Text);
             summaryDGV.DataSource = null;
             summaryDGV.DataSource = mcData.GetWhiteboardSupplierSummary();
             return;
         }
 
-        private void UpdateSupplier(string shortname)
+        private void UpdateSupplieronWB(string shortname)
         {
             try
             {
@@ -179,11 +181,73 @@ namespace MCPApp
             catch (Exception ex)
             {
                 MessageBox.Show($"Updating Supplier('{shortname}')  Error : {ex.Message}");
-                string audit = mcData.CreateErrorAudit("FixSuppliersForm.cs", "UpdateSupplier()", ex.Message);
+                string audit = mcData.CreateErrorAudit("FixSuppliersForm.cs", "UpdateSupplieronWB()", ex.Message);
                 this.Cursor = Cursors.Default;
                 return;
             }
             
+        }
+
+        private void UpdateSupplieronJP(string shortname)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                DataTable dt = mcData.GetKeyJobPlannerDetailsBySupplier(shortname);
+                progressBar1.Maximum = dt.Rows.Count;
+                string jobNo, stairsIncl = "";
+                int beamLm, beamM2, slabM2 = 0;
+                int counter = 0;
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    jobNo = dr["jobNo"].ToString();
+                    stairsIncl = dr["stairsIncl"].ToString().ToUpper();
+                    beamLm = Convert.ToInt32(dr["beamLm"].ToString());
+                    beamM2 = Convert.ToInt32(dr["beamM2"].ToString());
+                    slabM2 = Convert.ToInt32(dr["slabM2"].ToString());
+                    counter++;
+                    progressBar1.Value = counter;
+                    if (slabM2 == 0 && (beamLm > 0 || beamM2 > 0)) { mcData.UpdateJobPlannerSupplier(jobNo, shortname.ToUpper().Trim() + " BEAMS"); }
+                    if (slabM2 > 0 && (beamLm == 0 && beamM2 == 0)) { mcData.UpdateJobPlannerSupplier(jobNo, shortname.ToUpper().Trim() + " SLAB"); }
+                    if (stairsIncl == "Y") { mcData.UpdateJobPlannerSupplier(jobNo, shortname.ToUpper().Trim() + " STAIRS"); }
+                }
+                MessageBox.Show($"{counter} jobs updated their current [{shortname}] supplier");
+                progressBar1.Value = 0;
+                this.Cursor = Cursors.Default;
+                counter = 0;
+                return;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Updating Supplier('{shortname}')  Error : {ex.Message}");
+                string audit = mcData.CreateErrorAudit("FixSuppliersForm.cs", "UpdateSupplieronJP()", ex.Message);
+                this.Cursor = Cursors.Default;
+                return;
+            }
+
+        }
+
+        private void btnUpdateInJP_Click(object sender, EventArgs e)
+        {
+            UpdateSupplieronJP(comboBox1.Text);
+            summaryDGV.DataSource = null;
+            summaryDGV.DataSource = mcData.GetJobPlannerSupplierSummary();
+            return;
+        }
+
+        private void rbWB_CheckedChanged(object sender, EventArgs e)
+        {
+            summaryDGV.DataSource = null;
+            summaryDGV.DataSource = mcData.GetWhiteboardSupplierSummary();
+            return;
+        }
+
+        private void rbJP_CheckedChanged(object sender, EventArgs e)
+        {
+            summaryDGV.DataSource = null;
+            summaryDGV.DataSource = mcData.GetJobPlannerSupplierSummary();
+            return;
         }
     }
 }
