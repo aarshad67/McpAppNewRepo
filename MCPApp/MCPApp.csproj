@@ -259,6 +259,12 @@
     <Compile Include="SearchJobForm.Designer.cs">
       <DependentUpon>SearchJobForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SupplierJobsSummaryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SupplierJobsSummaryForm.Designer.cs">
+      <DependentUpon>SupplierJobsSummaryForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SuppliersListForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -447,6 +453,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SearchJobForm.resx">
       <DependentUpon>SearchJobForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupplierJobsSummaryForm.resx">
+      <DependentUpon>SupplierJobsSummaryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SuppliersListForm.resx">
       <DependentUpon>SuppliersListForm.cs</DependentUpon>

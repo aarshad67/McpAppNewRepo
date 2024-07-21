@@ -17,7 +17,7 @@ namespace MCPApp
     public partial class UserOverviewForm : Form
     {
         private bool actionListClicked = false;
-        //  TreeNode testExcelNode = new TreeNode("Test Excel Run");
+        TreeNode suppliersSummaryNode = new TreeNode("Jobs by Suppliers Summary");
         TreeNode alertNode = new TreeNode("N/A");
         TreeNode jobPlannerParentNode = new TreeNode("Job Planner");
         TreeNode jobPlannerNode = new TreeNode("Job Planner - All Jobs");
@@ -99,9 +99,10 @@ namespace MCPApp
             {
                 menuTreeView.Nodes.Add(userMaintenanceNode);
             }
-            //  menuTreeView.Nodes.Add(productsNode);
+            
             menuTreeView.Nodes.Add(customersNode);
-            menuTreeView.Nodes.Add(suppliersNode);
+            menuTreeView.Nodes.Add(suppliersNode); 
+            menuTreeView.Nodes.Add(suppliersSummaryNode);
             menuTreeView.Nodes.Add(newParentJobNode);
             menuTreeView.Nodes.Add(searchParentJobNode);
             menuTreeView.Nodes.Add(jobPlannerParentNode);
@@ -220,27 +221,15 @@ namespace MCPApp
 
         private void menuTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            //   bool nodeClicked = false;
-            //testExcelNode
-
-            //if (menuTreeView.SelectedNode == testExcelNode)
-            //{
-            //    excelTestForm frm = new excelTestForm();
-            //    frm.ShowDialog();
-            //    this.menuTreeView.SelectedNode = null;
-            //    return;
-
-            //}
-
-            //fixSupplierNode
-            //if (menuTreeView.SelectedNode == fixSupplierNode)
-            //{
-            //    FixSuppliersForm fixForm = new FixSuppliersForm();
-            //    fixForm.ShowDialog();
-            //    //    nodeClicked = true;
-            //    this.menuTreeView.SelectedNode = null;
-            //    return;
-            //}
+            //suppliersSummaryNode
+            if (menuTreeView.SelectedNode == suppliersSummaryNode)
+            {
+                SupplierJobsSummaryForm suppForm = new SupplierJobsSummaryForm();
+                suppForm.ShowDialog();
+                //nodeClicked = true;
+                this.menuTreeView.SelectedNode = null;
+                return;
+            }
 
             //WhiteboardEmptyProductsForm
             if (menuTreeView.SelectedNode == wbAllProductsOnWhiteboardNode)

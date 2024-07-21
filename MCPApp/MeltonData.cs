@@ -1797,6 +1797,44 @@ namespace MCPApp
             }
         }
 
+        public void GetSupplierColourByShortname(string shortname, out int rgb1, out int rgb2, out int rgb3)
+        {
+            string error;
+
+
+            rgb1 = 255;
+            rgb2 = 255;
+            rgb3 = 255;
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand($"SELECT * FROM dbo.Supplier WHERE shortname = '{shortname}'", conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                rgb1 = reader["rgb1"] == null ? 255 : Convert.ToInt16(reader["rgb1"].ToString());
+                                rgb2 = reader["rgb2"] == null ? 255 : Convert.ToInt16(reader["rgb2"].ToString());
+                                rgb3 = reader["rgb3"] == null ? 255 : Convert.ToInt16(reader["rgb3"].ToString());
+                            }
+                        }
+                    }
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    error = ex.Message.ToString();
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetSupplierColourByShortname({shortname})", ex.Message.ToString());
+                    return;
+                }
+
+            }
+        }
+
         public void GetSupplierDetailsByShortname(string shortname, out string suppCode, out string suppName)
         {
             string error;
@@ -1833,43 +1871,43 @@ namespace MCPApp
             }
         }
 
-        public void GetSupplierColourByShortname(string suppShortname, out int rgb1, out int rgb2, out int rgb3)
-        {
-            string error;
+        //public void GetSupplierColourByShortname(string suppShortname, out int rgb1, out int rgb2, out int rgb3)
+        //{
+        //    string error;
 
 
-            rgb1 = 255;
-            rgb2 = 255;
-            rgb3 = 255;
+        //    rgb1 = 255;
+        //    rgb2 = 255;
+        //    rgb3 = 255;
 
-            using (SqlConnection conn = new SqlConnection(connStr))
-            {
-                conn.Open();
-                try
-                {
-                    using (SqlCommand command = new SqlCommand(String.Format("SELECT * FROM dbo.Supplier WHERE shortname = '{0}'", suppShortname), conn))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                rgb1 = reader["rgb1"] == null ? 255 : Convert.ToInt16(reader["rgb1"].ToString());
-                                rgb2 = reader["rgb2"] == null ? 255 : Convert.ToInt16(reader["rgb2"].ToString());
-                                rgb3 = reader["rgb3"] == null ? 255 : Convert.ToInt16(reader["rgb3"].ToString());
-                            }
-                        }
-                    }
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    error = ex.Message.ToString();
-                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("GetSupplierColourByShortname({0})", suppShortname), ex.Message.ToString());
-                    return;
-                }
+        //    using (SqlConnection conn = new SqlConnection(connStr))
+        //    {
+        //        conn.Open();
+        //        try
+        //        {
+        //            using (SqlCommand command = new SqlCommand(String.Format("SELECT * FROM dbo.Supplier WHERE shortname = '{0}'", suppShortname), conn))
+        //            {
+        //                using (SqlDataReader reader = command.ExecuteReader())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        rgb1 = reader["rgb1"] == null ? 255 : Convert.ToInt16(reader["rgb1"].ToString());
+        //                        rgb2 = reader["rgb2"] == null ? 255 : Convert.ToInt16(reader["rgb2"].ToString());
+        //                        rgb3 = reader["rgb3"] == null ? 255 : Convert.ToInt16(reader["rgb3"].ToString());
+        //                    }
+        //                }
+        //            }
+        //            return;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            error = ex.Message.ToString();
+        //            string audit = CreateErrorAudit("MeltonData.cs", String.Format("GetSupplierColourByShortname({0})", suppShortname), ex.Message.ToString());
+        //            return;
+        //        }
 
-            }
-        }
+        //    }
+        //}
 
         public string GetSuppShortnameFromJob(string jobNo)
         {
@@ -5218,7 +5256,8 @@ namespace MCPApp
                                 COUNT(WB.jobNo) as NumJobs,
                                 SUM(JP.beamLm) as BeamLM,
                                 SUM(JP.beamM2) as BeamM2,
-                                SUM(JP.slabM2) as SlabM2
+                                SUM(JP.slabM2) as SlabM2,
+                                SUM(WB.TotalM2) as TotalM2 
                                 FROM dbo.Whiteboard WB
                                 LEFT JOIN dbo.JobPlanner JP
                                 ON WB.jobNo = JP.jobNo
