@@ -3312,13 +3312,13 @@ namespace MCPApp
                             break;
                         case "ALLZERO": // beam and slab jobs
                             qry = "SELECT jobNo,floorLevel,siteAddress,requiredDate,beamLM,beamM2,slabM2,supplyType,productSupplier,supplierRef,phaseInvValue FROM dbo.JobPlanner "
-                                + "WHERE completedFlag = 'Y' AND slabM2 = 0 AND beamLm = 0 and beamM2 = 0 and stairsIncl != 'Y'u"
+                                + "WHERE completedFlag = 'Y' AND slabM2 = 0 AND beamLm = 0 and beamM2 = 0 and stairsIncl != 'Y'"
                                 //  + "AND productSupplier NOT IN ('LEROC','RightCast','Kalisto') and stairsIncl != 'Y'"
                                 + "ORDER BY supplyType,requiredDate";
                             break;
                         case "MISSINGSUPPLIER": // beam and slab jobs
                             qry = "SELECT jobNo,floorLevel,siteAddress,requiredDate,beamLM,beamM2,slabM2,supplyType,productSupplier,supplierRef,phaseInvValue FROM dbo.JobPlanner "
-                                + "WHERE LEN(productSupplier) < 1 "
+                                + "WHERE LEN(productSupplier) < 1 AND completedFlag = 'Y' "
                                 + "ORDER BY productSupplier,requiredDate";
                             break;
                         default:

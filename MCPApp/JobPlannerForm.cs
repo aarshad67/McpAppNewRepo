@@ -245,18 +245,18 @@ namespace MCPApp
                 jobDGV.Columns.Add(slabM2TextBoxColumn);
 
                 //10
-                DataGridViewTextBoxColumn beamM2TextBoxColumn = new DataGridViewTextBoxColumn();  //0
-                beamM2TextBoxColumn.HeaderText = "Beam M2";
-                beamM2TextBoxColumn.Width = 50;
-                beamM2TextBoxColumn.ReadOnly = false;
-                jobDGV.Columns.Add(beamM2TextBoxColumn);
-
-                //11
                 DataGridViewTextBoxColumn beamLmTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 beamLmTextBoxColumn.HeaderText = "Beam LM";
                 beamLmTextBoxColumn.Width = 50;
                 beamLmTextBoxColumn.ReadOnly = false;
                 jobDGV.Columns.Add(beamLmTextBoxColumn);
+
+                //11
+                DataGridViewTextBoxColumn beamM2TextBoxColumn = new DataGridViewTextBoxColumn();  //0
+                beamM2TextBoxColumn.HeaderText = "Beam M2";
+                beamM2TextBoxColumn.Width = 50;
+                beamM2TextBoxColumn.ReadOnly = false;
+                jobDGV.Columns.Add(beamM2TextBoxColumn);
 
                 //12
                 DataGridViewTextBoxColumn supplierTextBoxColumn = new DataGridViewTextBoxColumn();  //0
@@ -477,8 +477,8 @@ namespace MCPApp
                     //   jobDGV[8, row].Value = dr["OnShop"].ToString() == "Y" ? true : false;
                     drow.Cells[8].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
                     drow.Cells[9].Value = dr["slabM2"].ToString();
-                    drow.Cells[10].Value = dr["beamM2"].ToString();
-                    drow.Cells[11].Value = dr["beamLm"].ToString();
+                    drow.Cells[10].Value = dr["beamLm"].ToString();
+                    drow.Cells[11].Value = dr["beamM2"].ToString();
                     drow.Cells[12].Value = dr["productSupplier"].ToString();
                     drow.Cells[12].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
                     drow.Cells[13].Value = dr["supplyType"].ToString();
@@ -572,8 +572,8 @@ namespace MCPApp
                     // jobDGV[8, row].Value = dr["OnShop"].ToString() == "Y" ? true : false;
                     drow.Cells[8].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
                     drow.Cells[9].Value = dr["slabM2"].ToString();
-                    drow.Cells[10].Value = dr["beamM2"].ToString();
-                    drow.Cells[11].Value = dr["beamLm"].ToString();
+                    drow.Cells[10].Value = dr["beamLm"].ToString();
+                    drow.Cells[11].Value = dr["beamM2"].ToString();
                     drow.Cells[12].Value = dr["productSupplier"].ToString();
                     drow.Cells[12].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
                     drow.Cells[13].Value = dr["supplyType"].ToString();
@@ -665,8 +665,8 @@ namespace MCPApp
                     //   jobDGV[8, row].Value = dr["OnShop"].ToString() == "Y" ? true : false;
                     drow.Cells[8].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
                     drow.Cells[9].Value = dr["slabM2"].ToString();
-                    drow.Cells[10].Value = dr["beamM2"].ToString();
-                    drow.Cells[11].Value = dr["beamLm"].ToString();
+                    drow.Cells[10].Value = dr["beamLm"].ToString();
+                    drow.Cells[11].Value = dr["beamM2"].ToString();
                     drow.Cells[12].Value = dr["productSupplier"].ToString();
                     drow.Cells[12].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
                     drow.Cells[13].Value = dr["supplyType"].ToString();
@@ -752,8 +752,9 @@ namespace MCPApp
                    // OnShop = (bool)jobDGV.Rows[i].Cells[8].Value ? "Y" : "N";
                     stairsIncl = (bool)jobDGV.Rows[i].Cells[8].Value ? "Y" : "N";
                     slabM2 = Convert.ToInt32(jobDGV.Rows[i].Cells[9].Value);
-                    beamM2 = Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value);
-                    beamLm = Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value);
+                    beamLm = Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value);
+                    beamM2 = Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value);
+                    
                     supplyType = jobDGV.Rows[i].Cells[13].Value.ToString();
                     sortType = "S" + supplyType.Substring(1, 1);
 
@@ -944,8 +945,8 @@ namespace MCPApp
                     dr["OnShop"] = (bool)jobDGV.Rows[i].Cells[6].Value ? "Y" : "N";
                     dr["stairsIncl"] = (bool)jobDGV.Rows[i].Cells[8].Value ? "Y" : "N"; 
                     dr["slabM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[9].Value);
-                    dr["beamM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value);
-                    dr["beamLm"] = Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value);
+                    dr["beamLm"] = Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value);
+                    dr["beamM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value);
                     dr["supplyType"] = jobDGV.Rows[i].Cells[13].Value.ToString();
                     dr["supplierRef"] = jobDGV.Rows[i].Cells[14].Value.ToString();
                     dr["productSupplier"] = jobDGV.Rows[i].Cells[12].Value.ToString();
@@ -993,8 +994,9 @@ namespace MCPApp
                 dt.Columns.Add("OnShop", typeof(string));//8
                 dt.Columns.Add("stairsIncl", typeof(string));//9
                 dt.Columns.Add("slabM2", typeof(string));//10
-                dt.Columns.Add("beamM2", typeof(string));//11
-                dt.Columns.Add("beamLm", typeof(string));//12
+                
+                dt.Columns.Add("beamLm", typeof(string));//11
+                dt.Columns.Add("beamM2", typeof(string));//12
                 dt.Columns.Add("supplyType", typeof(string));//13
                 dt.Columns.Add("productSupplier", typeof(string));//14
                 dt.Columns.Add("supplierRef", typeof(string));//15
@@ -1023,8 +1025,9 @@ namespace MCPApp
                     dr["OnShop"] = (bool)jobDGV.Rows[i].Cells[6].Value ? "Y" : "N";
                     dr["stairsIncl"] = (bool)jobDGV.Rows[i].Cells[8].Value ? "Y" : "N";
                     dr["slabM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[9].Value);
-                    dr["beamM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value);
-                    dr["beamLm"] = Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value);
+                    dr["beamLm"] = Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value);
+                    dr["beamM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value);
+                    
                     dr["supplyType"] = jobDGV.Rows[i].Cells[13].Value.ToString();
                     dr["supplierRef"] = jobDGV.Rows[i].Cells[14].Value.ToString();
                     dr["productSupplier"] = jobDGV.Rows[i].Cells[12].Value.ToString();
@@ -1337,8 +1340,8 @@ namespace MCPApp
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
                 {
                     if (jobDGV.Rows[i].Cells[0].Value == null) { continue; }
-                    if (jobDGV.Rows[i].Cells[10].Value == null) { continue; }
-                    total += Convert.ToDecimal(jobDGV.Rows[i].Cells[10].Value.ToString());
+                    if (jobDGV.Rows[i].Cells[11].Value == null) { continue; }
+                    total += Convert.ToDecimal(jobDGV.Rows[i].Cells[11].Value.ToString());
                 }
 
                 totalBeamM2TextBox.Text = total.ToString("#,#");
@@ -1370,7 +1373,7 @@ namespace MCPApp
         {
             if (!jobDGV.Focused) { return; }
 
-            string jobNo = jobDGV[0, this.rowIndex].Value.ToString();
+            string jobNo = jobDGV[0, e.RowIndex].Value.ToString();
             string response = mcData.GetJobLockedUser(jobNo, "JP");
             if (!response.Equals("n/a") && !response.Equals(loggedInUser))
             {
@@ -1382,14 +1385,23 @@ namespace MCPApp
             
            
 
-            if (e.ColumnIndex != 15 && e.ColumnIndex != 9 && e.ColumnIndex != 10) { return; }
+            if (e.ColumnIndex != 15 && e.ColumnIndex != 9 && e.ColumnIndex != 10 && e.ColumnIndex != 11) { return; }
 
             if (e.ColumnIndex == 9)
             {
                 DisplayTotalSlabM2();
             }
 
-            if (e.ColumnIndex == 10)
+            if (e.ColumnIndex == 10) //BeamLM
+            {
+                int beamLM = Convert.ToInt32(jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString());
+                decimal halvedBeamLM = beamLM * 0.5m;
+                int slabM2 = (int)Math.Round(halvedBeamLM,0);
+                jobDGV[11, e.RowIndex].Value = slabM2;
+                DisplayTotalBeamM2();
+            }
+
+            if (e.ColumnIndex == 11)
             {
                 DisplayTotalBeamM2();
             }
