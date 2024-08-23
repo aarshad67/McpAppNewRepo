@@ -41,6 +41,7 @@ namespace MCPApp
             this.lblConfirmPassword = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Button();
             this.updateUserButton = new System.Windows.Forms.Button();
+            this.btnResetUserPwd = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // userNameTextBox
@@ -106,7 +107,7 @@ namespace MCPApp
             // txtNewPassword
             // 
             this.txtNewPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNewPassword.Location = new System.Drawing.Point(370, 143);
+            this.txtNewPassword.Location = new System.Drawing.Point(370, 219);
             this.txtNewPassword.MaxLength = 30;
             this.txtNewPassword.Name = "txtNewPassword";
             this.txtNewPassword.PasswordChar = '*';
@@ -119,7 +120,7 @@ namespace MCPApp
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(50, 143);
+            this.label2.Location = new System.Drawing.Point(50, 219);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(292, 35);
             this.label2.TabIndex = 74;
@@ -129,7 +130,7 @@ namespace MCPApp
             // txtConfirmPassword
             // 
             this.txtConfirmPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtConfirmPassword.Location = new System.Drawing.Point(370, 206);
+            this.txtConfirmPassword.Location = new System.Drawing.Point(370, 282);
             this.txtConfirmPassword.MaxLength = 30;
             this.txtConfirmPassword.Name = "txtConfirmPassword";
             this.txtConfirmPassword.PasswordChar = '*';
@@ -141,7 +142,7 @@ namespace MCPApp
             // lblConfirmPassword
             // 
             this.lblConfirmPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblConfirmPassword.Location = new System.Drawing.Point(65, 206);
+            this.lblConfirmPassword.Location = new System.Drawing.Point(65, 282);
             this.lblConfirmPassword.Name = "lblConfirmPassword";
             this.lblConfirmPassword.Size = new System.Drawing.Size(277, 35);
             this.lblConfirmPassword.TabIndex = 76;
@@ -153,7 +154,7 @@ namespace MCPApp
             this.cancelButton.BackColor = System.Drawing.Color.Red;
             this.cancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelButton.ForeColor = System.Drawing.Color.White;
-            this.cancelButton.Location = new System.Drawing.Point(34, 278);
+            this.cancelButton.Location = new System.Drawing.Point(34, 354);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(298, 51);
             this.cancelButton.TabIndex = 78;
@@ -163,7 +164,7 @@ namespace MCPApp
             // 
             // updateUserButton
             // 
-            this.updateUserButton.Location = new System.Drawing.Point(370, 278);
+            this.updateUserButton.Location = new System.Drawing.Point(370, 354);
             this.updateUserButton.Name = "updateUserButton";
             this.updateUserButton.Size = new System.Drawing.Size(298, 52);
             this.updateUserButton.TabIndex = 77;
@@ -171,11 +172,22 @@ namespace MCPApp
             this.updateUserButton.UseVisualStyleBackColor = true;
             this.updateUserButton.Click += new System.EventHandler(this.updateUserButton_Click);
             // 
+            // btnResetUserPwd
+            // 
+            this.btnResetUserPwd.Location = new System.Drawing.Point(34, 133);
+            this.btnResetUserPwd.Name = "btnResetUserPwd";
+            this.btnResetUserPwd.Size = new System.Drawing.Size(634, 52);
+            this.btnResetUserPwd.TabIndex = 79;
+            this.btnResetUserPwd.Text = "Reset Pwd For User To Change Themselves";
+            this.btnResetUserPwd.UseVisualStyleBackColor = true;
+            this.btnResetUserPwd.Click += new System.EventHandler(this.btnResetUserPwd_Click);
+            // 
             // ResetWebPasswordForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(739, 369);
+            this.ClientSize = new System.Drawing.Size(739, 456);
+            this.Controls.Add(this.btnResetUserPwd);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.updateUserButton);
             this.Controls.Add(this.txtConfirmPassword);
@@ -210,5 +222,6 @@ namespace MCPApp
         private System.Windows.Forms.Label lblConfirmPassword;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button updateUserButton;
+        private System.Windows.Forms.Button btnResetUserPwd;
     }
 }

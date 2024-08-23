@@ -157,5 +157,21 @@ namespace MCPApp
                 return;
             }
         }
+
+        private void btnResetUserPwd_Click(object sender, EventArgs e)
+        {
+            if(String.IsNullOrWhiteSpace(txtUserName.Text)) { return; }
+            if(MessageBox.Show($"Are you sure you wish to reset webapp password of user [{txtUserName.Text}] so they have to change it themselves on the web app ?","Confirm Password Reset",MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                string response = mcData.ResetPassword(txtUserID.Text);
+                if(response == "OK")
+                {
+                    MessageBox.Show($"Password for user [{txtUserID.Text}] has successfully been reset. Next time they log into the web app, they will be prompted to enter a new password ");
+                    this.Dispose();
+                    this.Close();
+                    return;
+                }
+            }
+        }
     }
 }

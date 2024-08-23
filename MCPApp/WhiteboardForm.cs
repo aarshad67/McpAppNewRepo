@@ -121,10 +121,25 @@ namespace MCPApp
             {
                 if (thisControl.GetType() == typeof(TabPage))
                 {
+                    
                     foreach (Control dgv in thisControl.Controls)
                     {
                         if (dgv.GetType() == typeof(DataGridView))
                         {
+
+                            var vScrollbar = dgv.Controls.OfType<VScrollBar>().FirstOrDefault();
+                            //if (vScrollbar != null && vScrollbar.Visible)
+                            //{
+                            //    MessageBox.Show("Vertical scrollbar is visible");
+                            //    // Your code here
+                            //}
+                            //else
+                            //{
+                            //    MessageBox.Show("Vertical scrollbar is NOT visible");
+                            //}
+
+
+
                             BuildWhiteboardDGV((DataGridView)dgv, Convert.ToDateTime(thisControl.Text).Date);
                             PopulateWhiteboardDGV((DataGridView)dgv, Convert.ToDateTime(thisControl.Text).Date, Convert.ToDateTime(thisControl.Text).Date.AddDays(6));
                             AddContextMenu((DataGridView)dgv);
@@ -359,12 +374,442 @@ namespace MCPApp
             return;
         }
 
-        private void BuildWhiteboardDGV(DataGridView myDGV, DateTime wcDate)
+        private void BuildWhiteboardDGVNotWorking(DataGridView myDGV, DateTime wcDate)
         {
             try
             {
                 wbDataGridView = myDGV;
 
+                wbDataGridView.Columns.Clear();
+                //0
+                DataGridViewTextBoxColumn quoteNoColumn = new DataGridViewTextBoxColumn();//0
+                quoteNoColumn.DataPropertyName = "JobNo";
+                quoteNoColumn.HeaderText = "Job No.";
+                //quoteNoColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                quoteNoColumn.Width = 90;
+                quoteNoColumn.ReadOnly = true;
+                //quoteNoColumn.Frozen = true;
+                quoteNoColumn.DefaultCellStyle.ForeColor = Color.Black;
+                quoteNoColumn.DefaultCellStyle.BackColor = Color.Cyan;
+                wbDataGridView.Columns.Add(quoteNoColumn);
+                //1
+                DataGridViewTextBoxColumn dateColumn = new DataGridViewTextBoxColumn();//1
+                dateColumn.DataPropertyName = "date";
+                dateColumn.HeaderText = "Required Date";
+                //dateColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                dateColumn.Width = 120;
+                dateColumn.ReadOnly = true;
+                dateColumn.Frozen = true;
+                dateColumn.DefaultCellStyle.BackColor = Color.Yellow;
+                dateColumn.DefaultCellStyle.ForeColor = Color.Blue;
+                wbDataGridView.Columns.Add(dateColumn);
+                //2
+                DataGridViewTextBoxColumn custColumn = new DataGridViewTextBoxColumn();//2
+                custColumn.DataPropertyName = "CustName";
+                custColumn.HeaderText = "Customer";
+                //custColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                custColumn.Width = 150;
+                custColumn.Frozen = true;
+                custColumn.ReadOnly = true;
+                //custColumn.DefaultCellStyle.BackColor = Color.LightGray;
+                //custColumn.DefaultCellStyle.ForeColor = Color.Black;
+                //custColumn.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                wbDataGridView.Columns.Add(custColumn);
+                //3
+                DataGridViewTextBoxColumn siteColumn = new DataGridViewTextBoxColumn();//3
+                siteColumn.DataPropertyName = "site";
+                siteColumn.HeaderText = "Site";
+                siteColumn.Width = 250;
+                siteColumn.Frozen = true;
+                siteColumn.ReadOnly = true;
+                siteColumn.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
+                wbDataGridView.Columns.Add(siteColumn);
+                //4
+                DataGridViewTextBoxColumn supplyTypeColumn = new DataGridViewTextBoxColumn();//4
+                supplyTypeColumn.DataPropertyName = "type";
+                supplyTypeColumn.HeaderText = "TYPE";
+                supplyTypeColumn.Width = 50;
+                supplyTypeColumn.ReadOnly = true;
+                supplyTypeColumn.Frozen = true;
+                wbDataGridView.Columns.Add(supplyTypeColumn);
+                //5
+                DataGridViewTextBoxColumn productsColumn = new DataGridViewTextBoxColumn();//5
+                productsColumn.DataPropertyName = "products";
+                productsColumn.HeaderText = "Products (Right Clk)";
+                productsColumn.Width = 60;
+                productsColumn.ReadOnly = false;
+                productsColumn.Frozen = true;
+                wbDataGridView.Columns.Add(productsColumn);
+                //6
+                DataGridViewTextBoxColumn totalM2Column = new DataGridViewTextBoxColumn();//6
+                totalM2Column.DataPropertyName = "totalM2";
+                totalM2Column.HeaderText = "Total M²";
+                totalM2Column.Width = 60;
+                totalM2Column.ReadOnly = true;
+                totalM2Column.Frozen = true;
+                wbDataGridView.Columns.Add(totalM2Column);
+                //7
+                DataGridViewTextBoxColumn fixDaysColumn = new DataGridViewTextBoxColumn();//7
+                fixDaysColumn.DataPropertyName = "fixDays";
+                fixDaysColumn.HeaderText = "Num Fixing Days";
+                fixDaysColumn.Width = 70;
+                fixDaysColumn.ReadOnly = false;
+                fixDaysColumn.Frozen = true;
+                wbDataGridView.Columns.Add(fixDaysColumn);
+                //8
+                DataGridViewTextBoxColumn salesPriceColumn = new DataGridViewTextBoxColumn();//8
+                salesPriceColumn.DataPropertyName = "salesPrice";
+                salesPriceColumn.HeaderText = "Sales Price";
+                salesPriceColumn.Width = 70;
+                salesPriceColumn.ReadOnly = true;
+                salesPriceColumn.Frozen = true;
+                salesPriceColumn.DefaultCellStyle.BackColor = Color.Cyan;
+                salesPriceColumn.DefaultCellStyle.ForeColor = Color.Black;
+                wbDataGridView.Columns.Add(salesPriceColumn);
+                //9
+                DataGridViewCheckBoxColumn invoicedColumn = new DataGridViewCheckBoxColumn();//9
+                invoicedColumn.DataPropertyName = "invoiced";
+                invoicedColumn.ValueType = typeof(bool);
+                invoicedColumn.HeaderText = "invoiced";
+                invoicedColumn.Width = 70;
+                invoicedColumn.ReadOnly = false;
+                invoicedColumn.Frozen = true;
+                wbDataGridView.Columns.Add(invoicedColumn);
+                //10
+                DataGridViewTextBoxColumn productSupplierColumn = new DataGridViewTextBoxColumn();//10
+                productSupplierColumn.DataPropertyName = "productSupplier";
+                productSupplierColumn.HeaderText = "Product Supplier (Right Click)";
+                productSupplierColumn.Width = 70;
+                productSupplierColumn.ReadOnly = true;
+                productSupplierColumn.Frozen = true;
+                wbDataGridView.Columns.Add(productSupplierColumn);
+                //11
+                DataGridViewCheckBoxColumn stairsColumn = new DataGridViewCheckBoxColumn();//11
+                stairsColumn.DataPropertyName = "stairs";
+                stairsColumn.ValueType = typeof(bool);
+                stairsColumn.HeaderText = "Stairs";
+                stairsColumn.Width = 70;
+                stairsColumn.ReadOnly = false;
+                stairsColumn.Frozen = true;
+                wbDataGridView.Columns.Add(stairsColumn);
+                //12
+                DataGridViewTextBoxColumn stairsSupplierColumn = new DataGridViewTextBoxColumn();//12
+                stairsSupplierColumn.DataPropertyName = "stairsSupplier";
+                stairsSupplierColumn.HeaderText = "Stairs Supplier (Right Click)";
+                stairsSupplierColumn.Width = 70;
+                stairsSupplierColumn.ReadOnly = false;
+                stairsSupplierColumn.Frozen = true;
+                wbDataGridView.Columns.Add(stairsSupplierColumn);
+                //13
+                DataGridViewTextBoxColumn levelColumn = new DataGridViewTextBoxColumn();//13
+                levelColumn.DataPropertyName = "Level";
+                levelColumn.HeaderText = "Floor Level";
+                levelColumn.Width = 100;
+                levelColumn.DefaultCellStyle.ForeColor = Color.Blue;
+                levelColumn.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                levelColumn.ReadOnly = true;
+                levelColumn.Frozen = true;
+                wbDataGridView.Columns.Add(levelColumn);
+                //14
+                DataGridViewCheckBoxColumn prevWeekColumn = new DataGridViewCheckBoxColumn();//14
+                prevWeekColumn.DataPropertyName = "contFromPrevWeek";
+                prevWeekColumn.ValueType = typeof(bool);
+                prevWeekColumn.HeaderText = "Job Cont Prev Week";
+                prevWeekColumn.Width = 70;
+                prevWeekColumn.ReadOnly = false;
+                prevWeekColumn.Frozen = true;
+                wbDataGridView.Columns.Add(prevWeekColumn);
+                //15
+                DataGridViewCheckBoxColumn cowSentColumn = new DataGridViewCheckBoxColumn();//15
+                cowSentColumn.DataPropertyName = "cowSent";
+                cowSentColumn.ValueType = typeof(bool);
+                cowSentColumn.HeaderText = "COW Sent";
+                cowSentColumn.Width = 30;
+                cowSentColumn.ReadOnly = false;
+                cowSentColumn.Frozen = true;
+                wbDataGridView.Columns.Add(cowSentColumn);
+                //16
+                DataGridViewTextBoxColumn cowRcvdColumn = new DataGridViewTextBoxColumn();//16
+                cowRcvdColumn.DataPropertyName = "cowRcvd";
+                cowRcvdColumn.HeaderText = "COW Rcvd Signed";
+                cowRcvdColumn.Width = 120;
+                cowRcvdColumn.ReadOnly = false;
+                cowRcvdColumn.Frozen = true;
+                wbDataGridView.Columns.Add(cowRcvdColumn);
+                //17
+                DataGridViewTextBoxColumn monColumn = new DataGridViewTextBoxColumn();//17
+                monColumn.Name = "mon";
+                monColumn.HeaderText = "MON " + wcDate.Day.ToString() + "/" + wcDate.ToString("MMM");
+                monColumn.Width = 80;
+                monColumn.DefaultCellStyle.BackColor = Color.Yellow;
+                monColumn.DefaultCellStyle.ForeColor = Color.Blue;
+                monColumn.ReadOnly = true;
+                monColumn.Frozen = true;
+                wbDataGridView.Columns.Add(monColumn);
+                //18
+                DataGridViewTextBoxColumn tueColumn = new DataGridViewTextBoxColumn();//18
+                tueColumn.DataPropertyName = "tue";
+                tueColumn.HeaderText = "TUE " + wcDate.AddDays(1).Day.ToString() + "/" + wcDate.AddDays(1).ToString("MMM");
+                tueColumn.Width = 80;
+                tueColumn.DefaultCellStyle.BackColor = Color.Yellow;
+                tueColumn.DefaultCellStyle.ForeColor = Color.Blue;
+                tueColumn.ReadOnly = true;
+                tueColumn.Frozen = true;
+                wbDataGridView.Columns.Add(tueColumn);
+                //19
+                DataGridViewTextBoxColumn wedColumn = new DataGridViewTextBoxColumn();//19
+                wedColumn.DataPropertyName = "wed";
+                wedColumn.HeaderText = "WED " + wcDate.AddDays(2).Day.ToString() + "/" + wcDate.AddDays(2).ToString("MMM");
+                wedColumn.Width = 80;
+                wedColumn.DefaultCellStyle.BackColor = Color.Yellow;
+                wedColumn.DefaultCellStyle.ForeColor = Color.Blue;
+                wedColumn.ReadOnly = true;
+                wedColumn.Frozen = true;
+                wbDataGridView.Columns.Add(wedColumn);
+                //20
+                DataGridViewTextBoxColumn thuColumn = new DataGridViewTextBoxColumn();//20
+                thuColumn.DataPropertyName = "thu";
+                thuColumn.HeaderText = "THU " + wcDate.AddDays(3).Day.ToString() + "/" + wcDate.AddDays(3).ToString("MMM");
+                thuColumn.Width = 80;
+                thuColumn.DefaultCellStyle.BackColor = Color.Yellow;
+                thuColumn.DefaultCellStyle.ForeColor = Color.Blue;
+                thuColumn.ReadOnly = true;
+                thuColumn.Frozen = true;
+                wbDataGridView.Columns.Add(thuColumn);
+                //21
+                DataGridViewTextBoxColumn friColumn = new DataGridViewTextBoxColumn();//21
+                friColumn.DataPropertyName = "fri";
+                friColumn.HeaderText = "FRI " + wcDate.AddDays(4).Day.ToString() + "/" + wcDate.AddDays(4).ToString("MMM");
+                friColumn.Width = 80;
+                friColumn.DefaultCellStyle.BackColor = Color.Yellow;
+                friColumn.DefaultCellStyle.ForeColor = Color.Blue;
+                friColumn.ReadOnly = true;
+                friColumn.Frozen = true;
+                wbDataGridView.Columns.Add(friColumn);
+                //22
+                DataGridViewTextBoxColumn satColumn = new DataGridViewTextBoxColumn();//22
+                satColumn.DataPropertyName = "sat";
+                satColumn.HeaderText = "SAT " + wcDate.AddDays(5).Day.ToString() + "/" + wcDate.AddDays(5).ToString("MMM");
+                satColumn.Width = 80;
+                satColumn.DefaultCellStyle.ForeColor = Color.Blue;
+                satColumn.ReadOnly = true;
+                satColumn.Frozen = true;
+                satColumn.DefaultCellStyle.BackColor = Color.Gray;
+                wbDataGridView.Columns.Add(satColumn);
+                //23
+                DataGridViewTextBoxColumn sunColumn = new DataGridViewTextBoxColumn();//23
+                sunColumn.DataPropertyName = "sun";
+                sunColumn.HeaderText = "SUN " + wcDate.AddDays(6).Day.ToString() + "/" + wcDate.AddDays(6).ToString("MMM");
+                sunColumn.Width = 80;
+                sunColumn.DefaultCellStyle.ForeColor = Color.Blue;
+                sunColumn.ReadOnly = true;
+                sunColumn.Frozen = true;
+                sunColumn.DefaultCellStyle.BackColor = Color.Gray;
+                wbDataGridView.Columns.Add(sunColumn);
+                //24
+                DataGridViewTextBoxColumn contractsColumn = new DataGridViewTextBoxColumn();//24
+                contractsColumn.DataPropertyName = "contracts";
+                contractsColumn.HeaderText = "Contracts";
+                contractsColumn.Width = 70;
+                contractsColumn.ReadOnly = false;
+                contractsColumn.Frozen = true;
+                wbDataGridView.Columns.Add(contractsColumn);
+                //25
+                DataGridViewCheckBoxColumn ramsColumn = new DataGridViewCheckBoxColumn();//25
+                ramsColumn.DataPropertyName = "ramUploaded";
+                ramsColumn.ValueType = typeof(bool);
+                ramsColumn.HeaderText = "RAMS Uploaded";
+                ramsColumn.Width = 70;
+                ramsColumn.ReadOnly = false;
+                ramsColumn.Frozen = true;
+                wbDataGridView.Columns.Add(ramsColumn);
+                //26
+                DataGridViewCheckBoxColumn ramsSentColumn = new DataGridViewCheckBoxColumn();//26
+                ramsSentColumn.DataPropertyName = "ramsSent";
+                ramsSentColumn.ValueType = typeof(bool);
+                ramsSentColumn.HeaderText = "RAMS Sent";
+                ramsSentColumn.Width = 70;
+                ramsSentColumn.ReadOnly = false;
+                ramsSentColumn.Frozen = true;
+                wbDataGridView.Columns.Add(ramsSentColumn);
+                //27
+                DataGridViewCheckBoxColumn ramsCompRtndColumn = new DataGridViewCheckBoxColumn();//27
+                ramsCompRtndColumn.DataPropertyName = "ramsRtnd";
+                ramsCompRtndColumn.ValueType = typeof(bool);
+                ramsCompRtndColumn.HeaderText = "Signed RAMS Rtnd";
+                ramsCompRtndColumn.Width = 70;
+                ramsCompRtndColumn.ReadOnly = false;
+                ramsCompRtndColumn.Frozen = true;
+                wbDataGridView.Columns.Add(ramsCompRtndColumn);
+                //28
+                DataGridViewTextBoxColumn lorryColumn = new DataGridViewTextBoxColumn();//28
+                lorryColumn.DataPropertyName = "lorry";
+                lorryColumn.HeaderText = "Lorry";
+                lorryColumn.Width = 70;
+                lorryColumn.ReadOnly = false;
+                lorryColumn.Frozen = true;
+                wbDataGridView.Columns.Add(lorryColumn);
+                //29
+                DataGridViewTextBoxColumn craneSizeColumn = new DataGridViewTextBoxColumn();//29
+                craneSizeColumn.DataPropertyName = "craneSize";
+                craneSizeColumn.HeaderText = "Crane Size";
+                craneSizeColumn.Width = 70;
+                craneSizeColumn.ReadOnly = false;
+                craneSizeColumn.Frozen = true;
+                wbDataGridView.Columns.Add(craneSizeColumn);
+                //30
+                DataGridViewTextBoxColumn craneSupplierColumn = new DataGridViewTextBoxColumn();//30
+                craneSupplierColumn.DataPropertyName = "craneSupplier";
+                craneSupplierColumn.HeaderText = "Crane Supplier";
+                craneSupplierColumn.Width = 70;
+                craneSupplierColumn.ReadOnly = false;
+                craneSupplierColumn.Frozen = true;
+                wbDataGridView.Columns.Add(craneSupplierColumn);
+                //31
+                DataGridViewCheckBoxColumn spreaderMatsColumn = new DataGridViewCheckBoxColumn();//31
+                spreaderMatsColumn.DataPropertyName = "spreaderMats";
+                spreaderMatsColumn.ValueType = typeof(bool);
+                spreaderMatsColumn.HeaderText = "Spreader Mats";
+                spreaderMatsColumn.Width = 70;
+                spreaderMatsColumn.ReadOnly = false;
+                spreaderMatsColumn.Frozen = true;
+                wbDataGridView.Columns.Add(spreaderMatsColumn);
+                //32
+                DataGridViewTextBoxColumn hireContractRcvdColumn = new DataGridViewTextBoxColumn();//32
+                hireContractRcvdColumn.DataPropertyName = "hireContractRcvd ";
+                hireContractRcvdColumn.HeaderText = "Hire Contract Rcvd";
+                hireContractRcvdColumn.Width = 70;
+                hireContractRcvdColumn.ReadOnly = false;
+                hireContractRcvdColumn.Frozen = true;
+                wbDataGridView.Columns.Add(hireContractRcvdColumn);
+                //33
+                DataGridViewTextBoxColumn fallArrestColumn = new DataGridViewTextBoxColumn();//33
+                fallArrestColumn.DataPropertyName = "fallarrest";
+                fallArrestColumn.HeaderText = "Fall Arrest";
+                fallArrestColumn.Width = 70;
+                fallArrestColumn.ReadOnly = false;
+                fallArrestColumn.Frozen = true;
+                wbDataGridView.Columns.Add(fallArrestColumn);
+                //34
+                DataGridViewTextBoxColumn gangColumn = new DataGridViewTextBoxColumn();//34
+                gangColumn.DataPropertyName = "gang";
+                gangColumn.HeaderText = "Gang";
+                gangColumn.Width = 70;
+                gangColumn.ReadOnly = false;
+                gangColumn.Frozen = true;
+                wbDataGridView.Columns.Add(gangColumn);
+                //35
+                DataGridViewCheckBoxColumn onHireColumn = new DataGridViewCheckBoxColumn();//35
+                onHireColumn.DataPropertyName = "onHire";
+                onHireColumn.ValueType = typeof(bool);
+                onHireColumn.HeaderText = "On Hire";
+                onHireColumn.Width = 70;
+                onHireColumn.ReadOnly = false;
+                onHireColumn.Frozen = true;
+                wbDataGridView.Columns.Add(onHireColumn);
+                //36
+                DataGridViewCheckBoxColumn extrasColumn = new DataGridViewCheckBoxColumn();//36
+                extrasColumn.DataPropertyName = "extras";
+                extrasColumn.ValueType = typeof(bool);
+                extrasColumn.HeaderText = "Extras";
+                extrasColumn.Width = 50;
+                extrasColumn.ReadOnly = false;
+                extrasColumn.Frozen = true;
+                wbDataGridView.Columns.Add(extrasColumn);
+                //37
+                DataGridViewTextBoxColumn concreteColumn = new DataGridViewTextBoxColumn();//37
+                concreteColumn.DataPropertyName = "concrete";
+                concreteColumn.HeaderText = "Concrete";
+                concreteColumn.Width = 70;
+                concreteColumn.ReadOnly = false;
+                concreteColumn.Frozen = true;
+                wbDataGridView.Columns.Add(concreteColumn);
+                //38
+                DataGridViewTextBoxColumn blocksColumn = new DataGridViewTextBoxColumn();//38
+                blocksColumn.DataPropertyName = "blocks";
+                blocksColumn.HeaderText = "Blocks";
+                blocksColumn.Width = 90;
+                blocksColumn.ReadOnly = false;
+                blocksColumn.Frozen = true;
+                wbDataGridView.Columns.Add(blocksColumn);
+                //39
+                DataGridViewCheckBoxColumn drawingsEmailedColumn = new DataGridViewCheckBoxColumn();//39
+                drawingsEmailedColumn.DataPropertyName = "dwgEmailed";
+                drawingsEmailedColumn.ValueType = typeof(bool);
+                drawingsEmailedColumn.HeaderText = "Drwg Emailed";
+                drawingsEmailedColumn.Width = 50;
+                // drawingsEmailedColumn.ReadOnly = false;
+                drawingsEmailedColumn.Frozen = true;
+                wbDataGridView.Columns.Add(drawingsEmailedColumn);
+                //40
+                DataGridViewTextBoxColumn draughtsmanColumn = new DataGridViewTextBoxColumn();//40
+                draughtsmanColumn.DataPropertyName = "Draftsman";
+                draughtsmanColumn.HeaderText = "Draftsman";
+                draughtsmanColumn.Width = 90;
+                draughtsmanColumn.ReadOnly = false;
+                draughtsmanColumn.Frozen = true;
+                wbDataGridView.Columns.Add(draughtsmanColumn);
+                //41
+                DataGridViewTextBoxColumn salesmanColumn = new DataGridViewTextBoxColumn();//41
+                salesmanColumn.DataPropertyName = "salesman";
+                salesmanColumn.HeaderText = "Salesman";
+                salesmanColumn.Width = 90;
+                salesmanColumn.ReadOnly = false;
+                salesmanColumn.Frozen = true;
+                wbDataGridView.Columns.Add(salesmanColumn);
+                //42
+                DataGridViewTextBoxColumn commentColumn = new DataGridViewTextBoxColumn();//42
+                commentColumn.DataPropertyName = "commentColumn";
+                commentColumn.HeaderText = "Last Comment";
+                commentColumn.Width = 300;
+                commentColumn.ReadOnly = false;
+                commentColumn.Frozen = true;
+                wbDataGridView.Columns.Add(commentColumn);
+                //43
+                DataGridViewTextBoxColumn modDateColumn = new DataGridViewTextBoxColumn();//43
+                modDateColumn.DataPropertyName = "createdDateColumn";
+                modDateColumn.HeaderText = "Created";
+                modDateColumn.Width = 100;
+                modDateColumn.ReadOnly = false;
+                modDateColumn.Frozen = true;
+                wbDataGridView.Columns.Add(modDateColumn);
+                //44
+                DataGridViewTextBoxColumn modByColumn = new DataGridViewTextBoxColumn();//44
+                modByColumn.DataPropertyName = "repColumn";
+                modByColumn.HeaderText = "Rep";
+                modByColumn.Width = 30;
+                modByColumn.ReadOnly = false;
+                modByColumn.Frozen = true;
+                wbDataGridView.Columns.Add(modByColumn);
+
+                wbDataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                wbDataGridView.SelectionMode = DataGridViewSelectionMode.CellSelect;
+                wbDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+                //wbDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
+                wbDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                wbDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+                wbDataGridView.Dock = DockStyle.Fill;
+                wbDataGridView.AllowUserToAddRows = false;
+                return;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("BuildWhiteboardDGV() ERROR - " + ex.Message.ToString());
+                string audit = mcData.CreateErrorAudit("WhiteboardForm.cs", "BuildWhiteboardDGV(...)", ex.Message);
+                return;
+            }
+
+        }
+
+        private void BuildWhiteboardDGV(DataGridView myDGV, DateTime wcDate)
+        {
+            try
+            {
+                wbDataGridView = myDGV;
+                wbDataGridView.Dock = DockStyle.None;
+                wbDataGridView.Controls[1].Enabled = true;
+                wbDataGridView.Controls[1].Visible = true;
+                wbDataGridView.ScrollBars = ScrollBars.Both;
                 wbDataGridView.Columns.Clear();
                 //0
                 DataGridViewTextBoxColumn quoteNoColumn = new DataGridViewTextBoxColumn();//0
@@ -729,7 +1174,8 @@ namespace MCPApp
                 wbDataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 wbDataGridView.SelectionMode = DataGridViewSelectionMode.CellSelect;
                 wbDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-                wbDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
+                //wbDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
+                wbDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Left;
                 wbDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
                 wbDataGridView.Dock = DockStyle.Fill;
                 wbDataGridView.AllowUserToAddRows = false;
