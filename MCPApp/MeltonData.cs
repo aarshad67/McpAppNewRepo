@@ -7558,6 +7558,38 @@ namespace MCPApp
 
         #region OTHERS
 
+        public bool IsFeatureToggleEnabled(string feature)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand($"SELECT count(*) FROM dbo.FeatureToggle WHERE feature = '{feature}' AND isEnabled = 'Y'", conn))
+                    {
+                        Int32 numSuppliersFound = (Int32)command.ExecuteScalar();
+
+                        if (numSuppliersFound > 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("IsFeatureToggleEnabled() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"IsFeatureToggleEnabled({feature})", ex.Message.ToString());
+                    return false;
+                }
+
+            }
+        }
+
         public DataTable GetErrorAuditDT()
         {
             using (SqlConnection conn = new SqlConnection(connStr))

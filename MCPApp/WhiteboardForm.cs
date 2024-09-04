@@ -2934,16 +2934,19 @@ namespace MCPApp
 
         private void viewAnyIssuesReportedOnSiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($"This option is NOT yet available in the version of MCP");
-            return; 
-
+            if (!mcData.IsFeatureToggleEnabled("WB_JOB_ISSUE"))
+            {
+                MessageBox.Show($"This option is NOT yet available in the version of MCP");
+                return; 
+            }
 
             if (wbDataGridView[0, rowIndex].Value == null) { return; }
             string jobNo = wbDataGridView[0, this.rowIndex].Value.ToString();
+            string siteAddr = wbDataGridView[3, this.rowIndex].Value.ToString();
             DataTable issuesDT = mcData.GetWBJobIssuesDT(jobNo);
             if (issuesDT != null && issuesDT.Rows.Count > 0)
             {
-                WhiteboardJobIssueReportedForm issueForm = new WhiteboardJobIssueReportedForm(issuesDT);
+                WhiteboardJobIssueReportedForm issueForm = new WhiteboardJobIssueReportedForm(jobNo, siteAddr, issuesDT);
                 issueForm.ShowDialog();
                 return;
             }

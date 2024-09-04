@@ -15,10 +15,13 @@ namespace MCPApp
         MeltonData mcData = new MeltonData();
         Logger logger = new Logger();
         private string _jobNo = "";
+        private string _siteAddress = "";
         private static DataTable _issuesDT = new DataTable();
-        public WhiteboardJobIssueReportedForm(DataTable dt)
+        public WhiteboardJobIssueReportedForm(string jobNo,string siteAddr, DataTable dt)
         {
             InitializeComponent();
+            _jobNo = jobNo;
+            _siteAddress = siteAddr;
             _issuesDT = dt;
         }
 
@@ -29,7 +32,7 @@ namespace MCPApp
 
         private void WhiteboardJobIssueReportedForm_Load(object sender, EventArgs e)
         {
-            this.Text = $"Issues Reported on Site for Job {_jobNo}";
+            this.Text = $"Issues Reported on Site for Job No [{_jobNo}] - {_siteAddress}";
             BuildDGV();
             PopulateDGV(_issuesDT);
             return;
