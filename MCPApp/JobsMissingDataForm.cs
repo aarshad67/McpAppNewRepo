@@ -171,6 +171,14 @@ namespace MCPApp
                 phasedValueTextBoxColumn.ReadOnly = true;
                 jobDGV.Columns.Add(phasedValueTextBoxColumn);
 
+                //12
+                DataGridViewTextBoxColumn jobMgnValueColumn = new DataGridViewTextBoxColumn();  //0
+                jobMgnValueColumn.HeaderText = "Job Mgn Value(£)";
+                jobMgnValueColumn.Width = 80;
+                jobMgnValueColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                jobMgnValueColumn.ReadOnly = true;
+                jobDGV.Columns.Add(jobMgnValueColumn);
+
 
                 jobDGV.SelectionMode = DataGridViewSelectionMode.CellSelect;
                 jobDGV.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -178,10 +186,12 @@ namespace MCPApp
                 jobDGV.Columns[0].DefaultCellStyle.BackColor = Color.Yellow;
                 jobDGV.Columns[3].DefaultCellStyle.BackColor = Color.LightGreen;
                 jobDGV.Columns[11].DefaultCellStyle.BackColor = Color.Cyan;
+                jobDGV.Columns[12].DefaultCellStyle.BackColor = Color.Cyan;
                 jobDGV.Columns[5].DefaultCellStyle.Format = "D2";
                 jobDGV.Columns[6].DefaultCellStyle.Format = "D2";
                 jobDGV.Columns[7].DefaultCellStyle.Format = "D2";
                 jobDGV.Columns[11].DefaultCellStyle.Format = "D2";
+                jobDGV.Columns[12].DefaultCellStyle.Format = "D2";
                 jobDGV.RowHeadersVisible = false;
 
 
@@ -245,6 +255,7 @@ namespace MCPApp
                     drow.Cells[9].Value = dr["supplyType"].ToString();
                     drow.Cells[10].Value = dr["supplierRef"].ToString();
                     drow.Cells[11].Value = dr["phaseInvValue"].ToString();
+                    drow.Cells[12].Value = dr["jobMgnValue"].ToString();
                     rows.Add(drow);
 
                 }

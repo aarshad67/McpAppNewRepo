@@ -50,7 +50,7 @@ namespace MCPApp
             DateTime startDate = mcData.GetMonday(d1/*firstDate*/);
             DateTime lastDate = d2;// mcData.GetLastPlannerDate();
             DataTable dt = mcData.WhiteboardDatesDT(d1,d2); ;// mcData.WhiteboardDatesDT();
-
+            this.Cursor = Cursors.Default;
             TimeSpan ts = lastDate - startDate;
             int dateDiff = ts.Days;
             decimal numWeeks = dateDiff / 7m;

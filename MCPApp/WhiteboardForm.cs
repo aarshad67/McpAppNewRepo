@@ -154,7 +154,7 @@ namespace MCPApp
                             ((DataGridView)dgv).CellClick += new DataGridViewCellEventHandler(wbDataGridView_CellClick);
                             ((DataGridView)dgv).CellBeginEdit += new DataGridViewCellCancelEventHandler(wbDataGridView_CellBeginEdit);
                             ((DataGridView)dgv).CellEndEdit += new DataGridViewCellEventHandler(wbDataGridView_CellEndEdit);
-
+                            ((DataGridView)dgv).CellFormatting += new DataGridViewCellFormattingEventHandler(wbDataGridView_CellFormatting);
                         }
                     }
 
@@ -165,6 +165,27 @@ namespace MCPApp
 
 
             Cursor.Current = Cursors.Hand;
+        }
+
+        private void WhiteboardForm_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void wbDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            //if((e.ColumnIndex == wbDataGridView.Columns[8].Index) && e.Value != null)
+            //{
+            //    string jobNo = wbDataGridView[0, e.RowIndex].Value.ToString();
+            //    decimal jobMgnValue = mcData.GetJobMgnValueFromJobNo(jobNo);
+            //    DataGridViewCell cell = wbDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            //    string tt = $"Sales Invoice Value : {e.Value.ToString()}{Environment.NewLine}Job Margin Value : {jobMgnValue.ToString()} ";
+            //    cell.ToolTipText = tt;
+            //    return;
+            //}
+            
+            
+            return;
         }
 
         private void wbDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -206,8 +227,24 @@ namespace MCPApp
         private void wbDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (!wbDataGridView.Focused) { return; }
-            string jobNo = wbDataGridView[0, this.rowIndex].Value.ToString();
-            string response = mcData.GetJobLockedUser(jobNo, "WB");
+
+            string jobNo = wbDataGridView[0, e.RowIndex].Value.ToString();
+            string customer = wbDataGridView[2, e.RowIndex].Value.ToString();
+            decimal jobMgnValue = mcData.GetJobMgnValueFromJobNo(jobNo);
+            if(e.RowIndex >= 0 && e.ColumnIndex == 8)
+            {
+                var cellValue = wbDataGridView[e.ColumnIndex, e.RowIndex].Value;
+                string tt = $"Job No.{jobNo}{Environment.NewLine}Customer : {customer}{Environment.NewLine}Sales Invoice Value : {cellValue.ToString()}{Environment.NewLine}Job Margin Value : {jobMgnValue.ToString()} ";
+                if(tt.Contains(wbDataGridView[8, e.RowIndex].Value.ToString()))
+                {
+                    MessageBox.Show(tt);
+                }
+                
+            }
+            
+
+
+                string response = mcData.GetJobLockedUser(jobNo, "WB");
             if (!response.Equals("n/a") && !response.Equals(loggedInUser))
             {
                 string userName = mcData.GetUserFullNameFromUserID(response);
@@ -373,6 +410,8 @@ namespace MCPApp
         {
             return;
         }
+
+
 
         private void BuildWhiteboardDGVNotWorking(DataGridView myDGV, DateTime wcDate)
         {
@@ -2396,7 +2435,7 @@ namespace MCPApp
                 string err = mcData.CreateWhiteBoardSpannedJobCopy(newJobNo, newRequiredDate, wbJobDT);
                 if (err == "OK")
                 {
-                    string err2a = mcData.CreateJobDayAudit(newJobNo, newRequiredDate.Date);
+                    string err2a = mcData.CreateJobDayAudit(newJobNo, newRequiredDate.Date, $"CreateWhiteBoardSpannedJobCopy(....{requiredDate.ToShortDateString()}......)");
                     DateTime monDate = mcData.GetMonday(newRequiredDate);
                     string msg2 = String.Format("Job No. {0} is now spanning across multiple weeks and has been extended to new job No. {1}", jobNo, newJobNo) + Environment.NewLine + Environment.NewLine +
                                     String.Format("Simply click on the week commencing [{0}] tab to find your extended job No. {1} ", monDate.ToShortDateString(), newJobNo);

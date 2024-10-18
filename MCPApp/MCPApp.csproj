@@ -116,6 +116,12 @@
     <Compile Include="DateSelectorForm.Designer.cs">
       <DependentUpon>DateSelectorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DatesOutOfSyncForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatesOutOfSyncForm.Designer.cs">
+      <DependentUpon>DatesOutOfSyncForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DeletedJobsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -375,6 +381,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DateSelectorForm.resx">
       <DependentUpon>DateSelectorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DatesOutOfSyncForm.resx">
+      <DependentUpon>DatesOutOfSyncForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DeletedJobsForm.resx">
       <DependentUpon>DeletedJobsForm.cs</DependentUpon>

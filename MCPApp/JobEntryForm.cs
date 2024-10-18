@@ -701,7 +701,7 @@ namespace MCPApp
                         }
                         else
                         {
-                            string auditErr = mcData.CreateJobDayAudit(jobNo, requiredDate);
+                            //string auditErr = mcData.CreateJobDayAudit(jobNo, requiredDate, $"CreateWhiteBoard(....{requiredDate.ToShortDateString()}......)");
                         }
                     }
 

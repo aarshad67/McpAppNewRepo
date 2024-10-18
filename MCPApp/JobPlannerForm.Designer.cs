@@ -98,6 +98,8 @@
             this.earliestButton = new System.Windows.Forms.Button();
             this.excelButton = new System.Windows.Forms.Button();
             this.btnLockedJobs = new System.Windows.Forms.Button();
+            this.txtTotalJobMgn = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.jobDGV)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -245,8 +247,8 @@
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(1668, 1077);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(1535, 1081);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(140, 65);
@@ -257,11 +259,11 @@
             // 
             this.totalInvoiceValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalInvoiceValueTextBox.BackColor = System.Drawing.Color.Aqua;
-            this.totalInvoiceValueTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalInvoiceValueTextBox.Location = new System.Drawing.Point(1816, 1077);
+            this.totalInvoiceValueTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.totalInvoiceValueTextBox.Location = new System.Drawing.Point(1637, 1081);
             this.totalInvoiceValueTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.totalInvoiceValueTextBox.Name = "totalInvoiceValueTextBox";
-            this.totalInvoiceValueTextBox.Size = new System.Drawing.Size(290, 39);
+            this.totalInvoiceValueTextBox.Size = new System.Drawing.Size(162, 30);
             this.totalInvoiceValueTextBox.TabIndex = 147;
             // 
             // groupBox1
@@ -642,17 +644,17 @@
             // 
             this.totalSlabM2TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalSlabM2TextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.totalSlabM2TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.totalSlabM2TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.totalSlabM2TextBox.Location = new System.Drawing.Point(1078, 1085);
             this.totalSlabM2TextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.totalSlabM2TextBox.Name = "totalSlabM2TextBox";
-            this.totalSlabM2TextBox.Size = new System.Drawing.Size(140, 39);
+            this.totalSlabM2TextBox.Size = new System.Drawing.Size(142, 30);
             this.totalSlabM2TextBox.TabIndex = 154;
             // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(954, 1085);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
@@ -664,18 +666,18 @@
             // 
             this.totalBeamM2TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalBeamM2TextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.totalBeamM2TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalBeamM2TextBox.Location = new System.Drawing.Point(1470, 1083);
+            this.totalBeamM2TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.totalBeamM2TextBox.Location = new System.Drawing.Point(1367, 1082);
             this.totalBeamM2TextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.totalBeamM2TextBox.Name = "totalBeamM2TextBox";
-            this.totalBeamM2TextBox.Size = new System.Drawing.Size(140, 39);
+            this.totalBeamM2TextBox.Size = new System.Drawing.Size(118, 30);
             this.totalBeamM2TextBox.TabIndex = 156;
             // 
             // label3
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(1334, 1085);
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(1231, 1084);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(128, 65);
@@ -900,6 +902,28 @@
             this.btnLockedJobs.UseVisualStyleBackColor = false;
             this.btnLockedJobs.Click += new System.EventHandler(this.btnLockedJobs_Click);
             // 
+            // txtTotalJobMgn
+            // 
+            this.txtTotalJobMgn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTotalJobMgn.BackColor = System.Drawing.Color.Aqua;
+            this.txtTotalJobMgn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTotalJobMgn.Location = new System.Drawing.Point(1953, 1078);
+            this.txtTotalJobMgn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtTotalJobMgn.Name = "txtTotalJobMgn";
+            this.txtTotalJobMgn.Size = new System.Drawing.Size(162, 30);
+            this.txtTotalJobMgn.TabIndex = 163;
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(1833, 1079);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(140, 65);
+            this.label4.TabIndex = 162;
+            this.label4.Text = "Total Job Mgn(£) :";
+            // 
             // JobPlannerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -907,6 +931,8 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(2128, 1195);
+            this.Controls.Add(this.txtTotalJobMgn);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.btnLockedJobs);
             this.Controls.Add(this.excelButton);
             this.Controls.Add(this.groupBox4);
@@ -1016,5 +1042,7 @@
         private System.Windows.Forms.Button earliestButton;
         private System.Windows.Forms.Button excelButton;
         private System.Windows.Forms.Button btnLockedJobs;
+        private System.Windows.Forms.TextBox txtTotalJobMgn;
+        private System.Windows.Forms.Label label4;
     }
 }

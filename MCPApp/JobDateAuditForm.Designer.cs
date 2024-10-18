@@ -38,7 +38,7 @@
             this.cancelButton.BackColor = System.Drawing.Color.Red;
             this.cancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelButton.ForeColor = System.Drawing.Color.White;
-            this.cancelButton.Location = new System.Drawing.Point(1065, 803);
+            this.cancelButton.Location = new System.Drawing.Point(1305, 805);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(262, 58);
             this.cancelButton.TabIndex = 6;
@@ -57,7 +57,7 @@
             this.commentDGV.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.commentDGV.Name = "commentDGV";
             this.commentDGV.RowHeadersWidth = 62;
-            this.commentDGV.Size = new System.Drawing.Size(1310, 777);
+            this.commentDGV.Size = new System.Drawing.Size(1549, 777);
             this.commentDGV.TabIndex = 5;
             // 
             // JobDateAuditForm
@@ -65,13 +65,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1344, 875);
+            this.ClientSize = new System.Drawing.Size(1590, 875);
             this.ControlBox = false;
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.commentDGV);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "JobDateAuditForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "JobDateAuditForm";
             this.Load += new System.EventHandler(this.JobDateAuditForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.commentDGV)).EndInit();

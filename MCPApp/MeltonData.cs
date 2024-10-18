@@ -1945,7 +1945,35 @@ namespace MCPApp
 
         #region Jobs
 
-        
+        public DataTable GetOutOfSyncDateJobsDT()
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    string qry = "SELECT * FROM dbo.DatesOutOfSyncView ORDER BY WB_jobNo";
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetCancelledJobsDT() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "GetCancelledJobsDT()", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
         public DataTable GetCancelledJobsDT()
         {
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -2142,16 +2170,17 @@ namespace MCPApp
             }
         }
 
-        public string CreateJobDayAudit(string jobNo, DateTime requiredDate)
+        public string CreateJobDayAudit(string jobNo, DateTime requiredDate, string source)
         {
 
             string insertQry = "INSERT INTO dbo.JobDateAudit("
-                                            + "jobNo,requiredDate,auditDate,auditUser) "
+                                            + "jobNo,requiredDate,auditDate,auditUser,source) "
                                             + "VALUES("
                                             + "@jobNo,"
                                             + "@requiredDate,"
                                             + "@auditDate,"
-                                            + "@auditUser)";
+                                            + "@auditUser,"
+                                            + "@source)";
 
             using (SqlConnection conn = new SqlConnection(connStr))
             {
@@ -2164,6 +2193,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
                         command.Parameters.Add(new SqlParameter("auditDate", DateTime.Now));
                         command.Parameters.Add(new SqlParameter("auditUser", ConfigurationManager.AppSettings["LoggedInUser"]));
+                        command.Parameters.Add(new SqlParameter("source", source));
                         command.ExecuteNonQuery();
                     }
                     return "OK";
@@ -3052,7 +3082,7 @@ namespace MCPApp
                 {
                     conn.Open();
                     //qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' ORDER BY supplyType,requiredDate";
-                    qry = "SELECT * FROM dbo.ListJobsNotCompletedOrCancelledView ORDER BY supplyType,requiredDate";
+                    qry = "SELECT * FROM dbo.ListJobsNotCompletedOrCancelledViewV2 ORDER BY supplyType,requiredDate";
 
                     SqlCommand cmd = new SqlCommand(qry, conn);
                     DataTable dt = new DataTable();
@@ -3301,23 +3331,23 @@ namespace MCPApp
                     switch (rptMode)
                     {
                         case "BEAMZERO": // beam jobs
-                            qry = "SELECT jobNo,floorLevel,siteAddress,requiredDate,beamLM,beamM2,slabM2,supplyType,productSupplier,supplierRef,phaseInvValue FROM dbo.JobPlanner "
+                            qry = "SELECT jobNo,floorLevel,siteAddress,requiredDate,beamLM,beamM2,slabM2,supplyType,productSupplier,supplierRef,phaseInvValue,jobMgnValue FROM dbo.JobPlanner "
                                 + "WHERE completedFlag = 'Y' AND (beamLm = 0 or beamM2 = 0) AND slabM2 = 0 and stairsIncl != 'Y' "
                                 + "ORDER BY supplyType,requiredDate";
                             break;
                         case "SLABZERO": //slab jobs
-                            qry = "SELECT jobNo,floorLevel,siteAddress,requiredDate,beamLM,beamM2,slabM2,supplyType,productSupplier,supplierRef,phaseInvValue FROM dbo.JobPlanner "
+                            qry = "SELECT jobNo,floorLevel,siteAddress,requiredDate,beamLM,beamM2,slabM2,supplyType,productSupplier,supplierRef,phaseInvValue,jobMgnValue FROM dbo.JobPlanner "
                                 + "WHERE completedFlag = 'Y' AND slabM2 = 0 AND beamLm = 0 and beamM2 = 0 and stairsIncl != 'Y' "
                                 + "ORDER BY supplyType,requiredDate";
                             break;
                         case "ALLZERO": // beam and slab jobs
-                            qry = "SELECT jobNo,floorLevel,siteAddress,requiredDate,beamLM,beamM2,slabM2,supplyType,productSupplier,supplierRef,phaseInvValue FROM dbo.JobPlanner "
+                            qry = "SELECT jobNo,floorLevel,siteAddress,requiredDate,beamLM,beamM2,slabM2,supplyType,productSupplier,supplierRef,phaseInvValue,jobMgnValue FROM dbo.JobPlanner "
                                 + "WHERE completedFlag = 'Y' AND slabM2 = 0 AND beamLm = 0 and beamM2 = 0 and stairsIncl != 'Y'"
                                 //  + "AND productSupplier NOT IN ('LEROC','RightCast','Kalisto') and stairsIncl != 'Y'"
                                 + "ORDER BY supplyType,requiredDate";
                             break;
                         case "MISSINGSUPPLIER": // beam and slab jobs
-                            qry = "SELECT jobNo,floorLevel,siteAddress,requiredDate,beamLM,beamM2,slabM2,supplyType,productSupplier,supplierRef,phaseInvValue FROM dbo.JobPlanner "
+                            qry = "SELECT jobNo,floorLevel,siteAddress,requiredDate,beamLM,beamM2,slabM2,supplyType,productSupplier,supplierRef,phaseInvValue,jobMgnValue FROM dbo.JobPlanner "
                                 + "WHERE LEN(productSupplier) < 1 AND completedFlag = 'Y' "
                                 + "ORDER BY productSupplier,requiredDate";
                             break;
@@ -3832,6 +3862,39 @@ namespace MCPApp
             }
         }
 
+        public decimal GetJobMgnValueFromJobNo(string jobNo)
+        {
+            decimal value = 0;
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand($"SELECT jobMgnValue FROM dbo.JobPlanner WHERE jobNo = '{jobNo}'", conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                value = reader["jobMgnValue"] == null ? 0 : Convert.ToDecimal(reader["jobMgnValue"].ToString());
+                            }
+                        }
+                    }
+                    return value;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetJobMgnValueFromJobNo() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetJobMgnValueFromJobNo({jobNo})", ex.Message.ToString());
+                    return value;
+                }
+
+            }
+        }
+
         public string GetSiteAddressFromJobNo(string jobNo)
         {
             string siteAddress = "";
@@ -4080,6 +4143,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("sortType", sortType));
                         command.ExecuteNonQuery();
                     }
+                    string err2 = CreateJobDayAudit(jobNo, requiredDate.Date, $"CreateJobPlanner(....{requiredDate.ToShortDateString()}......)");
                     return "OK";
                 }
                 catch (Exception ex)
@@ -4096,13 +4160,13 @@ namespace MCPApp
 
 
         public string UpdateJobPlanner(int parentJobNo, string jobNo, string phaseNo, string floorLevel, DateTime requiredDate, string siteAddress, string approved, string OnShop, string stairsIncl,
-                                                                 int slabM2, int beamM2, int beamLm, string productSupplier, string supplyType, string supplierRef, string lastComment, decimal phaseInvValue, string sortType)
+                                                                 int slabM2, int beamM2, int beamLm, string productSupplier, string supplyType, string supplierRef, string lastComment, decimal phaseInvValue, decimal jobMgnValue, string sortType)
         {
             //string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
-
+            //
             string insertQry = "UPDATE dbo.JobPlanner "
                                     + "SET floorLevel = @floorLevel, "
-                                    + "requiredDate = @requiredDate, "
+                                //    + "requiredDate = @requiredDate, "
                                     + "siteAddress = @siteAddress, "
                                     + "approved = @approved, "
                                     + "OnShop = @OnShop, "
@@ -4117,6 +4181,7 @@ namespace MCPApp
                                     + "modifiedDate = @modifiedDate, "
                                     + "modifiedBy = @modifiedBy, "
                                     + "phaseInvValue = @phaseInvValue,"
+                                    + "jobMgnValue = @jobMgnValue,"
                                     + "sortType = @sortType "
                                     + " WHERE parentJobNo = @parentJobNo AND jobNo = @jobNo AND phaseNo = @phaseNo";
 
@@ -4131,7 +4196,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("jobNo", jobNo));
                         command.Parameters.Add(new SqlParameter("phaseNo", phaseNo));
                         command.Parameters.Add(new SqlParameter("floorLevel", floorLevel));
-                        command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
+                     //   command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
                         command.Parameters.Add(new SqlParameter("siteAddress", siteAddress));
                         command.Parameters.Add(new SqlParameter("approved", approved));
                         command.Parameters.Add(new SqlParameter("OnShop", OnShop));
@@ -4144,11 +4209,13 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("supplierRef", supplierRef));
                         command.Parameters.Add(new SqlParameter("lastComment", lastComment));
                         command.Parameters.Add(new SqlParameter("phaseInvValue", phaseInvValue));
+                        command.Parameters.Add(new SqlParameter("jobMgnValue", jobMgnValue));
                         command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
                         command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
                         command.Parameters.Add(new SqlParameter("sortType", sortType));
                         command.ExecuteNonQuery();
                     }
+                    //string err2 = CreateJobDayAudit(jobNo, requiredDate.Date, $"UpdateJobPlanner(....{requiredDate.ToShortDateString()}......)");
                     return "OK";
                 }
                 catch (Exception ex)
@@ -4185,7 +4252,9 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
                         command.ExecuteNonQuery();
                     }
+                    string err2 = CreateJobDayAudit(jobNo, requiredDate.Date, $"UpdateJobPlannerJobDate(....{requiredDate.ToShortDateString()}......)");
                     return "OK";
+
                 }
                 catch (Exception ex)
                 {
@@ -6024,6 +6093,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("sortType", sortType));
                         command.ExecuteNonQuery();
                     }
+                    string err2 = CreateJobDayAudit(jobNo, requiredDate.Date, $"CreateWhiteBoard(....{requiredDate.ToShortDateString()}......)");
                     return "OK";
                 }
                 catch (Exception ex)
@@ -6155,6 +6225,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("jobCreatedBy", loggedInUser));
                         command.ExecuteNonQuery();
                     }
+                    string err2 = CreateJobDayAudit(newJobNo, newRequiredDate.Date, $"CreateWhiteBoardSpannedJobCopy(....{newRequiredDate.ToShortDateString()}......)");
                     return "OK";
                 }
                 catch (Exception ex)
@@ -6456,6 +6527,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
                         command.ExecuteNonQuery();
                     }
+                    string err2 = CreateJobDayAudit(jobNo, requiredDate.Date, $"UpdateWhiteBoardJobDate(....{requiredDate.ToShortDateString()}......)");
                     return "OK";
                 }
                 catch (Exception ex)
@@ -6720,13 +6792,13 @@ namespace MCPApp
             }
         }
 
-        public string UpdateWhiteboardViaJobPlanner(string jobNo, string floorLevel, /*DateTime requiredDate,*/ string siteAddress, int slabM2, int beamM2, string supplyType, string suppShortname,
+        public string UpdateWhiteboardViaJobPlanner(string jobNo, string floorLevel, DateTime requiredDate, string siteAddress, int slabM2, int beamM2, string supplyType, string suppShortname,
             string stairsIncl, string lastComment, string wcMonday, string wcTuesday, string wcWednesday, string wcThursday, string wcFriday, string wcSaturday, string wcSunday, decimal phaseInvoiceValue, string sortType)
         {
             // string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
 
             string insertQry = "UPDATE dbo.WhiteBoard "
-                                    // + "SET requiredDate = @requiredDate, "
+                                   // + "SET requiredDate = @requiredDate, "
                                     + "SET supplyType = @supplyType, "
                                     //+ "supplyType = @supplyType, "
                                     + "siteAddress = @siteAddress, "
@@ -6757,7 +6829,7 @@ namespace MCPApp
                     {
                         command.Parameters.Add(new SqlParameter("jobNo", jobNo));
                         command.Parameters.Add(new SqlParameter("floorLevel", floorLevel));
-                        // command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
+                   //     command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
                         command.Parameters.Add(new SqlParameter("siteAddress", siteAddress));
                         command.Parameters.Add(new SqlParameter("totalM2", slabM2 + beamM2));
                         command.Parameters.Add(new SqlParameter("supplyType", supplyType));
@@ -6777,6 +6849,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("sortType", sortType));
                         command.ExecuteNonQuery();
                     }
+                  //  string err2 = CreateJobDayAudit(jobNo, requiredDate.Date, $"UpdateWhiteboardViaJobPlanner(....{requiredDate.ToShortDateString()}......)");
                     return "OK";
                 }
                 catch (Exception ex)
@@ -7424,6 +7497,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("ramSentBy", loggedInUser));
                         command.ExecuteNonQuery();
                     }
+                    //string err2 = CreateJobDayAudit(jobNo, requiredDate.Date, $"CreateJobPO(....{requiredDate.ToShortDateString()}......)");
                     return "OK";
                 }
                 catch (Exception ex)

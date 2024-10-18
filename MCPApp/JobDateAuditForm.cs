@@ -77,7 +77,15 @@ namespace MCPApp
                 userColumn.ReadOnly = true;
                 commentDGV.Columns.Add(userColumn);
 
-                commentDGV.SelectionMode = DataGridViewSelectionMode.CellSelect;
+                //4
+                DataGridViewTextBoxColumn sourceColumn = new DataGridViewTextBoxColumn();
+                sourceColumn.HeaderText = " Source";
+                sourceColumn.Width = 300;
+                sourceColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                sourceColumn.ReadOnly = true;
+                commentDGV.Columns.Add(sourceColumn);
+
+                commentDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 commentDGV.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 commentDGV.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
                 commentDGV.EnableHeadersVisualStyles = false;
@@ -113,7 +121,8 @@ namespace MCPApp
                     commentDGV[0, row].Value = dr["jobNo"].ToString();
                     commentDGV[1, row].Value = fullDayStr;
                     commentDGV[2, row].Value = dr["auditDate"].ToString();
-                    commentDGV[3, row++].Value = dr["auditUser"].ToString();
+                    commentDGV[3, row].Value = dr["auditUser"].ToString();
+                    commentDGV[4, row++].Value = dr["source"].ToString();
                 }
                 commentDGV.CurrentCell = commentDGV.Rows[0].Cells[0];
                 return;

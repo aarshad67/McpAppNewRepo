@@ -290,23 +290,31 @@ namespace MCPApp
                 phasedValueTextBoxColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 phasedValueTextBoxColumn.ReadOnly = false;
                 jobDGV.Columns.Add(phasedValueTextBoxColumn);
-                
 
                 //16
+                DataGridViewTextBoxColumn jobMgnTextBoxColumn = new DataGridViewTextBoxColumn();  //0
+                jobMgnTextBoxColumn.HeaderText = "Job Mgn(£)";
+                jobMgnTextBoxColumn.Width = 80;
+                jobMgnTextBoxColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                jobMgnTextBoxColumn.ReadOnly = false;
+                jobDGV.Columns.Add(jobMgnTextBoxColumn);
+
+
+                //17
                 DataGridViewTextBoxColumn commentTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 commentTextBoxColumn.HeaderText = "Last Comment (DBL Click)";
                 commentTextBoxColumn.Width = 200;
                 commentTextBoxColumn.ReadOnly = true;
                 jobDGV.Columns.Add(commentTextBoxColumn);
 
-                //17
+                //18
                 DataGridViewTextBoxColumn modifiedDateTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 modifiedDateTextBoxColumn.HeaderText = "Date Created";
                 modifiedDateTextBoxColumn.Width = 130;
                 modifiedDateTextBoxColumn.ReadOnly = true;
                 jobDGV.Columns.Add(modifiedDateTextBoxColumn);
 
-                //18
+                //19
                 DataGridViewTextBoxColumn modifiedByTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 modifiedByTextBoxColumn.HeaderText = "Rep";
                 modifiedByTextBoxColumn.Width = 30;
@@ -319,11 +327,12 @@ namespace MCPApp
                 jobDGV.Columns[0].DefaultCellStyle.BackColor = Color.Yellow;
                 jobDGV.Columns[3].DefaultCellStyle.BackColor = Color.LightGreen;
                 jobDGV.Columns[15].DefaultCellStyle.BackColor = Color.Cyan;
+                jobDGV.Columns[16].DefaultCellStyle.BackColor = Color.Cyan;
                 jobDGV.Columns[9].DefaultCellStyle.Format = "D2";
                 jobDGV.Columns[10].DefaultCellStyle.Format = "D2";
                 jobDGV.Columns[11].DefaultCellStyle.Format = "D2";
                 jobDGV.Columns[15].DefaultCellStyle.Format = "D2";
-
+                jobDGV.Columns[16].DefaultCellStyle.Format = "D2";
 
 
 
@@ -343,96 +352,97 @@ namespace MCPApp
 
         }
 
-        private void PopulateDGVBACKUP(DataTable jobDT)
-        {
-            if (jobDT == null) { return; }
-            if (jobDT.Rows.Count == 0) { return; }
-            int row = 0;
-            int rgb1, rgb2, rgb3 = 255;
-            string suppShortname = "";
-            int daysDiff = 0;
-            string approved = "";
-            string jobNo = "";
-            string custName = "";
-            string custCode = "";
-            try
-            {
-                this.Cursor = Cursors.WaitCursor;
-                jobDGV.Rows.Clear();
-                foreach (DataRow dr in jobDT.Rows)
-                {
-                    jobNo = dr["jobNo"].ToString();
-                    custCode = mcData.GetCustomerCodeByJobNo(jobNo);
-                    custName = mcData.GetCustName(custCode);
-                    approved = dr["approved"].ToString();
-                    daysDiff = mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
-                    suppShortname = dr["productSupplier"].ToString();
-                    mcData.GetSupplierColourByShortname(suppShortname, out rgb1, out rgb2, out rgb3);
-                    jobDGV.Rows.Add();
-                    jobDGV[0, row].Value = jobNo;
-                    jobDGV[1, row].Value = custName;
-                    jobDGV[2, row].Value = dr["floorLevel"].ToString();
-                    jobDGV[3, row].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0,3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
-                    jobDGV[4, row].Value = dr["siteAddress"].ToString();
-                    jobDGV[5, row].Value = dr["approved"].ToString() == "Y" ? true : false;
-                    jobDGV[6, row].Value = dr["onshop"].ToString() == "Y" ? true : false;
-                    jobDGV[7, row].Value = dr["approved"].ToString() == "Y" ? 0 : mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
-                    jobDGV[7, row].Style.ForeColor = approved != "Y" && daysDiff > 0 ? Color.Red : Color.Black;
-                 //   jobDGV[8, row].Value = dr["OnShop"].ToString() == "Y" ? true : false;
-                    jobDGV[8, row].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
-                    jobDGV[9, row].Value = dr["slabM2"].ToString();
-                    jobDGV[10, row].Value = dr["beamM2"].ToString();
-                    jobDGV[11, row].Value = dr["beamLm"].ToString();
-                    jobDGV[12, row].Value = dr["productSupplier"].ToString();
-                    jobDGV[12, row].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
-                    jobDGV[13, row].Value = dr["supplyType"].ToString();
-                    jobDGV[14, row].Value = dr["supplierRef"].ToString();
-                    jobDGV[15, row].Value = dr["phaseInvValue"].ToString();
-                    jobDGV[16, row].Value = mcData.GetLastComment(dr["jobNo"].ToString());
+        //private void PopulateDGVBACKUP(DataTable jobDT)
+        //{
+        //    if (jobDT == null) { return; }
+        //    if (jobDT.Rows.Count == 0) { return; }
+        //    int row = 0;
+        //    int rgb1, rgb2, rgb3 = 255;
+        //    string suppShortname = "";
+        //    int daysDiff = 0;
+        //    string approved = "";
+        //    string jobNo = "";
+        //    string custName = "";
+        //    string custCode = "";
+        //    try
+        //    {
+        //        this.Cursor = Cursors.WaitCursor;
+        //        jobDGV.Rows.Clear();
+        //        foreach (DataRow dr in jobDT.Rows)
+        //        {
+        //            jobNo = dr["jobNo"].ToString();
+        //            custCode = mcData.GetCustomerCodeByJobNo(jobNo);
+        //            custName = mcData.GetCustName(custCode);
+        //            approved = dr["approved"].ToString();
+        //            daysDiff = mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
+        //            suppShortname = dr["productSupplier"].ToString();
+        //            mcData.GetSupplierColourByShortname(suppShortname, out rgb1, out rgb2, out rgb3);
+        //            jobDGV.Rows.Add();
+        //            jobDGV[0, row].Value = jobNo;
+        //            jobDGV[1, row].Value = custName;
+        //            jobDGV[2, row].Value = dr["floorLevel"].ToString();
+        //            jobDGV[3, row].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0,3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
+        //            jobDGV[4, row].Value = dr["siteAddress"].ToString();
+        //            jobDGV[5, row].Value = dr["approved"].ToString() == "Y" ? true : false;
+        //            jobDGV[6, row].Value = dr["onshop"].ToString() == "Y" ? true : false;
+        //            jobDGV[7, row].Value = dr["approved"].ToString() == "Y" ? 0 : mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
+        //            jobDGV[7, row].Style.ForeColor = approved != "Y" && daysDiff > 0 ? Color.Red : Color.Black;
+        //         //   jobDGV[8, row].Value = dr["OnShop"].ToString() == "Y" ? true : false;
+        //            jobDGV[8, row].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
+        //            jobDGV[9, row].Value = dr["slabM2"].ToString();
+        //            jobDGV[10, row].Value = dr["beamM2"].ToString();
+        //            jobDGV[11, row].Value = dr["beamLm"].ToString();
+        //            jobDGV[12, row].Value = dr["productSupplier"].ToString();
+        //            jobDGV[12, row].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
+        //            jobDGV[13, row].Value = dr["supplyType"].ToString();
+        //            jobDGV[14, row].Value = dr["supplierRef"].ToString();
+        //            jobDGV[15, row].Value = dr["phaseInvValue"].ToString();
+        //            jobDGV[16, row].Value = mcData.GetLastComment(dr["jobNo"].ToString());
 
-                    jobDGV[17, row].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
-                    jobDGV[18, row++].Value = dr["jobCreatedBy"].ToString();
+        //            jobDGV[17, row].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
+        //            jobDGV[18, row++].Value = dr["jobCreatedBy"].ToString();
 
                     
-                }
-                foreach (DataGridViewRow jobRow in jobDGV.Rows)
-                {
-                    if (mcData.IsJobCompleted(jobRow.Cells[0].Value.ToString()))
-                    {
-                        jobRow.DefaultCellStyle.ForeColor = Color.Gray;
-                    }
-                    else
-                    {
-                        jobRow.DefaultCellStyle.ForeColor = Color.Black;
-                    }
+        //        }
+        //        foreach (DataGridViewRow jobRow in jobDGV.Rows)
+        //        {
+        //            if (mcData.IsJobCompleted(jobRow.Cells[0].Value.ToString()))
+        //            {
+        //                jobRow.DefaultCellStyle.ForeColor = Color.Gray;
+        //            }
+        //            else
+        //            {
+        //                jobRow.DefaultCellStyle.ForeColor = Color.Black;
+        //            }
 
-                    if (mcData.IsJobLockExistByOtherUser("JP", jobRow.Cells[0].Value.ToString(), loggedInUser))
-                    {
-                        jobRow.Frozen = true;
-                        jobRow.DefaultCellStyle.ForeColor = Color.Red;
-                    }
-                }
-                jobDGV.CurrentCell = jobDGV.Rows[0].Cells[0];
+        //            if (mcData.IsJobLockExistByOtherUser("JP", jobRow.Cells[0].Value.ToString(), loggedInUser))
+        //            {
+        //                jobRow.Frozen = true;
+        //                jobRow.DefaultCellStyle.ForeColor = Color.Red;
+        //            }
+        //        }
+        //        jobDGV.CurrentCell = jobDGV.Rows[0].Cells[0];
 
-                DisplayTotalInvValue();
-                DisplayTotalBeamM2();
-                DisplayTotalSlabM2();
-                this.Cursor = Cursors.Default;
-               // MessageBox.Show(row.ToString());
-                return;
-            }
-            catch (Exception ex)
-            {
-                string msg = String.Format("PopulateDGV() Error : {0}", ex.Message.ToString());
-                logger.LogLine(msg);
-                MessageBox.Show(msg);
-                string audit = mcData.CreateErrorAudit("JobPlannerForm.cs", "PopulateDGV(DataTable jobDT)", msg);
-                this.Cursor = Cursors.Default;
-                return;
-            }
+        //        DisplayTotalInvValue();
+        //        DisplayTotalJobMgnValue();
+        //        DisplayTotalBeamM2();
+        //        DisplayTotalSlabM2();
+        //        this.Cursor = Cursors.Default;
+        //       // MessageBox.Show(row.ToString());
+        //        return;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        string msg = String.Format("PopulateDGV() Error : {0}", ex.Message.ToString());
+        //        logger.LogLine(msg);
+        //        MessageBox.Show(msg);
+        //        string audit = mcData.CreateErrorAudit("JobPlannerForm.cs", "PopulateDGV(DataTable jobDT)", msg);
+        //        this.Cursor = Cursors.Default;
+        //        return;
+        //    }
 
 
-        }
+        //}
 
         private void PopulateDGV(DataTable jobDT)
         {
@@ -484,10 +494,11 @@ namespace MCPApp
                     drow.Cells[13].Value = dr["supplyType"].ToString();
                     drow.Cells[14].Value = dr["supplierRef"].ToString();
                     drow.Cells[15].Value = dr["phaseInvValue"].ToString();
-                    drow.Cells[16].Value = mcData.GetLastComment(dr["jobNo"].ToString());
+                    drow.Cells[16].Value = dr["jobMgnValue"].ToString();
+                    drow.Cells[17].Value = mcData.GetLastComment(dr["jobNo"].ToString());
 
-                    drow.Cells[17].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
-                    drow.Cells[18].Value = dr["jobCreatedBy"].ToString();
+                    drow.Cells[18].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
+                    drow.Cells[19].Value = dr["jobCreatedBy"].ToString();
                     rows.Add(drow);
 
                 }
@@ -512,6 +523,7 @@ namespace MCPApp
                 jobDGV.CurrentCell = jobDGV.Rows[0].Cells[0];
 
                 DisplayTotalInvValue();
+                DisplayTotalJobMgnValue();
                 DisplayTotalBeamM2();
                 DisplayTotalSlabM2();
                 this.Cursor = Cursors.Default;
@@ -578,9 +590,10 @@ namespace MCPApp
                     drow.Cells[12].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
                     drow.Cells[13].Value = dr["supplyType"].ToString();
                     drow.Cells[14].Value = dr["supplierRef"].ToString();
-                    drow.Cells[15].Value = dr["phaseInvValue"].ToString();
-                    drow.Cells[16].Value = mcData.GetLastComment(dr["jobNo"].ToString());
-                    drow.Cells[17].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
+                    drow.Cells[15].Value = dr["phaseInvValue"].ToString(); 
+                    drow.Cells[16].Value = dr["jobMgnValue"].ToString(); 
+                    drow.Cells[17].Value = mcData.GetLastComment(dr["jobNo"].ToString());
+                    drow.Cells[18].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
                     drow.Cells[18].Value = dr["jobCreatedBy"].ToString();
                     rows.Add(drow);
                 }
@@ -599,6 +612,7 @@ namespace MCPApp
                 jobDGV.CurrentCell = jobDGV.Rows[0].Cells[0];
 
                 DisplayTotalInvValue();
+                DisplayTotalJobMgnValue();
                 DisplayTotalBeamM2();
                 DisplayTotalSlabM2();
                 //   MessageBox.Show(row.ToString());
@@ -671,10 +685,11 @@ namespace MCPApp
                     drow.Cells[12].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
                     drow.Cells[13].Value = dr["supplyType"].ToString();
                     drow.Cells[14].Value = dr["supplierRef"].ToString();
-                    drow.Cells[15].Value = dr["phaseInvValue"].ToString();
-                    drow.Cells[16].Value = mcData.GetLastComment(dr["jobNo"].ToString());
-                    drow.Cells[17].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
-                    drow.Cells[18].Value = dr["jobCreatedBy"].ToString();
+                    drow.Cells[15].Value = dr["phaseInvValue"].ToString(); 
+                    drow.Cells[16].Value = dr["jobMgnValue"].ToString(); 
+                    drow.Cells[17].Value = mcData.GetLastComment(dr["jobNo"].ToString());
+                    drow.Cells[18].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
+                    drow.Cells[19].Value = dr["jobCreatedBy"].ToString();
                     rows.Add(drow);
 
                 }
@@ -693,6 +708,7 @@ namespace MCPApp
                 jobDGV.CurrentCell = jobDGV.Rows[0].Cells[0];
 
                 DisplayTotalInvValue();
+                DisplayTotalJobMgnValue();
                 DisplayTotalBeamM2();
                 DisplayTotalSlabM2();
                 this.Cursor = Cursors.Default;
@@ -730,6 +746,7 @@ namespace MCPApp
             string supplierRef;
             string lastComment;
             decimal phaseInvValue;
+            decimal jobMgnValue;
             string sortType;
             
             
@@ -762,7 +779,7 @@ namespace MCPApp
                     supplierRef = jobDGV.Rows[i].Cells[14].Value.ToString();
                     lastComment = jobDGV.Rows[i].Cells[16].Value.ToString();
                     phaseInvValue = Convert.ToDecimal(jobDGV.Rows[i].Cells[15].Value);
-
+                    jobMgnValue = Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value);
 
                     string mon = "";
                     string tue = "";
@@ -876,13 +893,13 @@ namespace MCPApp
                         sat = "";
                     }
 
-                    string err = mcData.UpdateJobPlanner(parentJobNo, jobNo, phaseNo, floorLevel, requiredDate, siteAddress, approved, onshop, stairsIncl, slabM2, beamM2, beamLm, suppShortname, supplyType, supplierRef, lastComment, phaseInvValue, sortType);
+                    string err = mcData.UpdateJobPlanner(parentJobNo, jobNo, phaseNo, floorLevel, requiredDate, siteAddress, approved, onshop, stairsIncl, slabM2, beamM2, beamLm, suppShortname, supplyType, supplierRef, lastComment, phaseInvValue, jobMgnValue, sortType);
                     if (err != "OK")
                     {
                         MessageBox.Show(String.Format("UpdatedJobsDGVToDB() ERROR : {0}", err));
                         break;
                     }
-                    string wbErr = mcData.UpdateWhiteboardViaJobPlanner(jobNo, floorLevel, /*requiredDate,*/ siteAddress, slabM2, beamM2, supplyType, suppShortname, stairsIncl, lastComment, mon, tue, wed, thu, fri, sat, sun, phaseInvValue, sortType);
+                    string wbErr = mcData.UpdateWhiteboardViaJobPlanner(jobNo, floorLevel, requiredDate, siteAddress, slabM2, beamM2, supplyType, suppShortname, stairsIncl, lastComment, mon, tue, wed, thu, fri, sat, sun, phaseInvValue, sortType);
                     if (wbErr != "OK")
                     {
                         MessageBox.Show(String.Format("UpdatedJobsDGVToDB() ERROR : {0}", wbErr));
@@ -1002,6 +1019,7 @@ namespace MCPApp
                 dt.Columns.Add("supplierRef", typeof(string));//15
                 dt.Columns.Add("lastComment", typeof(string));//16
                 dt.Columns.Add("phaseInvValue", typeof(string));//17
+                dt.Columns.Add("jobMgnValue", typeof(string));//17
                 dt.Columns.Add("completed", typeof(string));//18
                 dt.Columns.Add("modifiedDate", typeof(string));//19
                 dt.Columns.Add("modifiedBy", typeof(string));//20
@@ -1033,9 +1051,10 @@ namespace MCPApp
                     dr["productSupplier"] = jobDGV.Rows[i].Cells[12].Value.ToString();
                     dr["lastComment"] = jobDGV.Rows[i].Cells[16].Value.ToString();
                     dr["phaseInvValue"] = Convert.ToDecimal(jobDGV.Rows[i].Cells[15].Value);
+                    dr["jobMgnValue"] = Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value);
                     dr["completed"] = mcData.GetCompletedFlagFromJob(jobDGV.Rows[i].Cells[0].Value.ToString());
-                    dr["modifiedDate"] = Convert.ToDateTime(jobDGV.Rows[i].Cells[17].Value);
-                    dr["modifiedBy"] = jobDGV.Rows[i].Cells[18].Value.ToString();
+                    dr["modifiedDate"] = Convert.ToDateTime(jobDGV.Rows[i].Cells[18].Value);
+                    dr["modifiedBy"] = jobDGV.Rows[i].Cells[19].Value.ToString();
 
                     dt.Rows.Add(dr);
                 }
@@ -1258,7 +1277,7 @@ namespace MCPApp
                             string err2 = mcData.UpdateWhiteBoardJobDate(job, dateForm.RequiredDate);
                             if (err2 == "OK")
                             {
-                                string err2a = mcData.CreateJobDayAudit(job, dateForm.RequiredDate);
+                               // string err2a = mcData.CreateJobDayAudit(job, dateForm.RequiredDate, $"UpdateWhiteBoardJobDate(....{dateForm.RequiredDate.ToShortDateString()}......)");
                             }
                             string err3 = mcData.ClearWhiteboardJobDayComments(job);
                         }
@@ -1305,6 +1324,29 @@ namespace MCPApp
                 string msg = String.Format("DisplayTotalInvValue() Error : {0}", ex.Message.ToString());
                 logger.LogLine(msg);
                 string audit = mcData.CreateErrorAudit("JobPlannerForm.cs", "DisplayTotalInvValue()", msg);
+                return;
+            }
+        }
+
+        private void DisplayTotalJobMgnValue()
+        {
+            decimal total = 0;
+            try
+            {
+                for (int i = 0; i < jobDGV.Rows.Count; i++)
+                {
+                    if (jobDGV.Rows[i].Cells[0].Value == null) { continue; }
+                    if (jobDGV.Rows[i].Cells[16].Value == null) { continue; }
+                    total += Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value.ToString());
+                }
+
+                txtTotalJobMgn.Text = total.ToString("#,#");
+            }
+            catch (Exception ex)
+            {
+                string msg = String.Format("DisplayTotalJobMgnValue() Error : {0}", ex.Message.ToString());
+                logger.LogLine(msg);
+                string audit = mcData.CreateErrorAudit("JobPlannerForm.cs", "DisplayTotalJobMgnValue()", msg);
                 return;
             }
         }
@@ -1409,6 +1451,11 @@ namespace MCPApp
             if (e.ColumnIndex == 15)
             {
                 DisplayTotalInvValue();
+            }
+
+            if(e.ColumnIndex == 16)
+            {
+                DisplayTotalJobMgnValue();
             }
             if (mcData.IsJobLockExist("JP", jobNo, "jobDGV_CellEndEdit", loggedInUser)) { return; }
             string result = mcData.CreateJobLock("JP", jobNo, "jobDGV_CellEndEdit");
@@ -1738,6 +1785,7 @@ namespace MCPApp
 
             PopulateDGVByQry(qry);
             DisplayTotalInvValue();
+            DisplayTotalJobMgnValue();
             DisplayTotalBeamM2();
             DisplayTotalSlabM2();
             this.Cursor = Cursors.Default;
@@ -1766,6 +1814,7 @@ namespace MCPApp
             }
             PopulateDGVByQry(qry);
             DisplayTotalInvValue();
+            DisplayTotalJobMgnValue();
             DisplayTotalBeamM2();
             DisplayTotalSlabM2();
             this.Cursor = Cursors.Default;
@@ -2067,6 +2116,7 @@ namespace MCPApp
 
                 PopulateDGVByQry(qry);
                 DisplayTotalInvValue();
+                DisplayTotalJobMgnValue();
                 DisplayTotalBeamM2();
                 DisplayTotalSlabM2();
                 return;
@@ -2395,6 +2445,7 @@ namespace MCPApp
 
                 PopulateDGVByQry(qry);
                 DisplayTotalInvValue();
+                DisplayTotalJobMgnValue();
                 DisplayTotalBeamM2();
                 DisplayTotalSlabM2();
                 return;
@@ -2723,6 +2774,7 @@ namespace MCPApp
 
                 PopulateDGVByQry(qry);
                 DisplayTotalInvValue();
+                DisplayTotalJobMgnValue();
                 DisplayTotalBeamM2();
                 DisplayTotalSlabM2();
                 return;
@@ -2847,6 +2899,7 @@ namespace MCPApp
 
             PopulateDGVByQry(qry);
             DisplayTotalInvValue();
+            DisplayTotalJobMgnValue();
             DisplayTotalBeamM2();
             DisplayTotalSlabM2();
             this.Cursor = Cursors.Default;
@@ -2918,6 +2971,7 @@ namespace MCPApp
                 }
                 PopulateDGVByQry(qry);
                 DisplayTotalInvValue();
+                DisplayTotalJobMgnValue();
                 DisplayTotalBeamM2();
                 DisplayTotalSlabM2();
                 this.Cursor = Cursors.Default;
@@ -2966,6 +3020,7 @@ namespace MCPApp
                 }
                 PopulateDGVByQry(qry);
                 DisplayTotalInvValue();
+                DisplayTotalJobMgnValue();
                 DisplayTotalBeamM2();
                 DisplayTotalSlabM2();
                 this.Cursor = Cursors.Default;
@@ -3014,6 +3069,7 @@ namespace MCPApp
                 }
                 PopulateDGVByQry(qry);
                 DisplayTotalInvValue();
+                DisplayTotalJobMgnValue();
                 DisplayTotalBeamM2();
                 DisplayTotalSlabM2();
                 this.Cursor = Cursors.Default;
