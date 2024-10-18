@@ -777,7 +777,7 @@ namespace MCPApp
 
                     suppShortname = jobDGV.Rows[i].Cells[12].Value.ToString();
                     supplierRef = jobDGV.Rows[i].Cells[14].Value.ToString();
-                    lastComment = jobDGV.Rows[i].Cells[16].Value.ToString();
+                    lastComment = jobDGV.Rows[i].Cells[17].Value.ToString();
                     phaseInvValue = Convert.ToDecimal(jobDGV.Rows[i].Cells[15].Value);
                     jobMgnValue = Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value);
 
@@ -943,6 +943,7 @@ namespace MCPApp
                 newJobDT.Columns.Add("supplierRef", typeof(string));//15
                 newJobDT.Columns.Add("lastComment", typeof(string));//16
                 newJobDT.Columns.Add("phaseInvValue", typeof(string));//17
+                newJobDT.Columns.Add("jobMgnValue", typeof(string));//17
                 newJobDT.Columns.Add("completed", typeof(string));//18
                 newJobDT.Columns.Add("modifiedDate", typeof(string));//19
                 newJobDT.Columns.Add("modifiedBy", typeof(string));//20
@@ -967,11 +968,12 @@ namespace MCPApp
                     dr["supplyType"] = jobDGV.Rows[i].Cells[13].Value.ToString();
                     dr["supplierRef"] = jobDGV.Rows[i].Cells[14].Value.ToString();
                     dr["productSupplier"] = jobDGV.Rows[i].Cells[12].Value.ToString();
-                    dr["lastComment"] = jobDGV.Rows[i].Cells[16].Value.ToString();
+                    dr["lastComment"] = jobDGV.Rows[i].Cells[17].Value.ToString();
                     dr["phaseInvValue"] = Convert.ToDecimal(jobDGV.Rows[i].Cells[15].Value);
+                    dr["jobMgnValue"] = Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value);
                     dr["completed"] = mcData.GetCompletedFlagFromJob(jobDGV.Rows[i].Cells[0].Value.ToString());
-                    dr["modifiedDate"] = Convert.ToDateTime(jobDGV.Rows[i].Cells[17].Value);
-                    dr["modifiedBy"] = jobDGV.Rows[i].Cells[18].Value.ToString();
+                    dr["modifiedDate"] = Convert.ToDateTime(jobDGV.Rows[i].Cells[18].Value);
+                    dr["modifiedBy"] = jobDGV.Rows[i].Cells[19].Value.ToString();
                     newJobDT.Rows.Add(dr);
                 }
                 return "OK";
@@ -1018,8 +1020,8 @@ namespace MCPApp
                 dt.Columns.Add("productSupplier", typeof(string));//14
                 dt.Columns.Add("supplierRef", typeof(string));//15
                 dt.Columns.Add("lastComment", typeof(string));//16
-                dt.Columns.Add("phaseInvValue", typeof(string));//17
-                dt.Columns.Add("jobMgnValue", typeof(string));//17
+                dt.Columns.Add("phaseInvValue", typeof(decimal));//17
+                dt.Columns.Add("jobMgnValue", typeof(decimal));//17
                 dt.Columns.Add("completed", typeof(string));//18
                 dt.Columns.Add("modifiedDate", typeof(string));//19
                 dt.Columns.Add("modifiedBy", typeof(string));//20
@@ -1286,13 +1288,13 @@ namespace MCPApp
                     }
                 }
 
-                if (e.ColumnIndex == 16)
+                if (e.ColumnIndex == 17)
                 {
                     //jobDGV.Rows[0].Cells[0].Value
                     JobCommentForm commentForm = new JobCommentForm(jobDGV.Rows[e.RowIndex].Cells[0].Value.ToString());
                     commentForm.ShowDialog();
-                    jobDGV.Rows[e.RowIndex].Cells[16].Value = mcData.GetLastComment(jobDGV.Rows[e.RowIndex].Cells[0].Value.ToString());
-                    jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[16];
+                    jobDGV.Rows[e.RowIndex].Cells[17].Value = mcData.GetLastComment(jobDGV.Rows[e.RowIndex].Cells[0].Value.ToString());
+                    jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[17];
                     jobDGV.CurrentCell.Selected = true;
                 }
             }
@@ -1536,7 +1538,7 @@ namespace MCPApp
 
             if (!mcData.IsJobExists(nextJobNo))
             {
-                err = mcData.CreateJobPlanner(parentJob, nextJobNo, nextJobNo.Substring(6, 2), "", DateTime.Now.AddYears(1), siteAddress, "N", "N", "N", 0, 0, 0, "", "", "", "", 0,"");
+                err = mcData.CreateJobPlanner(parentJob, nextJobNo, nextJobNo.Substring(6, 2), "", DateTime.Now.AddYears(1), siteAddress, "N", "N", "N", 0, 0, 0, "", "", "", "", 0,0,"");
             }
             
             if (!mcData.IsWhiteboardJobExists(nextJobNo))

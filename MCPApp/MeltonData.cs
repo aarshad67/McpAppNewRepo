@@ -4081,11 +4081,11 @@ namespace MCPApp
         }
 
         public string CreateJobPlanner(int parentJobNo, string jobNo, string phaseNo, string floorLevel, DateTime requiredDate, string siteAddress, string approved, string OnShop, string stairsIncl,
-                                                                 int slabM2, int beamM2, int beamLm, string productSupplier, string supplyType, string supplierRef, string lastComment, decimal phaseInvValue, string sortType)
+                                                                 int slabM2, int beamM2, int beamLm, string productSupplier, string supplyType, string supplierRef, string lastComment, decimal phaseInvValue, decimal jobMgnValue, string sortType)
         {
 
             string insertQry = "INSERT INTO dbo.JobPlanner("
-                                            + "parentJobNo,jobNo,phaseNo,floorLevel,requiredDate,siteAddress,approved,OnShop,stairsIncl,slabM2,beamM2, beamLm,supplyType, productSupplier, supplierRef, lastComment, phaseInvValue,completedFlag,modifiedDate,modifiedBy,jobCreatedBy,jobCreatedDate,sortType) "
+                                            + "parentJobNo,jobNo,phaseNo,floorLevel,requiredDate,siteAddress,approved,OnShop,stairsIncl,slabM2,beamM2, beamLm,supplyType, productSupplier, supplierRef, lastComment, phaseInvValue,jobMgnValue,completedFlag,modifiedDate,modifiedBy,jobCreatedBy,jobCreatedDate,sortType) "
                                             + "VALUES("
                                             + "@parentJobNo,"
                                             + "@jobNo,"
@@ -4104,6 +4104,7 @@ namespace MCPApp
                                             + "@supplierRef,"
                                             + "@lastComment,"
                                             + "@phaseInvValue,"
+                                            + "@jobMgnValue,"
                                             + "@completedFlag,"
                                             + "@modifiedDate,"
                                             + "@modifiedBy,"
@@ -4135,6 +4136,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("supplierRef", supplierRef));
                         command.Parameters.Add(new SqlParameter("lastComment", lastComment));
                         command.Parameters.Add(new SqlParameter("phaseInvValue", phaseInvValue));
+                        command.Parameters.Add(new SqlParameter("jobMgnValue", jobMgnValue));
                         command.Parameters.Add(new SqlParameter("completedFlag", "N"));
                         command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
                         command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));

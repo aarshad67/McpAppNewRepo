@@ -311,12 +311,20 @@ namespace MCPApp
                 phasedValueTextBoxColumn.ReadOnly = false;
                 jobDGV.Columns.Add(phasedValueTextBoxColumn);
 
+                //17
+                DataGridViewTextBoxColumn jobMgnValueColumn = new DataGridViewTextBoxColumn();  //0
+                jobMgnValueColumn.HeaderText = "Job Mgn Value(£)";
+                jobMgnValueColumn.Width = 80;
+                jobMgnValueColumn.ReadOnly = false;
+                jobDGV.Columns.Add(jobMgnValueColumn);
+
 
                 jobDGV.SelectionMode = DataGridViewSelectionMode.CellSelect;
                 jobDGV.EnableHeadersVisualStyles = false;
                 jobDGV.Columns[2].DefaultCellStyle.BackColor = Color.Yellow;
                 jobDGV.Columns[4].DefaultCellStyle.BackColor = Color.Yellow;
                 jobDGV.Columns[16].DefaultCellStyle.BackColor = Color.Cyan;
+                jobDGV.Columns[17].DefaultCellStyle.BackColor = Color.Cyan;
 
 
 
@@ -646,6 +654,7 @@ namespace MCPApp
             string supplierRef;
             string lastComment;
             decimal phaseInvValue;
+            decimal jobMgnValue;
             bool errFound = false;
             string err = "";
             string wbErr = "";
@@ -675,11 +684,12 @@ namespace MCPApp
                     supplierRef = jobDGV.Rows[i].Cells[14].Value == null ? "" : jobDGV.Rows[i].Cells[14].Value.ToString();
                     lastComment = jobDGV.Rows[i].Cells[15].Value == null ? "" : jobDGV.Rows[i].Cells[15].Value.ToString();
                     phaseInvValue = jobDGV.Rows[i].Cells[16].Value == null ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value.ToString());
+                    jobMgnValue = jobDGV.Rows[i].Cells[17].Value == null ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[17].Value.ToString());
                     sortType = "S" + supplyType.Substring(1, 1);
 
                     if (!mcData.IsJobExists(jobNo))
                     {
-                        err = mcData.CreateJobPlanner(parentJobNo, jobNo, phaseNo, floorLevel, requiredDate, siteAddress, approved, OnShop, stairsIncl, slabM2, beamM2, beamLm, shortname, supplyType, supplierRef, lastComment, phaseInvValue,sortType);
+                        err = mcData.CreateJobPlanner(parentJobNo, jobNo, phaseNo, floorLevel, requiredDate, siteAddress, approved, OnShop, stairsIncl, slabM2, beamM2, beamLm, shortname, supplyType, supplierRef, lastComment, phaseInvValue, jobMgnValue, sortType);
                         if (err != "OK")
                         {
                             MessageBox.Show(String.Format("CreateJobPlanner ERROR ( Job {0} ) : {1}", jobNo, err));
@@ -763,6 +773,7 @@ namespace MCPApp
             string supplierRef;
             string lastComment;
             decimal phaseInvValue;
+            decimal jobMgnValue;
             bool errFound = false;
             string err = "";
             string wbErr = "";
@@ -792,11 +803,12 @@ namespace MCPApp
                     supplierRef = jobDGV.Rows[i].Cells[14].Value == null ? "" : jobDGV.Rows[i].Cells[14].Value.ToString();
                     lastComment = jobDGV.Rows[i].Cells[15].Value == null ? "" : jobDGV.Rows[i].Cells[15].Value.ToString();
                     phaseInvValue = jobDGV.Rows[i].Cells[16].Value == null ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value.ToString());
+                    jobMgnValue = jobDGV.Rows[i].Cells[17].Value == null ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[17].Value.ToString());
                     sortType = "S" + supplyType.Substring(1, 1);
 
                     if (!mcData.IsJobExists(jobNo))
                     {
-                        err = mcData.CreateJobPlanner(parentJobNo, jobNo, phaseNo, floorLevel, requiredDate, siteAddress, approved, OnShop, stairsIncl, slabM2, beamM2, beamLm, shortname, supplyType, supplierRef, lastComment, phaseInvValue,sortType);
+                        err = mcData.CreateJobPlanner(parentJobNo, jobNo, phaseNo, floorLevel, requiredDate, siteAddress, approved, OnShop, stairsIncl, slabM2, beamM2, beamLm, shortname, supplyType, supplierRef, lastComment, phaseInvValue, jobMgnValue, sortType);
                         if (err != "OK")
                         {
                             MessageBox.Show(String.Format("CreateJobPlanner ERROR ( Job {0} ) : {1}", jobNo, err));
