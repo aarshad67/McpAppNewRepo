@@ -62,7 +62,7 @@ namespace MCPApp
             BuildDGV();
             if (sourceDT.Rows.Count > 0)
             {
-               PopulateDGV(sourceDT);
+                PopulateDGV(sourceDT);
             }
             else if (parentJobNo > 0)
             {
@@ -96,7 +96,7 @@ namespace MCPApp
                 {
                     PopulateDGV(mcData.GetJobPlannerDT());
                 }
-                
+
             }
             //DisplayTotalInvValue();
             //DisplayTotalBeamM2();
@@ -292,12 +292,12 @@ namespace MCPApp
                 jobDGV.Columns.Add(phasedValueTextBoxColumn);
 
                 //16
-                DataGridViewTextBoxColumn jobMgnTextBoxColumn = new DataGridViewTextBoxColumn();  //0
-                jobMgnTextBoxColumn.HeaderText = "Job Mgn(£)";
-                jobMgnTextBoxColumn.Width = 80;
-                jobMgnTextBoxColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
-                jobMgnTextBoxColumn.ReadOnly = false;
-                jobDGV.Columns.Add(jobMgnTextBoxColumn);
+                DataGridViewTextBoxColumn jobMarginColumn = new DataGridViewTextBoxColumn();  //0
+                jobMarginColumn.HeaderText = "Job Mgn(£)";
+                jobMarginColumn.Width = 80;
+                jobMarginColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                jobMarginColumn.ReadOnly = false;
+                jobDGV.Columns.Add(jobMarginColumn);
 
 
                 //17
@@ -352,98 +352,6 @@ namespace MCPApp
 
         }
 
-        //private void PopulateDGVBACKUP(DataTable jobDT)
-        //{
-        //    if (jobDT == null) { return; }
-        //    if (jobDT.Rows.Count == 0) { return; }
-        //    int row = 0;
-        //    int rgb1, rgb2, rgb3 = 255;
-        //    string suppShortname = "";
-        //    int daysDiff = 0;
-        //    string approved = "";
-        //    string jobNo = "";
-        //    string custName = "";
-        //    string custCode = "";
-        //    try
-        //    {
-        //        this.Cursor = Cursors.WaitCursor;
-        //        jobDGV.Rows.Clear();
-        //        foreach (DataRow dr in jobDT.Rows)
-        //        {
-        //            jobNo = dr["jobNo"].ToString();
-        //            custCode = mcData.GetCustomerCodeByJobNo(jobNo);
-        //            custName = mcData.GetCustName(custCode);
-        //            approved = dr["approved"].ToString();
-        //            daysDiff = mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
-        //            suppShortname = dr["productSupplier"].ToString();
-        //            mcData.GetSupplierColourByShortname(suppShortname, out rgb1, out rgb2, out rgb3);
-        //            jobDGV.Rows.Add();
-        //            jobDGV[0, row].Value = jobNo;
-        //            jobDGV[1, row].Value = custName;
-        //            jobDGV[2, row].Value = dr["floorLevel"].ToString();
-        //            jobDGV[3, row].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0,3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
-        //            jobDGV[4, row].Value = dr["siteAddress"].ToString();
-        //            jobDGV[5, row].Value = dr["approved"].ToString() == "Y" ? true : false;
-        //            jobDGV[6, row].Value = dr["onshop"].ToString() == "Y" ? true : false;
-        //            jobDGV[7, row].Value = dr["approved"].ToString() == "Y" ? 0 : mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
-        //            jobDGV[7, row].Style.ForeColor = approved != "Y" && daysDiff > 0 ? Color.Red : Color.Black;
-        //         //   jobDGV[8, row].Value = dr["OnShop"].ToString() == "Y" ? true : false;
-        //            jobDGV[8, row].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
-        //            jobDGV[9, row].Value = dr["slabM2"].ToString();
-        //            jobDGV[10, row].Value = dr["beamM2"].ToString();
-        //            jobDGV[11, row].Value = dr["beamLm"].ToString();
-        //            jobDGV[12, row].Value = dr["productSupplier"].ToString();
-        //            jobDGV[12, row].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
-        //            jobDGV[13, row].Value = dr["supplyType"].ToString();
-        //            jobDGV[14, row].Value = dr["supplierRef"].ToString();
-        //            jobDGV[15, row].Value = dr["phaseInvValue"].ToString();
-        //            jobDGV[16, row].Value = mcData.GetLastComment(dr["jobNo"].ToString());
-
-        //            jobDGV[17, row].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
-        //            jobDGV[18, row++].Value = dr["jobCreatedBy"].ToString();
-
-                    
-        //        }
-        //        foreach (DataGridViewRow jobRow in jobDGV.Rows)
-        //        {
-        //            if (mcData.IsJobCompleted(jobRow.Cells[0].Value.ToString()))
-        //            {
-        //                jobRow.DefaultCellStyle.ForeColor = Color.Gray;
-        //            }
-        //            else
-        //            {
-        //                jobRow.DefaultCellStyle.ForeColor = Color.Black;
-        //            }
-
-        //            if (mcData.IsJobLockExistByOtherUser("JP", jobRow.Cells[0].Value.ToString(), loggedInUser))
-        //            {
-        //                jobRow.Frozen = true;
-        //                jobRow.DefaultCellStyle.ForeColor = Color.Red;
-        //            }
-        //        }
-        //        jobDGV.CurrentCell = jobDGV.Rows[0].Cells[0];
-
-        //        DisplayTotalInvValue();
-        //        DisplayTotalJobMgnValue();
-        //        DisplayTotalBeamM2();
-        //        DisplayTotalSlabM2();
-        //        this.Cursor = Cursors.Default;
-        //       // MessageBox.Show(row.ToString());
-        //        return;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        string msg = String.Format("PopulateDGV() Error : {0}", ex.Message.ToString());
-        //        logger.LogLine(msg);
-        //        MessageBox.Show(msg);
-        //        string audit = mcData.CreateErrorAudit("JobPlannerForm.cs", "PopulateDGV(DataTable jobDT)", msg);
-        //        this.Cursor = Cursors.Default;
-        //        return;
-        //    }
-
-
-        //}
-
         private void PopulateDGV(DataTable jobDT)
         {
             if (jobDT == null) { return; }
@@ -463,7 +371,7 @@ namespace MCPApp
                 List<DataGridViewRow> rows = new List<DataGridViewRow>();
                 foreach (DataRow dr in jobDT.Rows)
                 {
-                    
+
                     jobNo = dr["jobNo"].ToString();
                     //drow.Cells[0].Value = dr["jobNo"].ToString();
                     custCode = mcData.GetCustomerCodeByJobNo(jobNo);
@@ -522,7 +430,7 @@ namespace MCPApp
                 }
                 jobDGV.CurrentCell = jobDGV.Rows[0].Cells[0];
 
-                DisplayTotalInvValue();
+                DisplayTotalInvValue(); 
                 DisplayTotalJobMgnValue();
                 DisplayTotalBeamM2();
                 DisplayTotalSlabM2();
@@ -590,11 +498,11 @@ namespace MCPApp
                     drow.Cells[12].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
                     drow.Cells[13].Value = dr["supplyType"].ToString();
                     drow.Cells[14].Value = dr["supplierRef"].ToString();
-                    drow.Cells[15].Value = dr["phaseInvValue"].ToString(); 
-                    drow.Cells[16].Value = dr["jobMgnValue"].ToString(); 
+                    drow.Cells[15].Value = dr["phaseInvValue"].ToString();
+                    drow.Cells[16].Value = dr["jobMgnValue"].ToString();
                     drow.Cells[17].Value = mcData.GetLastComment(dr["jobNo"].ToString());
                     drow.Cells[18].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
-                    drow.Cells[18].Value = dr["jobCreatedBy"].ToString();
+                    drow.Cells[19].Value = dr["jobCreatedBy"].ToString();
                     rows.Add(drow);
                 }
                 jobDGV.Rows.AddRange(rows.ToArray());
@@ -624,7 +532,7 @@ namespace MCPApp
                 string msg = String.Format("PopulateDGV() Error : {0}", ex.Message.ToString());
                 logger.LogLine(msg);
                 MessageBox.Show(msg);
-                string audit = mcData.CreateErrorAudit("JobPlannerForm.cs", String.Format("PopulateDGVByParentJob({0})",parentJobNo.ToString()), msg);
+                string audit = mcData.CreateErrorAudit("JobPlannerForm.cs", String.Format("PopulateDGVByParentJob({0})", parentJobNo.ToString()), msg);
                 return;
             }
 
@@ -633,17 +541,17 @@ namespace MCPApp
 
         private void PopulateDGVByQry(string qry)
         {
-            
+
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-                
+
                 DataTable jobDT = mcData.GetJobPlannerDTByQry(qry);
-                if (jobDT.Rows.Count == 0) 
+                if (jobDT.Rows.Count == 0)
                 {
                     MessageBox.Show("No Jobs found");
                     this.Cursor = Cursors.Default;
-                    return; 
+                    return;
                 }
                 int row = 0;
                 int rgb1, rgb2, rgb3 = 255;
@@ -685,8 +593,8 @@ namespace MCPApp
                     drow.Cells[12].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
                     drow.Cells[13].Value = dr["supplyType"].ToString();
                     drow.Cells[14].Value = dr["supplierRef"].ToString();
-                    drow.Cells[15].Value = dr["phaseInvValue"].ToString(); 
-                    drow.Cells[16].Value = dr["jobMgnValue"].ToString(); 
+                    drow.Cells[15].Value = dr["phaseInvValue"].ToString();
+                    drow.Cells[16].Value = dr["jobMgnValue"].ToString();
                     drow.Cells[17].Value = mcData.GetLastComment(dr["jobNo"].ToString());
                     drow.Cells[18].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
                     drow.Cells[19].Value = dr["jobCreatedBy"].ToString();
@@ -748,8 +656,8 @@ namespace MCPApp
             decimal phaseInvValue;
             decimal jobMgnValue;
             string sortType;
-            
-            
+
+
             try
             {
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
@@ -766,20 +674,20 @@ namespace MCPApp
                     siteAddress = jobDGV.Rows[i].Cells[4].Value.ToString();
                     approved = (bool)jobDGV.Rows[i].Cells[5].Value ? "Y" : "N";
                     onshop = (bool)jobDGV.Rows[i].Cells[6].Value ? "Y" : "N";
-                   // OnShop = (bool)jobDGV.Rows[i].Cells[8].Value ? "Y" : "N";
+                    // OnShop = (bool)jobDGV.Rows[i].Cells[8].Value ? "Y" : "N";
                     stairsIncl = (bool)jobDGV.Rows[i].Cells[8].Value ? "Y" : "N";
                     slabM2 = Convert.ToInt32(jobDGV.Rows[i].Cells[9].Value);
                     beamLm = Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value);
                     beamM2 = Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value);
-                    
+
                     supplyType = jobDGV.Rows[i].Cells[13].Value.ToString();
                     sortType = "S" + supplyType.Substring(1, 1);
 
                     suppShortname = jobDGV.Rows[i].Cells[12].Value.ToString();
                     supplierRef = jobDGV.Rows[i].Cells[14].Value.ToString();
                     lastComment = jobDGV.Rows[i].Cells[17].Value.ToString();
-                    phaseInvValue = Convert.ToDecimal(jobDGV.Rows[i].Cells[15].Value);
-                    jobMgnValue = Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value);
+                    phaseInvValue = jobDGV.Rows[i].Cells[15].Value == null ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[15].Value);
+                    jobMgnValue = jobDGV.Rows[i].Cells[16].Value == null ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value);
 
                     string mon = "";
                     string tue = "";
@@ -820,7 +728,7 @@ namespace MCPApp
                     {
                         dayValue = sun;
                     }
-                                        
+
 
                     if (requiredDate.DayOfWeek.ToString().ToUpper() == "MONDAY")
                     {
@@ -923,30 +831,30 @@ namespace MCPApp
             try
             {
 
-                
+
                 newJobDT.Columns.Clear();
                 newJobDT.Columns.Add("jobNo", typeof(string)); //0
-                newJobDT.Columns.Add("parentJobNo", typeof(string)); //1
-                newJobDT.Columns.Add("phaseNo", typeof(string)); //2
-                newJobDT.Columns.Add("floorLevel", typeof(string));//3
-                newJobDT.Columns.Add("requiredDate", typeof(DateTime));//4
-                newJobDT.Columns.Add("siteAddress", typeof(string));//5
-               // newJobDT.Columns.Add("drawn", typeof(string));//6
-                newJobDT.Columns.Add("approved", typeof(string));//7
-                newJobDT.Columns.Add("OnShop", typeof(string));//8
-                newJobDT.Columns.Add("stairsIncl", typeof(string));//9
-                newJobDT.Columns.Add("slabM2", typeof(string));//10
-                newJobDT.Columns.Add("beamM2", typeof(string));//11
-                newJobDT.Columns.Add("beamLm", typeof(string));//12
+                newJobDT.Columns.Add("parentJobNo", typeof(string)); //--
+                newJobDT.Columns.Add("phaseNo", typeof(string)); //--
+                newJobDT.Columns.Add("floorLevel", typeof(string));//2
+                newJobDT.Columns.Add("requiredDate", typeof(DateTime));//3
+                newJobDT.Columns.Add("siteAddress", typeof(string));//4
+                                                                    // newJobDT.Columns.Add("drawn", typeof(string));//6
+                newJobDT.Columns.Add("approved", typeof(string));//5
+                newJobDT.Columns.Add("OnShop", typeof(string));//6
+                newJobDT.Columns.Add("stairsIncl", typeof(string));//8
+                newJobDT.Columns.Add("slabM2", typeof(string));//9
+                newJobDT.Columns.Add("beamM2", typeof(string));//10
+                newJobDT.Columns.Add("beamLm", typeof(string));//11
                 newJobDT.Columns.Add("supplyType", typeof(string));//13
-                newJobDT.Columns.Add("productSupplier", typeof(string));//14
-                newJobDT.Columns.Add("supplierRef", typeof(string));//15
-                newJobDT.Columns.Add("lastComment", typeof(string));//16
-                newJobDT.Columns.Add("phaseInvValue", typeof(string));//17
-                newJobDT.Columns.Add("jobMgnValue", typeof(string));//17
-                newJobDT.Columns.Add("completed", typeof(string));//18
-                newJobDT.Columns.Add("modifiedDate", typeof(string));//19
-                newJobDT.Columns.Add("modifiedBy", typeof(string));//20
+                newJobDT.Columns.Add("productSupplier", typeof(string));//12
+                newJobDT.Columns.Add("supplierRef", typeof(string));//14
+                newJobDT.Columns.Add("lastComment", typeof(string));//17
+                newJobDT.Columns.Add("phaseInvValue", typeof(string));//15
+                newJobDT.Columns.Add("jobMgnValue", typeof(string));//16
+                newJobDT.Columns.Add("completed", typeof(string));//--
+                newJobDT.Columns.Add("modifiedDate", typeof(DateTime));//18
+                newJobDT.Columns.Add("modifiedBy", typeof(string));//19
                 DataRow dr = newJobDT.NewRow();
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
                 {
@@ -958,10 +866,10 @@ namespace MCPApp
                     dr["floorLevel"] = jobDGV.Rows[i].Cells[2].Value.ToString();
                     dr["requiredDate"] = Convert.ToDateTime(jobDGV.Rows[i].Cells[3].Value);
                     dr["siteAddress"] = jobDGV.Rows[i].Cells[4].Value.ToString();
-                 //   dr["drawn"] =  (bool)jobDGV.Rows[i].Cells[5].Value ? "Y" : "N";
-                    dr["approved"] = (bool)jobDGV.Rows[i].Cells[6].Value ? "Y" : "N";
+                    //   dr["drawn"] =  (bool)jobDGV.Rows[i].Cells[5].Value ? "Y" : "N";
+                    dr["approved"] = (bool)jobDGV.Rows[i].Cells[5].Value ? "Y" : "N";
                     dr["OnShop"] = (bool)jobDGV.Rows[i].Cells[6].Value ? "Y" : "N";
-                    dr["stairsIncl"] = (bool)jobDGV.Rows[i].Cells[8].Value ? "Y" : "N"; 
+                    dr["stairsIncl"] = (bool)jobDGV.Rows[i].Cells[8].Value ? "Y" : "N";
                     dr["slabM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[9].Value);
                     dr["beamLm"] = Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value);
                     dr["beamM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value);
@@ -969,8 +877,8 @@ namespace MCPApp
                     dr["supplierRef"] = jobDGV.Rows[i].Cells[14].Value.ToString();
                     dr["productSupplier"] = jobDGV.Rows[i].Cells[12].Value.ToString();
                     dr["lastComment"] = jobDGV.Rows[i].Cells[17].Value.ToString();
-                    dr["phaseInvValue"] = Convert.ToDecimal(jobDGV.Rows[i].Cells[15].Value);
-                    dr["jobMgnValue"] = Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value);
+                    dr["phaseInvValue"] = jobDGV.Rows[i].Cells[15].Value == null || jobDGV.Rows[i].Cells[15].Value == "" ? 0 :Convert.ToDecimal(jobDGV.Rows[i].Cells[15].Value);
+                    dr["jobMgnValue"] = jobDGV.Rows[i].Cells[16].Value == null || jobDGV.Rows[i].Cells[16].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value);
                     dr["completed"] = mcData.GetCompletedFlagFromJob(jobDGV.Rows[i].Cells[0].Value.ToString());
                     dr["modifiedDate"] = Convert.ToDateTime(jobDGV.Rows[i].Cells[18].Value);
                     dr["modifiedBy"] = jobDGV.Rows[i].Cells[19].Value.ToString();
@@ -980,7 +888,7 @@ namespace MCPApp
             }
             catch (Exception ex)
             {
-                string msg = String.Format("JobsDGVToDB() Error : {0}", ex.Message.ToString());
+                string msg = $"JobsDGVToDB() Error : {ex.Message.ToString()} -- Inner Exception : {ex.InnerException.ToString()}";
                 logger.LogLine(msg);
                 string audit = mcData.CreateErrorAudit("JobPlannerForm.cs", "JobsDGVToNewDatatable()", msg);
                 return msg;
@@ -999,7 +907,7 @@ namespace MCPApp
             try
             {
 
-                
+
                 dt.Columns.Clear();
                 dt.Columns.Add("jobNo", typeof(string)); //0
                 dt.Columns.Add("parentJobNo", typeof(string)); //1
@@ -1013,24 +921,24 @@ namespace MCPApp
                 dt.Columns.Add("OnShop", typeof(string));//8
                 dt.Columns.Add("stairsIncl", typeof(string));//9
                 dt.Columns.Add("slabM2", typeof(string));//10
-                
+
                 dt.Columns.Add("beamLm", typeof(string));//11
                 dt.Columns.Add("beamM2", typeof(string));//12
                 dt.Columns.Add("supplyType", typeof(string));//13
                 dt.Columns.Add("productSupplier", typeof(string));//14
                 dt.Columns.Add("supplierRef", typeof(string));//15
                 dt.Columns.Add("lastComment", typeof(string));//16
-                dt.Columns.Add("phaseInvValue", typeof(decimal));//17
-                dt.Columns.Add("jobMgnValue", typeof(decimal));//17
+                dt.Columns.Add("phaseInvValue", typeof(string));//17
+                dt.Columns.Add("jobMgnValue", typeof(string));//17
                 dt.Columns.Add("completed", typeof(string));//18
                 dt.Columns.Add("modifiedDate", typeof(string));//19
                 dt.Columns.Add("modifiedBy", typeof(string));//20
-                
+
                 DataRow dr = dt.NewRow();
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
                 {
                     if (jobDGV.Rows[i].Cells[0].Value == null) { continue; }
-                  //  jobNo = jobDGV.Rows[i].Cells[0].Value.ToString();
+                    //  jobNo = jobDGV.Rows[i].Cells[0].Value.ToString();
                     dr = dt.NewRow();
                     dr["jobNo"] = jobDGV.Rows[i].Cells[0].Value.ToString();
                     dr["parentJobNo"] = Convert.ToInt32(jobDGV.Rows[i].Cells[0].Value.ToString().Substring(0, 5));
@@ -1047,7 +955,7 @@ namespace MCPApp
                     dr["slabM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[9].Value);
                     dr["beamLm"] = Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value);
                     dr["beamM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value);
-                    
+
                     dr["supplyType"] = jobDGV.Rows[i].Cells[13].Value.ToString();
                     dr["supplierRef"] = jobDGV.Rows[i].Cells[14].Value.ToString();
                     dr["productSupplier"] = jobDGV.Rows[i].Cells[12].Value.ToString();
@@ -1082,7 +990,7 @@ namespace MCPApp
         private bool ValidateDGV()
         {
             bool result = false;
-            string supplyType, floorLevel,siteAddr = "";
+            string supplyType, floorLevel, siteAddr = "";
             bool failFlag = false;
             ;
 
@@ -1143,9 +1051,9 @@ namespace MCPApp
                 return;
             }
             string phaseJob = jobDGV.Rows[rowIndex].Cells[0].Value.ToString();
-            if (MessageBox.Show(String.Format("Confirm completion of Job No.{0}",phaseJob), "Confirm Completion", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+            if (MessageBox.Show(String.Format("Confirm completion of Job No.{0}", phaseJob), "Confirm Completion", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
             {
-                string err = mcData.CompleteJobPlanner(phaseJob,"Y");
+                string err = mcData.CompleteJobPlanner(phaseJob, "Y");
 
                 if (err == "OK")
                 {
@@ -1158,7 +1066,7 @@ namespace MCPApp
                 }
                 else
                 {
-                    MessageBox.Show(String.Format("Unable to complete job no.{0} : {1}",phaseJob,err));
+                    MessageBox.Show(String.Format("Unable to complete job no.{0} : {1}", phaseJob, err));
                     return;
                 }
             }
@@ -1223,7 +1131,7 @@ namespace MCPApp
 
                 if (e.ColumnIndex == 12)
                 {
-                 //   if (MessageBox.Show("Do you have a PO number for supplier", "Confirm PO Number", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No) { return; }
+                    //   if (MessageBox.Show("Do you have a PO number for supplier", "Confirm PO Number", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No) { return; }
                     AddPONumberForm poForm = new AddPONumberForm(job);
                     poForm.ShowDialog();
                     jobDGV.Rows[e.RowIndex].Cells[14].Value = poForm.PONumber;
@@ -1237,7 +1145,7 @@ namespace MCPApp
                     {
                         suppForm = new SuppliersListForm();
                     }
-                    
+
                     suppForm.ShowDialog();
                     string suppShortName = suppForm.Shortname;
                     string productType = mcData.GetSupplierProductTypeFromShortname(suppShortName);
@@ -1246,9 +1154,9 @@ namespace MCPApp
                     int rgb1, rgb2, rgb3 = 0;
 
                     mcData.GetSupplierColourByShortname(suppShortName, out rgb1, out rgb2, out rgb3);
-                    if(!String.IsNullOrWhiteSpace(suppShortName))
+                    if (!String.IsNullOrWhiteSpace(suppShortName))
                     {
-                        string err1 = mcData.UpdateJobPlannerSupplierShortName(job,suppShortName);
+                        string err1 = mcData.UpdateJobPlannerSupplierShortName(job, suppShortName);
                         string err2 = mcData.UpdateWhiteBoardSupplierShortName(job, suppShortName, rgb1, rgb2, rgb3);
                     }
                     jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[12];
@@ -1264,7 +1172,7 @@ namespace MCPApp
 
                                 + Environment.NewLine + Environment.NewLine +
                                 "Are you happy to continue ?";
-                    if (MessageBox.Show(msg,String.Format("Confirm Job REQUIRED DATE change for Job No {0}",job), MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    if (MessageBox.Show(msg, String.Format("Confirm Job REQUIRED DATE change for Job No {0}", job), MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                     {
                         string fullDate = jobDGV.Rows[e.RowIndex].Cells[3].Value.ToString();
                         string datePart = fullDate.Substring(4, 10);
@@ -1279,7 +1187,7 @@ namespace MCPApp
                             string err2 = mcData.UpdateWhiteBoardJobDate(job, dateForm.RequiredDate);
                             if (err2 == "OK")
                             {
-                               // string err2a = mcData.CreateJobDayAudit(job, dateForm.RequiredDate, $"UpdateWhiteBoardJobDate(....{dateForm.RequiredDate.ToShortDateString()}......)");
+                                // string err2a = mcData.CreateJobDayAudit(job, dateForm.RequiredDate, $"UpdateWhiteBoardJobDate(....{dateForm.RequiredDate.ToShortDateString()}......)");
                             }
                             string err3 = mcData.ClearWhiteboardJobDayComments(job);
                         }
@@ -1310,16 +1218,18 @@ namespace MCPApp
         private void DisplayTotalInvValue()
         {
             decimal total = 0;
+            decimal value = 0;
             try
             {
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
                 {
                     if (jobDGV.Rows[i].Cells[0].Value == null) { continue; }
-                    if (jobDGV.Rows[i].Cells[15].Value == null) { continue; }
-                    total += Convert.ToDecimal(jobDGV.Rows[i].Cells[15].Value.ToString());
+                    value = jobDGV.Rows[i].Cells[15].Value == null || jobDGV.Rows[i].Cells[15].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[15].Value.ToString());
+                   // if (jobDGV.Rows[i].Cells[15].Value == null) { continue; }
+                    total += value;
                 }
 
-                totalInvoiceValueTextBox.Text = total.ToString("#,#"); 
+                totalInvoiceValueTextBox.Text = total.ToString("#,#");
             }
             catch (Exception ex)
             {
@@ -1333,22 +1243,24 @@ namespace MCPApp
         private void DisplayTotalJobMgnValue()
         {
             decimal total = 0;
+            decimal value = 0;
             try
             {
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
                 {
                     if (jobDGV.Rows[i].Cells[0].Value == null) { continue; }
-                    if (jobDGV.Rows[i].Cells[16].Value == null) { continue; }
-                    total += Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value.ToString());
+                    value = jobDGV.Rows[i].Cells[16].Value == null || jobDGV.Rows[i].Cells[16].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value.ToString());
+                    //   if (jobDGV.Rows[i].Cells[16].Value == null) { continue; }value
+                    total += value;
                 }
 
                 txtTotalJobMgn.Text = total.ToString("#,#");
             }
             catch (Exception ex)
             {
-                string msg = String.Format("DisplayTotalJobMgnValue() Error : {0}", ex.Message.ToString());
+                string msg = String.Format("DisplayTotalInvValue() Error : {0}", ex.Message.ToString());
                 logger.LogLine(msg);
-                string audit = mcData.CreateErrorAudit("JobPlannerForm.cs", "DisplayTotalJobMgnValue()", msg);
+                string audit = mcData.CreateErrorAudit("JobPlannerForm.cs", "DisplayTotalInvValue()", msg);
                 return;
             }
         }
@@ -1401,7 +1313,7 @@ namespace MCPApp
 
 
 
-        
+
 
         private void jobDGV_DataError(object sender, DataGridViewDataErrorEventArgs e)
         {
@@ -1426,8 +1338,8 @@ namespace MCPApp
                 return;
 
             }
-            
-           
+
+
 
             if (e.ColumnIndex != 15 && e.ColumnIndex != 9 && e.ColumnIndex != 10 && e.ColumnIndex != 11) { return; }
 
@@ -1440,7 +1352,7 @@ namespace MCPApp
             {
                 int beamLM = Convert.ToInt32(jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString());
                 decimal halvedBeamLM = beamLM * 0.5m;
-                int slabM2 = (int)Math.Round(halvedBeamLM,0);
+                int slabM2 = (int)Math.Round(halvedBeamLM, 0);
                 jobDGV[11, e.RowIndex].Value = slabM2;
                 DisplayTotalBeamM2();
             }
@@ -1459,6 +1371,7 @@ namespace MCPApp
             {
                 DisplayTotalJobMgnValue();
             }
+
             if (mcData.IsJobLockExist("JP", jobNo, "jobDGV_CellEndEdit", loggedInUser)) { return; }
             string result = mcData.CreateJobLock("JP", jobNo, "jobDGV_CellEndEdit");
             return;
@@ -1538,18 +1451,18 @@ namespace MCPApp
 
             if (!mcData.IsJobExists(nextJobNo))
             {
-                err = mcData.CreateJobPlanner(parentJob, nextJobNo, nextJobNo.Substring(6, 2), "", DateTime.Now.AddYears(1), siteAddress, "N", "N", "N", 0, 0, 0, "", "", "", "", 0,0,"");
+                err = mcData.CreateJobPlanner(parentJob, nextJobNo, nextJobNo.Substring(6, 2), "", DateTime.Now.AddYears(1), siteAddress, "N", "N", "N", 0, 0, 0, "", "", "", "", 0,0, "");
             }
-            
+
             if (!mcData.IsWhiteboardJobExists(nextJobNo))
             {
                 wbErr = mcData.CreateWhiteBoard(nextJobNo, DateTime.Now.AddYears(1), customerCode, siteAddress, "", "", 0, 0, 0, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
 
-                "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","");
+                "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
             }
             this.Cursor = Cursors.Default;
 
-            
+
             if (err == "OK" && wbErr == "OK")
             {
                 this.Cursor = Cursors.WaitCursor;
@@ -1579,8 +1492,8 @@ namespace MCPApp
                     string response = mcData.CreateJobDeletionAudit(nextJobNo, DateTime.MinValue, "n/a", "n/a", 0, "n/a", "addNewPhaseToolStripMenuItem1_Click errored out in JobPlanner.cs");
                     return;
                 }
-                
-            }            
+
+            }
         }
 
         private void cancelJobToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1625,14 +1538,14 @@ namespace MCPApp
                     mcData.CreateJobComment(phaseJob, $"Job No.{phaseJob} CANCELLED by [{loggedInUser}] at {DateTime.Now.ToShortTimeString()} on {DateTime.Now.ToShortDateString()}");
 
                     MessageBox.Show($"Job {phaseJob} is now cancelled.");
-                    if(parentJobNo > 0) 
+                    if (parentJobNo > 0)
                     {
                         PopulateDGVByParentJob(parentJobNo);
                     }
                     else
                     {
                         PopulateDGV(mcData.GetJobPlannerDT());
-                    }                    
+                    }
                 }
                 this.Cursor = Cursors.Default;
                 jobDGV.Refresh();
@@ -1667,7 +1580,7 @@ namespace MCPApp
             //}
 
             //string job = jobDGV[0, e.RowIndex].Value.ToString();
-            
+
 
             //if (mcData.IsJobCompleted(job))
             //{
@@ -1677,7 +1590,7 @@ namespace MCPApp
             //else
             //{
             //    jobDGV.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
-                
+
             //}
         }
 
@@ -1696,7 +1609,7 @@ namespace MCPApp
                 {
                     string err2 = mcData.CompleteWhiteboardJob(phaseJob, "N");
                     MessageBox.Show(String.Format("*** Job No.{0} is now back in progress ***", phaseJob));
-                    jobDGV.Rows[rowIndex].Cells[16].Value = String.Format("*** Job No.{0} is now back in progress ***", phaseJob);
+                    jobDGV.Rows[rowIndex].Cells[17].Value = String.Format("*** Job No.{0} is now back in progress ***", phaseJob);
                     mcData.CreateJobComment(phaseJob, String.Format("*** Job No.{0} is now back in progress ***", phaseJob));
                     jobDGV.Rows[rowIndex].DefaultCellStyle.ForeColor = Color.Black;
                     jobDGV.Rows[rowIndex].ReadOnly = false;
@@ -1749,7 +1662,7 @@ namespace MCPApp
                 MessageBox.Show(String.Format("Job [{0}] is flagged as COMPLETED. Cannot continue to Whiteboard", phaseJob));
                 return;
             }
-           // int numWeeks = 1;
+            // int numWeeks = 1;
             DataTable dt = mcData.WhiteboardDatesDT(phaseJob);
             DateTime jobDate = mcData.GetPlannerDateByJobNo(phaseJob);
             DateTime startDate = mcData.GetMonday(jobDate);
@@ -1758,7 +1671,7 @@ namespace MCPApp
             int dateDiff = ts.Days;
             decimal numWeeks = dateDiff / 7m;
             int roundedNumWeeks = (int)Decimal.Round(numWeeks, 1) + 1;
-            WhiteboardForm wbForm = new WhiteboardForm(phaseJob,startDate, lastDate, dt, roundedNumWeeks);
+            WhiteboardForm wbForm = new WhiteboardForm(phaseJob, startDate, lastDate, dt, roundedNumWeeks);
             wbForm.ShowDialog();
 
         }
@@ -1823,7 +1736,7 @@ namespace MCPApp
             return;
         }
 
-        public void FilterByMonth(string month,string year)
+        public void FilterByMonth(string month, string year)
         {
             if (jobPlannerMode == "ALL")
             {
@@ -1834,95 +1747,96 @@ namespace MCPApp
                             ORDER BY requiredDate";
                 if (rbBoth.Checked)
                 {
-                    if (rbOnShop.Checked) 
-                    { 
+                    if (rbOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE OnShop = 'Y' AND DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbNotOnShop.Checked) 
-                    { 
+                    if (rbNotOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE OnShop = 'N'  
                             AND DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbApproved.Checked) 
-                    { 
+                    if (rbApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE Approved = 'Y'  
                             AND DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbNotApproved.Checked) 
-                    {   
+                    if (rbNotApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE Approved = 'N'  
                             AND DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbDrawn.Checked) 
-                    { 
+                    if (rbDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE Drawn = 'Y'  
                             AND DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbNotDrawn.Checked) 
-                    { 
+                    if (rbNotDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE Drawn = 'N'  
                             AND DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbAll.Checked) { 
+                    if (rbAll.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbCompleted.Checked) 
-                    { 
+                    if (rbCompleted.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE completedFlag = 'Y'  
                             AND DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}'  
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbInProgress.Checked) 
-                    { 
+                    if (rbInProgress.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE completedFlag != 'Y'  
                             AND DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
                 }
                 if (rbSupplyFix.Checked)
                 {
-                    if (rbOnShop.Checked) 
-                    { 
+                    if (rbOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE OnShop = 'Y' 
                             AND supplyType = 'SF'  
@@ -1930,10 +1844,10 @@ namespace MCPApp
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbNotOnShop.Checked) 
-                    { 
+                    if (rbNotOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE OnShop = 'N' 
                             AND supplyType = 'SF'  
@@ -1941,10 +1855,10 @@ namespace MCPApp
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbApproved.Checked) 
-                    { 
+                    if (rbApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE Approved = 'Y' 
                             AND supplyType = 'SF'  
@@ -1952,10 +1866,10 @@ namespace MCPApp
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbNotApproved.Checked) 
-                    { 
+                    if (rbNotApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE Approved = 'N' 
                             AND supplyType = 'SF'  
@@ -1963,10 +1877,10 @@ namespace MCPApp
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbDrawn.Checked) 
-                    { 
+                    if (rbDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE Drawn = 'Y' 
                             AND supplyType = 'SF'  
@@ -1974,10 +1888,10 @@ namespace MCPApp
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbNotDrawn.Checked) 
-                    { 
+                    if (rbNotDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE Drawn = 'N' 
                             AND supplyType = 'SF'  
@@ -1985,42 +1899,42 @@ namespace MCPApp
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbAll.Checked) 
-                    { 
+                    if (rbAll.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE supplyType = 'SF'  
                             AND DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbCompleted.Checked) 
-                    { 
+                    if (rbCompleted.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE completedFlag = 'Y' 
                             AND supplyType = 'SF'  
                             AND DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbInProgress.Checked) 
-                    { 
+                    if (rbInProgress.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE completedFlag != 'Y' 
                             AND supplyType = 'SF'  
                             AND DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
                 }
                 if (rbSupplyOnly.Checked)
                 {
-                    if (rbOnShop.Checked) 
-                    { 
+                    if (rbOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE OnShop = 'Y' 
                             AND supplyType = 'SO'  
@@ -2028,10 +1942,10 @@ namespace MCPApp
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbNotOnShop.Checked) 
-                    { 
+                    if (rbNotOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE OnShop = 'N' 
                             AND supplyType = 'SO'  
@@ -2039,10 +1953,10 @@ namespace MCPApp
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbApproved.Checked) 
-                    { 
+                    if (rbApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE Approved = 'Y' 
                             AND supplyType = 'SO'  
@@ -2050,10 +1964,10 @@ namespace MCPApp
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbNotApproved.Checked) 
-                    { 
+                    if (rbNotApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE Approved = 'N' 
                             AND supplyType = 'SO'  
@@ -2061,10 +1975,10 @@ namespace MCPApp
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbDrawn.Checked) 
-                    { 
+                    if (rbDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE Drawn = 'Y' 
                             AND supplyType = 'SO'  
@@ -2072,10 +1986,10 @@ namespace MCPApp
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbNotDrawn.Checked) 
-                    { 
+                    if (rbNotDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE Drawn = 'N' 
                             AND supplyType = 'SO'  
@@ -2083,36 +1997,36 @@ namespace MCPApp
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND completedFlag != 'Y' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbAll.Checked) 
-                    { 
+                    if (rbAll.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE supplyType = 'SO'  
                             AND DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbCompleted.Checked) 
-                    { 
+                    if (rbCompleted.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE completedFlag = 'Y' 
                             AND supplyType = 'SO'  
                             AND DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbInProgress.Checked) 
-                    { 
+                    if (rbInProgress.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE completedFlag != 'Y' 
                             AND supplyType = 'SO'  
                             AND DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
                 }
 
@@ -2134,19 +2048,19 @@ namespace MCPApp
                                 ORDER BY requiredDate";
                 if (rbBoth.Checked)
                 {
-                    if (rbOnShop.Checked) 
-                        { 
-                            qry = $@"SELECT * FROM dbo.JobPlanner 
+                    if (rbOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlanner 
                                     WHERE OnShop = 'Y' 
                                     AND DATENAME(month,requiredDate) = '{month}' 
                                     AND DATENAME(year,requiredDate) = '{year}' 
                                     AND completedFlag != 'Y' 
                                     AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                     AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                    ORDER BY requiredDate"; 
-                        }
-                    if (rbNotOnShop.Checked) 
-                    { 
+                                    ORDER BY requiredDate";
+                    }
+                    if (rbNotOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE OnShop = 'N'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
@@ -2154,10 +2068,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbApproved.Checked) 
-                    { 
+                    if (rbApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Approved = 'Y'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
@@ -2165,10 +2079,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotApproved.Checked) 
-                    { 
+                    if (rbNotApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Approved = 'N'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
@@ -2176,10 +2090,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbDrawn.Checked) 
-                    { 
+                    if (rbDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Drawn = 'Y'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
@@ -2187,10 +2101,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotDrawn.Checked) 
-                    { 
+                    if (rbNotDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE Drawn = 'N'  
                             AND DATENAME(month,requiredDate) = '{month}' 
@@ -2198,42 +2112,42 @@ namespace MCPApp
                             AND completedFlag != 'Y' 
                             AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbAll.Checked) 
-                    { 
+                    if (rbAll.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
-                    if (rbCompleted.Checked) 
-                    { 
+                    if (rbCompleted.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE completedFlag = 'Y'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
                                 AND DATENAME(year,requiredDate) = '{year}'  
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbInProgress.Checked) 
-                    { 
+                    if (rbInProgress.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE completedFlag != 'Y'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
                                 AND DATENAME(year,requiredDate) = '{year}' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
                 }
                 if (rbSupplyFix.Checked)
                 {
-                    if (rbOnShop.Checked) 
-                    { 
+                    if (rbOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE OnShop = 'Y' 
                                 AND supplyType = 'SF'  
@@ -2242,10 +2156,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotOnShop.Checked) 
-                    { 
+                    if (rbNotOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE OnShop = 'N' 
                                 AND supplyType = 'SF'  
@@ -2254,10 +2168,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbApproved.Checked) 
-                    { 
+                    if (rbApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Approved = 'Y' 
                                 AND supplyType = 'SF'  
@@ -2266,10 +2180,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotApproved.Checked) 
-                    { 
+                    if (rbNotApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Approved = 'N' 
                                 AND supplyType = 'SF'  
@@ -2278,10 +2192,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbDrawn.Checked) 
-                    { 
+                    if (rbDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Drawn = 'Y' 
                                 AND supplyType = 'SF'  
@@ -2290,10 +2204,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotDrawn.Checked) 
-                    { 
+                    if (rbNotDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Drawn = 'N' 
                                 AND supplyType = 'SF' 
@@ -2302,20 +2216,20 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbAll.Checked) 
-                    { 
+                    if (rbAll.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE supplyType = 'SF'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
                                 AND DATENAME(year,requiredDate) = '{year}' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbCompleted.Checked) 
-                    { 
+                    if (rbCompleted.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE completedFlag = 'Y' 
                                 AND supplyType = 'SF'  
@@ -2323,10 +2237,10 @@ namespace MCPApp
                                 AND DATENAME(year,requiredDate) = '{year}' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbInProgress.Checked) 
-                    { 
+                    if (rbInProgress.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE completedFlag != 'Y' 
                                 AND supplyType = 'SF'  
@@ -2334,13 +2248,13 @@ namespace MCPApp
                                 AND DATENAME(year,requiredDate) = '{year}' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
                 }
                 if (rbSupplyOnly.Checked)
                 {
-                    if (rbOnShop.Checked) 
-                    { 
+                    if (rbOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE OnShop = 'Y' 
                                 AND supplyType = 'SO'  
@@ -2349,10 +2263,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotOnShop.Checked) 
-                    { 
+                    if (rbNotOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE OnShop = 'N' 
                                 AND supplyType = 'SO'  
@@ -2361,10 +2275,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbApproved.Checked) 
-                    { 
+                    if (rbApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Approved = 'Y' 
                                 AND supplyType = 'SO'  
@@ -2373,10 +2287,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotApproved.Checked) 
-                    { 
+                    if (rbNotApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Approved = 'N' 
                                 AND supplyType = 'SO'  
@@ -2385,10 +2299,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbDrawn.Checked) 
-                    { 
+                    if (rbDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Drawn = 'Y' 
                                 AND supplyType = 'SO'  
@@ -2397,10 +2311,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotDrawn.Checked) 
-                    { 
+                    if (rbNotDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Drawn = 'N' 
                                 AND supplyType = 'SO'  
@@ -2409,20 +2323,20 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbAll.Checked) 
-                    { 
+                    if (rbAll.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE supplyType = 'SO'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
                                 AND DATENAME(year,requiredDate) = '{year}' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbCompleted.Checked) 
-                    { 
+                    if (rbCompleted.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE completedFlag = 'Y' 
                                 AND supplyType = 'SO'  
@@ -2430,10 +2344,10 @@ namespace MCPApp
                                 AND DATENAME(year,requiredDate) = '{year}' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbInProgress.Checked) 
-                    { 
+                    if (rbInProgress.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE completedFlag != 'Y' 
                                 AND supplyType = 'SO'  
@@ -2441,7 +2355,7 @@ namespace MCPApp
                                 AND DATENAME(year,requiredDate) = '{year}' 
                                 AND ( slabM2 > 0 OR stairsIncl = 'Y' )  
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
                 }
 
@@ -2463,8 +2377,8 @@ namespace MCPApp
                                 ORDER BY requiredDate";
                 if (rbBoth.Checked)
                 {
-                    if (rbOnShop.Checked) 
-                    { 
+                    if (rbOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE OnShop = 'Y' 
                                 AND DATENAME(month,requiredDate) = '{month}' 
@@ -2472,10 +2386,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotOnShop.Checked) 
-                    { 
+                    if (rbNotOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE OnShop = 'N'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
@@ -2483,10 +2397,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbApproved.Checked) 
-                    { 
+                    if (rbApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Approved = 'Y'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
@@ -2494,10 +2408,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotApproved.Checked) 
-                    { 
+                    if (rbNotApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Approved = 'N'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
@@ -2505,10 +2419,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbDrawn.Checked) 
-                    { 
+                    if (rbDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Drawn = 'Y'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
@@ -2516,10 +2430,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotDrawn.Checked) 
-                    { 
+                    if (rbNotDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Drawn = 'N'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
@@ -2527,42 +2441,42 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbAll.Checked) 
-                    { 
+                    if (rbAll.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE DATENAME(month,requiredDate) = '{month}' 
                                 AND DATENAME(year,requiredDate) = '{year}' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbCompleted.Checked) 
-                    { 
+                    if (rbCompleted.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE completedFlag = 'Y'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
                                 AND DATENAME(year,requiredDate) = '{year}'  
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbInProgress.Checked) 
-                    { 
+                    if (rbInProgress.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                             WHERE completedFlag != 'Y'  
                             AND DATENAME(month,requiredDate) = '{month}' 
                             AND DATENAME(year,requiredDate) = '{year}' 
                             AND ( beamM2 > 0 OR beamLm > 0 ) 
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY requiredDate"; 
+                            ORDER BY requiredDate";
                     }
                 }
                 if (rbSupplyFix.Checked)
                 {
-                    if (rbOnShop.Checked) 
-                    { 
+                    if (rbOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE OnShop = 'Y' 
                                 AND supplyType = 'SF'  
@@ -2571,10 +2485,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotOnShop.Checked) 
-                    { 
+                    if (rbNotOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE OnShop = 'N' 
                                 AND supplyType = 'SF'  
@@ -2583,10 +2497,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbApproved.Checked) 
-                    { 
+                    if (rbApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Approved = 'Y' 
                                 AND supplyType = 'SF'  
@@ -2595,10 +2509,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotApproved.Checked) 
-                    { 
+                    if (rbNotApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Approved = 'N' 
                                 AND supplyType = 'SF'  
@@ -2607,10 +2521,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbDrawn.Checked) 
-                    { 
+                    if (rbDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Drawn = 'Y' 
                                 AND supplyType = 'SF'  
@@ -2619,10 +2533,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotDrawn.Checked) 
-                    { 
+                    if (rbNotDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Drawn = 'N' 
                                 AND supplyType = 'SF'  
@@ -2631,20 +2545,20 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbAll.Checked) 
-                    { 
+                    if (rbAll.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE supplyType = 'SF'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
                                 AND DATENAME(year,requiredDate) = '{year}' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbCompleted.Checked) 
-                    { 
+                    if (rbCompleted.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE completedFlag = 'Y' 
                                 AND supplyType = 'SF'  
@@ -2652,10 +2566,10 @@ namespace MCPApp
                                 AND DATENAME(year,requiredDate) = '{year}' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbInProgress.Checked) 
-                    { 
+                    if (rbInProgress.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE completedFlag != 'Y' 
                                 AND supplyType = 'SF'  
@@ -2663,13 +2577,13 @@ namespace MCPApp
                                 AND DATENAME(year,requiredDate) = '{year}' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
                 }
                 if (rbSupplyOnly.Checked)
                 {
-                    if (rbOnShop.Checked) 
-                    { 
+                    if (rbOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE OnShop = 'Y' 
                                 AND supplyType = 'SO'  
@@ -2678,10 +2592,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotOnShop.Checked) 
-                    { 
+                    if (rbNotOnShop.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE OnShop = 'N' 
                                 AND supplyType = 'SO'  
@@ -2690,10 +2604,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbApproved.Checked) 
-                    { 
+                    if (rbApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Approved = 'Y' 
                                 AND supplyType = 'SO'  
@@ -2702,10 +2616,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotApproved.Checked) 
-                    { 
+                    if (rbNotApproved.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Approved = 'N' 
                                 AND supplyType = 'SO'  
@@ -2714,10 +2628,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbDrawn.Checked) 
-                    { 
+                    if (rbDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Drawn = 'Y' 
                                 AND supplyType = 'SO'  
@@ -2726,10 +2640,10 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbNotDrawn.Checked) 
-                    { 
+                    if (rbNotDrawn.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE Drawn = 'N' 
                                 AND supplyType = 'SO'  
@@ -2738,20 +2652,20 @@ namespace MCPApp
                                 AND completedFlag != 'Y' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbAll.Checked) 
-                    { 
+                    if (rbAll.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE supplyType = 'SO'  
                                 AND DATENAME(month,requiredDate) = '{month}' 
                                 AND DATENAME(year,requiredDate) = '{year}' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbCompleted.Checked) 
-                    { 
+                    if (rbCompleted.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE completedFlag = 'Y' 
                                 AND supplyType = 'SO'  
@@ -2759,10 +2673,10 @@ namespace MCPApp
                                 AND DATENAME(year,requiredDate) = '{year}' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
-                    if (rbInProgress.Checked) 
-                    { 
+                    if (rbInProgress.Checked)
+                    {
                         qry = $@"SELECT * FROM dbo.JobPlanner 
                                 WHERE completedFlag != 'Y' 
                                 AND supplyType = 'SO'  
@@ -2770,7 +2684,7 @@ namespace MCPApp
                                 AND DATENAME(year,requiredDate) = 'year' 
                                 AND ( beamM2 > 0 OR beamLm > 0 ) 
                                 AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                                ORDER BY requiredDate"; 
+                                ORDER BY requiredDate";
                     }
                 }
 
@@ -2782,14 +2696,14 @@ namespace MCPApp
                 return;
             }
 
-            
-            
+
+
         }
 
         private void janButton_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            FilterByMonth("January",DateTime.Now.Year.ToString());
+            FilterByMonth("January", DateTime.Now.Year.ToString());
             this.Cursor = Cursors.Default;
             return;
         }
@@ -2891,7 +2805,7 @@ namespace MCPApp
                 qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY supplyType,requiredDate";
             }
             if (jobPlannerMode == "BEAM")
-            { 
+            {
                 qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) AND ( beamM2 > 0 OR beamLm > 0 ) ORDER BY supplyType,requiredDate";
             }
             if (jobPlannerMode == "SLAB")
@@ -3077,7 +2991,7 @@ namespace MCPApp
                 this.Cursor = Cursors.Default;
                 return;
             }
-            
+
         }
 
         private void updateButton_Click(object sender, EventArgs e)
@@ -3128,7 +3042,7 @@ namespace MCPApp
             string err = mcData.RemoveSupplierFromJobPlanner(phaseJob);
             string err2 = mcData.RemoveSupplierFromWB(phaseJob);
             return;
-            
+
 
         }
 
@@ -3327,7 +3241,7 @@ namespace MCPApp
             xlWorkBook.Close();
             xlexcel.Quit();
             */
-             return;
+            return;
         }
 
         private void excelButton_Click(object sender, EventArgs e)
@@ -3335,7 +3249,7 @@ namespace MCPApp
             this.Cursor = Cursors.WaitCursor;
             DataTable dt = GetDTFromDGV();
             //string result = JobsDGVToNewDatatable();
-            
+
             if (dt != null)
             {
                 JobPlannerRptForm jpRptForm = new JobPlannerRptForm(dt);
@@ -3364,8 +3278,8 @@ namespace MCPApp
 
         private void jobDGV_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(!jobDGV.Focused) { return; }
-            if(e.RowIndex < 0) { return; }
+            if (!jobDGV.Focused) { return; }
+            if (e.RowIndex < 0) { return; }
             string jobNo = jobDGV[0, e.RowIndex].Value.ToString();
             string response = mcData.GetJobLockedUser(jobNo, "JP");
             if (!response.Equals("n/a") && !response.Equals(loggedInUser))
@@ -3392,7 +3306,7 @@ namespace MCPApp
                 return;
 
             }
-            if(mcData.IsJobLockExist("JP", jobNo, "jobDGV_CellBeginEdit", loggedInUser)) { return; }
+            if (mcData.IsJobLockExist("JP", jobNo, "jobDGV_CellBeginEdit", loggedInUser)) { return; }
             string result = mcData.CreateJobLock("JP", jobNo, "jobDGV_CellBeginEdit");
             return;
         }
