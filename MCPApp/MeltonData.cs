@@ -4080,6 +4080,85 @@ namespace MCPApp
             }
         }
 
+        public string CreateDesignBoardJob( 
+            string jobNo, 
+            DateTime designDate,
+            string designStatus,
+            DateTime requiredDate,
+            string floorlevel,
+            string suppShortname,
+            string supplierRef,
+            string stairsIncluded,
+            string supplyType,
+            string salesman,
+            int slabM2, 
+            int beamM2, 
+            int beamLM
+            )
+        {
+
+            string insertQry = "INSERT INTO dbo.DesignBoard("
+                    + "jobNo,designDate, designStatus, requiredDate,dateJobCreated, floorlevel, suppShortname, supplierRef, stairsIncluded, salesman, supplyType, slabM2, beamM2, beamLM, modifiedDate, modifiedBy) "
+                    + "VALUES("
+                    + "@jobNo,"
+                    + "@designDate,"
+                    + "@designStatus,"
+                    + "@requiredDate,"
+                    + "@dateJobCreated,"
+                    + "@floorlevel,"
+                    + "@suppShortname,"
+                    + "@supplierRef,"
+                    + "@stairsIncluded,"
+                    + "@salesman,"
+                    + "@supplyType,"
+                    + "@slabM2,"
+                    + "@beamM2,"
+                    + "@beamLM,"
+                    + "@modifiedDate,"
+                    + "@modifiedBy)";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("designDate", designDate));
+                        command.Parameters.Add(new SqlParameter("designStatus", designStatus));
+                        command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
+                        command.Parameters.Add(new SqlParameter("dateJobCreated", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("floorlevel", floorlevel));
+                        command.Parameters.Add(new SqlParameter("suppShortname", suppShortname));
+                        command.Parameters.Add(new SqlParameter("supplierRef", supplierRef));
+                        command.Parameters.Add(new SqlParameter("stairsIncluded", stairsIncluded));
+                        command.Parameters.Add(new SqlParameter("salesman", salesman));
+                        command.Parameters.Add(new SqlParameter("supplyType", supplyType));
+                        command.Parameters.Add(new SqlParameter("slabM2", slabM2));
+                        command.Parameters.Add(new SqlParameter("beamM2", beamM2));
+                        command.Parameters.Add(new SqlParameter("beamLM", beamLM));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        
+                        command.ExecuteNonQuery();
+                    }
+                    string err2 = CreateJobDayAudit(jobNo, requiredDate.Date, $"CreateDesignBoardJob(....{requiredDate.ToShortDateString()}......)");
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"CreateDesignBoardJob() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "CreateDesignBoardJob(.....)", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+
         public string CreateJobPlanner(int parentJobNo, string jobNo, string phaseNo, string floorLevel, DateTime requiredDate, string siteAddress, string approved, string OnShop, string stairsIncl,
                                                                  int slabM2, int beamM2, int beamLm, string productSupplier, string supplyType, string supplierRef, string lastComment, decimal phaseInvValue, decimal jobMgnValue, string sortType)
         {
@@ -4161,17 +4240,17 @@ namespace MCPApp
 
 
 
-        public string UpdateJobPlanner(int parentJobNo, string jobNo, string phaseNo, string floorLevel, DateTime requiredDate, string siteAddress, string approved, string OnShop, string stairsIncl,
+        public string UpdateJobPlanner(int parentJobNo, string jobNo, string phaseNo, string floorLevel, DateTime requiredDate, string siteAddress, string stairsIncl,
                                                                  int slabM2, int beamM2, int beamLm, string productSupplier, string supplyType, string supplierRef, string lastComment, decimal phaseInvValue, decimal jobMgnValue, string sortType)
         {
-            //string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
-            //
+            //NOTE :    [designDate] does NOT get updated at all in Job Planner - only in DesignBoard
+            //          [requiredDate] only gets updated in Job PLanner via double click event
             string insertQry = "UPDATE dbo.JobPlanner "
                                     + "SET floorLevel = @floorLevel, "
                                 //    + "requiredDate = @requiredDate, "
                                     + "siteAddress = @siteAddress, "
-                                    + "approved = @approved, "
-                                    + "OnShop = @OnShop, "
+                                 //   + "approved = @approved, "
+                                 //   + "OnShop = @OnShop, "
                                     + "stairsIncl = @stairsIncl, "
                                     + "slabM2 = @slabM2, "
                                     + "beamM2 = @beamM2, "
@@ -4200,8 +4279,8 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("floorLevel", floorLevel));
                      //   command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
                         command.Parameters.Add(new SqlParameter("siteAddress", siteAddress));
-                        command.Parameters.Add(new SqlParameter("approved", approved));
-                        command.Parameters.Add(new SqlParameter("OnShop", OnShop));
+                     //   command.Parameters.Add(new SqlParameter("approved", approved));
+                     //   command.Parameters.Add(new SqlParameter("OnShop", OnShop));
                         command.Parameters.Add(new SqlParameter("stairsIncl", stairsIncl));
                         command.Parameters.Add(new SqlParameter("slabM2", slabM2));
                         command.Parameters.Add(new SqlParameter("beamM2", beamM2));
@@ -4701,6 +4780,33 @@ namespace MCPApp
                 string msg = String.Format("DeleteParentJob() Error : {0}", ex.Message.ToString());
                 logger.LogLine(msg);
                 string audit = CreateErrorAudit("MeltonData.cs", String.Format("DeleteParentJob({0})", parentJobNo.ToString()), ex.Message.ToString());
+                return 0;
+            }
+
+
+
+        }
+
+        public int DeleteDesignBoardByParentJob(string parentJob)
+        {
+            try
+            {
+                string qry = $"DELETE FROM dbo.DesignBoard WHERE jobNo LIKE '{parentJob}%'";
+
+                SqlConnection conn = new SqlConnection(connStr);
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = qry;
+                cmd.Connection = conn;
+                conn.Open();
+                int numDeleted = cmd.ExecuteNonQuery();
+                conn.Close();
+                return numDeleted;
+            }
+            catch (Exception ex)
+            {
+                string msg = $"DeleteDesignBoardJob() Error : {ex.Message.ToString()}";
+                logger.LogLine(msg);
+                string audit = CreateErrorAudit("MeltonData.cs", $"DeleteDesignBoardJob({parentJob})", ex.Message.ToString());
                 return 0;
             }
 
@@ -7232,6 +7338,38 @@ namespace MCPApp
                     string msg = String.Format("IsWhiteboardJobExists() Error : {0}", ex.Message.ToString());
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", String.Format("IsWhiteboardJobExists({0})", jobNo), ex.Message.ToString());
+                    return false;
+                }
+
+            }
+        }
+
+        public bool IsDesignBoardJobExists(string jobNo)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(String.Format("SELECT count(*) FROM dbo.Designboard WHERE jobNo = '{0}'", jobNo), conn))
+                    {
+                        Int32 numjobs = (Int32)command.ExecuteScalar();
+
+                        if (numjobs > 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("IsDesignBoardJobExists() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"IsDesignBoardJobExists({jobNo})", ex.Message.ToString());
                     return false;
                 }
 
