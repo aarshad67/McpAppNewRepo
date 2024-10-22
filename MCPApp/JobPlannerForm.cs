@@ -668,6 +668,7 @@ namespace MCPApp
                     }
                     parentJobNo = Convert.ToInt32(jobDGV.Rows[i].Cells[0].Value.ToString().Substring(0, 5));
                     jobNo = jobDGV.Rows[i].Cells[0].Value.ToString();
+                    if(mcData.IsJobCompleted(jobNo)) { continue; }
                     phaseNo = jobDGV.Rows[i].Cells[0].Value.ToString().Substring(6, 2);
                     floorLevel = jobDGV.Rows[i].Cells[2].Value.ToString();
                     requiredDate = Convert.ToDateTime(jobDGV.Rows[i].Cells[3].Value);
@@ -686,9 +687,9 @@ namespace MCPApp
                     suppShortname = jobDGV.Rows[i].Cells[12].Value.ToString();
                     supplierRef = jobDGV.Rows[i].Cells[14].Value.ToString();
                     lastComment = jobDGV.Rows[i].Cells[17].Value.ToString();
-                    phaseInvValue = jobDGV.Rows[i].Cells[15].Value == null ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[15].Value);
-                    jobMgnValue = jobDGV.Rows[i].Cells[16].Value == null ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value);
-
+                    phaseInvValue = jobDGV.Rows[i].Cells[15].Value == null || jobDGV.Rows[i].Cells[15].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[15].Value);
+                    jobMgnValue = jobDGV.Rows[i].Cells[16].Value == null || jobDGV.Rows[i].Cells[16].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value);
+                    //jobDGV.Rows[i].Cells[15].Value == null || jobDGV.Rows[i].Cells[15].Value == ""
                     string mon = "";
                     string tue = "";
                     string wed = "";
