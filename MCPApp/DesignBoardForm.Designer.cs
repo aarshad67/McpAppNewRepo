@@ -1,0 +1,162 @@
+﻿
+namespace MCPApp
+{
+    partial class DesignBoardForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.refreshButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
+            this.weeksTabControl = new System.Windows.Forms.TabControl();
+            this.supplierContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.selectSupplierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.productContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.selectProductToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wbDailyContextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addCommenttoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.supplierContextMenuStrip.SuspendLayout();
+            this.productContextMenuStrip.SuspendLayout();
+            this.wbDailyContextMenuStrip1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // refreshButton
+            // 
+            this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.refreshButton.Location = new System.Drawing.Point(1418, 909);
+            this.refreshButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.refreshButton.Name = "refreshButton";
+            this.refreshButton.Size = new System.Drawing.Size(120, 69);
+            this.refreshButton.TabIndex = 18;
+            this.refreshButton.Text = "REFRESH";
+            this.refreshButton.UseVisualStyleBackColor = true;
+            // 
+            // cancelButton
+            // 
+            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelButton.BackColor = System.Drawing.Color.Red;
+            this.cancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cancelButton.ForeColor = System.Drawing.Color.White;
+            this.cancelButton.Location = new System.Drawing.Point(1567, 909);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(153, 69);
+            this.cancelButton.TabIndex = 17;
+            this.cancelButton.Text = "CLOSE";
+            this.cancelButton.UseVisualStyleBackColor = false;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            // 
+            // weeksTabControl
+            // 
+            this.weeksTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.weeksTabControl.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
+            this.weeksTabControl.Location = new System.Drawing.Point(12, 23);
+            this.weeksTabControl.Name = "weeksTabControl";
+            this.weeksTabControl.SelectedIndex = 0;
+            this.weeksTabControl.Size = new System.Drawing.Size(1708, 847);
+            this.weeksTabControl.TabIndex = 19;
+            // 
+            // supplierContextMenuStrip
+            // 
+            this.supplierContextMenuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.supplierContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectSupplierToolStripMenuItem});
+            this.supplierContextMenuStrip.Name = "wbContextMenuStrip";
+            this.supplierContextMenuStrip.Size = new System.Drawing.Size(201, 36);
+            this.supplierContextMenuStrip.Text = "JOB Option(s)";
+            // 
+            // selectSupplierToolStripMenuItem
+            // 
+            this.selectSupplierToolStripMenuItem.Name = "selectSupplierToolStripMenuItem";
+            this.selectSupplierToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.selectSupplierToolStripMenuItem.Text = "Select Supplier";
+            // 
+            // productContextMenuStrip
+            // 
+            this.productContextMenuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.productContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.selectProductToolStripMenuItem});
+            this.productContextMenuStrip.Name = "wbContextMenuStrip";
+            this.productContextMenuStrip.Size = new System.Drawing.Size(198, 36);
+            this.productContextMenuStrip.Text = "Select Product";
+            // 
+            // selectProductToolStripMenuItem
+            // 
+            this.selectProductToolStripMenuItem.Name = "selectProductToolStripMenuItem";
+            this.selectProductToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.selectProductToolStripMenuItem.Text = "Select Product";
+            // 
+            // wbDailyContextMenuStrip1
+            // 
+            this.wbDailyContextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.wbDailyContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addCommenttoolStripMenuItem});
+            this.wbDailyContextMenuStrip1.Name = "wbDailyContextMenuStrip1";
+            this.wbDailyContextMenuStrip1.Size = new System.Drawing.Size(203, 36);
+            // 
+            // addCommenttoolStripMenuItem
+            // 
+            this.addCommenttoolStripMenuItem.Name = "addCommenttoolStripMenuItem";
+            this.addCommenttoolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.addCommenttoolStripMenuItem.Text = "Add Comment";
+            // 
+            // DesignBoardForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(1765, 1004);
+            this.Controls.Add(this.weeksTabControl);
+            this.Controls.Add(this.refreshButton);
+            this.Controls.Add(this.cancelButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Name = "DesignBoardForm";
+            this.Text = "DesignBoardForm";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.DesignBoardForm_Load);
+            this.supplierContextMenuStrip.ResumeLayout(false);
+            this.productContextMenuStrip.ResumeLayout(false);
+            this.wbDailyContextMenuStrip1.ResumeLayout(false);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Button refreshButton;
+        private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.TabControl weeksTabControl;
+        private System.Windows.Forms.ContextMenuStrip supplierContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem selectSupplierToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip productContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem selectProductToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip wbDailyContextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem addCommenttoolStripMenuItem;
+    }
+}

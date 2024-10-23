@@ -34,7 +34,8 @@ namespace MCPApp
         TreeNode suppliersNode = new TreeNode("Suppliers");
         TreeNode newParentJobNode = new TreeNode("Create a new job");
         TreeNode searchParentJobNode = new TreeNode("Search for job");
-
+        TreeNode designBoardParentNode = new TreeNode("Design Board");
+        TreeNode designBoardNode = new TreeNode("Go to Design Board");
         TreeNode whiteboardParentNode = new TreeNode("Whiteboard");
         TreeNode whiteboardNode = new TreeNode("Go to Whiteboard");
         TreeNode whiteboardJobExtensionsNode = new TreeNode("Whiteboard - Jobs with Extensions Only");
@@ -90,65 +91,60 @@ namespace MCPApp
             newParentJobNode.ForeColor = Color.Blue;
             alertNode.ForeColor = Color.Red;
 
-
-            whiteboardParentNode.Nodes.Add(whiteboardNode);
-            whiteboardParentNode.Nodes.Add(whiteboardJobExtensionsNode);
-            whiteboardParentNode.Nodes.Add(wbHouseKeepingNode);
             menuTreeView.Nodes.Add(dummyNode);
             if (mcData.IsUserManager(loggedInUser))
             {
                 menuTreeView.Nodes.Add(userMaintenanceNode);
             }
-            
             menuTreeView.Nodes.Add(customersNode);
-            menuTreeView.Nodes.Add(suppliersNode); 
+            menuTreeView.Nodes.Add(suppliersNode);
             menuTreeView.Nodes.Add(suppliersSummaryNode);
             menuTreeView.Nodes.Add(newParentJobNode);
             menuTreeView.Nodes.Add(searchParentJobNode);
             menuTreeView.Nodes.Add(jobPlannerParentNode);
-            menuTreeView.Nodes.Add(reportsParentNode);
-         //   menuTreeView.Nodes.Add(fixSupplierNode);
-            jobPlannerParentNode.Nodes.Add(jobPlannerNode);
-            jobPlannerParentNode.Nodes.Add(jobPlannerBeamNode);
-            jobPlannerParentNode.Nodes.Add(jobPlannerSlabNode);//
-            jobPlannerParentNode.Nodes.Add(jobHouseKeepingNode);
-            jobHouseKeepingNode.Nodes.Add(updateBeamJobsQtyNode);
-          //  jobHouseKeepingNode.Nodes.Add(updateSlabJobsQtyNode);
-            jobHouseKeepingNode.Nodes.Add(updateNonSpecifiedJobsQtyNode);//
-            jobHouseKeepingNode.Nodes.Add(missingSuppliersNode);
-            wbHouseKeepingNode.Nodes.Add(wbAllProductsOnWhiteboardNode);
-            wbHouseKeepingNode.Nodes.Add(wbMissingProductsOnCompletedJobsNode);
-            wbHouseKeepingNode.Nodes.Add(wbMissingProductsOnInProgressJobsNode);
-            reportsParentNode.Nodes.Add(jobPlannerRptsNode);
-            reportsParentNode.Nodes.Add(supplierRptsNode);
-            reportsParentNode.Nodes.Add(notOnShopRptsNode);
-           // jobPlannerRptsNode.Nodes.Add(testExcelNode);
-            jobPlannerRptsNode.Nodes.Add(beamLmRptNode); //
-            jobPlannerRptsNode.Nodes.Add(beamM2RptNode);
-            jobPlannerRptsNode.Nodes.Add(slabM2RptNode);
+                jobPlannerParentNode.Nodes.Add(jobPlannerNode);
+                jobPlannerParentNode.Nodes.Add(jobPlannerBeamNode);
+                jobPlannerParentNode.Nodes.Add(jobPlannerSlabNode);//
+                jobPlannerParentNode.Nodes.Add(jobHouseKeepingNode);
+                    jobHouseKeepingNode.Nodes.Add(updateBeamJobsQtyNode);
+                    //  jobHouseKeepingNode.Nodes.Add(updateSlabJobsQtyNode);
+                    jobHouseKeepingNode.Nodes.Add(updateNonSpecifiedJobsQtyNode);//
+                    jobHouseKeepingNode.Nodes.Add(missingSuppliersNode);
             menuTreeView.Nodes.Add(whiteboardParentNode);
+                whiteboardParentNode.Nodes.Add(whiteboardNode);
+                whiteboardParentNode.Nodes.Add(whiteboardJobExtensionsNode);
+                whiteboardParentNode.Nodes.Add(wbHouseKeepingNode);
+                    wbHouseKeepingNode.Nodes.Add(wbAllProductsOnWhiteboardNode);
+                    wbHouseKeepingNode.Nodes.Add(wbMissingProductsOnCompletedJobsNode);
+                    wbHouseKeepingNode.Nodes.Add(wbMissingProductsOnInProgressJobsNode);
+            menuTreeView.Nodes.Add(designBoardParentNode);
+                designBoardParentNode.Nodes.Add(designBoardNode);
+            menuTreeView.Nodes.Add(reportsParentNode);
+                reportsParentNode.Nodes.Add(jobPlannerRptsNode);
+                    jobPlannerRptsNode.Nodes.Add(beamLmRptNode); //
+                    jobPlannerRptsNode.Nodes.Add(beamM2RptNode);
+                    jobPlannerRptsNode.Nodes.Add(slabM2RptNode);
+                reportsParentNode.Nodes.Add(supplierRptsNode);
+                reportsParentNode.Nodes.Add(notOnShopRptsNode);
             if (loggedInUser == "sp" || loggedInUser == "dm" || loggedInUser == "aa" || loggedInUser == "ac" || loggedInUser == "eb")
             {
                 menuTreeView.Nodes.Add(lockedJobsNode);
                 menuTreeView.Nodes.Add(cancelledJobsNode);
                 menuTreeView.Nodes.Add(deletedJobsNode);
             }
-                
 
             if (loggedInUser == "aa")
             {
                 menuTreeView.Nodes.Add(errorAuditNode);
-            }
+            }   
 
             menuTreeView.Nodes.Add(quitParentNode);
+            
             statusStrip1.Items.Add($"SQL Connection Server : {mcData.GetServerName()}");
             statusStrip1.Items.Add($"| Database Name : {mcData.GetDatabaseName()}");
             statusStrip1.Items.Add($"| MCP App Version : {mcpVersion}");
 
             LoadBulletinBoard();
-
-
-
 
         }
 
@@ -221,6 +217,13 @@ namespace MCPApp
 
         private void menuTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            if(menuTreeView.SelectedNode == designBoardNode)
+            {
+                DesignBoardParametersForm frm = new DesignBoardParametersForm();
+                frm.ShowDialog();
+                this.menuTreeView.SelectedNode = null;
+                return;
+            }
             //suppliersSummaryNode
             if (menuTreeView.SelectedNode == suppliersSummaryNode)
             {

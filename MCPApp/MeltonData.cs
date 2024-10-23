@@ -5921,6 +5921,40 @@ namespace MCPApp
 
         }
 
+        public DataTable GeDesignboardByDateRangeDT(DateTime startDate, DateTime endDate)
+        {
+            string qry1 = @"SELECT * FROM dbo.DesignBoard WHERE designDate between @startDate and @endDate 
+                            AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
+                            ORDER BY designDate,jobNo";
+   
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+
+
+                    SqlCommand cmd = new SqlCommand(qry1, conn);
+                    cmd.Parameters.Add(new SqlParameter("startDate", startDate.Date));
+                    cmd.Parameters.Add(new SqlParameter("endDate", endDate.Date));
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"GeDesignboardByDateRangeDT() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GeDesignboardByDateRangeDT({startDate.ToShortDateString()},{endDate.ToShortDateString()})", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
         public DataTable GetWhiteboardJobExtensionsWithDatesAndCompleteFlagsDT()
         {
             using (SqlConnection conn = new SqlConnection(connStr))
