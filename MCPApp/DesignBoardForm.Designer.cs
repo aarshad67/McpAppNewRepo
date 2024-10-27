@@ -39,9 +39,13 @@ namespace MCPApp
             this.selectProductToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wbDailyContextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addCommenttoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jobContextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.sAVEJobLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jobCommentsAuditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.supplierContextMenuStrip.SuspendLayout();
             this.productContextMenuStrip.SuspendLayout();
             this.wbDailyContextMenuStrip1.SuspendLayout();
+            this.jobContextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // refreshButton
@@ -93,8 +97,9 @@ namespace MCPApp
             // selectSupplierToolStripMenuItem
             // 
             this.selectSupplierToolStripMenuItem.Name = "selectSupplierToolStripMenuItem";
-            this.selectSupplierToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.selectSupplierToolStripMenuItem.Size = new System.Drawing.Size(200, 32);
             this.selectSupplierToolStripMenuItem.Text = "Select Supplier";
+            this.selectSupplierToolStripMenuItem.Click += new System.EventHandler(this.selectSupplierToolStripMenuItem_Click);
             // 
             // productContextMenuStrip
             // 
@@ -108,8 +113,9 @@ namespace MCPApp
             // selectProductToolStripMenuItem
             // 
             this.selectProductToolStripMenuItem.Name = "selectProductToolStripMenuItem";
-            this.selectProductToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.selectProductToolStripMenuItem.Size = new System.Drawing.Size(197, 32);
             this.selectProductToolStripMenuItem.Text = "Select Product";
+            this.selectProductToolStripMenuItem.Click += new System.EventHandler(this.selectProductToolStripMenuItem_Click);
             // 
             // wbDailyContextMenuStrip1
             // 
@@ -122,8 +128,32 @@ namespace MCPApp
             // addCommenttoolStripMenuItem
             // 
             this.addCommenttoolStripMenuItem.Name = "addCommenttoolStripMenuItem";
-            this.addCommenttoolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.addCommenttoolStripMenuItem.Size = new System.Drawing.Size(202, 32);
             this.addCommenttoolStripMenuItem.Text = "Add Comment";
+            this.addCommenttoolStripMenuItem.Click += new System.EventHandler(this.addCommenttoolStripMenuItem_Click);
+            // 
+            // jobContextMenuStrip1
+            // 
+            this.jobContextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.jobContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sAVEJobLineToolStripMenuItem,
+            this.jobCommentsAuditToolStripMenuItem});
+            this.jobContextMenuStrip1.Name = "jobContextMenuStrip1";
+            this.jobContextMenuStrip1.Size = new System.Drawing.Size(253, 101);
+            // 
+            // sAVEJobLineToolStripMenuItem
+            // 
+            this.sAVEJobLineToolStripMenuItem.Name = "sAVEJobLineToolStripMenuItem";
+            this.sAVEJobLineToolStripMenuItem.Size = new System.Drawing.Size(252, 32);
+            this.sAVEJobLineToolStripMenuItem.Text = "SAVE Job Line";
+            this.sAVEJobLineToolStripMenuItem.Click += new System.EventHandler(this.sAVEJobLineToolStripMenuItem_Click);
+            // 
+            // jobCommentsAuditToolStripMenuItem
+            // 
+            this.jobCommentsAuditToolStripMenuItem.Name = "jobCommentsAuditToolStripMenuItem";
+            this.jobCommentsAuditToolStripMenuItem.Size = new System.Drawing.Size(252, 32);
+            this.jobCommentsAuditToolStripMenuItem.Text = "Job Comments Audit";
+            this.jobCommentsAuditToolStripMenuItem.Click += new System.EventHandler(this.jobCommentsAuditToolStripMenuItem_Click);
             // 
             // DesignBoardForm
             // 
@@ -143,6 +173,7 @@ namespace MCPApp
             this.supplierContextMenuStrip.ResumeLayout(false);
             this.productContextMenuStrip.ResumeLayout(false);
             this.wbDailyContextMenuStrip1.ResumeLayout(false);
+            this.jobContextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -158,5 +189,8 @@ namespace MCPApp
         private System.Windows.Forms.ToolStripMenuItem selectProductToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip wbDailyContextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem addCommenttoolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip jobContextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem sAVEJobLineToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem jobCommentsAuditToolStripMenuItem;
     }
 }

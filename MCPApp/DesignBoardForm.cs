@@ -629,11 +629,11 @@ namespace MCPApp
 
                 }
 
-                //if (column.Index == 0)
-                //{
-                //    column.ContextMenuStrip = wbJobContextMenuStrip;
+                if (column.Index == 0)
+                {
+                    column.ContextMenuStrip = jobContextMenuStrip1;
 
-                //}
+                }
 
                 if (column.Index == 10)
                 {
@@ -676,5 +676,132 @@ namespace MCPApp
             this.Close();
             return;
         }
+
+        private void UpdateDBJobDayCommentOnly(string jobNo, string comment, int dayColIndex, DateTime commentDate)
+        {
+            string fieldName = "";
+            switch (dayColIndex)
+            {
+                case 17:
+                    fieldName = "wcMonday";
+                    break;
+                case 18:
+                    fieldName = "wcTuesday";
+                    break;
+                case 19:
+                    fieldName = "wcWednesday";
+                    break;
+                case 20:
+                    fieldName = "wcThursday";
+                    break;
+                case 21:
+                    fieldName = "wcFriday";
+                    break;
+                case 22:
+                    fieldName = "wcSaturday";
+                    break;
+                case 23:
+                    fieldName = "wcSunday";
+                    break;
+                default:
+                    break;
+            }
+
+
+            string err = mcData.UpdateDesignBoardJobDayComment(jobNo, fieldName, comment);
+            if (err != "OK")
+            {
+                MessageBox.Show(String.Format("Error updating day comment for design board Job No {0} : {1}", jobNo, err));
+                return;
+            }
+            else
+            {
+                string err2 = mcData.CreateDBDayCommentAudit(jobNo, comment, commentDate);
+                return;
+            }
+
+        }
+
+        private void addCommenttoolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dbDataGridView[0, rowIndex].Value == null) { return; }
+            if (colIndex != 17 && colIndex != 18 && colIndex != 19 && colIndex != 20 && colIndex != 21 && colIndex != 22 && colIndex != 23) { return; }
+            string jobNo = dbDataGridView[0, this.rowIndex].Value.ToString();
+            DateTime reqDate = Convert.ToDateTime(dbDataGridView[4, this.rowIndex].Value.ToString()).Date;
+            string comment = dbDataGridView[this.colIndex, this.rowIndex].Value == null ? "N/A" : dbDataGridView[this.colIndex, this.rowIndex].Value.ToString();
+            int diffDays = colIndex - 17;
+            DateTime commentDate = mcData.GetMonday(reqDate).AddDays(diffDays).AddDays(0);
+            WhiteboardDayCommentForm commentForm = new WhiteboardDayCommentForm(jobNo, commentDate, comment);
+            commentForm.ShowDialog();
+            dbDataGridView[this.colIndex, this.rowIndex].Value = commentForm.DayComment;
+            UpdateDBJobDayCommentOnly(jobNo, commentForm.DayComment, colIndex, commentDate);
+        }
+
+        private void selectProductToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dbDataGridView[0, rowIndex].Value == null) { return; }
+            string jobNo = dbDataGridView[0, this.rowIndex].Value.ToString();
+            ProductSelectorForm myForm = new ProductSelectorForm();
+            myForm.ShowDialog();
+            if (!String.IsNullOrWhiteSpace(myForm.Product))
+            {
+                dbDataGridView[10, rowIndex].Value = myForm.Product;
+                string err = mcData.UpdateDesignBoardJobProduct(jobNo, myForm.Product);
+            }
+            return;
+        }
+
+        private void selectSupplierToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SuppliersListForm myForm;
+            int rgb1, rgb2, rgb3 = 255;
+
+            if (dbDataGridView[0, rowIndex].Value == null) { return; }
+
+            if (dbDataGridView[11, rowIndex].Value == null && dbDataGridView[11, rowIndex].Value == null) { return; }
+            string jobNo = dbDataGridView[0, this.rowIndex].Value.ToString();
+            string suppShortName = dbDataGridView[11, this.rowIndex].Value.ToString();
+            if (colIndex == 11)
+            {
+                if (dbDataGridView[11, rowIndex].Value == null)
+                {
+                    myForm = new SuppliersListForm();
+                }
+                else
+                {
+                    myForm = new SuppliersListForm(dbDataGridView.Rows[rowIndex].Cells[11].Value.ToString());
+                }
+                myForm.ShowDialog();
+                suppShortName = myForm.Shortname;
+                string productType = mcData.GetSupplierProductTypeFromShortname(suppShortName);
+                string result = mcData.UpdateWhiteBoardJobProductWithSupplierProductType(jobNo, productType);
+                string wbProduct = mcData.GetWhiteboardProductFromSupplierProductType(productType);
+                dbDataGridView[10, rowIndex].Value = wbProduct;
+                dbDataGridView[11, rowIndex].Value = suppShortName;
+                mcData.GetSupplierColourByShortname(suppShortName, out rgb1, out rgb2, out rgb3);
+                dbDataGridView[11, rowIndex].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
+                if (!String.IsNullOrWhiteSpace(suppShortName))
+                {
+                    string err1 = mcData.UpdateWhiteBoardSupplierShortName(jobNo, suppShortName, rgb1, rgb2, rgb3);
+                    string err2 = mcData.UpdateJobPlannerSupplierShortName(jobNo, suppShortName);
+                    string err3 = mcData.UpdateDesignBoardSupplierShortName(jobNo, suppShortName);
+                }
+
+                return;
+            }
     }
-}
+
+        private void sAVEJobLineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void jobCommentsAuditToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dbDataGridView[0, rowIndex].Value == null) { return; }
+            string jobNo = dbDataGridView[0, this.rowIndex].Value.ToString();
+            WhiteboardDayCommentAuditForm auditForm = new WhiteboardDayCommentAuditForm(jobNo);
+            auditForm.ShowDialog();
+            return;
+        }
+    }

@@ -4515,6 +4515,43 @@ namespace MCPApp
             }
         }
 
+       public string UpdateDesignBoardSupplierShortName(string jobNo, string shortname)
+        {
+           
+
+            string insertQry = "UPDATE dbo.DesignBoard "
+                                + "SET productSupplier = @productSupplier,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE LEFT(jobNo,8) = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo.Substring(0, 8)));
+                        command.Parameters.Add(new SqlParameter("productSupplier", shortname));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateDesignBoardSupplierShortName() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignBoardSupplierShortName({jobNo},{shortname})", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
         public string RemoveSupplierFromJobPlanner(string jobNo)
         {
             //string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
@@ -5868,6 +5905,46 @@ namespace MCPApp
             }
         }
 
+        public string CreateDBDayCommentAudit(string jobNo, string comment, DateTime commentDate)
+        {
+
+            string insertQry = "INSERT INTO dbo.DesignBoardDayCommentsAudit("
+                                            + "jobNo,comment,commentDate,dateModified,modifiedBy) "
+                                            + "VALUES("
+                                            + "@jobNo,"
+                                            + "@comment,"
+                                            + "@commentDate,"
+                                            + "@dateModified,"
+                                            + "@modifiedBy)";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("seq", GetNextCommentSeq(jobNo)));
+                        command.Parameters.Add(new SqlParameter("comment", comment));
+                        command.Parameters.Add(new SqlParameter("commentDate", commentDate));
+                        command.Parameters.Add(new SqlParameter("dateModified", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", ConfigurationManager.AppSettings["LoggedInUser"]));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("CreateDBDayCommentAudit() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("CreateDBDayCommentAudit({0},....)", jobNo), ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
         public DataTable GetWhiteboardByDateRangeDT(DateTime startDate, DateTime endDate)
         {
             //string qry1 = "SELECT * FROM dbo.Whiteboard WHERE requiredDate between @startDate and @endDate AND completedFlag != 'Y' ORDER BY supplyType,requiredDate";
@@ -6860,6 +6937,8 @@ namespace MCPApp
             }
         }
 
+        
+
         public string UpdateWhiteBoardJobDayComment(string jobNo, string dayFieldName, string comment)
         {
             //  string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
@@ -6892,6 +6971,82 @@ namespace MCPApp
                     string msg = String.Format("UpdateWhiteBoardJobDayComment() Error : {0}", ex.Message.ToString());
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", String.Format("UpdateWhiteBoardJobDayComment({0},{1},{2})", jobNo, dayFieldName, comment), ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateDesignBoardJobDayComment(string jobNo, string dayFieldName, string comment)
+        {
+            //  string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
+
+            string insertQry = "UPDATE dbo.DesignBoard "
+                                + "SET " + dayFieldName + " = @comment,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE jobNo = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        //  command.Parameters.Add(new SqlParameter("dayFieldName", dayFieldName));
+                        command.Parameters.Add(new SqlParameter("comment", comment));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateDesignBoardJobDayComment() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignBoardJobDayComment({jobNo},{dayFieldName},{comment})", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateDesignBoardJobProduct(string jobNo, string product)
+        {
+           
+
+            string insertQry = "UPDATE dbo.DesignBoard "
+                                + "SET product = @product,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE jobNo = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        //  command.Parameters.Add(new SqlParameter("dayFieldName", dayFieldName));
+                        command.Parameters.Add(new SqlParameter("product", product));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateDesignBoardJobDayComment() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignBoardJobDayComment({jobNo},{dayFieldName},{comment})", ex.Message.ToString());
                     return msg;
                 }
 
