@@ -140,6 +140,12 @@
     <Compile Include="DesignBoardParametersForm.Designer.cs">
       <DependentUpon>DesignBoardParametersForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DesignStatusSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DesignStatusSelectorForm.Designer.cs">
+      <DependentUpon>DesignStatusSelectorForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="EditCompletedJobDetailForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -405,6 +411,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DesignBoardParametersForm.resx">
       <DependentUpon>DesignBoardParametersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DesignStatusSelectorForm.resx">
+      <DependentUpon>DesignStatusSelectorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="EditCompletedJobDetailForm.resx">
       <DependentUpon>EditCompletedJobDetailForm.cs</DependentUpon>

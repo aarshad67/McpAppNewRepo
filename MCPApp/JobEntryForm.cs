@@ -730,7 +730,7 @@ namespace MCPApp
 
                     if (!mcData.IsJobExists(jobNo))
                     {
-                        err = mcData.CreateJobPlanner(parentJobNo, jobNo, phaseNo, floorLevel, requiredDate, siteAddress, approved, OnShop, stairsIncl, slabM2, beamM2, beamLm, shortname, supplyType, supplierRef, lastComment, phaseInvValue, jobMgnValue, sortType);
+                        err = mcData.CreateJobPlanner(parentJobNo, jobNo, phaseNo, floorLevel, requiredDate, designDate, siteAddress, approved, OnShop, stairsIncl, slabM2, beamM2, beamLm, shortname, supplyType, supplierRef, lastComment, phaseInvValue, jobMgnValue, sortType);
                         if (err != "OK")
                         {
                             MessageBox.Show(String.Format("CreateJobPlanner ERROR ( Job {0} ) : {1}", jobNo, err));
@@ -814,6 +814,7 @@ namespace MCPApp
             string phaseNo;
             string floorLevel;
             DateTime requiredDate;
+            DateTime designDate;
             string siteAddress;
             string drawn;
             string approved;
@@ -845,25 +846,26 @@ namespace MCPApp
                     phaseNo = jobDGV.Rows[i].Cells[1].Value.ToString();
                     floorLevel = jobDGV.Rows[i].Cells[3].Value == null ? "" : jobDGV.Rows[i].Cells[3].Value.ToString();
                     requiredDate = jobDGV.Rows[i].Cells[4].Value == null ? DateTime.Now.AddYears(10) : Convert.ToDateTime(jobDGV.Rows[i].Cells[4].Value);
-                    siteAddress = jobDGV.Rows[i].Cells[5].Value == null ? "" : jobDGV.Rows[i].Cells[5].Value.ToString();
+                    designDate = jobDGV.Rows[i].Cells[5].Value == null ? DateTime.Now.AddYears(10) : Convert.ToDateTime(jobDGV.Rows[i].Cells[5].Value);
+                    siteAddress = jobDGV.Rows[i].Cells[6].Value == null ? "" : jobDGV.Rows[i].Cells[6].Value.ToString();
                    // drawn = jobDGV.Rows[i].Cells[6].Value == null ? "N" : "Y";
-                    approved = jobDGV.Rows[i].Cells[6].Value == null ? "N" : "Y";
-                    OnShop = jobDGV.Rows[i].Cells[7].Value == null ? "N" : "Y";
-                    stairsIncl = jobDGV.Rows[i].Cells[8].Value == null ? "N" : "Y";
-                    slabM2 = jobDGV.Rows[i].Cells[9].Value == null ? 0 : Convert.ToInt32(jobDGV.Rows[i].Cells[9].Value.ToString());
-                    beamM2 = jobDGV.Rows[i].Cells[10].Value == null ? 0 : Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value.ToString());
-                    beamLm = jobDGV.Rows[i].Cells[11].Value == null ? 0 : Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value.ToString());
-                    supplyType = jobDGV.Rows[i].Cells[13].Value == null ? "" : jobDGV.Rows[i].Cells[13].Value.ToString();
-                    shortname = jobDGV.Rows[i].Cells[12].Value == null ? "" : jobDGV.Rows[i].Cells[12].Value.ToString();
-                    supplierRef = jobDGV.Rows[i].Cells[14].Value == null ? "" : jobDGV.Rows[i].Cells[14].Value.ToString();
-                    lastComment = jobDGV.Rows[i].Cells[15].Value == null ? "" : jobDGV.Rows[i].Cells[15].Value.ToString();
-                    phaseInvValue = jobDGV.Rows[i].Cells[16].Value == null ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value.ToString());
-                    jobMgnValue = jobDGV.Rows[i].Cells[17].Value == null ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[17].Value.ToString());
+                    approved = jobDGV.Rows[i].Cells[7].Value == null ? "N" : "Y";
+                    OnShop = jobDGV.Rows[i].Cells[8].Value == null ? "N" : "Y";
+                    stairsIncl = jobDGV.Rows[i].Cells[9].Value == null ? "N" : "Y";
+                    slabM2 = jobDGV.Rows[i].Cells[10].Value == null ? 0 : Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value.ToString());
+                    beamM2 = jobDGV.Rows[i].Cells[11].Value == null ? 0 : Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value.ToString());
+                    beamLm = jobDGV.Rows[i].Cells[12].Value == null ? 0 : Convert.ToInt32(jobDGV.Rows[i].Cells[12].Value.ToString());
+                    shortname = jobDGV.Rows[i].Cells[13].Value == null ? "" : jobDGV.Rows[i].Cells[13].Value.ToString();
+                    supplyType = jobDGV.Rows[i].Cells[14].Value == null ? "" : jobDGV.Rows[i].Cells[14].Value.ToString();
+                    supplierRef = jobDGV.Rows[i].Cells[15].Value == null ? "" : jobDGV.Rows[i].Cells[15].Value.ToString();
+                    lastComment = jobDGV.Rows[i].Cells[16].Value == null ? "" : jobDGV.Rows[i].Cells[16].Value.ToString();
+                    phaseInvValue = jobDGV.Rows[i].Cells[17].Value == null ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[17].Value.ToString());
+                    jobMgnValue = jobDGV.Rows[i].Cells[18].Value == null ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[18].Value.ToString());
                     sortType = "S" + supplyType.Substring(1, 1);
 
                     if (!mcData.IsJobExists(jobNo))
                     {
-                        err = mcData.CreateJobPlanner(parentJobNo, jobNo, phaseNo, floorLevel, requiredDate, siteAddress, approved, OnShop, stairsIncl, slabM2, beamM2, beamLm, shortname, supplyType, supplierRef, lastComment, phaseInvValue, jobMgnValue, sortType);
+                        err = mcData.CreateJobPlanner(parentJobNo, jobNo, phaseNo, floorLevel, requiredDate, designDate, siteAddress, approved, OnShop, stairsIncl, slabM2, beamM2, beamLm, shortname, supplyType, supplierRef, lastComment, phaseInvValue, jobMgnValue, sortType);
                         if (err != "OK")
                         {
                             MessageBox.Show(String.Format("CreateJobPlanner ERROR ( Job {0} ) : {1}", jobNo, err));

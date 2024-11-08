@@ -85,7 +85,7 @@ namespace MCPApp
             string wbErr = "";
             if (!mcData.IsJobExists(nextJobNo))
             {
-                err = mcData.CreateJobPlanner(parentJobNo, nextJobNo, phaseNoTextBox.Text, "", DateTime.Now.AddYears(1), siteAddress, "N", "N", "N", 0, 0, 0, "", "", "", "", 0,0,"");
+                err = mcData.CreateJobPlanner(parentJobNo, nextJobNo, phaseNoTextBox.Text, "", DateTime.Now.AddYears(1), DateTime.Now.AddYears(1), siteAddress, "N", "N", "N", 0, 0, 0, "", "", "", "", 0,0,"");
             }
             if (!mcData.IsWhiteboardJobExists(nextJobNo))
             {

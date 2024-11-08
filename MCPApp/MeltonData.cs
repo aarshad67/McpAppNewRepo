@@ -4086,7 +4086,7 @@ namespace MCPApp
             string designStatus,
             DateTime requiredDate,
             string floorlevel,
-            string suppShortname,
+            string productSupplier,
             string supplierRef,
             string stairsIncluded,
             string supplyType,
@@ -4098,7 +4098,7 @@ namespace MCPApp
         {
 
             string insertQry = "INSERT INTO dbo.DesignBoard("
-                    + "jobNo,designDate, designStatus, requiredDate,dateJobCreated, floorlevel, suppShortname, supplierRef, stairsIncluded, salesman, supplyType, slabM2, beamM2, beamLM, modifiedDate, modifiedBy) "
+                    + "jobNo,designDate, designStatus, requiredDate,dateJobCreated, floorlevel, productSupplier, supplierRef, stairsIncluded, salesman, supplyType, slabM2, beamM2, beamLM, modifiedDate, modifiedBy) "
                     + "VALUES("
                     + "@jobNo,"
                     + "@designDate,"
@@ -4106,7 +4106,7 @@ namespace MCPApp
                     + "@requiredDate,"
                     + "@dateJobCreated,"
                     + "@floorlevel,"
-                    + "@suppShortname,"
+                    + "@productSupplier,"
                     + "@supplierRef,"
                     + "@stairsIncluded,"
                     + "@salesman,"
@@ -4131,7 +4131,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
                         command.Parameters.Add(new SqlParameter("dateJobCreated", DateTime.Now));
                         command.Parameters.Add(new SqlParameter("floorlevel", floorlevel));
-                        command.Parameters.Add(new SqlParameter("suppShortname", suppShortname));
+                        command.Parameters.Add(new SqlParameter("productSupplier", productSupplier));
                         command.Parameters.Add(new SqlParameter("supplierRef", supplierRef));
                         command.Parameters.Add(new SqlParameter("stairsIncluded", stairsIncluded));
                         command.Parameters.Add(new SqlParameter("salesman", salesman));
@@ -4159,18 +4159,19 @@ namespace MCPApp
         }
 
 
-        public string CreateJobPlanner(int parentJobNo, string jobNo, string phaseNo, string floorLevel, DateTime requiredDate, string siteAddress, string approved, string OnShop, string stairsIncl,
+        public string CreateJobPlanner(int parentJobNo, string jobNo, string phaseNo, string floorLevel, DateTime requiredDate, DateTime designDate, string siteAddress, string approved, string OnShop, string stairsIncl,
                                                                  int slabM2, int beamM2, int beamLm, string productSupplier, string supplyType, string supplierRef, string lastComment, decimal phaseInvValue, decimal jobMgnValue, string sortType)
         {
 
             string insertQry = "INSERT INTO dbo.JobPlanner("
-                                            + "parentJobNo,jobNo,phaseNo,floorLevel,requiredDate,siteAddress,approved,OnShop,stairsIncl,slabM2,beamM2, beamLm,supplyType, productSupplier, supplierRef, lastComment, phaseInvValue,jobMgnValue,completedFlag,modifiedDate,modifiedBy,jobCreatedBy,jobCreatedDate,sortType) "
+                                            + "parentJobNo,jobNo,phaseNo,floorLevel,requiredDate,designDate,siteAddress,approved,OnShop,stairsIncl,slabM2,beamM2, beamLm,supplyType, productSupplier, supplierRef, lastComment, phaseInvValue,jobMgnValue,completedFlag,modifiedDate,modifiedBy,jobCreatedBy,jobCreatedDate,sortType) "
                                             + "VALUES("
                                             + "@parentJobNo,"
                                             + "@jobNo,"
                                             + "@phaseNo,"
                                             + "@floorLevel,"
                                             + "@requiredDate,"
+                                            + "@designDate,"
                                             + "@siteAddress,"
                                             + "@approved,"
                                             + "@OnShop,"
@@ -4203,6 +4204,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("phaseNo", phaseNo));
                         command.Parameters.Add(new SqlParameter("floorLevel", floorLevel));
                         command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
+                        command.Parameters.Add(new SqlParameter("designDate", designDate));
                         command.Parameters.Add(new SqlParameter("siteAddress", siteAddress));
                         command.Parameters.Add(new SqlParameter("approved", approved));
                         command.Parameters.Add(new SqlParameter("OnShop", OnShop));
@@ -5297,6 +5299,78 @@ namespace MCPApp
             }
         }
 
+        public string GetSupplierRefByJobNo(string jobNo)
+        {
+            string suppRef = "";
+
+            string qry = $"SELECT supplierRef FROM dbo.JobPlanner WHERE jobNo = '{jobNo}'";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(qry, conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                suppRef = reader["supplierRef"].ToString();
+                            }
+                        }
+                    }
+
+                    return suppRef;
+
+
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetSupplierRefByJobNo() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetSupplierRefByJobNo({jobNo})", ex.Message.ToString());
+                    return suppRef;
+                }
+
+            }
+        }
+
+        public DateTime GetDesignDateByJobNo(string jobNo)
+        {
+            DateTime date = DateTime.MinValue;
+
+            string qry = String.Format("SELECT designDate FROM dbo.DesignBoard WHERE jobNo = '{0}'", jobNo);
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(qry, conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                date = Convert.ToDateTime(reader["designDate"].ToString());
+                            }
+                        }
+                    }
+
+                    return date;
+
+
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"GetDesignDateByJobNo() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetDesignDateByJobNo({jobNo})", ex.Message.ToString());
+                    return DateTime.Now;
+                }
+
+            }
+        }
+
         public string GetJobPlannerSupplier(string jobNo)
         {
             string shortname = "";
@@ -6000,9 +6074,7 @@ namespace MCPApp
 
         public DataTable GeDesignboardByDateRangeDT(DateTime startDate, DateTime endDate)
         {
-            string qry1 = @"SELECT * FROM dbo.DesignBoard WHERE designDate between @startDate and @endDate 
-                            AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
-                            ORDER BY designDate,jobNo";
+            string qry1 = @"SELECT * FROM dbo.DesignBoard WHERE designDate between @startDate and @endDate ORDER BY designDate,jobNo";
    
             using (SqlConnection conn = new SqlConnection(connStr))
             {
@@ -7034,7 +7106,6 @@ namespace MCPApp
                     using (SqlCommand command = new SqlCommand(insertQry, conn))
                     {
                         command.Parameters.Add(new SqlParameter("jobNo", jobNo));
-                        //  command.Parameters.Add(new SqlParameter("dayFieldName", dayFieldName));
                         command.Parameters.Add(new SqlParameter("product", product));
                         command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
                         command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
@@ -7044,9 +7115,46 @@ namespace MCPApp
                 }
                 catch (Exception ex)
                 {
-                    string msg = $"UpdateDesignBoardJobDayComment() Error : {ex.Message.ToString()}";
+                    string msg = $"UpdateDesignBoardJobProduct() Error : {ex.Message.ToString()}";
                     logger.LogLine(msg);
-                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignBoardJobDayComment({jobNo},{dayFieldName},{comment})", ex.Message.ToString());
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignBoardJobProduct({jobNo},{product})", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateDesignStatus(string jobNo, string designStatus)
+        {
+
+
+            string insertQry = "UPDATE dbo.DesignBoard "
+                                + "SET designStatus = @designStatus,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE jobNo = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("designStatus", designStatus));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateDesignStatus() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignStatus({jobNo},{designStatus})", ex.Message.ToString());
                     return msg;
                 }
 
@@ -7454,7 +7562,59 @@ namespace MCPApp
 
         }
 
-        
+        public DataTable DesignBoardDatesDT(string jobNo)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                DateTime jobDate = GetDesignDateByJobNo(jobNo); 
+                DateTime firstDate = jobDate;
+                DateTime startDate = jobDate;
+                DateTime lastDate = jobDate;
+
+                TimeSpan ts = lastDate - startDate;
+                int dateDiff = ts.Days;
+                decimal numWeeks = dateDiff / 7m;
+                decimal roundedNumWeeks = Decimal.Round(numWeeks, 0);
+
+                DataTable datesDT = new DataTable();
+
+
+                datesDT.Columns.Add("jobDate", typeof(DateTime));
+                datesDT.Columns.Add("dbDate", typeof(DateTime));
+                datesDT.Columns.Add("tabNo", typeof(int));
+
+                DateTime currDbDate = DateTime.MinValue;
+                int dbCounter = 0;
+
+                for (DateTime i = startDate; i <= lastDate; i = i.AddDays(1))
+                {
+                    currDbDate = GetMonday(i.Date);
+
+                    if (i.Date == currDbDate)
+                    {
+                        dbCounter++;
+                        datesDT.Rows.Add(i.Date, currDbDate, dbCounter);
+                    }
+                    else
+                    {
+                        datesDT.Rows.Add(i.Date, currDbDate, dbCounter);
+                    }
+
+                }
+                return datesDT;
+            }
+            catch (Exception ex)
+            {
+                string msg = "DesignBoardDatesDT() Error : {ex.Message.ToString()}";
+                logger.LogLine(msg);
+                string audit = CreateErrorAudit("MeltonData.cs", $"DesignBoardDatesDT({jobNo})", ex.Message.ToString());
+                return null;
+            }
+
+        }
+
+
 
         public void GetWhiteboardDays(string jobNo, out string mon, out string tue, out string wed, out string thu, out string fri, out string sat, out string sun)
         {
@@ -7578,7 +7738,7 @@ namespace MCPApp
                 conn.Open();
                 try
                 {
-                    using (SqlCommand command = new SqlCommand(String.Format("SELECT count(*) FROM dbo.JobPlanner WHERE jobNo = '{0}' AND Approved = 'Y' AND OnShop = 'Y'", jobNumber), conn))
+                    using (SqlCommand command = new SqlCommand($"SELECT count(*) FROM dbo.DesignBoard WHERE jobNo = '{jobNumber}' AND designStatus = 'ON SHOP'", conn))
                     {
                         Int32 numjobs = (Int32)command.ExecuteScalar();
 
@@ -7594,9 +7754,47 @@ namespace MCPApp
                 }
                 catch (Exception ex)
                 {
-                    string msg = String.Format("IsValidWhiteboardJob() Error : {0}", ex.Message.ToString());
+                    string msg = $"IsValidWhiteboardJob() Error : {ex.Message.ToString()}";
                     logger.LogLine(msg);
-                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("IsValidWhiteboardJob({0})", jobNo), ex.Message.ToString());
+                    string audit = CreateErrorAudit("MeltonData.cs", "IsValidWhiteboardJob({jobNo})", ex.Message.ToString());
+                    return false;
+                }
+
+            }
+        }
+
+        public bool IsDesignBoardJob(string jobNo)
+        {
+            char lastCharacter = jobNo[jobNo.Length - 1];
+            string jobNumber = jobNo;
+            if (Char.IsLetter(lastCharacter))
+            {
+                jobNumber = jobNo.Substring(0, 8);
+            }
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand($"SELECT count(*) FROM dbo.DesignBoard WHERE jobNo = '{jobNumber}'", conn))
+                    {
+                        Int32 numjobs = (Int32)command.ExecuteScalar();
+
+                        if (numjobs > 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("IsDesignBoardJob() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"IsDesignBoardJob({jobNo})", ex.Message.ToString());
                     return false;
                 }
 
@@ -8073,6 +8271,35 @@ namespace MCPApp
                     string msg = String.Format("GetAllProducts() Error : {0}", ex.Message.ToString());
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", "GetAllProducts()", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
+        public DataTable GetAllDesignStatus()
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    string qry = "SELECT * FROM dbo.DesignStatus ORDER BY designStatusSeq";
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"GetAllDesignStatus() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "GetAllDesignStatus()", ex.Message.ToString());
                     return null;
                 }
 

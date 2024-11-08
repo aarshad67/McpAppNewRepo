@@ -1454,7 +1454,7 @@ namespace MCPApp
 
             if (!mcData.IsJobExists(nextJobNo))
             {
-                err = mcData.CreateJobPlanner(parentJob, nextJobNo, nextJobNo.Substring(6, 2), "", DateTime.Now.AddYears(1), siteAddress, "N", "N", "N", 0, 0, 0, "", "", "", "", 0,0, "");
+                err = mcData.CreateJobPlanner(parentJob, nextJobNo, nextJobNo.Substring(6, 2), "", DateTime.Now.AddYears(1), DateTime.Now.AddYears(1), siteAddress, "N", "N", "N", 0, 0, 0, "", "", "", "", 0,0, "");
             }
 
             if (!mcData.IsWhiteboardJobExists(nextJobNo))
@@ -3336,6 +3336,30 @@ namespace MCPApp
                 this.Dispose();
                 this.Close();
             }
+        }
+
+        private void goToJobInDesignBoardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (colIndex < 0 || jobDGV.Rows[rowIndex].Cells[0].Value == null)
+            {
+                return;
+            }
+            string phaseJob = jobDGV.Rows[rowIndex].Cells[0].Value.ToString();
+            if(!mcData.IsDesignBoardJob(phaseJob))
+            {
+                MessageBox.Show($"Job [{phaseJob}] does NOT exist in the Design Board");
+                return;
+            }
+            DataTable dt = mcData.DesignBoardDatesDT(phaseJob);
+            DateTime jobDate = mcData.GetDesignDateByJobNo(phaseJob);
+            DateTime startDate = mcData.GetMonday(jobDate);
+            DateTime lastDate = startDate.AddDays(6);
+            TimeSpan ts = lastDate - startDate;
+            int dateDiff = ts.Days;
+            decimal numWeeks = dateDiff / 7m;
+            int roundedNumWeeks = (int)Decimal.Round(numWeeks, 1) + 1;
+            DesignBoardForm dbForm = new DesignBoardForm(phaseJob, startDate, lastDate, dt, roundedNumWeeks);
+            dbForm.ShowDialog();
         }
     }
 }

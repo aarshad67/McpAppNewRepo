@@ -100,6 +100,7 @@
             this.btnLockedJobs = new System.Windows.Forms.Button();
             this.txtTotalJobMgn = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.goToJobInDesignBoardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.jobDGV)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -161,10 +162,11 @@
             this.completeJobToolStripMenuItem,
             this.uncompleteToolStripMenuItem1,
             this.whiteboardToolStripMenuItem,
+            this.goToJobInDesignBoardToolStripMenuItem,
             this.removeSupplierToolStripMenuItem,
             this.jobDateAuditToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(342, 356);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(342, 421);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // amendParentJobToolStripMenuItem
@@ -924,6 +926,13 @@
             this.label4.TabIndex = 162;
             this.label4.Text = "Total Job Mgn(£) :";
             // 
+            // goToJobInDesignBoardToolStripMenuItem
+            // 
+            this.goToJobInDesignBoardToolStripMenuItem.Name = "goToJobInDesignBoardToolStripMenuItem";
+            this.goToJobInDesignBoardToolStripMenuItem.Size = new System.Drawing.Size(341, 32);
+            this.goToJobInDesignBoardToolStripMenuItem.Text = "Go to Job in Design Board";
+            this.goToJobInDesignBoardToolStripMenuItem.Click += new System.EventHandler(this.goToJobInDesignBoardToolStripMenuItem_Click);
+            // 
             // JobPlannerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1044,5 +1053,6 @@
         private System.Windows.Forms.Button btnLockedJobs;
         private System.Windows.Forms.TextBox txtTotalJobMgn;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ToolStripMenuItem goToJobInDesignBoardToolStripMenuItem;
     }
 }
