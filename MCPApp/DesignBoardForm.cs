@@ -246,11 +246,10 @@ namespace MCPApp
                 friFlag = dateStr.Substring(0, 3).ToUpper() == "FRI" ? "Y" : String.Empty;
                 satFlag = dateStr.Substring(0, 3).ToUpper() == "SAT" ? "Y" : String.Empty;
                 sunFlag = dateStr.Substring(0, 3).ToUpper() == "SUN" ? "Y" : String.Empty;
-                //   myDGV.Rows.Add();
+                
                 DataGridViewRow drow = new DataGridViewRow();
                 drow.CreateCells(myDGV);
                 drow.Cells[0].Value = dr["jobNo"].ToString();
-                //drow.Cells[0].Style.BackColor = Color.Cyan;
                 drow.Cells[1].Value = Convert.ToDateTime(dr["designDate"].ToString()).ToShortDateString();
                 drow.Cells[2].Value = dr["designStatus"].ToString();
                 drow.Cells[3].Value = dr["designStatus"].ToString().Contains("APPROVED") || dr["designStatus"].ToString() == "ON SHOP" ? 0 : mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["dateJobCreated"].ToString()));
@@ -332,7 +331,7 @@ namespace MCPApp
                 jobNoColumn.HeaderText = "Job No.";
                 jobNoColumn.Width = 70;
                 jobNoColumn.ReadOnly = true;
-                //jobNoColumn.Frozen = true;
+                jobNoColumn.Frozen = true;
                 jobNoColumn.DefaultCellStyle.ForeColor = Color.Black;
                 jobNoColumn.DefaultCellStyle.BackColor = Color.Cyan;
                 dbDataGridView.Columns.Add(jobNoColumn);
@@ -342,7 +341,7 @@ namespace MCPApp
                 designDateColumn.HeaderText = "Design Date";
                 designDateColumn.Width = 80;
                 designDateColumn.ReadOnly = true;
-                //designDateColumn.Frozen = true;
+                designDateColumn.Frozen = true;
                 designDateColumn.DefaultCellStyle.BackColor = Color.Yellow;
                 designDateColumn.DefaultCellStyle.ForeColor = Color.Blue;
                 dbDataGridView.Columns.Add(designDateColumn);
@@ -351,7 +350,7 @@ namespace MCPApp
                 DataGridViewTextBoxColumn designStatusColumn = new DataGridViewTextBoxColumn();
                 designStatusColumn.HeaderText = "Design Status";
                 designStatusColumn.Width = 120;
-                //designStatusColumn.Frozen = false;
+                designStatusColumn.Frozen = true;
                 designStatusColumn.ReadOnly = true;
                 dbDataGridView.Columns.Add(designStatusColumn);
 
@@ -359,7 +358,7 @@ namespace MCPApp
                 DataGridViewTextBoxColumn daysUnapprovedColumn = new DataGridViewTextBoxColumn();
                 daysUnapprovedColumn.HeaderText = "Days UnApprvd";
                 daysUnapprovedColumn.Width = 70;
-                // daysUnapprovedColumn.Frozen = true;
+                daysUnapprovedColumn.Frozen = true;
                 daysUnapprovedColumn.ReadOnly = true;
                 dbDataGridView.Columns.Add(daysUnapprovedColumn);
 
@@ -368,7 +367,7 @@ namespace MCPApp
                 reqDateColumn.HeaderText = "Required Date";
                 reqDateColumn.Width = 80;
                 reqDateColumn.ReadOnly = true;
-                //reqDateColumn.Frozen = false;
+                reqDateColumn.Frozen = true;
                 reqDateColumn.DefaultCellStyle.ForeColor = Color.Blue;
                 dbDataGridView.Columns.Add(reqDateColumn);
 
@@ -381,7 +380,7 @@ namespace MCPApp
                 custColumn.DataPropertyName = "CustName";
                 custColumn.HeaderText = "Customer";
                 custColumn.Width = 150;
-                // custColumn.Frozen = false;
+                custColumn.Frozen = true;
                 custColumn.ReadOnly = true;
                 dbDataGridView.Columns.Add(custColumn);
 
@@ -390,7 +389,7 @@ namespace MCPApp
                 siteColumn.DataPropertyName = "site";
                 siteColumn.HeaderText = "Site Address";
                 siteColumn.Width = 250;
-                //  siteColumn.Frozen = false;
+                siteColumn.Frozen = true;
                 siteColumn.ReadOnly = true;
                 siteColumn.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
                 dbDataGridView.Columns.Add(siteColumn);
@@ -645,6 +644,12 @@ namespace MCPApp
 
                 }
 
+                if (column.Index == 1)
+                {
+                    column.ContextMenuStrip = dateChangeContextMenuStrip1;
+
+                }
+
                 if (column.Index == 2)
                 {
                     column.ContextMenuStrip = statusContextMenuStrip1;
@@ -771,6 +776,7 @@ namespace MCPApp
         {
             SuppliersListForm myForm;
             int rgb1, rgb2, rgb3 = 255;
+            int stRgb1, stRgb2, stRgb3 = 255;
 
             if (dbDataGridView[0, rowIndex].Value == null) { return; }
 
@@ -805,6 +811,23 @@ namespace MCPApp
 
                 return;
             }
+            if (colIndex == 13)
+            {
+                if (dbDataGridView[13, rowIndex].Value == null)
+                {
+                    myForm = new SuppliersListForm();
+                }
+                else
+                {
+                    myForm = new SuppliersListForm(dbDataGridView.Rows[rowIndex].Cells[13].Value.ToString());
+                }
+                myForm.ShowDialog();
+                dbDataGridView[13, rowIndex].Value = myForm.Shortname;
+                mcData.GetSupplierColourByShortname(myForm.Shortname, out stRgb1, out stRgb2, out stRgb3);
+                dbDataGridView[13, rowIndex].Style.BackColor = Color.FromArgb(stRgb1, stRgb2, stRgb3);
+                return;
+            }
+            return;
         }
 
         private void sAVEJobLineToolStripMenuItem_Click(object sender, EventArgs e)
@@ -816,9 +839,11 @@ namespace MCPApp
             DateTime designDate = Convert.ToDateTime(dbDataGridView.Rows[i].Cells[1].Value.ToString());
             string designStatus = dbDataGridView[2, this.rowIndex].Value.ToString();
             string floorLevel = dbDataGridView[7, this.rowIndex].Value.ToString();
+            string supplyType = dbDataGridView[8, this.rowIndex].Value.ToString();
             string product = dbDataGridView[10, this.rowIndex].Value.ToString();
             string productSupplier = dbDataGridView[11, this.rowIndex].Value.ToString();
             string stairsIncluded = (bool)dbDataGridView.Rows[i].Cells[12].Value ? "Y" : "N";
+            string stairsSupplier = dbDataGridView[13, this.rowIndex].Value.ToString();
             string supplierRef = mcData.GetSupplierRefByJobNo(jobNo);
             string salesman = dbDataGridView[9, this.rowIndex].Value.ToString();
             int slabM2 = dbDataGridView.Rows[i].Cells[14].Value == null ? 0 : Convert.ToInt16(dbDataGridView.Rows[i].Cells[14].Value.ToString());
@@ -833,7 +858,57 @@ namespace MCPApp
             string wcSunday = dbDataGridView[23, this.rowIndex].Value.ToString();
             string drawingsEmailedFlag = (bool)dbDataGridView.Rows[i].Cells[24].Value ? "Y" : "N";
             string draughtsman = dbDataGridView[25, this.rowIndex].Value.ToString();
+            DateTime createdDate = mcData.GetJobCreatedDateByJobNo(jobNo);
+            string completedFlag = mcData.GetCompletedFlagFromJob(jobNo);
+            DateTime requiredDate = mcData.GetPlannerDateByJobNo(jobNo);
 
+            string testline =
+                    "JobNo = " + jobNo + Environment.NewLine +
+                    "designDate = " + designDate.ToShortDateString() + Environment.NewLine +
+                    "requiredDate = " + requiredDate.ToShortDateString() + Environment.NewLine +
+                    "designStatus = " + designStatus + Environment.NewLine +
+                    "floorLevel = " + floorLevel + Environment.NewLine +
+                    "product = " + product + Environment.NewLine +
+                    "productSupplier = " + productSupplier + Environment.NewLine +
+                    "stairsIncluded = " + stairsIncluded + Environment.NewLine + //
+                    "stairsSupplier = " + stairsSupplier + Environment.NewLine +
+                    "supplierRef = " + supplierRef + Environment.NewLine +
+                    "salesman = " + salesman + Environment.NewLine +
+                    "slabM2 = " + slabM2 + Environment.NewLine +
+                    "beamM2 = " + beamM2 + Environment.NewLine +
+                    "beamLM = " + beamLM + Environment.NewLine + 
+                    "wcMonday = " + wcMonday + Environment.NewLine +
+                    "wcTuesday = " + wcTuesday + Environment.NewLine +
+                    "wcWednesday = " + wcWednesday + Environment.NewLine +
+                    "wcThursday = " + wcThursday + Environment.NewLine +
+                    "wcFriday = " + wcFriday + Environment.NewLine +
+                    "wcSaturday = " + wcSaturday + Environment.NewLine +
+                    "wcSunday = " + wcSunday + Environment.NewLine +
+                    "drawingsEmailedFlag = " + drawingsEmailedFlag + Environment.NewLine +
+                    "draughtsman = " + draughtsman + Environment.NewLine +
+                    "dateJobCreated = " + createdDate.ToShortDateString() + Environment.NewLine +
+                    "completedFlag = " + completedFlag + Environment.NewLine;
+
+            if (MessageBox.Show(testline, "Confirm you want save Design Board Job No.[" + jobNo + "] line ? ", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+            {
+                string err = mcData.UpdateDesignBoardLine(jobNo, designDate, designStatus, floorLevel, product, productSupplier,
+                                        supplierRef, stairsIncluded, stairsSupplier, salesman, supplyType, slabM2, beamM2, beamLM,
+                                        wcMonday, wcTuesday, wcWednesday, wcThursday, wcFriday, wcSaturday, wcSunday,
+                                        createdDate, drawingsEmailedFlag, draughtsman, completedFlag);
+                if (err == "OK")
+                {
+                    MessageBox.Show("Design Board JobNo[" + jobNo + "] line saved successfully");
+                    return;
+                }
+                else
+                {
+                    mcData.CreateErrorAudit("DesignboardForm.cs", "sAVEJobLineToolStripMenuItem_Click on Job[" + jobNo + "]", err);
+                    MessageBox.Show($"Error saving JobNo[{jobNo}] : {err} ");
+                    return;
+
+                }
+            }
+            return;
         }
 
         private void jobCommentsAuditToolStripMenuItem_Click(object sender, EventArgs e)
@@ -857,6 +932,31 @@ namespace MCPApp
                 string err = mcData.UpdateDesignStatus(jobNo, form.Status);
             }
             return;
+        }
+
+        private void canToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dbDataGridView[0, rowIndex].Value == null) { return; }
+            string jobNo = dbDataGridView[0, this.rowIndex].Value.ToString();
+            DateTime selectDesignDate = DateTime.MinValue;
+            if (dbDataGridView[1, rowIndex].Value == null) 
+            {
+                DateSelectorForm dateForm1 = new DateSelectorForm();
+                dateForm1.ShowDialog();
+                selectDesignDate = dateForm1.RequiredDate;
+                dbDataGridView[1, rowIndex].Value = selectDesignDate.Date.ToShortDateString();
+                return;
+            }
+            else
+            {
+                DateTime currDate = Convert.ToDateTime(dbDataGridView[1, rowIndex].Value.ToString());
+                DateSelectorForm dateForm = new DateSelectorForm(currDate);
+                dateForm.ShowDialog();
+                selectDesignDate = dateForm.RequiredDate;
+                dbDataGridView[1, rowIndex].Value = selectDesignDate.Date.ToShortDateString();
+                return;
+            }
+            
         }
     }
 }

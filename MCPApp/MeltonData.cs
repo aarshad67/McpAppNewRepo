@@ -5299,6 +5299,42 @@ namespace MCPApp
             }
         }
 
+        public DateTime GetJobCreatedDateByJobNo(string jobNo)
+        {
+            DateTime jobCreatedDate = DateTime.MinValue;
+
+            string qry = String.Format("SELECT jobCreatedDate FROM dbo.JobPlanner WHERE jobNo = '{0}'", jobNo);
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(qry, conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                jobCreatedDate = Convert.ToDateTime(reader["jobCreatedDate"].ToString());
+                            }
+                        }
+                    }
+
+                    return jobCreatedDate;
+
+
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"GetJobCreatedDateByJobNo() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetJobCreatedDateByJobNo({jobNo})", ex.Message.ToString());
+                    return DateTime.Now;
+                }
+
+            }
+        }
+
         public string GetSupplierRefByJobNo(string jobNo)
         {
             string suppRef = "";
@@ -6663,6 +6699,98 @@ namespace MCPApp
 
             }
         }
+
+        public string UpdateDesignBoardLine(string jobNo, DateTime designDate, string designStatus, string floorlevel, string product, string productSupplier, 
+                                        string supplierRef, string stairsIncluded, string stairsSupplier,string salesman, string supplyType,int slabM2, int beamM2, int beamLM, 
+                                        string wcMonday, string wcTuesday, string wcWednesday, string wcThursday, string wcFriday, string wcSaturday, string wcSunday, 
+                                        DateTime dateJobCreated, string drawingsEmailedFlag,string draughtsman, string completedFlag)
+        {
+
+            // string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
+            // string custName = GetCustName(custCode);
+            string insertQry = "UPDATE dbo.DesignBoard "
+                                //   + "SET requiredDate = @requiredDate,"
+                                + "SET designDate = @designDate,"
+                                // + "custCode = @custCode,"
+                                + "designStatus = @designStatus,"
+                                + "floorlevel = @floorlevel,"
+                                + "product = @product,"
+                                + "productSupplier = @productSupplier,"
+                                + "supplierRef = @supplierRef,"
+                                + "stairsIncluded = @stairsIncluded,"
+                                + "stairsSupplier = @stairsSupplier,"
+                                + "salesman = @salesman,"
+                                + "supplyType = @supplyType,"
+                                + "slabM2 = @slabM2,"
+                                + "beamM2 = @beamM2,"
+                                + "beamLM = @beamLM,"
+                                + "wcMonday = @wcMonday,"
+                                + "wcTuesday = @wcTuesday,"
+                                + "wcWednesday = @wcWednesday,"
+                                + "wcThursday = @wcThursday,"
+                                + "wcFriday = @wcFriday,"
+                                + "wcSaturday = @wcSaturday,"
+                                + "wcSunday = @wcSunday,"
+                                + "dateJobCreated = @dateJobCreated,"
+                                + "drawingsEmailedFlag = @drawingsEmailedFlag,"
+                                + "draughtsman = @draughtsman,"
+                                + "completedFlag = @completedFlag,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE jobNo = @jobNo"; 
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("designDate", designDate));
+                        command.Parameters.Add(new SqlParameter("designStatus", designStatus));
+                        command.Parameters.Add(new SqlParameter("floorlevel", floorlevel));
+                        command.Parameters.Add(new SqlParameter("product", product));
+                        command.Parameters.Add(new SqlParameter("productSupplier", productSupplier));
+                        command.Parameters.Add(new SqlParameter("supplierRef", supplierRef));
+                        command.Parameters.Add(new SqlParameter("stairsIncluded", stairsIncluded)); //
+                        command.Parameters.Add(new SqlParameter("stairsSupplier", stairsSupplier));
+                        command.Parameters.Add(new SqlParameter("salesman", salesman));
+                        command.Parameters.Add(new SqlParameter("supplyType", supplyType));
+                        command.Parameters.Add(new SqlParameter("slabM2", slabM2));
+                        command.Parameters.Add(new SqlParameter("beamM2", beamM2));
+                        command.Parameters.Add(new SqlParameter("beamLM", beamLM));
+                        command.Parameters.Add(new SqlParameter("wcMonday", wcMonday));
+                        command.Parameters.Add(new SqlParameter("wcTuesday", wcTuesday));
+                        command.Parameters.Add(new SqlParameter("wcWednesday", wcWednesday));
+                        command.Parameters.Add(new SqlParameter("wcThursday", wcThursday));
+                        command.Parameters.Add(new SqlParameter("wcFriday", wcFriday));
+                        command.Parameters.Add(new SqlParameter("wcSaturday", wcSaturday));
+                        command.Parameters.Add(new SqlParameter("wcSunday", wcSunday));
+                        command.Parameters.Add(new SqlParameter("dateJobCreated", dateJobCreated));
+                        command.Parameters.Add(new SqlParameter("drawingsEmailedFlag", drawingsEmailedFlag));
+                        command.Parameters.Add(new SqlParameter("draughtsman", draughtsman));
+                        command.Parameters.Add(new SqlParameter("completedFlag", completedFlag));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        
+
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateDesignBoardLine() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "UpdateDesignBoardLine(.....)", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+
         public string UpdateWhiteBoardLine(string jobNo, /*DateTime requiredDate,*/ string custCode, string siteAddress, string supplyType, string products, int totalM2, int fixingDaysAllowance, decimal salesPrice,
                                         string isInvoiced, string suppShortname, string stairsIncl, string stairsSupplier, string floorlevel, string continuedFlag, string cowSentFlag, string cowReceived,
                                         string wcMonday, string wcTuesday, string wcWednesday, string wcThursday, string wcFriday, string wcSaturday, string wcSunday, string contracts, string ramsFlag,

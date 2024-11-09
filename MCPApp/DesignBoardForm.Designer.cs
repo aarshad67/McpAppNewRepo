@@ -44,11 +44,14 @@ namespace MCPApp
             this.jobCommentsAuditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusContextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.selectDesignStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dateChangeContextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.canToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.supplierContextMenuStrip.SuspendLayout();
             this.productContextMenuStrip.SuspendLayout();
             this.wbDailyContextMenuStrip1.SuspendLayout();
             this.jobContextMenuStrip1.SuspendLayout();
             this.statusContextMenuStrip1.SuspendLayout();
+            this.dateChangeContextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // refreshButton
@@ -82,7 +85,7 @@ namespace MCPApp
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.weeksTabControl.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
-            this.weeksTabControl.Location = new System.Drawing.Point(12, 23);
+            this.weeksTabControl.Location = new System.Drawing.Point(12, 22);
             this.weeksTabControl.Name = "weeksTabControl";
             this.weeksTabControl.SelectedIndex = 0;
             this.weeksTabControl.Size = new System.Drawing.Size(1708, 847);
@@ -149,7 +152,7 @@ namespace MCPApp
             this.sAVEJobLineToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.sAVEJobLineToolStripMenuItem.ForeColor = System.Drawing.Color.Blue;
             this.sAVEJobLineToolStripMenuItem.Name = "sAVEJobLineToolStripMenuItem";
-            this.sAVEJobLineToolStripMenuItem.Size = new System.Drawing.Size(252, 32);
+            this.sAVEJobLineToolStripMenuItem.Size = new System.Drawing.Size(312, 32);
             this.sAVEJobLineToolStripMenuItem.Text = "SAVE Job Line";
             this.sAVEJobLineToolStripMenuItem.Click += new System.EventHandler(this.sAVEJobLineToolStripMenuItem_Click);
             // 
@@ -175,6 +178,21 @@ namespace MCPApp
             this.selectDesignStatusToolStripMenuItem.Text = "Select Design Status";
             this.selectDesignStatusToolStripMenuItem.Click += new System.EventHandler(this.selectDesignStatusToolStripMenuItem_Click);
             // 
+            // dateChangeContextMenuStrip1
+            // 
+            this.dateChangeContextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.dateChangeContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.canToolStripMenuItem});
+            this.dateChangeContextMenuStrip1.Name = "dateChangeContextMenuStrip1";
+            this.dateChangeContextMenuStrip1.Size = new System.Drawing.Size(247, 69);
+            // 
+            // canToolStripMenuItem
+            // 
+            this.canToolStripMenuItem.Name = "canToolStripMenuItem";
+            this.canToolStripMenuItem.Size = new System.Drawing.Size(246, 32);
+            this.canToolStripMenuItem.Text = "Change Design Date";
+            this.canToolStripMenuItem.Click += new System.EventHandler(this.canToolStripMenuItem_Click);
+            // 
             // DesignBoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -195,6 +213,7 @@ namespace MCPApp
             this.wbDailyContextMenuStrip1.ResumeLayout(false);
             this.jobContextMenuStrip1.ResumeLayout(false);
             this.statusContextMenuStrip1.ResumeLayout(false);
+            this.dateChangeContextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -215,5 +234,7 @@ namespace MCPApp
         private System.Windows.Forms.ToolStripMenuItem jobCommentsAuditToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip statusContextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem selectDesignStatusToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip dateChangeContextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem canToolStripMenuItem;
     }
 }
