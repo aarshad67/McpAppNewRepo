@@ -54,15 +54,22 @@ namespace MCPApp
             string jobNo = "";
             string custName = "";
             string custCode = "";
+            string siteAddr = "";
             string filename = "NOTONSHOP" + DateTime.Now.ToString("ddMMMyyyyhhmmss") + ".xlsx";
             string fullFilePath = System.IO.Path.Combine(pathTextBox.Text, filename);
+            DateTime designDate;
             DateTime reqDate;
-            Double dateValue;
+            Double designDateValue;
+            Double requiredDateValue;
+            string designStatus = "";
+
             jobsDT.Columns.Clear();
             jobsDT.Columns.Add("JobNo", typeof(string));
             jobsDT.Columns.Add("Customer", typeof(string));
             jobsDT.Columns.Add("FloorLevel", typeof(string));
-            jobsDT.Columns.Add("RequiredDate", typeof(Double));
+            jobsDT.Columns.Add("DesignDate", typeof(Double)); // set to double because of Excel 
+            jobsDT.Columns.Add("RequiredDate", typeof(Double)); // set to double because of Excel 
+            jobsDT.Columns.Add("DesignStatus", typeof(string));
             jobsDT.Columns.Add("SiteAddress", typeof(string));
             jobsDT.Columns.Add("SupplyType", typeof(string));
             jobsDT.Columns.Add("SupplierRef", typeof(string));
@@ -73,13 +80,19 @@ namespace MCPApp
                 jobNo = row["jobNo"].ToString();
                 custCode = mcData.GetCustomerCodeByJobNo(jobNo);
                 custName = mcData.GetCustName(custCode);
+                siteAddr = mcData.GetSiteAddressFromJobNo(jobNo);
+                designDate = Convert.ToDateTime(row["designDate"]);
+                designDateValue = designDate.ToOADate();
                 reqDate = Convert.ToDateTime(row["requiredDate"]);
-                dateValue = reqDate.ToOADate();
+                requiredDateValue = reqDate.ToOADate();
+                designStatus = row["designStatus"].ToString();
                 dr["JobNo"] = jobNo;
                 dr["Customer"] = custName;
                 dr["FloorLevel"] = row["floorLevel"].ToString();
-                dr["RequiredDate"] = dateValue;
-                dr["SiteAddress"] = row["siteAddress"].ToString();
+                dr["DesignDate"] = designDateValue;
+                dr["RequiredDate"] = requiredDateValue;
+                dr["DesignStatus"] = designStatus;
+                dr["SiteAddress"] = siteAddr;
                 dr["SupplyType"] = row["supplyType"].ToString();
                 dr["SupplierRef"] = row["supplierRef"].ToString();
                 jobsDT.Rows.Add(dr);

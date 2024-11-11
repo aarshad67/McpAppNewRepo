@@ -3103,7 +3103,7 @@ namespace MCPApp
 
         }
 
-        public DataTable GetJobsNotOnShopDT()
+        public DataTable GetJobPlannerDTByJob(string jobNo)
         {
             string qry = "";
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -3112,9 +3112,54 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    qry = @"SELECT * FROM dbo.JobPlanner 
+                    //qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' ORDER BY supplyType,requiredDate";
+                    qry = $"SELECT * FROM dbo.JobPlanner WHERE jobNo = '{jobNo}'";
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"GetJobPlannerDTByJob() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetJobPlannerDTByJob({jobNo})", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
+        public DataTable GetJobsNotOnShopDT()
+        {
+            string oldQry = "";
+            string qry = "";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    /*
+                      jobsDT.Columns.Add("JobNo", typeof(string));
+            jobsDT.Columns.Add("Customer", typeof(string));
+            jobsDT.Columns.Add("FloorLevel", typeof(string));
+            jobsDT.Columns.Add("RequiredDate", typeof(Double));
+            jobsDT.Columns.Add("SiteAddress", typeof(string));
+            jobsDT.Columns.Add("SupplyType", typeof(string));
+            jobsDT.Columns.Add("SupplierRef", typeof(string));
+                     */
+                    conn.Open();
+                    oldQry = @"SELECT * FROM dbo.JobPlanner 
                             WHERE completedFlag != 'Y' 
                             AND OnShop != 'Y' 
+                            AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
+                            ORDER BY sortType,requiredDate";
+                    qry = @"SELECT * FROM dbo.DesignBoard 
+                            WHERE designStatus != 'ON SHOP'  
                             AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
                             ORDER BY sortType,requiredDate";
 
@@ -4093,12 +4138,13 @@ namespace MCPApp
             string salesman,
             int slabM2, 
             int beamM2, 
-            int beamLM
+            int beamLM,
+            string sortType
             )
         {
 
             string insertQry = "INSERT INTO dbo.DesignBoard("
-                    + "jobNo,designDate, designStatus, requiredDate,dateJobCreated, floorlevel, productSupplier, supplierRef, stairsIncluded, salesman, supplyType, slabM2, beamM2, beamLM, modifiedDate, modifiedBy) "
+                    + "jobNo,designDate, designStatus, requiredDate,dateJobCreated, floorlevel, productSupplier, supplierRef, stairsIncluded, salesman, supplyType, slabM2, beamM2, beamLM,sortType, modifiedDate, modifiedBy) "
                     + "VALUES("
                     + "@jobNo,"
                     + "@designDate,"
@@ -4114,6 +4160,7 @@ namespace MCPApp
                     + "@slabM2,"
                     + "@beamM2,"
                     + "@beamLM,"
+                    + "@sortType,"
                     + "@modifiedDate,"
                     + "@modifiedBy)";
 
@@ -4139,6 +4186,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("slabM2", slabM2));
                         command.Parameters.Add(new SqlParameter("beamM2", beamM2));
                         command.Parameters.Add(new SqlParameter("beamLM", beamLM));
+                        command.Parameters.Add(new SqlParameter("sortType", sortType));
                         command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
                         command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
                         
@@ -4345,6 +4393,45 @@ namespace MCPApp
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", "UpdateJobPlannerJobDate(.....)", ex.Message.ToString());
                     return msg;
+                }
+
+            }
+        }
+
+        public string UpdateJobPlannerFromDesignBoardJob(string jobNo,DateTime designDate, string stairsIncl, string productSupplier)
+        {
+            string updateQry = "UPDATE dbo.JobPlanner "
+                                + "SET designDate = @designDate,"
+                                + "stairsIncl = @stairsIncl,"
+                                + "productSupplier = @productSupplier,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE LEFT(jobNo,8) = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(updateQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo.Substring(0, 8)));
+                        command.Parameters.Add(new SqlParameter("designDate", designDate));
+                        command.Parameters.Add(new SqlParameter("stairsIncl", stairsIncl));
+                        command.Parameters.Add(new SqlParameter("productSupplier", productSupplier));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateJobPlannerFromDesignBoardJob() Error : {ex.Message}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateJobPlannerFromDesignBoardJob(......)", ex.Message.ToString());
+                    return ex.Message.ToString();
                 }
 
             }
@@ -6703,7 +6790,7 @@ namespace MCPApp
         public string UpdateDesignBoardLine(string jobNo, DateTime designDate, string designStatus, string floorlevel, string product, string productSupplier, 
                                         string supplierRef, string stairsIncluded, string stairsSupplier,string salesman, string supplyType,int slabM2, int beamM2, int beamLM, 
                                         string wcMonday, string wcTuesday, string wcWednesday, string wcThursday, string wcFriday, string wcSaturday, string wcSunday, 
-                                        DateTime dateJobCreated, string drawingsEmailedFlag,string draughtsman, string completedFlag)
+                                        DateTime dateJobCreated, string drawingsEmailedFlag,string draughtsman, string completedFlag, string sortType)
         {
 
             // string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
@@ -6735,6 +6822,7 @@ namespace MCPApp
                                 + "drawingsEmailedFlag = @drawingsEmailedFlag,"
                                 + "draughtsman = @draughtsman,"
                                 + "completedFlag = @completedFlag,"
+                                + "sortType = @sortType,"
                                 + "modifiedDate = @modifiedDate,"
                                 + "modifiedBy = @modifiedBy "
                                 + "WHERE jobNo = @jobNo"; 
@@ -6771,6 +6859,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("drawingsEmailedFlag", drawingsEmailedFlag));
                         command.Parameters.Add(new SqlParameter("draughtsman", draughtsman));
                         command.Parameters.Add(new SqlParameter("completedFlag", completedFlag));
+                        command.Parameters.Add(new SqlParameter("sortType", sortType));
                         command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
                         command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
                         
@@ -7058,6 +7147,56 @@ namespace MCPApp
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", String.Format("UpdateWhiteBoardSupplierShortName({0},{1})", jobNo, shortname), ex.Message.ToString());
                     return msg;
+                }
+
+            }
+        }
+
+        public string UpdateWhiteBoardFromDesignBoardJob(string jobNo, string supplyType, string products, string suppShortname,string stairsIncl,
+            string stairsSupplier, string drawingsEmailedFlag, string draughtsman,string salesman)
+        {
+            string updateQry = "UPDATE dbo.WhiteBoard "
+                                + "SET supplyType = @supplyType,"
+                                + "products = @products,"
+                                + "suppShortname = @suppShortname,"
+                                + "stairsIncl = @stairsIncl,"
+                                + "stairsSupplier = @stairsSupplier,"
+                                + "drawingsEmailedFlag = @drawingsEmailedFlag,"
+                                + "draughtsman = @draughtsman,"
+                                + "salesman = @salesman,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE LEFT(jobNo,8) = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(updateQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo.Substring(0, 8)));
+                        command.Parameters.Add(new SqlParameter("supplyType", supplyType));
+                        command.Parameters.Add(new SqlParameter("products", products));
+                        command.Parameters.Add(new SqlParameter("suppShortname", suppShortname));
+                        command.Parameters.Add(new SqlParameter("stairsIncl", stairsIncl));
+                        command.Parameters.Add(new SqlParameter("stairsSupplier", stairsSupplier));
+                        command.Parameters.Add(new SqlParameter("drawingsEmailedFlag", drawingsEmailedFlag));
+                        command.Parameters.Add(new SqlParameter("draughtsman", draughtsman));
+                        command.Parameters.Add(new SqlParameter("salesman", salesman));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateWhiteBoardFromDesignBoardJob() Error : {ex.Message}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateWhiteBoardFromDesignBoardJob(......)", ex.Message.ToString());
+                    return ex.Message.ToString();
                 }
 
             }

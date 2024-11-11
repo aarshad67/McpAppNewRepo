@@ -64,7 +64,7 @@ namespace MCPApp
                 {
                     if (Convert.ToInt16(dr["tabNo"].ToString()) == i + 1 || Convert.ToInt16(dr["tabNo"].ToString()) == 0)
                     {
-                        wcDate = Convert.ToDateTime(dr["dbDate"].ToString());
+                        wcDate = Convert.ToDateTime(dr["wcDate"].ToString());
                         break;
                     }
                 }
@@ -830,6 +830,7 @@ namespace MCPApp
             return;
         }
 
+            
         private void sAVEJobLineToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dbDataGridView.NotifyCurrentCellDirty(true);
@@ -861,6 +862,7 @@ namespace MCPApp
             DateTime createdDate = mcData.GetJobCreatedDateByJobNo(jobNo);
             string completedFlag = mcData.GetCompletedFlagFromJob(jobNo);
             DateTime requiredDate = mcData.GetPlannerDateByJobNo(jobNo);
+            string sortType = "S" + supplyType.Substring(1, 1);
 
             string testline =
                     "JobNo = " + jobNo + Environment.NewLine +
@@ -894,9 +896,11 @@ namespace MCPApp
                 string err = mcData.UpdateDesignBoardLine(jobNo, designDate, designStatus, floorLevel, product, productSupplier,
                                         supplierRef, stairsIncluded, stairsSupplier, salesman, supplyType, slabM2, beamM2, beamLM,
                                         wcMonday, wcTuesday, wcWednesday, wcThursday, wcFriday, wcSaturday, wcSunday,
-                                        createdDate, drawingsEmailedFlag, draughtsman, completedFlag);
+                                        createdDate, drawingsEmailedFlag, draughtsman, completedFlag,sortType);
                 if (err == "OK")
                 {
+                    string err1 = mcData.UpdateJobPlannerFromDesignBoardJob(jobNo, designDate, stairsIncluded, productSupplier);
+                    string err2 = mcData.UpdateWhiteBoardFromDesignBoardJob(jobNo, supplyType, product, productSupplier, stairsIncluded, stairsSupplier, drawingsEmailedFlag, draughtsman, salesman);
                     MessageBox.Show("Design Board JobNo[" + jobNo + "] line saved successfully");
                     return;
                 }

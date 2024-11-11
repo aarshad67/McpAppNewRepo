@@ -759,7 +759,7 @@ namespace MCPApp
                     if(!mcData.IsDesignBoardJobExists(jobNo))
                     {
                         //jobNo,designDate, designStatus, requiredDate, floorlevel, suppShortname, supplierRef, stairsIncluded, salesman, supplyType, slabM2, beamM2, beamLM
-                        dbErr = mcData.CreateDesignBoardJob(jobNo, designDate, "NOT DRAWN", requiredDate, floorLevel, shortname, supplierRef, stairsIncl, supplyType, "", slabM2, beamM2, beamLm);
+                        dbErr = mcData.CreateDesignBoardJob(jobNo, designDate, "NOT DRAWN", requiredDate, floorLevel, shortname, supplierRef, stairsIncl, supplyType, "", slabM2, beamM2, beamLm, sortType);
                         if(dbErr != "OK")
                         {
                             MessageBox.Show(String.Format("CreateDesignBoardJob ERROR ( Job {0} ) : {1}", jobNo, dbErr));

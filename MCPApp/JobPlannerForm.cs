@@ -191,7 +191,7 @@ namespace MCPApp
                 DataGridViewTextBoxColumn designDateColumn = new DataGridViewTextBoxColumn();
                 designDateColumn.HeaderText = "Design Date";
                 designDateColumn.ValueType = typeof(DateTime);
-                designDateColumn.Width = 120;
+                designDateColumn.Width = 80;
                 designDateColumn.DefaultCellStyle.Format = "dd/MM/YYYY";
                 designDateColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
                 designDateColumn.ReadOnly = true;
@@ -392,7 +392,7 @@ namespace MCPApp
                     drow.Cells[1].Value = custName;
                     drow.Cells[2].Value = dr["floorLevel"].ToString();
                     drow.Cells[3].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0, 3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
-                    drow.Cells[4].Value = dr["designDate"].ToString();
+                    drow.Cells[4].Value = Convert.ToDateTime(dr["designDate"].ToString()).ToShortDateString();
                     drow.Cells[5].Value = dr["siteAddress"].ToString();
                    // drow.Cells[5].Value = dr["approved"].ToString() == "Y" ? true : false;
                    // drow.Cells[6].Value = dr["onshop"].ToString() == "Y" ? true : false;
@@ -490,7 +490,7 @@ namespace MCPApp
                     drow.Cells[1].Value = custName;
                     drow.Cells[2].Value = dr["floorLevel"].ToString();
                     drow.Cells[3].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0, 3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
-                    drow.Cells[4].Value = dr["designDate"].ToString();
+                    drow.Cells[4].Value = Convert.ToDateTime(dr["designDate"].ToString()).ToShortDateString();
                     drow.Cells[5].Value = dr["siteAddress"].ToString();
                     //drow.Cells[5].Value = dr["approved"].ToString() == "Y" ? true : false;
                     //drow.Cells[6].Value = dr["onshop"].ToString() == "Y" ? true : false;
@@ -585,7 +585,7 @@ namespace MCPApp
                     drow.Cells[1].Value = custName;
                     drow.Cells[2].Value = dr["floorLevel"].ToString();
                     drow.Cells[3].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0, 3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
-                    drow.Cells[4].Value = dr["designDate"].ToString();
+                    drow.Cells[4].Value = Convert.ToDateTime(dr["designDate"].ToString()).ToShortDateString();
                     drow.Cells[5].Value = dr["siteAddress"].ToString();
                     //drow.Cells[5].Value = dr["approved"].ToString() == "Y" ? true : false;
                     //drow.Cells[6].Value = dr["onshop"].ToString() == "Y" ? true : false;
@@ -3360,6 +3360,8 @@ namespace MCPApp
             int roundedNumWeeks = (int)Decimal.Round(numWeeks, 1) + 1;
             DesignBoardForm dbForm = new DesignBoardForm(phaseJob, startDate, lastDate, dt, roundedNumWeeks);
             dbForm.ShowDialog();
+            PopulateDGV(mcData.GetJobPlannerDTByJob(phaseJob));
+            return;
         }
     }
 }

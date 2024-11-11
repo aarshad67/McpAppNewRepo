@@ -29,7 +29,8 @@ namespace MCPApp
             Microsoft.Office.Interop.Excel.Workbook excelworkBook;
             Microsoft.Office.Interop.Excel.Worksheet excelSheet;
             Microsoft.Office.Interop.Excel.Range excelCellrange;
-            Microsoft.Office.Interop.Excel.Range excelDateCellrange;
+            Microsoft.Office.Interop.Excel.Range excelDesignDateCellrange;
+            Microsoft.Office.Interop.Excel.Range excelReqDateCellrange;
 
             try
             {
@@ -92,8 +93,10 @@ namespace MCPApp
                 excelCellrange.EntireColumn.WrapText = false;
                 excelCellrange.EntireColumn.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignLeft;
                 excelCellrange.EntireColumn.AutoFit();
-                excelDateCellrange = excelSheet.Range[excelSheet.Cells[1, dateColumnIndex], excelSheet.Cells[rowcount, dateColumnIndex]];
-                excelDateCellrange.EntireColumn.NumberFormat = "DD/MM/YYYY";
+                excelDesignDateCellrange = excelSheet.Range[excelSheet.Cells[1, dateColumnIndex], excelSheet.Cells[rowcount, dateColumnIndex]];
+                excelDesignDateCellrange.EntireColumn.NumberFormat = "DD/MM/YYYY";
+                excelReqDateCellrange = excelSheet.Range[excelSheet.Cells[1, dateColumnIndex + 1], excelSheet.Cells[rowcount, dateColumnIndex + 1]];
+                excelReqDateCellrange.EntireColumn.NumberFormat = "DD/MM/YYYY";
                 Microsoft.Office.Interop.Excel.Borders border = excelCellrange.Borders;
                 border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
                 border.Weight = 2d;
