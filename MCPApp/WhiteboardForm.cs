@@ -3037,5 +3037,29 @@ namespace MCPApp
             MessageBox.Show(output, $"Job No. {jobNo}");
             return;
         }
+
+        private void goToDESIGNBOARDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (wbDataGridView[0, rowIndex].Value == null) { return; }
+            string phaseJob = wbDataGridView[0, this.rowIndex].Value.ToString();
+
+            if (!mcData.IsDesignBoardJob(phaseJob))
+            {
+                MessageBox.Show($"Job [{phaseJob}] does NOT exist in the Design Board");
+                return;
+            }
+            DataTable dt = mcData.DesignBoardDatesDT(phaseJob);
+            DateTime jobDate = mcData.GetDesignDateByJobNo(phaseJob);
+            DateTime startDate = mcData.GetMonday(jobDate);
+            DateTime lastDate = startDate.AddDays(6);
+            TimeSpan ts = lastDate - startDate;
+            int dateDiff = ts.Days;
+            decimal numWeeks = dateDiff / 7m;
+            int roundedNumWeeks = (int)Decimal.Round(numWeeks, 1) + 1;
+            DesignBoardForm dbForm = new DesignBoardForm(phaseJob, startDate, lastDate, dt, roundedNumWeeks);
+            dbForm.ShowDialog();
+            //PopulateDGV(mcData.GetJobPlannerDTByJob(phaseJob));
+            return;
+        }
     }
 }

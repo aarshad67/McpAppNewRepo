@@ -410,6 +410,7 @@ namespace MCPApp
                 DateTime myDate;
                 if (e.ColumnIndex == 4)//set your checkbox column index instead of 2
                 {
+                    if (jobDGV.Rows[e.RowIndex].Cells[4].Value == null) { return; }
                     try
                     {
                         if (!DateTime.TryParse(jobDGV.Rows[e.RowIndex].Cells[4].Value.ToString(), out myDate))
@@ -437,6 +438,7 @@ namespace MCPApp
                 {
                     try
                     {
+                        if (jobDGV.Rows[e.RowIndex].Cells[5].Value == null) { return; }
                         if (!DateTime.TryParse(jobDGV.Rows[e.RowIndex].Cells[5].Value.ToString(), out myDate))
                         {
                             MessageBox.Show("Invalid Date format. Please re-enter date");

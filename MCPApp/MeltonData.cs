@@ -3722,7 +3722,37 @@ namespace MCPApp
 
         }
 
-        
+        public DataTable GetDesignBoardDT(string jobNo)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    string qry = $"select * from dbo.DesignBoard where jobNo = '{jobNo}' and LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY jobNo";
+                    //  string qry = String.Format("SELECT * FROM dbo.JobPlanner WHERE parentJobNo = {0} ORDER BY jobNo", parentJobNo);
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"GetDesignBoardDT() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetDesignBoardDT({jobNo})", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
+
 
         public void GetSiteDetailFromParentJob(int parentJob, out string siteContact, out string siteContactTel, out string siteContactEmail)
         {
@@ -4398,10 +4428,11 @@ namespace MCPApp
             }
         }
 
-        public string UpdateJobPlannerFromDesignBoardJob(string jobNo,DateTime designDate, string stairsIncl, string productSupplier)
+        public string UpdateJobPlannerFromDesignBoardJob(string jobNo,DateTime designDate, DateTime requiredDate, string stairsIncl, string productSupplier)
         {
             string updateQry = "UPDATE dbo.JobPlanner "
                                 + "SET designDate = @designDate,"
+                                + "requiredDate = @requiredDate,"
                                 + "stairsIncl = @stairsIncl,"
                                 + "productSupplier = @productSupplier,"
                                 + "modifiedDate = @modifiedDate,"
@@ -4418,6 +4449,7 @@ namespace MCPApp
                     {
                         command.Parameters.Add(new SqlParameter("jobNo", jobNo.Substring(0, 8)));
                         command.Parameters.Add(new SqlParameter("designDate", designDate));
+                        command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
                         command.Parameters.Add(new SqlParameter("stairsIncl", stairsIncl));
                         command.Parameters.Add(new SqlParameter("productSupplier", productSupplier));
                         command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
@@ -7152,11 +7184,12 @@ namespace MCPApp
             }
         }
 
-        public string UpdateWhiteBoardFromDesignBoardJob(string jobNo, string supplyType, string products, string suppShortname,string stairsIncl,
+        public string UpdateWhiteBoardFromDesignBoardJob(string jobNo, DateTime requiredDate,string supplyType, string products, string suppShortname,string stairsIncl,
             string stairsSupplier, string drawingsEmailedFlag, string draughtsman,string salesman)
         {
             string updateQry = "UPDATE dbo.WhiteBoard "
                                 + "SET supplyType = @supplyType,"
+                                + "requiredDate = @requiredDate,"
                                 + "products = @products,"
                                 + "suppShortname = @suppShortname,"
                                 + "stairsIncl = @stairsIncl,"
@@ -7177,6 +7210,7 @@ namespace MCPApp
                     using (SqlCommand command = new SqlCommand(updateQry, conn))
                     {
                         command.Parameters.Add(new SqlParameter("jobNo", jobNo.Substring(0, 8)));
+                        command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
                         command.Parameters.Add(new SqlParameter("supplyType", supplyType));
                         command.Parameters.Add(new SqlParameter("products", products));
                         command.Parameters.Add(new SqlParameter("suppShortname", suppShortname));

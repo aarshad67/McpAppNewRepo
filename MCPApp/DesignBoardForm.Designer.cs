@@ -30,7 +30,6 @@ namespace MCPApp
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.refreshButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.weeksTabControl = new System.Windows.Forms.TabControl();
             this.supplierContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -54,17 +53,6 @@ namespace MCPApp
             this.statusContextMenuStrip1.SuspendLayout();
             this.dateChangeContextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // refreshButton
-            // 
-            this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.refreshButton.Location = new System.Drawing.Point(1418, 909);
-            this.refreshButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.refreshButton.Name = "refreshButton";
-            this.refreshButton.Size = new System.Drawing.Size(120, 69);
-            this.refreshButton.TabIndex = 18;
-            this.refreshButton.Text = "REFRESH";
-            this.refreshButton.UseVisualStyleBackColor = true;
             // 
             // cancelButton
             // 
@@ -185,22 +173,23 @@ namespace MCPApp
             this.dateChangeContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.canToolStripMenuItem});
             this.dateChangeContextMenuStrip1.Name = "dateChangeContextMenuStrip1";
-            this.dateChangeContextMenuStrip1.Size = new System.Drawing.Size(247, 36);
+            this.dateChangeContextMenuStrip1.Size = new System.Drawing.Size(187, 36);
             // 
             // canToolStripMenuItem
             // 
             this.canToolStripMenuItem.Name = "canToolStripMenuItem";
-            this.canToolStripMenuItem.Size = new System.Drawing.Size(246, 32);
-            this.canToolStripMenuItem.Text = "Change Design Date";
+            this.canToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.canToolStripMenuItem.Text = "Change Date";
             this.canToolStripMenuItem.Click += new System.EventHandler(this.canToolStripMenuItem_Click);
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 958);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(149, 48);
+            this.label1.Size = new System.Drawing.Size(99, 32);
             this.label1.TabIndex = 20;
             this.label1.Text = "label1";
             // 
@@ -213,7 +202,6 @@ namespace MCPApp
             this.ClientSize = new System.Drawing.Size(1765, 1004);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.weeksTabControl);
-            this.Controls.Add(this.refreshButton);
             this.Controls.Add(this.cancelButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "DesignBoardForm";
@@ -232,8 +220,6 @@ namespace MCPApp
         }
 
         #endregion
-
-        private System.Windows.Forms.Button refreshButton;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.TabControl weeksTabControl;
         private System.Windows.Forms.ContextMenuStrip supplierContextMenuStrip;

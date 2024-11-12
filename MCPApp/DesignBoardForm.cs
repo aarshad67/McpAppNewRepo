@@ -307,11 +307,11 @@ namespace MCPApp
                 {
                     dgvRow.DefaultCellStyle.ForeColor = Color.Black;
                 }
-                if (mcData.IsJobLockExistByOtherUser("WB", dgvRow.Cells[0].Value.ToString(), loggedInUser))
-                {
-                    dgvRow.Frozen = true;
-                    dgvRow.DefaultCellStyle.ForeColor = Color.MediumPurple;
-                }
+                //if (mcData.IsJobLockExistByOtherUser("WB", dgvRow.Cells[0].Value.ToString(), loggedInUser))
+                //{
+                //    dgvRow.Frozen = true;
+                //    dgvRow.DefaultCellStyle.ForeColor = Color.MediumPurple;
+                //}
             }
         }
 
@@ -338,7 +338,7 @@ namespace MCPApp
 
                 //1
                 DataGridViewTextBoxColumn designDateColumn = new DataGridViewTextBoxColumn();
-                designDateColumn.HeaderText = "Design Date";
+                designDateColumn.HeaderText = "Design Date (Right Click)";
                 designDateColumn.Width = 80;
                 designDateColumn.ReadOnly = true;
                 designDateColumn.Frozen = true;
@@ -348,7 +348,7 @@ namespace MCPApp
 
                 //2
                 DataGridViewTextBoxColumn designStatusColumn = new DataGridViewTextBoxColumn();
-                designStatusColumn.HeaderText = "Design Status";
+                designStatusColumn.HeaderText = "Design Status (Right Click)";
                 designStatusColumn.Width = 120;
                 designStatusColumn.Frozen = true;
                 designStatusColumn.ReadOnly = true;
@@ -364,7 +364,7 @@ namespace MCPApp
 
                 //4
                 DataGridViewTextBoxColumn reqDateColumn = new DataGridViewTextBoxColumn();
-                reqDateColumn.HeaderText = "Required Date";
+                reqDateColumn.HeaderText = "Req Date (Right Click)";
                 reqDateColumn.Width = 80;
                 reqDateColumn.ReadOnly = true;
                 reqDateColumn.Frozen = true;
@@ -644,7 +644,7 @@ namespace MCPApp
 
                 }
 
-                if (column.Index == 1)
+                if (column.Index == 1 || column.Index == 4)
                 {
                     column.ContextMenuStrip = dateChangeContextMenuStrip1;
 
@@ -763,6 +763,7 @@ namespace MCPApp
         {
             if (dbDataGridView[0, rowIndex].Value == null) { return; }
             string jobNo = dbDataGridView[0, this.rowIndex].Value.ToString();
+            if (mcData.IsJobCompleted(jobNo)) { return; }
             ProductSelectorForm myForm = new ProductSelectorForm();
             myForm.ShowDialog();
             if (!String.IsNullOrWhiteSpace(myForm.Product))
@@ -783,6 +784,7 @@ namespace MCPApp
 
             if (dbDataGridView[11, rowIndex].Value == null && dbDataGridView[11, rowIndex].Value == null) { return; }
             string jobNo = dbDataGridView[0, this.rowIndex].Value.ToString();
+            if (mcData.IsJobCompleted(jobNo)) { return; }
             string suppShortName = dbDataGridView[11, this.rowIndex].Value.ToString();
             if (colIndex == 11)
             {
@@ -838,7 +840,9 @@ namespace MCPApp
             int i = this.rowIndex;
             if (dbDataGridView.Rows[i].Cells[0].Value == null || dbDataGridView.Rows[i].Cells[0].Value.ToString().Length < 8) { return; }
             string jobNo = dbDataGridView[0, this.rowIndex].Value.ToString();
+            if (mcData.IsJobCompleted(jobNo)) { return; }
             DateTime designDate = Convert.ToDateTime(dbDataGridView.Rows[i].Cells[1].Value.ToString());
+            DateTime requiredDate = Convert.ToDateTime(dbDataGridView.Rows[i].Cells[4].Value.ToString());
             string designStatus = dbDataGridView[2, this.rowIndex].Value.ToString();
             string floorLevel = dbDataGridView[7, this.rowIndex].Value.ToString();
             string supplyType = dbDataGridView[8, this.rowIndex].Value.ToString();
@@ -862,7 +866,7 @@ namespace MCPApp
             string draughtsman = dbDataGridView[25, this.rowIndex].Value.ToString();
             DateTime createdDate = mcData.GetJobCreatedDateByJobNo(jobNo);
             string completedFlag = mcData.GetCompletedFlagFromJob(jobNo);
-            DateTime requiredDate = mcData.GetPlannerDateByJobNo(jobNo);
+            //DateTime requiredDate = mcData.GetPlannerDateByJobNo(jobNo);
             string sortType = "S" + supplyType.Substring(1, 1);
 
             string testline =
@@ -900,8 +904,8 @@ namespace MCPApp
                                         createdDate, drawingsEmailedFlag, draughtsman, completedFlag,sortType);
                 if (err == "OK")
                 {
-                    string err1 = mcData.UpdateJobPlannerFromDesignBoardJob(jobNo, designDate, stairsIncluded, productSupplier);
-                    string err2 = mcData.UpdateWhiteBoardFromDesignBoardJob(jobNo, supplyType, product, productSupplier, stairsIncluded, stairsSupplier, drawingsEmailedFlag, draughtsman, salesman);
+                    string err1 = mcData.UpdateJobPlannerFromDesignBoardJob(jobNo, designDate, requiredDate, stairsIncluded, productSupplier);
+                    string err2 = mcData.UpdateWhiteBoardFromDesignBoardJob(jobNo, requiredDate,supplyType, product, productSupplier, stairsIncluded, stairsSupplier, drawingsEmailedFlag, draughtsman, salesman);
                     MessageBox.Show("Design Board JobNo[" + jobNo + "] line saved successfully");
                     return;
                 }
@@ -929,6 +933,7 @@ namespace MCPApp
         {
             if (dbDataGridView[0, rowIndex].Value == null) { return; }
             string jobNo = dbDataGridView[0, this.rowIndex].Value.ToString();
+            if(mcData.IsJobCompleted(jobNo)) { return; }
             DesignStatusSelectorForm form = new DesignStatusSelectorForm();
             form.ShowDialog();
             if(!String.IsNullOrWhiteSpace(form.Status))
@@ -941,27 +946,55 @@ namespace MCPApp
 
         private void canToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
             if (dbDataGridView[0, rowIndex].Value == null) { return; }
             string jobNo = dbDataGridView[0, this.rowIndex].Value.ToString();
+            if (mcData.IsJobCompleted(jobNo)) { return; }
             DateTime selectDesignDate = DateTime.MinValue;
-            if (dbDataGridView[1, rowIndex].Value == null) 
+
+            if (colIndex == 1)
             {
-                DateSelectorForm dateForm1 = new DateSelectorForm();
-                dateForm1.ShowDialog();
-                selectDesignDate = dateForm1.RequiredDate;
-                dbDataGridView[1, rowIndex].Value = selectDesignDate.Date.ToShortDateString();
-                return;
+                if (dbDataGridView[1, rowIndex].Value == null)
+                {
+                    DateSelectorForm dateForm1 = new DateSelectorForm();
+                    dateForm1.ShowDialog();
+                    selectDesignDate = dateForm1.RequiredDate;
+                    dbDataGridView[1, rowIndex].Value = selectDesignDate.Date.ToShortDateString();
+                    return;
+                }
+                else
+                {
+                    DateTime currDate = Convert.ToDateTime(dbDataGridView[1, rowIndex].Value.ToString());
+                    DateSelectorForm dateForm = new DateSelectorForm(currDate);
+                    dateForm.ShowDialog();
+                    selectDesignDate = dateForm.RequiredDate;
+                    dbDataGridView[1, rowIndex].Value = selectDesignDate.Date.ToShortDateString();
+                    return;
+                }
             }
-            else
+
+            if (colIndex == 4)
             {
-                DateTime currDate = Convert.ToDateTime(dbDataGridView[1, rowIndex].Value.ToString());
-                DateSelectorForm dateForm = new DateSelectorForm(currDate);
-                dateForm.ShowDialog();
-                selectDesignDate = dateForm.RequiredDate;
-                dbDataGridView[1, rowIndex].Value = selectDesignDate.Date.ToShortDateString();
-                return;
+                if (dbDataGridView[4, rowIndex].Value == null)
+                {
+                    DateSelectorForm dateForm1 = new DateSelectorForm();
+                    dateForm1.ShowDialog();
+                    selectDesignDate = dateForm1.RequiredDate;
+                    dbDataGridView[4, rowIndex].Value = selectDesignDate.Date.ToShortDateString();
+                    return;
+                }
+                else
+                {
+                    DateTime currDate = Convert.ToDateTime(dbDataGridView[4, rowIndex].Value.ToString());
+                    DateSelectorForm dateForm = new DateSelectorForm(currDate);
+                    dateForm.ShowDialog();
+                    selectDesignDate = dateForm.RequiredDate;
+                    dbDataGridView[4, rowIndex].Value = selectDesignDate.Date.ToShortDateString();
+                    return;
+                }
             }
-            
+
+
         }
     }
 }

@@ -60,6 +60,7 @@
             this.cancelButton = new System.Windows.Forms.Button();
             this.refreshButton = new System.Windows.Forms.Button();
             this.btnJobLocks = new System.Windows.Forms.Button();
+            this.goToDESIGNBOARDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wbDailyContextMenuStrip1.SuspendLayout();
             this.wbJobContextMenuStrip.SuspendLayout();
             this.supplierContextMenuStrip.SuspendLayout();
@@ -70,7 +71,7 @@
             // 
             this.jobPlannerStripMenuItem.Name = "jobPlannerStripMenuItem";
             this.jobPlannerStripMenuItem.Size = new System.Drawing.Size(374, 32);
-            this.jobPlannerStripMenuItem.Text = "Go to Job Planner";
+            this.jobPlannerStripMenuItem.Text = "Go to JOB PLANNER";
             this.jobPlannerStripMenuItem.Click += new System.EventHandler(this.jobPlannerStripMenuItem_Click);
             // 
             // wbDailyContextMenuStrip1
@@ -79,12 +80,12 @@
             this.wbDailyContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addCommenttoolStripMenuItem});
             this.wbDailyContextMenuStrip1.Name = "wbDailyContextMenuStrip1";
-            this.wbDailyContextMenuStrip1.Size = new System.Drawing.Size(241, 69);
+            this.wbDailyContextMenuStrip1.Size = new System.Drawing.Size(203, 36);
             // 
             // addCommenttoolStripMenuItem
             // 
             this.addCommenttoolStripMenuItem.Name = "addCommenttoolStripMenuItem";
-            this.addCommenttoolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.addCommenttoolStripMenuItem.Size = new System.Drawing.Size(202, 32);
             this.addCommenttoolStripMenuItem.Text = "Add Comment";
             this.addCommenttoolStripMenuItem.Click += new System.EventHandler(this.addCommenttoolStripMenuItem_Click);
             // 
@@ -108,6 +109,7 @@
             this.spanJobMenuItem,
             this.removedExtendedJobMenuItem,
             this.jobPlannerStripMenuItem,
+            this.goToDESIGNBOARDToolStripMenuItem,
             this.raisePOToolStripMenuItem,
             this.jobPOsToolStripMenuItem,
             this.jobCommentsAudittoolStripMenuItem,
@@ -120,7 +122,7 @@
             this.updateCOMPLETEDJobDetailToolStripMenuItem,
             this.viewJobsQUANTITIESToolStripMenuItem});
             this.wbJobContextMenuStrip.Name = "wbContextMenuStrip";
-            this.wbJobContextMenuStrip.Size = new System.Drawing.Size(375, 452);
+            this.wbJobContextMenuStrip.Size = new System.Drawing.Size(375, 517);
             this.wbJobContextMenuStrip.Text = "JOB Option(s)";
             // 
             // spanJobMenuItem
@@ -353,6 +355,13 @@
             this.btnJobLocks.UseVisualStyleBackColor = false;
             this.btnJobLocks.Click += new System.EventHandler(this.btnJobLocks_Click);
             // 
+            // goToDESIGNBOARDToolStripMenuItem
+            // 
+            this.goToDESIGNBOARDToolStripMenuItem.Name = "goToDESIGNBOARDToolStripMenuItem";
+            this.goToDESIGNBOARDToolStripMenuItem.Size = new System.Drawing.Size(374, 32);
+            this.goToDESIGNBOARDToolStripMenuItem.Text = "Go to DESIGN BOARD";
+            this.goToDESIGNBOARDToolStripMenuItem.Click += new System.EventHandler(this.goToDESIGNBOARDToolStripMenuItem_Click);
+            // 
             // WhiteboardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -419,5 +428,6 @@
         private System.Windows.Forms.ToolStripMenuItem viewAnyIssuesReportedOnSiteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateCOMPLETEDJobDetailToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewJobsQUANTITIESToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem goToDESIGNBOARDToolStripMenuItem;
     }
 }
