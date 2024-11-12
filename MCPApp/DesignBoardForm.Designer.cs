@@ -46,6 +46,7 @@ namespace MCPApp
             this.selectDesignStatusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dateChangeContextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.canToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label1 = new System.Windows.Forms.Label();
             this.supplierContextMenuStrip.SuspendLayout();
             this.productContextMenuStrip.SuspendLayout();
             this.wbDailyContextMenuStrip1.SuspendLayout();
@@ -184,7 +185,7 @@ namespace MCPApp
             this.dateChangeContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.canToolStripMenuItem});
             this.dateChangeContextMenuStrip1.Name = "dateChangeContextMenuStrip1";
-            this.dateChangeContextMenuStrip1.Size = new System.Drawing.Size(247, 69);
+            this.dateChangeContextMenuStrip1.Size = new System.Drawing.Size(247, 36);
             // 
             // canToolStripMenuItem
             // 
@@ -193,6 +194,16 @@ namespace MCPApp
             this.canToolStripMenuItem.Text = "Change Design Date";
             this.canToolStripMenuItem.Click += new System.EventHandler(this.canToolStripMenuItem_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 958);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(149, 48);
+            this.label1.TabIndex = 20;
+            this.label1.Text = "label1";
+            // 
             // DesignBoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -200,6 +211,7 @@ namespace MCPApp
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1765, 1004);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.weeksTabControl);
             this.Controls.Add(this.refreshButton);
             this.Controls.Add(this.cancelButton);
@@ -215,6 +227,7 @@ namespace MCPApp
             this.statusContextMenuStrip1.ResumeLayout(false);
             this.dateChangeContextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -236,5 +249,6 @@ namespace MCPApp
         private System.Windows.Forms.ToolStripMenuItem selectDesignStatusToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip dateChangeContextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem canToolStripMenuItem;
+        private System.Windows.Forms.Label label1;
     }
 }

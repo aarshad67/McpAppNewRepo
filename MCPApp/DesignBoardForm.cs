@@ -673,6 +673,7 @@ namespace MCPApp
         private void DesignBoardForm_Load(object sender, EventArgs e)
         {
             this.Text = String.Format("Design Board spanning period between {0} and {1}", dbStartDate.ToString("dd/MMM/yyyy"), dbEndDate.ToString("dd/MMM/yyyy"));
+            label1.Text = "REMEMBER - after a change always right click on Job Number and select SAVE JOB LINE";
             BuildTabs();
 
             if (!String.IsNullOrWhiteSpace(selectedJob) && mcData.IsWhiteboardJobExists(selectedJob))

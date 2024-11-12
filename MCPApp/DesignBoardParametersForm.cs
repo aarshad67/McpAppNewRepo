@@ -43,7 +43,7 @@ namespace MCPApp
             DateTime firstDate = d1;
             DateTime startDate = mcData.GetMonday(d1);
             DateTime lastDate = d2;
-            DataTable dt = mcData.WhiteboardDatesDT(d1, d2); ;
+            DataTable dt = mcData.DatesDT(d1, d2); ;
             this.Cursor = Cursors.Default;
             TimeSpan ts = lastDate - startDate;
             int dateDiff = ts.Days;

@@ -7691,7 +7691,7 @@ namespace MCPApp
 
         }
 
-        public DataTable WhiteboardDatesDT(DateTime d1, DateTime d2)
+        public DataTable DatesDT(DateTime d1, DateTime d2)
         {
             DataTable dt = new DataTable();
             try
@@ -7848,7 +7848,7 @@ namespace MCPApp
 
 
                 datesDT.Columns.Add("jobDate", typeof(DateTime));
-                datesDT.Columns.Add("dbDate", typeof(DateTime));
+                datesDT.Columns.Add("wcDate", typeof(DateTime));
                 datesDT.Columns.Add("tabNo", typeof(int));
 
                 DateTime currDbDate = DateTime.MinValue;
