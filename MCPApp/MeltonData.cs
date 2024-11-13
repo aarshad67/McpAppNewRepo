@@ -4918,6 +4918,33 @@ namespace MCPApp
 
         }
 
+        public int DeleteDesignBoardByJobNo(string jobNo)
+        {
+            try
+            {
+                string qry = String.Format("DELETE FROM dbo.DesignBoard WHERE jobNo = '{0}'", jobNo);
+
+                SqlConnection conn = new SqlConnection(connStr);
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = qry;
+                cmd.Connection = conn;
+                conn.Open();
+                int numDeleted = cmd.ExecuteNonQuery();
+                conn.Close();
+                return numDeleted;
+            }
+            catch (Exception ex)
+            {
+                string msg = $"DeleteDesignBoardByJobNo() Error : {ex.Message.ToString()}";
+                logger.LogLine(msg);
+                string audit = CreateErrorAudit("MeltonData.cs", $"DeleteDesignBoardByJobNo({jobNo})", ex.Message.ToString());
+                return 0;
+            }
+
+
+
+        }
+
         public int DeleteParentJob(int parentJobNo)
         {
             try
@@ -6905,6 +6932,86 @@ namespace MCPApp
                     string msg = $"UpdateDesignBoardLine() Error : {ex.Message.ToString()}";
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", "UpdateDesignBoardLine(.....)", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        /*
+        (jobNo, designDate, floorLevel, suppShortname,
+                                        supplierRef, stairsIncl, supplyType, slabM2, beamM2, beamLm,
+                                        mon, tue, wed, thu, fri, sat, sun, sortType); 
+         */
+
+
+        public string UpdateDesignBoardJobFromJP(string jobNo, DateTime designDate, string floorlevel, string productSupplier,
+                                        string supplierRef, string stairsIncluded, string supplyType, int slabM2, int beamM2, int beamLM,
+                                        string wcMonday, string wcTuesday, string wcWednesday, string wcThursday, string wcFriday, string wcSaturday, string wcSunday,string sortType)
+        {
+
+            // string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
+            // string custName = GetCustName(custCode);
+            string insertQry = "UPDATE dbo.DesignBoard "
+                                + "SET designDate = @designDate,"
+                                + "floorlevel = @floorlevel,"
+                                + "productSupplier = @productSupplier,"
+                                + "supplierRef = @supplierRef,"
+                                + "stairsIncluded = @stairsIncluded,"
+                                + "supplyType = @supplyType,"
+                                + "slabM2 = @slabM2,"
+                                + "beamM2 = @beamM2,"
+                                + "beamLM = @beamLM,"
+                                + "wcMonday = @wcMonday,"
+                                + "wcTuesday = @wcTuesday,"
+                                + "wcWednesday = @wcWednesday,"
+                                + "wcThursday = @wcThursday,"
+                                + "wcFriday = @wcFriday,"
+                                + "wcSaturday = @wcSaturday,"
+                                + "wcSunday = @wcSunday,"
+                                + "sortType = @sortType,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE jobNo = @jobNo";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("designDate", designDate));
+                        command.Parameters.Add(new SqlParameter("floorlevel", floorlevel));
+                        command.Parameters.Add(new SqlParameter("productSupplier", productSupplier));
+                        command.Parameters.Add(new SqlParameter("supplierRef", supplierRef));
+                        command.Parameters.Add(new SqlParameter("stairsIncluded", stairsIncluded)); //
+                        command.Parameters.Add(new SqlParameter("supplyType", supplyType));
+                        command.Parameters.Add(new SqlParameter("slabM2", slabM2));
+                        command.Parameters.Add(new SqlParameter("beamM2", beamM2));
+                        command.Parameters.Add(new SqlParameter("beamLM", beamLM));
+                        command.Parameters.Add(new SqlParameter("wcMonday", wcMonday));
+                        command.Parameters.Add(new SqlParameter("wcTuesday", wcTuesday));
+                        command.Parameters.Add(new SqlParameter("wcWednesday", wcWednesday));
+                        command.Parameters.Add(new SqlParameter("wcThursday", wcThursday));
+                        command.Parameters.Add(new SqlParameter("wcFriday", wcFriday));
+                        command.Parameters.Add(new SqlParameter("wcSaturday", wcSaturday));
+                        command.Parameters.Add(new SqlParameter("wcSunday", wcSunday));
+                        command.Parameters.Add(new SqlParameter("sortType", sortType));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+
+
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateDesignBoardJobWithoutStatus() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "UpdateDesignBoardJobWithoutStatus(.....)", ex.Message.ToString());
                     return msg;
                 }
 

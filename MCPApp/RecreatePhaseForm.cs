@@ -40,7 +40,7 @@ namespace MCPApp
 
         private void RecreatePhaseForm_Load(object sender, EventArgs e)
         {
-            this.Text = "Re-create a deleted phase";
+            this.Text = $"Re-create a deleted phase for PARENT Job [{parentJobNo}]";
             phaseNoTextBox.Focus();
         }
 
@@ -83,6 +83,7 @@ namespace MCPApp
             string siteAddress = mcData.GetSiteAddressFromParentJob(parentJobNo);
             string err = "";
             string wbErr = "";
+            string dbErr = "";
             if (!mcData.IsJobExists(nextJobNo))
             {
                 err = mcData.CreateJobPlanner(parentJobNo, nextJobNo, phaseNoTextBox.Text, "", DateTime.Now.AddYears(1), DateTime.Now.AddYears(1), siteAddress, "N", "N", "N", 0, 0, 0, "", "", "", "", 0,0,"");
@@ -92,7 +93,12 @@ namespace MCPApp
                 wbErr = mcData.CreateWhiteBoard(nextJobNo, DateTime.Now.AddYears(1), customerCode, siteAddress, "", "", 0, 0, 0, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
                     "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","");
             }
-            if (err == "OK" && wbErr == "OK")
+            if (!mcData.IsDesignBoardJobExists(nextJobNo))
+            {
+                //jobNo,designDate, designStatus, requiredDate, floorlevel, suppShortname, supplierRef, stairsIncluded, salesman, supplyType, slabM2, beamM2, beamLM
+                dbErr = mcData.CreateDesignBoardJob(nextJobNo, DateTime.Now.AddYears(1), "NOT DRAWN", DateTime.Now.AddYears(1), "", "", "", "N", "", "", 0, 0, 0, "");
+            }
+            if (err == "OK" && wbErr == "OK" && dbErr == "OK")
             {
                 isPhaseCreated = true;
                 this.Dispose();

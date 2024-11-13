@@ -229,8 +229,9 @@ namespace MCPApp
                         int num = mcData.DeleteCancelledJob(job);
                         int num2 = mcData.DeleteWhiteboardByJobNo(job);
                         int num3 = mcData.DeleteJobPlannerByJobNo(job);
-                        int num4 = mcData.DeleteJobLocks("WB", job);
-                        int num5 = mcData.DeleteJobLocks("JP", job);
+                        int num4 = mcData.DeleteDesignBoardByJobNo(job);
+                        int num5 = mcData.DeleteJobLocks("WB", job);
+                        int num6 = mcData.DeleteJobLocks("JP", job);
                         if(num > 0 && num2 > 0 && num3 > 0)
                         {
                             

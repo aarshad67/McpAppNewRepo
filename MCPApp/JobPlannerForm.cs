@@ -821,6 +821,9 @@ namespace MCPApp
                         MessageBox.Show(String.Format("UpdatedJobsDGVToDB() ERROR : {0}", wbErr));
                         break;
                     }
+                    string dbErr = mcData.UpdateDesignBoardJobFromJP(jobNo, designDate, floorLevel, suppShortname,
+                                        supplierRef, stairsIncl, supplyType, slabM2, beamM2, beamLm,
+                                        mon, tue, wed, thu, fri, sat, sun, sortType);
                 }
                 return;
             }
@@ -859,6 +862,7 @@ namespace MCPApp
                 newJobDT.Columns.Add("lastComment", typeof(string));//17
                 newJobDT.Columns.Add("phaseInvValue", typeof(string));//15
                 newJobDT.Columns.Add("jobMgnValue", typeof(string));//16
+                newJobDT.Columns.Add("designDate", typeof(DateTime));//16
                 newJobDT.Columns.Add("completed", typeof(string));//--
                 newJobDT.Columns.Add("modifiedDate", typeof(DateTime));//18
                 newJobDT.Columns.Add("modifiedBy", typeof(string));//19
