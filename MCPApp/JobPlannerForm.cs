@@ -3367,5 +3367,27 @@ namespace MCPApp
             PopulateDGV(mcData.GetJobPlannerDTByJob(phaseJob));
             return;
         }
+
+        private void viewIssuesReportedAtSiteForJobToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!mcData.IsFeatureToggleEnabled("WB_JOB_ISSUE"))
+            {
+                MessageBox.Show($"This option is NOT yet available in the version of MCP");
+                return;
+            }
+
+            if (jobDGV[0, rowIndex].Value == null) { return; }
+            string jobNo = jobDGV[0, this.rowIndex].Value.ToString();
+            string siteAddr = jobDGV[3, this.rowIndex].Value.ToString();
+            DataTable issuesDT = mcData.GetWBJobIssuesDT(jobNo);
+            if (issuesDT != null && issuesDT.Rows.Count > 0)
+            {
+                WhiteboardJobIssueReportedForm issueForm = new WhiteboardJobIssueReportedForm(jobNo, siteAddr, issuesDT);
+                issueForm.ShowDialog();
+                return;
+            }
+            MessageBox.Show($"There were no issues raised at site for Job [{jobNo}]");
+            return;
+        }
     }
 }

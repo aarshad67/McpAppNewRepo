@@ -42,6 +42,7 @@
             this.completeJobToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uncompleteToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.whiteboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.goToJobInDesignBoardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeSupplierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jobDateAuditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
@@ -100,7 +101,7 @@
             this.btnLockedJobs = new System.Windows.Forms.Button();
             this.txtTotalJobMgn = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.goToJobInDesignBoardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewIssuesReportedAtSiteForJobToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.jobDGV)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -164,85 +165,93 @@
             this.whiteboardToolStripMenuItem,
             this.goToJobInDesignBoardToolStripMenuItem,
             this.removeSupplierToolStripMenuItem,
-            this.jobDateAuditToolStripMenuItem});
+            this.jobDateAuditToolStripMenuItem,
+            this.viewIssuesReportedAtSiteForJobToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(342, 421);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(371, 453);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // amendParentJobToolStripMenuItem
             // 
             this.amendParentJobToolStripMenuItem.Name = "amendParentJobToolStripMenuItem";
-            this.amendParentJobToolStripMenuItem.Size = new System.Drawing.Size(341, 32);
+            this.amendParentJobToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
             this.amendParentJobToolStripMenuItem.Text = "Amend Parent Job";
             this.amendParentJobToolStripMenuItem.Click += new System.EventHandler(this.amendParentJobToolStripMenuItem_Click);
             // 
             // addNewPhaseToolStripMenuItem1
             // 
             this.addNewPhaseToolStripMenuItem1.Name = "addNewPhaseToolStripMenuItem1";
-            this.addNewPhaseToolStripMenuItem1.Size = new System.Drawing.Size(341, 32);
+            this.addNewPhaseToolStripMenuItem1.Size = new System.Drawing.Size(370, 32);
             this.addNewPhaseToolStripMenuItem1.Text = "Add a new phase";
             this.addNewPhaseToolStripMenuItem1.Click += new System.EventHandler(this.addNewPhaseToolStripMenuItem1_Click);
             // 
             // cancelJobToolStripMenuItem
             // 
             this.cancelJobToolStripMenuItem.Name = "cancelJobToolStripMenuItem";
-            this.cancelJobToolStripMenuItem.Size = new System.Drawing.Size(341, 32);
+            this.cancelJobToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
             this.cancelJobToolStripMenuItem.Text = "CANCEL Phase Job";
             this.cancelJobToolStripMenuItem.Click += new System.EventHandler(this.cancelJobToolStripMenuItem_Click);
             // 
             // recreateToolStripMenuItem1
             // 
             this.recreateToolStripMenuItem1.Name = "recreateToolStripMenuItem1";
-            this.recreateToolStripMenuItem1.Size = new System.Drawing.Size(341, 32);
+            this.recreateToolStripMenuItem1.Size = new System.Drawing.Size(370, 32);
             this.recreateToolStripMenuItem1.Text = "Re-create a deleted phase";
             this.recreateToolStripMenuItem1.Click += new System.EventHandler(this.recreateToolStripMenuItem1_Click);
             // 
             // CustomerDetailToolStripMenuItem
             // 
             this.CustomerDetailToolStripMenuItem.Name = "CustomerDetailToolStripMenuItem";
-            this.CustomerDetailToolStripMenuItem.Size = new System.Drawing.Size(341, 32);
+            this.CustomerDetailToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
             this.CustomerDetailToolStripMenuItem.Text = "View Customer Details";
             this.CustomerDetailToolStripMenuItem.Click += new System.EventHandler(this.CustomerDetailToolStripMenuItem_Click);
             // 
             // siteDetailToolStripMenuItem
             // 
             this.siteDetailToolStripMenuItem.Name = "siteDetailToolStripMenuItem";
-            this.siteDetailToolStripMenuItem.Size = new System.Drawing.Size(341, 32);
+            this.siteDetailToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
             this.siteDetailToolStripMenuItem.Text = "View Site Details";
             this.siteDetailToolStripMenuItem.Click += new System.EventHandler(this.siteDetailToolStripMenuItem_Click);
             // 
             // completeJobToolStripMenuItem
             // 
             this.completeJobToolStripMenuItem.Name = "completeJobToolStripMenuItem";
-            this.completeJobToolStripMenuItem.Size = new System.Drawing.Size(341, 32);
+            this.completeJobToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
             this.completeJobToolStripMenuItem.Text = "Complete the Job";
             this.completeJobToolStripMenuItem.Click += new System.EventHandler(this.completeJobToolStripMenuItem_Click);
             // 
             // uncompleteToolStripMenuItem1
             // 
             this.uncompleteToolStripMenuItem1.Name = "uncompleteToolStripMenuItem1";
-            this.uncompleteToolStripMenuItem1.Size = new System.Drawing.Size(341, 32);
+            this.uncompleteToolStripMenuItem1.Size = new System.Drawing.Size(370, 32);
             this.uncompleteToolStripMenuItem1.Text = "Un-complete Job";
             this.uncompleteToolStripMenuItem1.Click += new System.EventHandler(this.uncompleteToolStripMenuItem1_Click);
             // 
             // whiteboardToolStripMenuItem
             // 
             this.whiteboardToolStripMenuItem.Name = "whiteboardToolStripMenuItem";
-            this.whiteboardToolStripMenuItem.Size = new System.Drawing.Size(341, 32);
+            this.whiteboardToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
             this.whiteboardToolStripMenuItem.Text = "Go To Job in Whiteboard";
             this.whiteboardToolStripMenuItem.Click += new System.EventHandler(this.whiteboardToolStripMenuItem_Click);
+            // 
+            // goToJobInDesignBoardToolStripMenuItem
+            // 
+            this.goToJobInDesignBoardToolStripMenuItem.Name = "goToJobInDesignBoardToolStripMenuItem";
+            this.goToJobInDesignBoardToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
+            this.goToJobInDesignBoardToolStripMenuItem.Text = "Go to Job in Design Board";
+            this.goToJobInDesignBoardToolStripMenuItem.Click += new System.EventHandler(this.goToJobInDesignBoardToolStripMenuItem_Click);
             // 
             // removeSupplierToolStripMenuItem
             // 
             this.removeSupplierToolStripMenuItem.Name = "removeSupplierToolStripMenuItem";
-            this.removeSupplierToolStripMenuItem.Size = new System.Drawing.Size(341, 32);
+            this.removeSupplierToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
             this.removeSupplierToolStripMenuItem.Text = "Remove Supplier";
             this.removeSupplierToolStripMenuItem.Click += new System.EventHandler(this.removeSupplierToolStripMenuItem_Click);
             // 
             // jobDateAuditToolStripMenuItem
             // 
             this.jobDateAuditToolStripMenuItem.Name = "jobDateAuditToolStripMenuItem";
-            this.jobDateAuditToolStripMenuItem.Size = new System.Drawing.Size(341, 32);
+            this.jobDateAuditToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
             this.jobDateAuditToolStripMenuItem.Text = "Audit of Job Date(s) Movements";
             this.jobDateAuditToolStripMenuItem.Click += new System.EventHandler(this.jobDateAuditToolStripMenuItem_Click);
             // 
@@ -926,12 +935,12 @@
             this.label4.TabIndex = 162;
             this.label4.Text = "Total Job Mgn(£) :";
             // 
-            // goToJobInDesignBoardToolStripMenuItem
+            // viewIssuesReportedAtSiteForJobToolStripMenuItem
             // 
-            this.goToJobInDesignBoardToolStripMenuItem.Name = "goToJobInDesignBoardToolStripMenuItem";
-            this.goToJobInDesignBoardToolStripMenuItem.Size = new System.Drawing.Size(341, 32);
-            this.goToJobInDesignBoardToolStripMenuItem.Text = "Go to Job in Design Board";
-            this.goToJobInDesignBoardToolStripMenuItem.Click += new System.EventHandler(this.goToJobInDesignBoardToolStripMenuItem_Click);
+            this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Name = "viewIssuesReportedAtSiteForJobToolStripMenuItem";
+            this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
+            this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Text = "View Issues Reported At Site for Job";
+            this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Click += new System.EventHandler(this.viewIssuesReportedAtSiteForJobToolStripMenuItem_Click);
             // 
             // JobPlannerForm
             // 
@@ -1054,5 +1063,6 @@
         private System.Windows.Forms.TextBox txtTotalJobMgn;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripMenuItem goToJobInDesignBoardToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewIssuesReportedAtSiteForJobToolStripMenuItem;
     }
 }
