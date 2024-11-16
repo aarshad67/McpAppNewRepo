@@ -209,6 +209,7 @@ namespace MCPApp
             string isInvoiced = "";
             string jobNo = "";
             string dateCreated = "";
+            string designStatus = "";
 
             this.Cursor = Cursors.WaitCursor;
             DataTable dt = mcData.GeDesignboardByDateRangeDT(myStartDate, myEndDate);
@@ -232,6 +233,7 @@ namespace MCPApp
                 jobNo = dr["jobNo"].ToString();
                 productSupplier = dr["productSupplier"].ToString();
                 stairsSupplier = dr["stairsSupplier"].ToString();
+                designStatus = dr["designStatus"].ToString();
                 if (!mcData.IsDesignBoardJobExists(jobNo)) { continue; }
                 designDateStr = Convert.ToDateTime(dr["designDate"].ToString()).DayOfWeek.ToString().ToUpper().Substring(0, 3);
                 dateStr = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().ToUpper().Substring(0, 3);
@@ -254,6 +256,7 @@ namespace MCPApp
                 drow.Cells[0].Value = dr["jobNo"].ToString();
                 drow.Cells[1].Value = Convert.ToDateTime(dr["designDate"].ToString()).ToShortDateString();
                 drow.Cells[2].Value = dr["designStatus"].ToString();
+                drow.Cells[2].Style.ForeColor = designStatus.Contains("NOT DRAWN") ? Color.Black : Color.Red;
                 drow.Cells[3].Value = dr["designStatus"].ToString().Contains("APPROVED") || dr["designStatus"].ToString() == "ON SHOP" ? 0 : mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["dateJobCreated"].ToString()));
                 drow.Cells[4].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString(); ;
                 drow.Cells[5].Value = custName;

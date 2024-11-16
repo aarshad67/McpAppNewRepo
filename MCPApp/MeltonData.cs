@@ -4428,6 +4428,44 @@ namespace MCPApp
             }
         }
 
+        public string UpdateJobPlannerDesignDate(string jobNo, DateTime designDate)
+        {
+            //string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
+
+            string insertQry = "UPDATE dbo.JobPlanner "
+                                    + "SET designDate = @designDate, "
+                                    + "modifiedDate = @modifiedDate, "
+                                    + "modifiedBy = @modifiedBy "
+                                    + " WHERE jobNo = @jobNo";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("designDate", designDate));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    string err2 = CreateJobDayAudit(jobNo, designDate.Date, $"UpdateJobPlannerDesignDate(....{designDate.ToShortDateString()}......)");
+                    return "OK";
+
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateJobPlannerDesignDate() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "UpdateJobPlannerDesignDate(.....)", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
         public string UpdateJobPlannerFromDesignBoardJob(string jobNo,DateTime designDate, DateTime requiredDate, string stairsIncl, string productSupplier)
         {
             string updateQry = "UPDATE dbo.JobPlanner "
@@ -6256,7 +6294,10 @@ namespace MCPApp
 
         public DataTable GeDesignboardByDateRangeDT(DateTime startDate, DateTime endDate)
         {
-            string qry1 = @"SELECT * FROM dbo.DesignBoard WHERE designDate between @startDate and @endDate ORDER BY designDate,jobNo";
+            string qry1 = @"SELECT * FROM dbo.DesignBoard 
+                                WHERE designDate between @startDate and @endDate 
+                                AND designStatus != 'ON SHOP' 
+                                ORDER BY designDate,jobNo";
    
             using (SqlConnection conn = new SqlConnection(connStr))
             {
@@ -7563,6 +7604,43 @@ namespace MCPApp
                     string msg = $"UpdateDesignStatus() Error : {ex.Message.ToString()}";
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignStatus({jobNo},{designStatus})", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateDesignDate(string jobNo, DateTime designDate)
+        {
+
+
+            string insertQry = "UPDATE dbo.DesignBoard "
+                                + "SET designDate = @designDate,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE jobNo = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("designDate", designDate));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateDesignDate() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignDate({jobNo},{designDate})", ex.Message.ToString());
                     return msg;
                 }
 

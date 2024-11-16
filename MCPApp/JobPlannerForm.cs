@@ -1207,6 +1207,18 @@ namespace MCPApp
                     }
                 }
 
+                if (e.ColumnIndex == 4)
+                {
+                    string dateStr = jobDGV.Rows[e.RowIndex].Cells[4].Value.ToString();
+                    //string datePart = fullDate.Substring(4, 10);
+                    DateTime dateValue = Convert.ToDateTime(dateStr);
+                    DateSelectorForm dateForm = new DateSelectorForm(dateValue);
+                    dateForm.ShowDialog();
+                    jobDGV.Rows[e.RowIndex].Cells[4].Value = dateForm.RequiredDate.ToShortDateString();
+                    string err = mcData.UpdateJobPlannerDesignDate(job, dateForm.RequiredDate);
+                    string err2 = mcData.UpdateDesignDate(job, dateForm.RequiredDate);
+                }
+
                 if (e.ColumnIndex == 15)
                 {
                     //jobDGV.Rows[0].Cells[0].Value
