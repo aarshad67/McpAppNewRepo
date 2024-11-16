@@ -1376,7 +1376,7 @@ namespace MCPApp
                 }
                 if (mcData.IsJobLockExistByOtherUser("WB", dgvRow.Cells[0].Value.ToString(),loggedInUser))
                 {
-                    dgvRow.Frozen = true;
+                   // dgvRow.Frozen = true;
                     dgvRow.DefaultCellStyle.ForeColor = Color.MediumPurple;
                 }
             }

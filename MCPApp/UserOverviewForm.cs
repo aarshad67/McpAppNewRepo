@@ -219,6 +219,9 @@ namespace MCPApp
         {
             if(menuTreeView.SelectedNode == designBoardNode)
             {
+                //NewDesignBoardForm frm = new NewDesignBoardForm();
+
+
                 DesignBoardParametersForm frm = new DesignBoardParametersForm();
                 frm.ShowDialog();
                 this.menuTreeView.SelectedNode = null;

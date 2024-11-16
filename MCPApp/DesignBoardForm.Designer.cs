@@ -60,7 +60,7 @@ namespace MCPApp
             this.cancelButton.BackColor = System.Drawing.Color.Red;
             this.cancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelButton.ForeColor = System.Drawing.Color.White;
-            this.cancelButton.Location = new System.Drawing.Point(1567, 909);
+            this.cancelButton.Location = new System.Drawing.Point(1503, 923);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(153, 69);
             this.cancelButton.TabIndex = 17;
@@ -77,7 +77,7 @@ namespace MCPApp
             this.weeksTabControl.Location = new System.Drawing.Point(12, 22);
             this.weeksTabControl.Name = "weeksTabControl";
             this.weeksTabControl.SelectedIndex = 0;
-            this.weeksTabControl.Size = new System.Drawing.Size(1708, 847);
+            this.weeksTabControl.Size = new System.Drawing.Size(1657, 879);
             this.weeksTabControl.TabIndex = 19;
             // 
             // supplierContextMenuStrip
@@ -178,7 +178,7 @@ namespace MCPApp
             // canToolStripMenuItem
             // 
             this.canToolStripMenuItem.Name = "canToolStripMenuItem";
-            this.canToolStripMenuItem.Size = new System.Drawing.Size(240, 32);
+            this.canToolStripMenuItem.Size = new System.Drawing.Size(186, 32);
             this.canToolStripMenuItem.Text = "Change Date";
             this.canToolStripMenuItem.Click += new System.EventHandler(this.canToolStripMenuItem_Click);
             // 
@@ -187,7 +187,7 @@ namespace MCPApp
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 958);
+            this.label1.Location = new System.Drawing.Point(12, 960);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(99, 32);
             this.label1.TabIndex = 20;
@@ -197,14 +197,16 @@ namespace MCPApp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1765, 1004);
+            this.ClientSize = new System.Drawing.Size(1689, 1015);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.weeksTabControl);
             this.Controls.Add(this.cancelButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "DesignBoardForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DesignBoardForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.DesignBoardForm_Load);

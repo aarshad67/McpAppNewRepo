@@ -104,6 +104,8 @@ namespace MCPApp
 
                             BuildDesignBoardDGV((DataGridView)dgv, Convert.ToDateTime(thisControl.Text).Date);
                             PopulateDesignBoardDGV((DataGridView)dgv, Convert.ToDateTime(thisControl.Text).Date, Convert.ToDateTime(thisControl.Text).Date.AddDays(6));
+                            dgv.SuspendLayout();
+                            dgv.ResumeLayout();
                             AddContextMenu((DataGridView)dgv);
                             dbDataGridView = (DataGridView)dgv;
                             dbDataGridView.CellMouseUp += new DataGridViewCellMouseEventHandler(dbDataGridView_CellMouseUp);
@@ -297,7 +299,7 @@ namespace MCPApp
                 if (mcData.IsJobCompleted(unsuffixedJobNo))
                 {
                     dgvRow.DefaultCellStyle.ForeColor = Color.Gray;
-                    dgvRow.Frozen = true;
+                   // dgvRow.Frozen = true;
                 }
                 else if (mcData.IsJobCustomerOnStop(custCode))
                 {
@@ -325,6 +327,7 @@ namespace MCPApp
                 dbDataGridView.Controls[1].Visible = true;
                 dbDataGridView.ScrollBars = ScrollBars.Both;
                 dbDataGridView.Columns.Clear();
+
                 //0
                 DataGridViewTextBoxColumn jobNoColumn = new DataGridViewTextBoxColumn();//0
                 jobNoColumn.DataPropertyName = "JobNo";
@@ -578,15 +581,18 @@ namespace MCPApp
                 dbDataGridView.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
                 dbDataGridView.SelectionMode = DataGridViewSelectionMode.CellSelect;
                 dbDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+                //wbDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom;
                 dbDataGridView.Anchor = AnchorStyles.Top | AnchorStyles.Left;
                 dbDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
                 dbDataGridView.Dock = DockStyle.Fill;
                 dbDataGridView.AllowUserToAddRows = false;
-
-                dbDataGridView.Columns[0].DefaultCellStyle.BackColor = Color.Cyan;
-                dbDataGridView.Columns[2].DefaultCellStyle.BackColor = Color.Yellow;
-                dbDataGridView.Columns[3].DefaultCellStyle.BackColor = Color.Yellow;
                 return;
+
+                //dbDataGridView.Columns[0].DefaultCellStyle.BackColor = Color.Cyan;
+                //dbDataGridView.Columns[2].DefaultCellStyle.BackColor = Color.Yellow;
+                //dbDataGridView.Columns[3].DefaultCellStyle.BackColor = Color.Yellow;
+                
+                //return;
             }
             catch (Exception ex)
             {

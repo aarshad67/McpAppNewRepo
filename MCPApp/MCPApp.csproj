@@ -189,6 +189,12 @@
     <Compile Include="JobsMissingDataForm.Designer.cs">
       <DependentUpon>JobsMissingDataForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NewDesignBoardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewDesignBoardForm.Designer.cs">
+      <DependentUpon>NewDesignBoardForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ResetWebPasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -435,6 +441,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="JobsMissingDataForm.resx">
       <DependentUpon>JobsMissingDataForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewDesignBoardForm.resx">
+      <DependentUpon>NewDesignBoardForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ResetWebPasswordForm.resx">
       <DependentUpon>ResetWebPasswordForm.cs</DependentUpon>
