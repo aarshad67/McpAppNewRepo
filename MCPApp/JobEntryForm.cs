@@ -260,18 +260,18 @@ namespace MCPApp
                 jobDGV.Columns.Add(slabM2TextBoxColumn);
 
                 //9
-                DataGridViewTextBoxColumn beamM2TextBoxColumn = new DataGridViewTextBoxColumn();  //0
-                beamM2TextBoxColumn.HeaderText = "Beam M2";
-                beamM2TextBoxColumn.Width = 50;
-                beamM2TextBoxColumn.ReadOnly = false;
-                jobDGV.Columns.Add(beamM2TextBoxColumn);
-
-                //10
                 DataGridViewTextBoxColumn beamLmTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 beamLmTextBoxColumn.HeaderText = "Beam LM";
                 beamLmTextBoxColumn.Width = 50;
                 beamLmTextBoxColumn.ReadOnly = false;
                 jobDGV.Columns.Add(beamLmTextBoxColumn);
+
+                //10
+                DataGridViewTextBoxColumn beamM2TextBoxColumn = new DataGridViewTextBoxColumn();  //0
+                beamM2TextBoxColumn.HeaderText = "Beam M2";
+                beamM2TextBoxColumn.Width = 50;
+                beamM2TextBoxColumn.ReadOnly = false;
+                jobDGV.Columns.Add(beamM2TextBoxColumn);
 
                 //11
                 DataGridViewTextBoxColumn supplierTextBoxColumn = new DataGridViewTextBoxColumn();  //0
@@ -458,6 +458,15 @@ namespace MCPApp
                         return;
                     }
 
+                }
+
+                if (e.ColumnIndex == 9) //BeamLM
+                {
+                    int beamLM = Convert.ToInt32(jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString());
+                    decimal halvedBeamLM = beamLM * 0.5m;
+                    int beamM2 = (int)Math.Round(halvedBeamLM, 0);
+                    jobDGV[10, e.RowIndex].Value = beamM2;
+                    
                 }
             }
             catch (Exception ex)
@@ -720,8 +729,9 @@ namespace MCPApp
                   //  OnShop = jobDGV.Rows[i].Cells[8].Value == null ? "N" : "Y";
                     stairsIncl = jobDGV.Rows[i].Cells[7].Value == null ? "N" : "Y";
                     slabM2 = jobDGV.Rows[i].Cells[8].Value == null ? 0 : Convert.ToInt32(jobDGV.Rows[i].Cells[8].Value.ToString());
-                    beamM2 = jobDGV.Rows[i].Cells[9].Value == null ? 0 : Convert.ToInt32(jobDGV.Rows[i].Cells[9].Value.ToString());
-                    beamLm = jobDGV.Rows[i].Cells[10].Value == null ? 0 : Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value.ToString());
+                    
+                    beamLm = jobDGV.Rows[i].Cells[9].Value == null ? 0 : Convert.ToInt32(jobDGV.Rows[i].Cells[9].Value.ToString());
+                    beamM2 = jobDGV.Rows[i].Cells[10].Value == null ? 0 : Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value.ToString());
                     shortname = jobDGV.Rows[i].Cells[11].Value == null ? "" : jobDGV.Rows[i].Cells[11].Value.ToString();
                     supplyType = jobDGV.Rows[i].Cells[12].Value == null ? "" : jobDGV.Rows[i].Cells[12].Value.ToString();
                     supplierRef = jobDGV.Rows[i].Cells[13].Value == null ? "" : jobDGV.Rows[i].Cells[13].Value.ToString();

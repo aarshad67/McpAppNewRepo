@@ -45,6 +45,7 @@
             this.goToJobInDesignBoardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeSupplierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jobDateAuditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewIssuesReportedAtSiteForJobToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.totalInvoiceValueTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -101,7 +102,6 @@
             this.btnLockedJobs = new System.Windows.Forms.Button();
             this.txtTotalJobMgn = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.viewIssuesReportedAtSiteForJobToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.jobDGV)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -132,9 +132,11 @@
             this.jobDGV.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.jobDGV_CellEndEdit);
             this.jobDGV.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.jobDGV_CellFormatting);
             this.jobDGV.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.jobDGV_CellMouseUp);
+            this.jobDGV.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.jobDGV_CellValidating);
             this.jobDGV.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.jobDGV_CellValueChanged);
             this.jobDGV.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.jobDGV_DataError);
             this.jobDGV.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.jobDGV_EditingControlShowing);
+            this.jobDGV.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.jobDGV_KeyPress);
             // 
             // cancelButton
             // 
@@ -168,7 +170,7 @@
             this.jobDateAuditToolStripMenuItem,
             this.viewIssuesReportedAtSiteForJobToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(371, 453);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(371, 420);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // amendParentJobToolStripMenuItem
@@ -254,6 +256,13 @@
             this.jobDateAuditToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
             this.jobDateAuditToolStripMenuItem.Text = "Audit of Job Date(s) Movements";
             this.jobDateAuditToolStripMenuItem.Click += new System.EventHandler(this.jobDateAuditToolStripMenuItem_Click);
+            // 
+            // viewIssuesReportedAtSiteForJobToolStripMenuItem
+            // 
+            this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Name = "viewIssuesReportedAtSiteForJobToolStripMenuItem";
+            this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
+            this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Text = "View Issues Reported At Site for Job";
+            this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Click += new System.EventHandler(this.viewIssuesReportedAtSiteForJobToolStripMenuItem_Click);
             // 
             // label1
             // 
@@ -934,13 +943,6 @@
             this.label4.Size = new System.Drawing.Size(140, 65);
             this.label4.TabIndex = 162;
             this.label4.Text = "Total Job Mgn(£) :";
-            // 
-            // viewIssuesReportedAtSiteForJobToolStripMenuItem
-            // 
-            this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Name = "viewIssuesReportedAtSiteForJobToolStripMenuItem";
-            this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
-            this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Text = "View Issues Reported At Site for Job";
-            this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Click += new System.EventHandler(this.viewIssuesReportedAtSiteForJobToolStripMenuItem_Click);
             // 
             // JobPlannerForm
             // 

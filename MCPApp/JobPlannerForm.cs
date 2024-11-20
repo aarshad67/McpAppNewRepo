@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Configuration;
+using System.Globalization;
 //using Microsoft.Office.Interop.Excel;
 
 namespace MCPApp
@@ -19,6 +20,7 @@ namespace MCPApp
         DataTable sourceDT = new DataTable();
         DataTable jobDT = new DataTable();
         DataTable newJobDT = new DataTable();
+        DataTable dgvDT = new DataTable();
         ExcelUtlity excel = new ExcelUtlity();
         int parentJobNo = 0;
         string jobPlannerMode = "ALL";
@@ -62,11 +64,15 @@ namespace MCPApp
             BuildDGV();
             if (sourceDT.Rows.Count > 0)
             {
-                PopulateDGV(sourceDT);
+                dgvDT = sourceDT;
+                PopulateDGV(dgvDT);
+                
             }
             else if (parentJobNo > 0)
             {
-                PopulateDGV(mcData.GetJobPlannerDT());
+                dgvDT = mcData.GetJobPlannerDT();
+                PopulateDGV(dgvDT);
+                 
                 int rowIndex = -1;
                 foreach (DataGridViewRow row in jobDGV.Rows)
                 {
@@ -86,15 +92,18 @@ namespace MCPApp
             {
                 if (jobPlannerMode == "BEAM")
                 {
-                    PopulateDGV(mcData.GetBeamJobPlannerDT());
+                    dgvDT = mcData.GetBeamJobPlannerDT();
+                    PopulateDGV(dgvDT);
                 }
                 else if (jobPlannerMode == "SLAB")
                 {
-                    PopulateDGV(mcData.GetSlabJobPlannerDT());
+                    dgvDT = mcData.GetSlabJobPlannerDT();
+                    PopulateDGV(dgvDT);
                 }
                 else
                 {
-                    PopulateDGV(mcData.GetJobPlannerDT());
+                    dgvDT = mcData.GetJobPlannerDT();
+                    PopulateDGV(dgvDT);
                 }
 
             }
@@ -132,6 +141,8 @@ namespace MCPApp
             return suppTypeDT;
         }
 
+        
+
         private void BuildDGV()
         {
             try
@@ -142,6 +153,10 @@ namespace MCPApp
 
                 BindingSource suppTypeBindngSource = new BindingSource();
                 suppTypeBindngSource.DataSource = GetSupplyTypeDT();
+
+                DataTable designersDT = mcData.GetAllDesigners();
+                BindingSource designerBindingSource = new BindingSource();
+                designerBindingSource.DataSource = designersDT;
 
                 jobDGV.Columns.Clear();
 
@@ -177,7 +192,7 @@ namespace MCPApp
 
                 //3
                 DataGridViewTextBoxColumn reqDateTextBoxColumn = new DataGridViewTextBoxColumn();
-                reqDateTextBoxColumn.HeaderText = "Required Date";
+                reqDateTextBoxColumn.HeaderText = "Required Date (Dbl Click)";
                 reqDateTextBoxColumn.ValueType = typeof(DateTime);
                 reqDateTextBoxColumn.Width = 120;
                 reqDateTextBoxColumn.DefaultCellStyle.Format = "dd/MM/YYYY";
@@ -189,7 +204,7 @@ namespace MCPApp
 
                 //4
                 DataGridViewTextBoxColumn designDateColumn = new DataGridViewTextBoxColumn();
-                designDateColumn.HeaderText = "Design Date";
+                designDateColumn.HeaderText = "Design Date (Dbl Click)";
                 designDateColumn.ValueType = typeof(DateTime);
                 designDateColumn.Width = 80;
                 designDateColumn.DefaultCellStyle.Format = "dd/MM/YYYY";
@@ -206,35 +221,36 @@ namespace MCPApp
                 siteAddressTextBoxColumn.ReadOnly = false;
                 jobDGV.Columns.Add(siteAddressTextBoxColumn);
 
+                //6
+                DataGridViewComboBoxColumn designerColumn = new DataGridViewComboBoxColumn();
+                designerColumn.Name = "Designer";
+                designerColumn.Width = 80;
+                designerColumn.HeaderText = "Designer";
+                designerColumn.DataSource = designerBindingSource;
+                designerColumn.ValueMember = "designer";
+                designerColumn.DisplayMember = "designer";
+                jobDGV.Columns.Add(designerColumn);
 
-                ////5
-                //DataGridViewCheckBoxColumn drawnCmbColumn = new DataGridViewCheckBoxColumn();
-                //drawnCmbColumn.ValueType = typeof(bool);
-                //drawnCmbColumn.Name = "Approved";
-                //drawnCmbColumn.Width = 50;
-                //drawnCmbColumn.HeaderText = "Apprvd";
-                //jobDGV.Columns.Add(drawnCmbColumn);
 
-                ////6
-                //DataGridViewCheckBoxColumn approvedCmbColumn = new DataGridViewCheckBoxColumn();
-                //approvedCmbColumn.ValueType = typeof(bool);
-                //approvedCmbColumn.Name = "OnShop";
-                //approvedCmbColumn.Width = 50;
-                //approvedCmbColumn.HeaderText = "On Shop";
-                //jobDGV.Columns.Add(approvedCmbColumn);
+                //7
+                DataGridViewCheckBoxColumn approvedColumn = new DataGridViewCheckBoxColumn();
+                approvedColumn.ValueType = typeof(bool);
+                approvedColumn.Name = "Approved";
+                approvedColumn.Width = 50;
+                approvedColumn.HeaderText = "Apprvd";
+                jobDGV.Columns.Add(approvedColumn);
 
-                ////7
-                //DataGridViewTextBoxColumn diffCmbColumn = new DataGridViewTextBoxColumn();
-                //diffCmbColumn.Name = "daysUnapproved";
-                //diffCmbColumn.Width = 60;
-                //diffCmbColumn.HeaderText = "Days Unapproved";
-                //diffCmbColumn.DefaultCellStyle.ForeColor = Color.Red;
-                //diffCmbColumn.ReadOnly = true;
-                //jobDGV.Columns.Add(diffCmbColumn);
+                //8
+                DataGridViewCheckBoxColumn onShopColumn = new DataGridViewCheckBoxColumn();
+                onShopColumn.ValueType = typeof(bool);
+                onShopColumn.Name = "OnShop";
+                onShopColumn.Width = 50;
+                onShopColumn.HeaderText = "On Shop";
+                jobDGV.Columns.Add(onShopColumn);
 
                 
 
-                //6
+                //9
                 DataGridViewCheckBoxColumn stairsCmbColumn = new DataGridViewCheckBoxColumn();
                 stairsCmbColumn.ValueType = typeof(bool);
                 stairsCmbColumn.Name = "Stairs";
@@ -242,28 +258,28 @@ namespace MCPApp
                 stairsCmbColumn.HeaderText = "Stairs";
                 jobDGV.Columns.Add(stairsCmbColumn);
 
-                //7
+                //10
                 DataGridViewTextBoxColumn slabM2TextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 slabM2TextBoxColumn.HeaderText = "Slab M2";
                 slabM2TextBoxColumn.Width = 50;
                 slabM2TextBoxColumn.ReadOnly = false;
                 jobDGV.Columns.Add(slabM2TextBoxColumn);
 
-                //8
+                //11
                 DataGridViewTextBoxColumn beamLmTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 beamLmTextBoxColumn.HeaderText = "Beam LM";
                 beamLmTextBoxColumn.Width = 50;
                 beamLmTextBoxColumn.ReadOnly = false;
                 jobDGV.Columns.Add(beamLmTextBoxColumn);
 
-                //9
+                //12
                 DataGridViewTextBoxColumn beamM2TextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 beamM2TextBoxColumn.HeaderText = "Beam M2";
                 beamM2TextBoxColumn.Width = 50;
                 beamM2TextBoxColumn.ReadOnly = false;
                 jobDGV.Columns.Add(beamM2TextBoxColumn);
 
-                //10
+                //13
                 DataGridViewTextBoxColumn supplierTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 supplierTextBoxColumn.HeaderText = "Supplier (Dbl Click)";
                 supplierTextBoxColumn.Width = 80;
@@ -271,7 +287,7 @@ namespace MCPApp
                 jobDGV.Columns.Add(supplierTextBoxColumn);
 
                 //suppTypeBindngSource
-                //11
+                //14
                 DataGridViewComboBoxColumn suppTypeColumn = new DataGridViewComboBoxColumn();
                 suppTypeColumn.DataPropertyName = "suppType";
                 suppTypeColumn.HeaderText = "SuppType";
@@ -281,45 +297,47 @@ namespace MCPApp
                 suppTypeColumn.DisplayMember = "suppType";
                 jobDGV.Columns.Add(suppTypeColumn);
 
-                //12
+                //15
                 DataGridViewTextBoxColumn suppRefTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 suppRefTextBoxColumn.HeaderText = "Supplier Ref";
                 suppRefTextBoxColumn.Width = 80;
                 suppRefTextBoxColumn.ReadOnly = false;
                 jobDGV.Columns.Add(suppRefTextBoxColumn);
 
-                //13
+                //16
                 DataGridViewTextBoxColumn phasedValueTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 phasedValueTextBoxColumn.HeaderText = "Phase Value(£)";
                 phasedValueTextBoxColumn.Width = 80;
                 phasedValueTextBoxColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                phasedValueTextBoxColumn.DefaultCellStyle.Format = "D2";
                 phasedValueTextBoxColumn.ReadOnly = false;
                 jobDGV.Columns.Add(phasedValueTextBoxColumn);
 
-                //14
+                //17
                 DataGridViewTextBoxColumn jobMarginColumn = new DataGridViewTextBoxColumn();  //0
                 jobMarginColumn.HeaderText = "Job Mgn(£)";
                 jobMarginColumn.Width = 80;
                 jobMarginColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                jobMarginColumn.DefaultCellStyle.Format = "D2";
                 jobMarginColumn.ReadOnly = false;
                 jobDGV.Columns.Add(jobMarginColumn);
 
 
-                //15
+                //18
                 DataGridViewTextBoxColumn commentTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 commentTextBoxColumn.HeaderText = "Last Comment (DBL Click)";
                 commentTextBoxColumn.Width = 200;
                 commentTextBoxColumn.ReadOnly = true;
                 jobDGV.Columns.Add(commentTextBoxColumn);
 
-                //16
+                //19
                 DataGridViewTextBoxColumn modifiedDateTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 modifiedDateTextBoxColumn.HeaderText = "Date Created";
                 modifiedDateTextBoxColumn.Width = 130;
                 modifiedDateTextBoxColumn.ReadOnly = true;
                 jobDGV.Columns.Add(modifiedDateTextBoxColumn);
 
-                //17
+                //20
                 DataGridViewTextBoxColumn modifiedByTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 modifiedByTextBoxColumn.HeaderText = "Rep";
                 modifiedByTextBoxColumn.Width = 30;
@@ -331,13 +349,14 @@ namespace MCPApp
                 jobDGV.EnableHeadersVisualStyles = false;
                 jobDGV.Columns[0].DefaultCellStyle.BackColor = Color.Yellow;
                 jobDGV.Columns[3].DefaultCellStyle.BackColor = Color.LightGreen;
-                jobDGV.Columns[13].DefaultCellStyle.BackColor = Color.Cyan;
-                jobDGV.Columns[14].DefaultCellStyle.BackColor = Color.Cyan;
-                jobDGV.Columns[7].DefaultCellStyle.Format = "D2";
-                jobDGV.Columns[8].DefaultCellStyle.Format = "D2";
-                jobDGV.Columns[9].DefaultCellStyle.Format = "D2";
-                jobDGV.Columns[13].DefaultCellStyle.Format = "D2";
-                jobDGV.Columns[14].DefaultCellStyle.Format = "D2";
+                jobDGV.Columns[16].DefaultCellStyle.BackColor = Color.Cyan;
+                jobDGV.Columns[17].DefaultCellStyle.BackColor = Color.Cyan;
+                jobDGV.Columns[10].DefaultCellStyle.Format = "D2";
+                jobDGV.Columns[11].DefaultCellStyle.Format = "D2";
+                jobDGV.Columns[12].DefaultCellStyle.Format = "D2";
+                jobDGV.Columns[16].DefaultCellStyle.Format = "N2";
+                jobDGV.Columns[17].DefaultCellStyle.Format = "N2";
+                
 
 
 
@@ -394,25 +413,26 @@ namespace MCPApp
                     drow.Cells[3].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0, 3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
                     drow.Cells[4].Value = Convert.ToDateTime(dr["designDate"].ToString()).ToShortDateString();
                     drow.Cells[5].Value = dr["siteAddress"].ToString();
-                   // drow.Cells[5].Value = dr["approved"].ToString() == "Y" ? true : false;
-                   // drow.Cells[6].Value = dr["onshop"].ToString() == "Y" ? true : false;
-                   // drow.Cells[7].Value = dr["approved"].ToString() == "Y" ? 0 : mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
-                   // drow.Cells[7].Style.ForeColor = approved != "Y" && daysDiff > 0 ? Color.Red : Color.Black;
-                   
-                    drow.Cells[6].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
-                    drow.Cells[7].Value = dr["slabM2"].ToString();
-                    drow.Cells[8].Value = dr["beamLm"].ToString();
-                    drow.Cells[9].Value = dr["beamM2"].ToString();
-                    drow.Cells[10].Value = dr["productSupplier"].ToString();
-                    drow.Cells[10].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
-                    drow.Cells[11].Value = dr["supplyType"].ToString();
-                    drow.Cells[12].Value = dr["supplierRef"].ToString();
-                    drow.Cells[13].Value = dr["phaseInvValue"].ToString();
-                    drow.Cells[14].Value = dr["jobMgnValue"].ToString();
-                    drow.Cells[15].Value = mcData.GetLastComment(dr["jobNo"].ToString());
+                    drow.Cells[6].Value = dr["dman"].ToString();
+                    drow.Cells[7].Value = dr["approved"].ToString() == "Y" ? true : false;
+                    drow.Cells[8].Value = dr["onshop"].ToString() == "Y" ? true : false;
+                    // drow.Cells[7].Value = dr["approved"].ToString() == "Y" ? 0 : mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
+                    // drow.Cells[7].Style.ForeColor = approved != "Y" && daysDiff > 0 ? Color.Red : Color.Black;
 
-                    drow.Cells[16].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
-                    drow.Cells[17].Value = dr["jobCreatedBy"].ToString();
+                    drow.Cells[9].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
+                    drow.Cells[10].Value = dr["slabM2"].ToString();
+                    drow.Cells[11].Value = dr["beamLm"].ToString();
+                    drow.Cells[12].Value = dr["beamM2"].ToString();
+                    drow.Cells[13].Value = dr["productSupplier"].ToString();
+                    drow.Cells[13].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
+                    drow.Cells[14].Value = dr["supplyType"].ToString();
+                    drow.Cells[15].Value = dr["supplierRef"].ToString();
+                    drow.Cells[16].Value = dr["phaseInvValue"].ToString();
+                    drow.Cells[17].Value = dr["jobMgnValue"].ToString();
+                    drow.Cells[18].Value = mcData.GetLastComment(dr["jobNo"].ToString());
+
+                    drow.Cells[19].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
+                    drow.Cells[20].Value = dr["jobCreatedBy"].ToString();
                     rows.Add(drow);
 
                 }
@@ -446,7 +466,7 @@ namespace MCPApp
             }
             catch (Exception ex)
             {
-                string msg = String.Format("PopulateDGV() Error : {0}", ex.Message.ToString());
+                string msg = String.Format("PopulateDGV(DataTable jobDT) Error : {0}", ex.Message.ToString());
                 logger.LogLine(msg);
                 MessageBox.Show(msg);
                 string audit = mcData.CreateErrorAudit("JobPlannerForm.cs", "PopulateDGV(DataTable jobDT)", msg);
@@ -492,23 +512,24 @@ namespace MCPApp
                     drow.Cells[3].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0, 3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
                     drow.Cells[4].Value = Convert.ToDateTime(dr["designDate"].ToString()).ToShortDateString();
                     drow.Cells[5].Value = dr["siteAddress"].ToString();
-                    //drow.Cells[5].Value = dr["approved"].ToString() == "Y" ? true : false;
-                    //drow.Cells[6].Value = dr["onshop"].ToString() == "Y" ? true : false;
+                    drow.Cells[6].Value = dr["dman"].ToString();
+                    drow.Cells[7].Value = dr["approved"].ToString() == "Y" ? true : false;
+                    drow.Cells[8].Value = dr["onshop"].ToString() == "Y" ? true : false;
                     //drow.Cells[7].Value = dr["approved"].ToString() == "Y" ? 0 : mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
                     //drow.Cells[7].Style.ForeColor = approved != "Y" && daysDiff > 0 ? Color.Red : Color.Black;
-                    drow.Cells[6].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
-                    drow.Cells[7].Value = dr["slabM2"].ToString();
-                    drow.Cells[8].Value = dr["beamLm"].ToString();
-                    drow.Cells[9].Value = dr["beamM2"].ToString();
-                    drow.Cells[10].Value = dr["productSupplier"].ToString();
-                    drow.Cells[10].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
-                    drow.Cells[11].Value = dr["supplyType"].ToString();
-                    drow.Cells[12].Value = dr["supplierRef"].ToString();
-                    drow.Cells[13].Value = dr["phaseInvValue"].ToString();
-                    drow.Cells[14].Value = dr["jobMgnValue"].ToString();
-                    drow.Cells[15].Value = mcData.GetLastComment(dr["jobNo"].ToString());
-                    drow.Cells[16].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
-                    drow.Cells[17].Value = dr["jobCreatedBy"].ToString();
+                    drow.Cells[9].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
+                    drow.Cells[10].Value = dr["slabM2"].ToString();
+                    drow.Cells[11].Value = dr["beamLm"].ToString();
+                    drow.Cells[12].Value = dr["beamM2"].ToString();
+                    drow.Cells[13].Value = dr["productSupplier"].ToString();
+                    drow.Cells[13].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
+                    drow.Cells[14].Value = dr["supplyType"].ToString();
+                    drow.Cells[15].Value = dr["supplierRef"].ToString();
+                    drow.Cells[16].Value = dr["phaseInvValue"].ToString();
+                    drow.Cells[17].Value = dr["jobMgnValue"].ToString();
+                    drow.Cells[18].Value = mcData.GetLastComment(dr["jobNo"].ToString());
+                    drow.Cells[19].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
+                    drow.Cells[20].Value = dr["jobCreatedBy"].ToString();
                     rows.Add(drow);
                 }
                 jobDGV.Rows.AddRange(rows.ToArray());
@@ -587,23 +608,24 @@ namespace MCPApp
                     drow.Cells[3].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0, 3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
                     drow.Cells[4].Value = Convert.ToDateTime(dr["designDate"].ToString()).ToShortDateString();
                     drow.Cells[5].Value = dr["siteAddress"].ToString();
-                    //drow.Cells[5].Value = dr["approved"].ToString() == "Y" ? true : false;
-                    //drow.Cells[6].Value = dr["onshop"].ToString() == "Y" ? true : false;
+                    drow.Cells[6].Value = dr["dman"].ToString();
+                    drow.Cells[7].Value = dr["approved"].ToString() == "Y" ? true : false;
+                    drow.Cells[8].Value = dr["onshop"].ToString() == "Y" ? true : false;
                     //drow.Cells[7].Value = dr["approved"].ToString() == "Y" ? 0 : daysDiff;// mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
                     //drow.Cells[7].Style.ForeColor = approved != "Y" && daysDiff > 0 ? Color.Red : Color.Black;
-                    drow.Cells[6].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
-                    drow.Cells[7].Value = dr["slabM2"].ToString();
-                    drow.Cells[8].Value = dr["beamLm"].ToString();
-                    drow.Cells[9].Value = dr["beamM2"].ToString();
-                    drow.Cells[10].Value = dr["productSupplier"].ToString();
-                    drow.Cells[10].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
-                    drow.Cells[11].Value = dr["supplyType"].ToString();
-                    drow.Cells[12].Value = dr["supplierRef"].ToString();
-                    drow.Cells[13].Value = dr["phaseInvValue"].ToString();
-                    drow.Cells[14].Value = dr["jobMgnValue"].ToString();
-                    drow.Cells[15].Value = mcData.GetLastComment(dr["jobNo"].ToString());
-                    drow.Cells[16].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
-                    drow.Cells[17].Value = dr["jobCreatedBy"].ToString();
+                    drow.Cells[9].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
+                    drow.Cells[10].Value = dr["slabM2"].ToString();
+                    drow.Cells[11].Value = dr["beamLm"].ToString();
+                    drow.Cells[12].Value = dr["beamM2"].ToString();
+                    drow.Cells[13].Value = dr["productSupplier"].ToString();
+                    drow.Cells[13].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
+                    drow.Cells[14].Value = dr["supplyType"].ToString();
+                    drow.Cells[15].Value = dr["supplierRef"].ToString();
+                    drow.Cells[16].Value = dr["phaseInvValue"].ToString();
+                    drow.Cells[17].Value = dr["jobMgnValue"].ToString();
+                    drow.Cells[18].Value = mcData.GetLastComment(dr["jobNo"].ToString());
+                    drow.Cells[19].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
+                    drow.Cells[20].Value = dr["jobCreatedBy"].ToString();
                     rows.Add(drow);
 
                 }
@@ -652,6 +674,7 @@ namespace MCPApp
             string drawn;
             string approved;
             string onshop;
+            string dman;
             string stairsIncl;
             int slabM2;
             int beamM2;
@@ -681,22 +704,23 @@ namespace MCPApp
                     requiredDate = Convert.ToDateTime(jobDGV.Rows[i].Cells[3].Value);
                     designDate = Convert.ToDateTime(jobDGV.Rows[i].Cells[4].Value);
                     siteAddress = jobDGV.Rows[i].Cells[5].Value.ToString();
-                    //approved = (bool)jobDGV.Rows[i].Cells[5].Value ? "Y" : "N";
-                    //onshop = (bool)jobDGV.Rows[i].Cells[6].Value ? "Y" : "N";
-                    stairsIncl = (bool)jobDGV.Rows[i].Cells[6].Value ? "Y" : "N";
-                    slabM2 = Convert.ToInt32(jobDGV.Rows[i].Cells[7].Value);
-                    beamLm = Convert.ToInt32(jobDGV.Rows[i].Cells[8].Value);
-                    beamM2 = Convert.ToInt32(jobDGV.Rows[i].Cells[9].Value);
-                    suppShortname = jobDGV.Rows[i].Cells[10].Value.ToString();
-                    supplyType = jobDGV.Rows[i].Cells[11].Value.ToString();
+                    dman = jobDGV.Rows[i].Cells[6].Value.ToString();
+                    approved = (bool)jobDGV.Rows[i].Cells[7].Value ? "Y" : "N";
+                    onshop = (bool)jobDGV.Rows[i].Cells[8].Value ? "Y" : "N";
+                    stairsIncl = (bool)jobDGV.Rows[i].Cells[9].Value ? "Y" : "N";
+                    slabM2 = Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value);
+                    beamLm = Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value);
+                    beamM2 = Convert.ToInt32(jobDGV.Rows[i].Cells[12].Value);
+                    suppShortname = jobDGV.Rows[i].Cells[13].Value.ToString();
+                    supplyType = jobDGV.Rows[i].Cells[14].Value.ToString();
                     sortType = "S" + supplyType.Substring(1, 1);
 
                     
-                    supplierRef = jobDGV.Rows[i].Cells[12].Value.ToString();
+                    supplierRef = jobDGV.Rows[i].Cells[15].Value.ToString();
                     
-                    phaseInvValue = jobDGV.Rows[i].Cells[13].Value == null || jobDGV.Rows[i].Cells[13].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[13].Value);
-                    jobMgnValue = jobDGV.Rows[i].Cells[14].Value == null || jobDGV.Rows[i].Cells[14].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[14].Value);
-                    lastComment = jobDGV.Rows[i].Cells[15].Value.ToString();
+                    phaseInvValue = jobDGV.Rows[i].Cells[16].Value == null || jobDGV.Rows[i].Cells[16].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value);
+                    jobMgnValue = jobDGV.Rows[i].Cells[17].Value == null || jobDGV.Rows[i].Cells[17].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[17].Value);
+                    lastComment = jobDGV.Rows[i].Cells[18].Value.ToString();
                     string mon = "";
                     string tue = "";
                     string wed = "";
@@ -809,7 +833,8 @@ namespace MCPApp
                         sat = "";
                     }
 
-                    string err = mcData.UpdateJobPlanner(parentJobNo, jobNo, phaseNo, floorLevel, requiredDate, siteAddress, stairsIncl, slabM2, beamM2, beamLm, suppShortname, supplyType, supplierRef, lastComment, phaseInvValue, jobMgnValue, sortType);
+                    string err = mcData.UpdateJobPlanner(jobNo,  floorLevel, requiredDate, siteAddress,approved,onshop, 
+                            stairsIncl, slabM2, beamM2, beamLm, supplyType,suppShortname,  supplierRef, lastComment, phaseInvValue, sortType, designDate, jobMgnValue,dman );
                     if (err != "OK")
                     {
                         MessageBox.Show(String.Format("UpdatedJobsDGVToDB() ERROR : {0}", err));
@@ -845,27 +870,34 @@ namespace MCPApp
 
                 newJobDT.Columns.Clear();
                 newJobDT.Columns.Add("jobNo", typeof(string)); //0
-                newJobDT.Columns.Add("parentJobNo", typeof(string)); //--
+                newJobDT.Columns.Add("parentJobNo", typeof(int)); //--
                 newJobDT.Columns.Add("phaseNo", typeof(string)); //--
                 newJobDT.Columns.Add("floorLevel", typeof(string));//2
                 newJobDT.Columns.Add("requiredDate", typeof(DateTime));//3
                 newJobDT.Columns.Add("siteAddress", typeof(string));//4
-                //newJobDT.Columns.Add("approved", typeof(string));//5
-                //newJobDT.Columns.Add("OnShop", typeof(string));//6
+                newJobDT.Columns.Add("Drawn", typeof(string));//5
+                newJobDT.Columns.Add("Approved", typeof(string));//6
+                newJobDT.Columns.Add("OnShop", typeof(string));//6
                 newJobDT.Columns.Add("stairsIncl", typeof(string));//8
-                newJobDT.Columns.Add("slabM2", typeof(string));//9
-                newJobDT.Columns.Add("beamM2", typeof(string));//10
-                newJobDT.Columns.Add("beamLm", typeof(string));//11
+                newJobDT.Columns.Add("slabM2", typeof(int));//9
+                newJobDT.Columns.Add("beamM2", typeof(int));//10
+                newJobDT.Columns.Add("beamLm", typeof(int));//11
                 newJobDT.Columns.Add("supplyType", typeof(string));//13
                 newJobDT.Columns.Add("productSupplier", typeof(string));//12
                 newJobDT.Columns.Add("supplierRef", typeof(string));//14
                 newJobDT.Columns.Add("lastComment", typeof(string));//17
-                newJobDT.Columns.Add("phaseInvValue", typeof(string));//15
-                newJobDT.Columns.Add("jobMgnValue", typeof(string));//16
-                newJobDT.Columns.Add("designDate", typeof(DateTime));//16
-                newJobDT.Columns.Add("completed", typeof(string));//--
+                newJobDT.Columns.Add("phaseInvValue", typeof(decimal));//15
+                newJobDT.Columns.Add("completedFlag", typeof(string));//--
                 newJobDT.Columns.Add("modifiedDate", typeof(DateTime));//18
                 newJobDT.Columns.Add("modifiedBy", typeof(string));//19
+                newJobDT.Columns.Add("jobCreatedDate", typeof(DateTime));//19
+                newJobDT.Columns.Add("jobCreatedBy", typeof(string));//19
+                newJobDT.Columns.Add("sortType", typeof(string));//15
+                newJobDT.Columns.Add("designDate", typeof(DateTime));//15
+                newJobDT.Columns.Add("jobMgnValue", typeof(decimal));//16
+                newJobDT.Columns.Add("dman", typeof(string));//16
+                
+                
                 DataRow dr = newJobDT.NewRow();
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
                 {
@@ -878,22 +910,23 @@ namespace MCPApp
                     dr["requiredDate"] = Convert.ToDateTime(jobDGV.Rows[i].Cells[3].Value);
                     dr["designDate"] = Convert.ToDateTime(jobDGV.Rows[i].Cells[4].Value);
                     dr["siteAddress"] = jobDGV.Rows[i].Cells[5].Value.ToString();
-                    //dr["approved"] = (bool)jobDGV.Rows[i].Cells[5].Value ? "Y" : "N";
-                    //dr["OnShop"] = (bool)jobDGV.Rows[i].Cells[6].Value ? "Y" : "N";
-                    dr["stairsIncl"] = (bool)jobDGV.Rows[i].Cells[6].Value ? "Y" : "N";
-                    dr["slabM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[7].Value);
-                    dr["beamLm"] = Convert.ToInt32(jobDGV.Rows[i].Cells[8].Value);
-                    dr["beamM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[9].Value);
-                    dr["productSupplier"] = jobDGV.Rows[i].Cells[10].Value.ToString();
-                    dr["supplyType"] = jobDGV.Rows[i].Cells[11].Value.ToString();
-                    dr["supplierRef"] = jobDGV.Rows[i].Cells[12].Value.ToString();
-                    dr["phaseInvValue"] = jobDGV.Rows[i].Cells[13].Value == null || jobDGV.Rows[i].Cells[13].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[13].Value);
-                    dr["jobMgnValue"] = jobDGV.Rows[i].Cells[14].Value == null || jobDGV.Rows[i].Cells[14].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[14].Value);
-                    dr["lastComment"] = jobDGV.Rows[i].Cells[15].Value.ToString();
+                    dr["dman"] = jobDGV.Rows[i].Cells[6].Value.ToString();
+                    dr["Approved"] = (bool)jobDGV.Rows[i].Cells[7].Value ? "Y" : "N";
+                    dr["OnShop"] = (bool)jobDGV.Rows[i].Cells[8].Value ? "Y" : "N";
+                    dr["stairsIncl"] = (bool)jobDGV.Rows[i].Cells[9].Value ? "Y" : "N";
+                    dr["slabM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value);
+                    dr["beamLm"] = Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value);
+                    dr["beamM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[12].Value);
+                    dr["productSupplier"] = jobDGV.Rows[i].Cells[13].Value.ToString();
+                    dr["supplyType"] = jobDGV.Rows[i].Cells[14].Value.ToString();
+                    dr["supplierRef"] = jobDGV.Rows[i].Cells[15].Value.ToString();
+                    dr["phaseInvValue"] = jobDGV.Rows[i].Cells[16].Value == null || jobDGV.Rows[i].Cells[16].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value);
+                    dr["jobMgnValue"] = jobDGV.Rows[i].Cells[17].Value == null || jobDGV.Rows[i].Cells[17].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[17].Value);
+                    dr["lastComment"] = jobDGV.Rows[i].Cells[8].Value.ToString();
                     
-                    dr["completed"] = mcData.GetCompletedFlagFromJob(jobDGV.Rows[i].Cells[0].Value.ToString());
-                    dr["modifiedDate"] = Convert.ToDateTime(jobDGV.Rows[i].Cells[16].Value);
-                    dr["modifiedBy"] = jobDGV.Rows[i].Cells[17].Value.ToString();
+                    dr["completedFlag"] = mcData.GetCompletedFlagFromJob(jobDGV.Rows[i].Cells[0].Value.ToString());
+                    dr["modifiedDate"] = DateTime.Now;// Convert.ToDateTime(jobDGV.Rows[i].Cells[16].Value);
+                    dr["modifiedBy"] = loggedInUser;// jobDGV.Rows[i].Cells[17].Value.ToString();
                     newJobDT.Rows.Add(dr);
                 }
                 return "OK";
@@ -1016,8 +1049,8 @@ namespace MCPApp
                     }
 
                     floorLevel = jobDGV.Rows[i].Cells[2].Value == null ? "" : jobDGV.Rows[i].Cells[2].Value.ToString();
-                    siteAddr = jobDGV.Rows[i].Cells[4].Value == null ? "" : jobDGV.Rows[i].Cells[4].Value.ToString();
-                    supplyType = jobDGV.Rows[i].Cells[13].Value == null ? "" : jobDGV.Rows[i].Cells[13].Value.ToString();
+                    siteAddr = jobDGV.Rows[i].Cells[5].Value == null ? "" : jobDGV.Rows[i].Cells[5].Value.ToString();
+                    supplyType = jobDGV.Rows[i].Cells[14].Value == null ? "" : jobDGV.Rows[i].Cells[14].Value.ToString();
 
                     if (String.IsNullOrWhiteSpace(floorLevel) || String.IsNullOrWhiteSpace(siteAddr) || String.IsNullOrWhiteSpace(supplyType))
                     {
@@ -1140,17 +1173,17 @@ namespace MCPApp
                     return;
                 }
 
-                if (e.ColumnIndex == 10)
+                if (e.ColumnIndex == 13)
                 {
                     //   if (MessageBox.Show("Do you have a PO number for supplier", "Confirm PO Number", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No) { return; }
                     AddPONumberForm poForm = new AddPONumberForm(job);
                     poForm.ShowDialog();
-                    jobDGV.Rows[e.RowIndex].Cells[12].Value = poForm.PONumber;
+                    jobDGV.Rows[e.RowIndex].Cells[15].Value = poForm.PONumber;
 
 
-                    if (jobDGV.Rows[e.RowIndex].Cells[10].Value != null)
+                    if (jobDGV.Rows[e.RowIndex].Cells[13].Value != null)
                     {
-                        suppForm = new SuppliersListForm(jobDGV.Rows[e.RowIndex].Cells[10].Value.ToString());
+                        suppForm = new SuppliersListForm(jobDGV.Rows[e.RowIndex].Cells[13].Value.ToString());
                     }
                     else
                     {
@@ -1161,7 +1194,7 @@ namespace MCPApp
                     string suppShortName = suppForm.Shortname;
                     string productType = mcData.GetSupplierProductTypeFromShortname(suppShortName);
                     string result = mcData.UpdateWhiteBoardJobProductWithSupplierProductType(job, productType);
-                    jobDGV.Rows[e.RowIndex].Cells[10].Value = suppShortName;
+                    jobDGV.Rows[e.RowIndex].Cells[13].Value = suppShortName;
                     int rgb1, rgb2, rgb3 = 0;
 
                     mcData.GetSupplierColourByShortname(suppShortName, out rgb1, out rgb2, out rgb3);
@@ -1170,8 +1203,8 @@ namespace MCPApp
                         string err1 = mcData.UpdateJobPlannerSupplierShortName(job, suppShortName);
                         string err2 = mcData.UpdateWhiteBoardSupplierShortName(job, suppShortName, rgb1, rgb2, rgb3);
                     }
-                    jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[10];
-                    jobDGV.Rows[e.RowIndex].Cells[10].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
+                    jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[13];
+                    jobDGV.Rows[e.RowIndex].Cells[13].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
                     jobDGV.CurrentCell.Selected = true;
                 }
 
@@ -1219,13 +1252,13 @@ namespace MCPApp
                     string err2 = mcData.UpdateDesignDate(job, dateForm.RequiredDate);
                 }
 
-                if (e.ColumnIndex == 15)
+                if (e.ColumnIndex == 18)
                 {
                     //jobDGV.Rows[0].Cells[0].Value
                     JobCommentForm commentForm = new JobCommentForm(jobDGV.Rows[e.RowIndex].Cells[0].Value.ToString());
                     commentForm.ShowDialog();
-                    jobDGV.Rows[e.RowIndex].Cells[15].Value = mcData.GetLastComment(jobDGV.Rows[e.RowIndex].Cells[0].Value.ToString());
-                    jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[15];
+                    jobDGV.Rows[e.RowIndex].Cells[18].Value = mcData.GetLastComment(jobDGV.Rows[e.RowIndex].Cells[0].Value.ToString());
+                    jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[18];
                     jobDGV.CurrentCell.Selected = true;
                 }
             }
@@ -1247,7 +1280,7 @@ namespace MCPApp
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
                 {
                     if (jobDGV.Rows[i].Cells[0].Value == null) { continue; }
-                    value = jobDGV.Rows[i].Cells[13].Value == null || jobDGV.Rows[i].Cells[13].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[13].Value.ToString());
+                    value = jobDGV.Rows[i].Cells[16].Value == null || jobDGV.Rows[i].Cells[16].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value.ToString());
                    // if (jobDGV.Rows[i].Cells[15].Value == null) { continue; }
                     total += value;
                 }
@@ -1272,7 +1305,7 @@ namespace MCPApp
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
                 {
                     if (jobDGV.Rows[i].Cells[0].Value == null) { continue; }
-                    value = jobDGV.Rows[i].Cells[14].Value == null || jobDGV.Rows[i].Cells[14].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[14].Value.ToString());
+                    value = jobDGV.Rows[i].Cells[17].Value == null || jobDGV.Rows[i].Cells[17].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[17].Value.ToString());
                     //   if (jobDGV.Rows[i].Cells[16].Value == null) { continue; }value
                     total += value;
                 }
@@ -1296,8 +1329,8 @@ namespace MCPApp
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
                 {
                     if (jobDGV.Rows[i].Cells[0].Value == null) { continue; }
-                    if (jobDGV.Rows[i].Cells[7].Value == null) { continue; }
-                    total += Convert.ToDecimal(jobDGV.Rows[i].Cells[7].Value.ToString());
+                    if (jobDGV.Rows[i].Cells[10].Value == null) { continue; }
+                    total += Convert.ToDecimal(jobDGV.Rows[i].Cells[10].Value.ToString());
                 }
 
                 totalSlabM2TextBox.Text = total.ToString("#,#");
@@ -1319,8 +1352,8 @@ namespace MCPApp
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
                 {
                     if (jobDGV.Rows[i].Cells[0].Value == null) { continue; }
-                    if (jobDGV.Rows[i].Cells[9].Value == null) { continue; }
-                    total += Convert.ToDecimal(jobDGV.Rows[i].Cells[9].Value.ToString());
+                    if (jobDGV.Rows[i].Cells[12].Value == null) { continue; }
+                    total += Convert.ToDecimal(jobDGV.Rows[i].Cells[12].Value.ToString());
                 }
 
                 totalBeamM2TextBox.Text = total.ToString("#,#");
@@ -1360,34 +1393,61 @@ namespace MCPApp
 
 
 
-            if (e.ColumnIndex != 7 && e.ColumnIndex != 8 && e.ColumnIndex != 9 && e.ColumnIndex != 13 && e.ColumnIndex != 14) { return; }
+            if (e.ColumnIndex != 10 && e.ColumnIndex != 11 && e.ColumnIndex != 12 && e.ColumnIndex != 16 && e.ColumnIndex != 17) { return; }
 
-            if (e.ColumnIndex == 7)
+            if (e.ColumnIndex == 10)
             {
                 DisplayTotalSlabM2();
             }
 
-            if (e.ColumnIndex == 8) //BeamLM
+            if (e.ColumnIndex == 11) //BeamLM
             {
                 int beamLM = Convert.ToInt32(jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString());
                 decimal halvedBeamLM = beamLM * 0.5m;
                 int slabM2 = (int)Math.Round(halvedBeamLM, 0);
-                jobDGV[11, e.RowIndex].Value = slabM2;
+                jobDGV[12, e.RowIndex].Value = slabM2;
                 DisplayTotalBeamM2();
             }
 
-            if (e.ColumnIndex == 9)
+            if (e.ColumnIndex == 12)
             {
+                
                 DisplayTotalBeamM2();
             }
 
-            if (e.ColumnIndex == 13)
+            if (e.ColumnIndex == 16)
             {
+                string newValue = this.jobDGV.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+
+                // Normalize input to use a period as the decimal separator
+                newValue = newValue.Replace(',', '.');
+
+                decimal parsedValue;
+
+                // Try parsing the value again to ensure it's a decimal
+                if (decimal.TryParse(newValue, NumberStyles.Any, CultureInfo.InvariantCulture, out parsedValue))
+                {
+                    // Format to 2 decimal places
+                    this.jobDGV.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = parsedValue.ToString("F2");
+                }
                 DisplayTotalInvValue();
             }
 
-            if(e.ColumnIndex == 14)
+            if(e.ColumnIndex == 17)
             {
+                string newValue = this.jobDGV.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
+
+                // Normalize input to use a period as the decimal separator
+                newValue = newValue.Replace(',', '.');
+
+                decimal parsedValue;
+
+                // Try parsing the value again to ensure it's a decimal
+                if (decimal.TryParse(newValue, NumberStyles.Any, CultureInfo.InvariantCulture, out parsedValue))
+                {
+                    // Format to 2 decimal places
+                    this.jobDGV.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = parsedValue.ToString("F2");
+                }
                 DisplayTotalJobMgnValue();
             }
 
@@ -1400,7 +1460,7 @@ namespace MCPApp
         {
             if (!jobDGV.Focused) { return; }
             e.Control.KeyPress -= new KeyPressEventHandler(Column1_KeyPress);
-            if (jobDGV.CurrentCell.ColumnIndex == 7 || jobDGV.CurrentCell.ColumnIndex == 8 || jobDGV.CurrentCell.ColumnIndex == 9 || jobDGV.CurrentCell.ColumnIndex == 13 || jobDGV.CurrentCell.ColumnIndex == 14) //Desired Column
+            if (jobDGV.CurrentCell.ColumnIndex == 10 || jobDGV.CurrentCell.ColumnIndex == 11 || jobDGV.CurrentCell.ColumnIndex == 12 || jobDGV.CurrentCell.ColumnIndex == 16 || jobDGV.CurrentCell.ColumnIndex == 17) //Desired Column
             {
                 TextBox tb = e.Control as TextBox;
                 if (tb != null)
@@ -1591,26 +1651,37 @@ namespace MCPApp
 
         private void jobDGV_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
+            if (!jobDGV.Focused) { return; }
+
+            if (e.ColumnIndex == 16 || e.ColumnIndex == 17)
+            {
+                double value;
+                if (double.TryParse(e.Value.ToString(), out value))
+                {
+                    // Format to two decimal places
+                    e.Value = value.ToString("F2");
+                }
+            }
             //if (!jobDGV.Focused) { return; }
 
-            //if (jobDGV.Rows[e.RowIndex].Cells[0].Value == null)
-            //{
-            //    return;
-            //}
+                //if (jobDGV.Rows[e.RowIndex].Cells[0].Value == null)
+                //{
+                //    return;
+                //}
 
-            //string job = jobDGV[0, e.RowIndex].Value.ToString();
+                //string job = jobDGV[0, e.RowIndex].Value.ToString();
 
 
-            //if (mcData.IsJobCompleted(job))
-            //{
-            //    jobDGV.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Blue;
-            //    jobDGV.Rows[e.RowIndex].ReadOnly = true;
-            //}
-            //else
-            //{
-            //    jobDGV.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
+                //if (mcData.IsJobCompleted(job))
+                //{
+                //    jobDGV.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Blue;
+                //    jobDGV.Rows[e.RowIndex].ReadOnly = true;
+                //}
+                //else
+                //{
+                //    jobDGV.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
 
-            //}
+                //}
         }
 
         private void uncompleteToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -3036,7 +3107,7 @@ namespace MCPApp
             string result = JobsDGVToNewDatatable();
             if (result == "OK")
             {
-                if (!mcData.AreTablesTheSame(jobDT, newJobDT))
+                if (!mcData.AreTablesTheSame(dgvDT, newJobDT))
                 {
                     UpdatedJobsDGVToDB();
                 }
@@ -3366,6 +3437,11 @@ namespace MCPApp
                 MessageBox.Show($"Job [{phaseJob}] does NOT exist in the Design Board");
                 return;
             }
+            if(mcData.IsDesignBoardJobOnShop(phaseJob))
+            {
+                MessageBox.Show($"Job [{phaseJob}] is ON SHOP and will not NOT exist in the Design Board");
+                return;
+            }
             DataTable dt = mcData.DesignBoardDatesDT(phaseJob);
             DateTime jobDate = mcData.GetDesignDateByJobNo(phaseJob);
             DateTime startDate = mcData.GetMonday(jobDate);
@@ -3376,7 +3452,7 @@ namespace MCPApp
             int roundedNumWeeks = (int)Decimal.Round(numWeeks, 1) + 1;
             DesignBoardForm dbForm = new DesignBoardForm(phaseJob, startDate, lastDate, dt, roundedNumWeeks);
             dbForm.ShowDialog();
-            PopulateDGV(mcData.GetJobPlannerDTByJob(phaseJob));
+           // PopulateDGV(mcData.GetJobPlannerDTByJob(phaseJob));
             return;
         }
 
@@ -3400,6 +3476,45 @@ namespace MCPApp
             }
             MessageBox.Show($"There were no issues raised at site for Job [{jobNo}]");
             return;
+        }
+
+        private void jobDGV_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (!jobDGV.Focused) { return; }
+
+            if (e.ColumnIndex == 16 || e.ColumnIndex == 17)
+            {
+                string newValue = e.FormattedValue.ToString();
+
+                // Normalize input to use a period as the decimal separator
+                newValue = newValue.Replace(',', '.');
+
+                decimal parsedValue;
+
+                // Try to parse the input as a decimal (using period as separator)
+                if (decimal.TryParse(newValue, NumberStyles.Any, CultureInfo.InvariantCulture, out parsedValue))
+                {
+                    // Allow the value to pass through if it's valid
+                    e.Cancel = false;
+                }
+                else
+                {
+                    // If the value is invalid (not a number), cancel the edit and show an error message
+                    e.Cancel = true;
+                    //MessageBox.Show("Please enter a valid decimal number.");
+                }
+            }
+        }
+
+        private void jobDGV_KeyPress(object sender, KeyPressEventArgs e)
+        {
+           
+            //    if (!char.IsControl(e.KeyChar)
+            //    && !char.IsDigit(e.KeyChar)
+            //    && e.KeyChar == '.')
+            //{
+            //    e.Handled = true;
+            //}
         }
     }
 }
