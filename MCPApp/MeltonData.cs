@@ -4189,6 +4189,8 @@ namespace MCPApp
             DateTime designDate,
             string designStatus,
             DateTime requiredDate,
+            int detailingDays,
+            string dman,
             string floorlevel,
             string productSupplier,
             string supplierRef,
@@ -4203,12 +4205,14 @@ namespace MCPApp
         {
 
             string insertQry = "INSERT INTO dbo.DesignBoard("
-                    + "jobNo,designDate, designStatus, requiredDate,dateJobCreated, floorlevel, productSupplier, supplierRef, stairsIncluded, salesman, supplyType, slabM2, beamM2, beamLM,sortType, modifiedDate, modifiedBy) "
+                    + "jobNo,designDate, designStatus, requiredDate,detailingDays,dman,floorlevel, productSupplier, supplierRef, stairsIncluded, salesman, supplyType, slabM2, beamM2, beamLM,sortType, modifiedDate, modifiedBy) "
                     + "VALUES("
                     + "@jobNo,"
                     + "@designDate,"
                     + "@designStatus,"
                     + "@requiredDate,"
+                    + "@detailingDays,"
+                    + "@dman,"
                     + "@dateJobCreated,"
                     + "@floorlevel,"
                     + "@productSupplier,"
@@ -4235,12 +4239,14 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("designDate", designDate));
                         command.Parameters.Add(new SqlParameter("designStatus", designStatus));
                         command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
-                        command.Parameters.Add(new SqlParameter("dateJobCreated", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("detailingDays", detailingDays));
+                        command.Parameters.Add(new SqlParameter("dman", dman));
+                        
                         command.Parameters.Add(new SqlParameter("floorlevel", floorlevel));
                         command.Parameters.Add(new SqlParameter("productSupplier", productSupplier));
                         command.Parameters.Add(new SqlParameter("supplierRef", supplierRef));
                         command.Parameters.Add(new SqlParameter("stairsIncluded", stairsIncluded));
-                        command.Parameters.Add(new SqlParameter("salesman", salesman));
+                        command.Parameters.Add(new SqlParameter("salesman", loggedInUser));
                         command.Parameters.Add(new SqlParameter("supplyType", supplyType));
                         command.Parameters.Add(new SqlParameter("slabM2", slabM2));
                         command.Parameters.Add(new SqlParameter("beamM2", beamM2));
@@ -6921,25 +6927,22 @@ namespace MCPApp
             }
         }
 
-        public string UpdateDesignBoardLine(string jobNo, DateTime designDate, string designStatus, string floorlevel, string product, string productSupplier, 
-                                        string supplierRef, string stairsIncluded, string stairsSupplier,string salesman, string supplyType,int slabM2, int beamM2, int beamLM, 
-                                        string wcMonday, string wcTuesday, string wcWednesday, string wcThursday, string wcFriday, string wcSaturday, string wcSunday, 
-                                        DateTime dateJobCreated, string drawingsEmailedFlag,string draughtsman, string completedFlag, string sortType)
+        public string UpdateDesignBoardLine(string jobNo, DateTime designDate, string designStatus, int detailingDays, DateTime requiredDate,string dman,
+                                        string floorlevel, string productSupplier, string supplierRef, string salesman, string supplyType,int slabM2, int beamM2, int beamLM, 
+                                        string wcMonday, string wcTuesday, string wcWednesday, string wcThursday, string wcFriday, string additionalNotes,string sortType)
         {
 
             // string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
             // string custName = GetCustName(custCode);
             string insertQry = "UPDATE dbo.DesignBoard "
-                                //   + "SET requiredDate = @requiredDate,"
-                                + "SET designDate = @designDate,"
-                                // + "custCode = @custCode,"
+                                + "SET requiredDate = @requiredDate,"
+                                + "designDate = @designDate,"
+                                + "detailingDays = @detailingDays,"
                                 + "designStatus = @designStatus,"
+                                + "dman = @dman,"
                                 + "floorlevel = @floorlevel,"
-                                + "product = @product,"
                                 + "productSupplier = @productSupplier,"
                                 + "supplierRef = @supplierRef,"
-                                + "stairsIncluded = @stairsIncluded,"
-                                + "stairsSupplier = @stairsSupplier,"
                                 + "salesman = @salesman,"
                                 + "supplyType = @supplyType,"
                                 + "slabM2 = @slabM2,"
@@ -6950,12 +6953,7 @@ namespace MCPApp
                                 + "wcWednesday = @wcWednesday,"
                                 + "wcThursday = @wcThursday,"
                                 + "wcFriday = @wcFriday,"
-                                + "wcSaturday = @wcSaturday,"
-                                + "wcSunday = @wcSunday,"
-                                + "dateJobCreated = @dateJobCreated,"
-                                + "drawingsEmailedFlag = @drawingsEmailedFlag,"
-                                + "draughtsman = @draughtsman,"
-                                + "completedFlag = @completedFlag,"
+                                + "additionalNotes = @additionalNotes,"
                                 + "sortType = @sortType,"
                                 + "modifiedDate = @modifiedDate,"
                                 + "modifiedBy = @modifiedBy "
@@ -6969,14 +6967,14 @@ namespace MCPApp
                     using (SqlCommand command = new SqlCommand(insertQry, conn))
                     {
                         command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
                         command.Parameters.Add(new SqlParameter("designDate", designDate));
+                        command.Parameters.Add(new SqlParameter("detailingDays", detailingDays));
                         command.Parameters.Add(new SqlParameter("designStatus", designStatus));
+                        command.Parameters.Add(new SqlParameter("dman", dman));
                         command.Parameters.Add(new SqlParameter("floorlevel", floorlevel));
-                        command.Parameters.Add(new SqlParameter("product", product));
                         command.Parameters.Add(new SqlParameter("productSupplier", productSupplier));
                         command.Parameters.Add(new SqlParameter("supplierRef", supplierRef));
-                        command.Parameters.Add(new SqlParameter("stairsIncluded", stairsIncluded)); //
-                        command.Parameters.Add(new SqlParameter("stairsSupplier", stairsSupplier));
                         command.Parameters.Add(new SqlParameter("salesman", salesman));
                         command.Parameters.Add(new SqlParameter("supplyType", supplyType));
                         command.Parameters.Add(new SqlParameter("slabM2", slabM2));
@@ -6987,12 +6985,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("wcWednesday", wcWednesday));
                         command.Parameters.Add(new SqlParameter("wcThursday", wcThursday));
                         command.Parameters.Add(new SqlParameter("wcFriday", wcFriday));
-                        command.Parameters.Add(new SqlParameter("wcSaturday", wcSaturday));
-                        command.Parameters.Add(new SqlParameter("wcSunday", wcSunday));
-                        command.Parameters.Add(new SqlParameter("dateJobCreated", dateJobCreated));
-                        command.Parameters.Add(new SqlParameter("drawingsEmailedFlag", drawingsEmailedFlag));
-                        command.Parameters.Add(new SqlParameter("draughtsman", draughtsman));
-                        command.Parameters.Add(new SqlParameter("completedFlag", completedFlag));
+                        command.Parameters.Add(new SqlParameter("additionalNotes", additionalNotes));
                         command.Parameters.Add(new SqlParameter("sortType", sortType));
                         command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
                         command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));

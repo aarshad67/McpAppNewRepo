@@ -1404,8 +1404,8 @@ namespace MCPApp
             {
                 int beamLM = Convert.ToInt32(jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString());
                 decimal halvedBeamLM = beamLM * 0.5m;
-                int slabM2 = (int)Math.Round(halvedBeamLM, 0);
-                jobDGV[12, e.RowIndex].Value = slabM2;
+                int beamM2 = (int)Math.Round(halvedBeamLM, 0);
+                jobDGV[12, e.RowIndex].Value = beamM2;
                 DisplayTotalBeamM2();
             }
 
