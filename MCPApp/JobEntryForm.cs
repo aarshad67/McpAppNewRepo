@@ -438,7 +438,61 @@ namespace MCPApp
                     
                 }
 
-                
+              //  if (!jobDGV.Focused) { return; }
+
+                string jobNo = jobDGV[2, e.RowIndex].Value.ToString();
+
+                if (e.ColumnIndex == 6)
+                {
+                   // if (jobDGV[0, e.RowIndex].Value == null) { return; }
+                    DateTime designDate = Convert.ToDateTime(jobDGV[5, e.RowIndex].Value.ToString()).Date;
+                    int dow = (int)designDate.DayOfWeek - 1;
+                    string inputStr = jobDGV[0, e.RowIndex].Value == null ? "" : jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString();
+                    int detailDayCount = Convert.ToInt16(inputStr);
+                    if (detailDayCount > 4) { jobDGV[e.ColumnIndex, e.RowIndex].Value = ""; return; }
+                    string warning = $"Design Date for Job [{jobNo}] CANNOT go beyond the end of the working week";
+                    switch (dow)
+                    {
+                        case 0: // mon
+                            break;
+                        case 1: // tues
+                            if (detailDayCount > 4)
+                            {
+                                MessageBox.Show(warning);
+                                jobDGV[e.ColumnIndex, e.RowIndex].Value = "";
+                                return;
+                            }
+                            break;
+                        case 2: //wed
+                            if (detailDayCount > 3)
+                            {
+                                MessageBox.Show(warning);
+                                jobDGV[e.ColumnIndex, e.RowIndex].Value = "";
+                                return;
+                            }
+                            break;
+                        case 3: //thu
+                            if (detailDayCount > 2)
+                            {
+                                MessageBox.Show(warning);
+                                jobDGV[e.ColumnIndex, e.RowIndex].Value = "";
+                                return;
+                            }
+                            break;
+                        case 4: // fri
+                            if (detailDayCount > 1)
+                            {
+                                MessageBox.Show(warning);
+                                jobDGV[e.ColumnIndex, e.RowIndex].Value = "";
+                                return;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+
 
                 if (e.ColumnIndex == 11) //BeamLM
                 {
@@ -745,7 +799,7 @@ namespace MCPApp
 
                     if (!mcData.IsDesignBoardJobExists(jobNo))
                     {
-                        dbErr = mcData.CreateDesignBoardJob(jobNo, designDate, "NOT DRAWN", requiredDate, detailingDays, dman, floorLevel, shortname, supplierRef, stairsIncl, supplyType, "", slabM2, beamM2, beamLm, sortType);
+                        dbErr = mcData.CreateDesignBoardJob(jobNo, designDate, "NOT DRAWN", requiredDate, detailingDays, dman, floorLevel, shortname, supplierRef, supplyType, slabM2, beamM2, beamLm, sortType);
                         if (dbErr != "OK")
                         {
                             MessageBox.Show(String.Format("CreateDesignBoardJob ERROR ( Job {0} ) : {1}", jobNo, dbErr));
@@ -877,7 +931,7 @@ namespace MCPApp
 
                     if(!mcData.IsDesignBoardJobExists(jobNo))
                     {
-                        dbErr = mcData.CreateDesignBoardJob(jobNo, designDate, "NOT DRAWN", requiredDate, detailingDays,dman, floorLevel, shortname, supplierRef, stairsIncl, supplyType, "", slabM2, beamM2, beamLm, sortType);
+                        dbErr = mcData.CreateDesignBoardJob(jobNo, designDate, "NOT DRAWN", requiredDate, detailingDays,dman, floorLevel, shortname, supplierRef, supplyType, slabM2, beamM2, beamLm, sortType);
                         if (dbErr != "OK")
                         {
                             MessageBox.Show(String.Format("CreateDesignBoardJob ERROR ( Job {0} ) : {1}", jobNo, dbErr));

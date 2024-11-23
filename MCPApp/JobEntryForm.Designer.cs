@@ -87,10 +87,9 @@
             // 
             // custCodeTextBox
             // 
-            this.custCodeTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.custCodeTextBox.Enabled = false;
             this.custCodeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.custCodeTextBox.Location = new System.Drawing.Point(1568, 26);
+            this.custCodeTextBox.Location = new System.Drawing.Point(1578, 26);
             this.custCodeTextBox.MaxLength = 30;
             this.custCodeTextBox.Name = "custCodeTextBox";
             this.custCodeTextBox.Size = new System.Drawing.Size(328, 35);
@@ -108,10 +107,9 @@
             // 
             // contactTelTextBox
             // 
-            this.contactTelTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.contactTelTextBox.Enabled = false;
             this.contactTelTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.contactTelTextBox.Location = new System.Drawing.Point(1568, 128);
+            this.contactTelTextBox.Location = new System.Drawing.Point(1578, 108);
             this.contactTelTextBox.Name = "contactTelTextBox";
             this.contactTelTextBox.Size = new System.Drawing.Size(327, 35);
             this.contactTelTextBox.TabIndex = 110;
@@ -119,7 +117,7 @@
             // label7
             // 
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(1362, 128);
+            this.label7.Location = new System.Drawing.Point(1362, 108);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(200, 35);
             this.label7.TabIndex = 115;
@@ -128,10 +126,9 @@
             // 
             // contactEmailTextBox
             // 
-            this.contactEmailTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.contactEmailTextBox.Enabled = false;
             this.contactEmailTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.contactEmailTextBox.Location = new System.Drawing.Point(1568, 174);
+            this.contactEmailTextBox.Location = new System.Drawing.Point(1578, 149);
             this.contactEmailTextBox.Name = "contactEmailTextBox";
             this.contactEmailTextBox.Size = new System.Drawing.Size(326, 35);
             this.contactEmailTextBox.TabIndex = 111;
@@ -139,7 +136,7 @@
             // label6
             // 
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(1362, 174);
+            this.label6.Location = new System.Drawing.Point(1362, 149);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(200, 35);
             this.label6.TabIndex = 114;
@@ -148,10 +145,9 @@
             // 
             // siteContactTextBox
             // 
-            this.siteContactTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.siteContactTextBox.Enabled = false;
             this.siteContactTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.siteContactTextBox.Location = new System.Drawing.Point(1568, 83);
+            this.siteContactTextBox.Location = new System.Drawing.Point(1578, 67);
             this.siteContactTextBox.MaxLength = 30;
             this.siteContactTextBox.Name = "siteContactTextBox";
             this.siteContactTextBox.Size = new System.Drawing.Size(328, 35);
@@ -160,7 +156,7 @@
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(1362, 83);
+            this.label2.Location = new System.Drawing.Point(1362, 61);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(200, 35);
             this.label2.TabIndex = 113;
@@ -200,15 +196,12 @@
             // 
             // jobDGV
             // 
-            this.jobDGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.jobDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.jobDGV.Location = new System.Drawing.Point(47, 246);
+            this.jobDGV.Location = new System.Drawing.Point(23, 246);
             this.jobDGV.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.jobDGV.Name = "jobDGV";
             this.jobDGV.RowHeadersWidth = 62;
-            this.jobDGV.Size = new System.Drawing.Size(1864, 463);
+            this.jobDGV.Size = new System.Drawing.Size(2228, 707);
             this.jobDGV.TabIndex = 120;
             this.jobDGV.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.jobDGV_CellBeginEdit);
             this.jobDGV.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.jobDGV_CellContentClick);
@@ -220,11 +213,10 @@
             // 
             // cancelButton
             // 
-            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cancelButton.BackColor = System.Drawing.Color.Red;
             this.cancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelButton.ForeColor = System.Drawing.Color.White;
-            this.cancelButton.Location = new System.Drawing.Point(48, 717);
+            this.cancelButton.Location = new System.Drawing.Point(23, 961);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(262, 69);
             this.cancelButton.TabIndex = 121;
@@ -234,9 +226,8 @@
             // 
             // createJobBtn
             // 
-            this.createJobBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.createJobBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.createJobBtn.Location = new System.Drawing.Point(1614, 717);
+            this.createJobBtn.Location = new System.Drawing.Point(306, 961);
             this.createJobBtn.Name = "createJobBtn";
             this.createJobBtn.Size = new System.Drawing.Size(298, 69);
             this.createJobBtn.TabIndex = 122;
@@ -275,7 +266,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1924, 812);
+            this.ClientSize = new System.Drawing.Size(2280, 1060);
             this.ControlBox = false;
             this.Controls.Add(this.label8);
             this.Controls.Add(this.createJobBtn);
@@ -299,6 +290,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "JobEntryForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "JobEntryForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.JobEntryForm_Load);

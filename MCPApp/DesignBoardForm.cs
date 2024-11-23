@@ -135,7 +135,59 @@ namespace MCPApp
 
         private void dbDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            return;
+            if (!dbDataGridView.Focused) { return; }
+
+            string jobNo = dbDataGridView[0, e.RowIndex].Value.ToString();
+
+            if (e.ColumnIndex == 2)
+            {
+                if (dbDataGridView[0, e.RowIndex].Value == null) { return; }
+                DateTime designDate = Convert.ToDateTime(dbDataGridView[1, e.RowIndex].Value.ToString()).Date;
+                int dow = (int)designDate.DayOfWeek - 1;
+                string inputStr = dbDataGridView[0, e.RowIndex].Value == null ? "" : dbDataGridView[e.ColumnIndex, e.RowIndex].Value.ToString();
+                int detailDayCount = Convert.ToInt16(inputStr);
+                if(detailDayCount > 4) { dbDataGridView[e.ColumnIndex, e.RowIndex].Value = "";  return; }
+                string warning = $"Design Date for Job [{jobNo}] CANNOT go beyond the end of the working week";
+                switch (dow)
+                {
+                    case 0: // mon
+                        break;
+                    case 1: // tues
+                        if (detailDayCount > 4)
+                        {
+                            MessageBox.Show(warning);
+                            dbDataGridView[e.ColumnIndex, e.RowIndex].Value = "";
+                            return;
+                        }
+                            break;
+                    case 2: //wed
+                        if (detailDayCount > 3)
+                        {
+                            MessageBox.Show(warning);
+                            dbDataGridView[e.ColumnIndex, e.RowIndex].Value = "";
+                            return;
+                        }
+                        break;
+                    case 3: //thu
+                        if (detailDayCount > 2)
+                        {
+                            MessageBox.Show(warning);
+                            dbDataGridView[e.ColumnIndex, e.RowIndex].Value = "";
+                            return;
+                        }
+                        break;
+                    case 4: // fri
+                        if (detailDayCount > 1)
+                        {
+                            MessageBox.Show(warning);
+                            dbDataGridView[e.ColumnIndex, e.RowIndex].Value = "";
+                            return;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         private void dbDataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -182,7 +234,48 @@ namespace MCPApp
             }
         }
 
-        private void PopulateDesignBoardDGV(DataGridView myDGV, DateTime myStartDate, DateTime myEndDate)
+        public void GetDesignDayColourFlags(DateTime dwcdate, int detailDaysCount, DateTime dsgnDate,
+            out bool isMonYellow, out bool IsTueYellow, out bool IsWedYellow, out bool IsThuYellow, out bool IsFriYellow)
+        {
+            string error;
+            int dayCount = 0;
+            isMonYellow = false;
+            IsTueYellow = false;
+            IsWedYellow = false;
+            IsThuYellow = false;
+            IsFriYellow = false;
+
+
+            int weekDayNo = (int)dsgnDate.DayOfWeek;
+            if(weekDayNo > 0)
+            {
+                if(detailDaysCount > 5)
+                switch (weekDayNo)
+                {
+                    case 1:
+                        dayCount = (detailDaysCount + weekDayNo) - 1;
+
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    default:
+                        break;
+                }
+                
+            }
+
+            return;
+
+        }
+    
+
+    private void PopulateDesignBoardDGV(DataGridView myDGV, DateTime myStartDate, DateTime myEndDate)
         {
             int row = 0;
 
@@ -210,6 +303,11 @@ namespace MCPApp
             string jobNo = "";
             string dateCreated = "";
             string designStatus = "";
+            string detailingDays = "";
+            int designDateDayNo = 0;
+            int daysDiff = 0;
+            DateTime dateJobCreated;
+            DateTime ddate;
 
             this.Cursor = Cursors.WaitCursor;
             DataTable dt = mcData.GeDesignboardByDateRangeDT(myStartDate, myEndDate);
@@ -229,19 +327,32 @@ namespace MCPApp
 
             foreach (DataRow dr in dt.Rows)
             {
-
+                
                 jobNo = dr["jobNo"].ToString();
                 productSupplier = dr["productSupplier"].ToString();
                // stairsSupplier = dr["stairsSupplier"].ToString();
                 designStatus = dr["designStatus"].ToString();
                 if (!mcData.IsDesignBoardJobExists(jobNo)) { continue; }
-                designDateStr = Convert.ToDateTime(dr["designDate"].ToString()).DayOfWeek.ToString().ToUpper().Substring(0, 3);
+                ddate = Convert.ToDateTime(dr["designDate"].ToString());
+                designDateStr = ddate.DayOfWeek.ToString().ToUpper().Substring(0, 3);
+                designDateDayNo = (int)Convert.ToDateTime(dr["designDate"].ToString()).DayOfWeek;
                 dateStr = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().ToUpper().Substring(0, 3);
                 custName = mcData.GetCustomerNameByJobNo(jobNo);
                 siteAddr = mcData.GetSiteAddressFromJobNo(jobNo);
                 mcData.GetSupplierColourByShortname(productSupplier, out rgb1, out rgb2, out rgb3);
+                if (designStatus.ToUpper().Contains("APPROVED") || designStatus.ToUpper() == "ON SHOP")
+                {
+                    daysDiff = 0;
+                }
+                else
+                {
+                    dateJobCreated = mcData.GetJobCreatedDateByJobNo(jobNo);
+                    daysDiff = mcData.GetDaysDiffBetweenTwDates(dateJobCreated.Date);
+                }
+                detailingDays = dr["detailingDays"] == null ? "" : dr["detailingDays"].ToString();
+                
                 //mcData.GetSupplierColourByShortname(stairsSupplier, out srgb1, out srgb2, out srgb3);
-            //    dateCreated = mcData.GetJobCreatedDate(jobNo).ToString("dd/MMM/yyyy hh:mm tt");
+                //    dateCreated = mcData.GetJobCreatedDate(jobNo).ToString("dd/MMM/yyyy hh:mm tt");
 
                 monFlag = dateStr.Substring(0, 3).ToUpper() == "MON" ? "Y" : String.Empty;
                 tueFlag = dateStr.Substring(0, 3).ToUpper() == "TUE" ? "Y" : String.Empty;
@@ -255,10 +366,10 @@ namespace MCPApp
                 drow.CreateCells(myDGV);
                 drow.Cells[0].Value = dr["jobNo"].ToString();
                 drow.Cells[1].Value = Convert.ToDateTime(dr["designDate"].ToString()).ToShortDateString();
-                drow.Cells[2].Value = Convert.ToInt32(dr["detailingDays"].ToString());
+                drow.Cells[2].Value = detailingDays;
                 drow.Cells[3].Value = dr["designStatus"].ToString();
                 drow.Cells[3].Style.ForeColor = designStatus.Contains("NOT DRAWN") ? Color.Black : Color.Red;
-                drow.Cells[4].Value = dr["designStatus"].ToString().Contains("APPROVED") || dr["designStatus"].ToString() == "ON SHOP" ? 0 : mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["dateJobCreated"].ToString()));
+                drow.Cells[4].Value = daysDiff.ToString();
                 drow.Cells[5].Value = dr["dman"].ToString();
                 drow.Cells[6].Value = dr["salesman"].ToString();
                 drow.Cells[7].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString(); ;
@@ -349,12 +460,15 @@ namespace MCPApp
                 designDateColumn.DefaultCellStyle.ForeColor = Color.Blue;
                 dbDataGridView.Columns.Add(designDateColumn);
 
+                
+
                 //2
                 DataGridViewTextBoxColumn detailingDaysColumn = new DataGridViewTextBoxColumn();
                 detailingDaysColumn.DataPropertyName = "detailingDays";
                 detailingDaysColumn.HeaderText = "Detail Days";
                 detailingDaysColumn.Width = 60;
                 detailingDaysColumn.ReadOnly = false;
+                detailingDaysColumn.Frozen = true;
                 dbDataGridView.Columns.Add(detailingDaysColumn);
 
                 //3
@@ -381,6 +495,8 @@ namespace MCPApp
                 designerColumn.DataSource = designerBindngSource;
                 designerColumn.ValueMember = "designer";
                 designerColumn.DisplayMember = "designer";
+                designerColumn.ReadOnly = false;
+                designerColumn.Frozen = true;
                 dbDataGridView.Columns.Add(designerColumn);
 
                 //6
@@ -396,7 +512,7 @@ namespace MCPApp
                 reqDateColumn.HeaderText = "Req Date (Right Click)";
                 reqDateColumn.Width = 80;
                 reqDateColumn.ReadOnly = true;
-                reqDateColumn.Frozen = true;
+             //   reqDateColumn.Frozen = true;
                 reqDateColumn.DefaultCellStyle.ForeColor = Color.Blue;
                 dbDataGridView.Columns.Add(reqDateColumn);
 
@@ -405,7 +521,7 @@ namespace MCPApp
                 custColumn.DataPropertyName = "CustName";
                 custColumn.HeaderText = "Customer";
                 custColumn.Width = 150;
-                custColumn.Frozen = true;
+              //  custColumn.Frozen = true;
                 custColumn.ReadOnly = true;
                 dbDataGridView.Columns.Add(custColumn);
 
@@ -414,7 +530,7 @@ namespace MCPApp
                 siteColumn.DataPropertyName = "site";
                 siteColumn.HeaderText = "Site Address";
                 siteColumn.Width = 250;
-                siteColumn.Frozen = true;
+             //   siteColumn.Frozen = true;
                 siteColumn.ReadOnly = true;
                 siteColumn.DefaultCellStyle.WrapMode = DataGridViewTriState.False;
                 dbDataGridView.Columns.Add(siteColumn);
@@ -893,8 +1009,9 @@ namespace MCPApp
                                         wcMonday, wcTuesday, wcWednesday, wcThursday, wcFriday,additionalNotes,sortType);
                 if (err == "OK")
                 {
-                    string err1 = mcData.UpdateJobPlannerFromDesignBoardJob(jobNo, designDate, requiredDate, stairsIncluded, productSupplier);
-                    string err2 = mcData.UpdateWhiteBoardFromDesignBoardJob(jobNo, requiredDate,supplyType, product, productSupplier, stairsIncluded, stairsSupplier, drawingsEmailedFlag, draughtsman, salesman);
+                    string jpDesignStatus = mcData.GetJobPlannerStatusFromDesignerJob(jobNo);
+                    string err1 = mcData.UpdateJobPlannerFromDesignBoardJob(jobNo, designDate, jpDesignStatus, requiredDate);
+                    string err2 = mcData.UpdateWhiteBoardFromDesignBoardJob(jobNo, requiredDate,supplyType, productSupplier, dman, salesman);
                     MessageBox.Show("Design Board JobNo[" + jobNo + "] line saved successfully");
                     return;
                 }
@@ -927,7 +1044,7 @@ namespace MCPApp
             form.ShowDialog();
             if(!String.IsNullOrWhiteSpace(form.Status))
             {
-                dbDataGridView[2, rowIndex].Value = form.Status;
+                dbDataGridView[3, rowIndex].Value = form.Status;
                 string err = mcData.UpdateDesignStatus(jobNo, form.Status);
             }
             return;
@@ -983,6 +1100,11 @@ namespace MCPApp
                 }
             }
 
+
+        }
+
+        private void statusContextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
 
         }
     }

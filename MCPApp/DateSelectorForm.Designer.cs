@@ -39,7 +39,8 @@
             this.mcCalendar.BackColor = System.Drawing.Color.White;
             this.mcCalendar.CalendarDimensions = new System.Drawing.Size(4, 3);
             this.mcCalendar.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mcCalendar.Location = new System.Drawing.Point(6, 10);
+            this.mcCalendar.Location = new System.Drawing.Point(10, 4);
+            this.mcCalendar.Margin = new System.Windows.Forms.Padding(14, 14, 14, 14);
             this.mcCalendar.Name = "mcCalendar";
             this.mcCalendar.ShowWeekNumbers = true;
             this.mcCalendar.TabIndex = 1;
@@ -51,10 +52,9 @@
             this.cancelButton.BackColor = System.Drawing.Color.Red;
             this.cancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelButton.ForeColor = System.Drawing.Color.White;
-            this.cancelButton.Location = new System.Drawing.Point(21, 459);
-            this.cancelButton.Margin = new System.Windows.Forms.Padding(2);
+            this.cancelButton.Location = new System.Drawing.Point(29, 729);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(175, 33);
+            this.cancelButton.Size = new System.Drawing.Size(262, 51);
             this.cancelButton.TabIndex = 122;
             this.cancelButton.Text = "CANCEL";
             this.cancelButton.UseVisualStyleBackColor = false;
@@ -63,10 +63,9 @@
             // selectBtn
             // 
             this.selectBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.selectBtn.Location = new System.Drawing.Point(795, 458);
-            this.selectBtn.Margin = new System.Windows.Forms.Padding(2);
+            this.selectBtn.Location = new System.Drawing.Point(1070, 725);
             this.selectBtn.Name = "selectBtn";
-            this.selectBtn.Size = new System.Drawing.Size(199, 34);
+            this.selectBtn.Size = new System.Drawing.Size(298, 52);
             this.selectBtn.TabIndex = 123;
             this.selectBtn.Text = "SELECT DATE";
             this.selectBtn.UseVisualStyleBackColor = true;
@@ -74,15 +73,18 @@
             // 
             // DateSelectorForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1018, 503);
+            this.ClientSize = new System.Drawing.Size(1515, 813);
             this.Controls.Add(this.selectBtn);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.mcCalendar);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "DateSelectorForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DateSelectorForm";
             this.Load += new System.EventHandler(this.DateSelectorForm_Load);
             this.ResumeLayout(false);

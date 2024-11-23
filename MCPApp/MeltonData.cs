@@ -1945,6 +1945,52 @@ namespace MCPApp
 
         #region Jobs
 
+        public string GetJobPlannerStatusFromDesignerJob(string jobNo)
+        {
+            string designStatus = "";
+            string jpDesignStatus = "";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(String.Format("SELECT designStatus FROM dbo.DesignBoad WHERE jobNo = '{0}'", jobNo), conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                designStatus = reader["designStatus"] == DBNull.Value ? "" : reader["designStatus"].ToString();
+                            }
+                        }
+                    }
+                    if (designStatus == "ON SHOP")
+                    {
+                        jpDesignStatus = "OnShop";
+                    }
+                    else if(designStatus.Contains("APPROVED"))
+                    {
+                        jpDesignStatus = "Approved";
+                    }
+                    else
+                    {
+                        jpDesignStatus = "";
+                    }
+
+                    return jpDesignStatus;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetSuppShortnameFromJob() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("GetSuppShortnameFromJob({0})", jobNo), ex.Message.ToString());
+                    return jpDesignStatus;
+                }
+
+            }
+        }
+
         public DataTable GetOutOfSyncDateJobsDT()
         {
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -4194,9 +4240,9 @@ namespace MCPApp
             string floorlevel,
             string productSupplier,
             string supplierRef,
-            string stairsIncluded,
+            
             string supplyType,
-            string salesman,
+            
             int slabM2, 
             int beamM2, 
             int beamLM,
@@ -4205,7 +4251,7 @@ namespace MCPApp
         {
 
             string insertQry = "INSERT INTO dbo.DesignBoard("
-                    + "jobNo,designDate, designStatus, requiredDate,detailingDays,dman,floorlevel, productSupplier, supplierRef, stairsIncluded, salesman, supplyType, slabM2, beamM2, beamLM,sortType, modifiedDate, modifiedBy) "
+                    + "jobNo,designDate, designStatus, requiredDate,detailingDays,dman,floorlevel, productSupplier, supplierRef, supplyType, slabM2, beamM2, beamLM,sortType, modifiedDate, modifiedBy) "
                     + "VALUES("
                     + "@jobNo,"
                     + "@designDate,"
@@ -4213,12 +4259,11 @@ namespace MCPApp
                     + "@requiredDate,"
                     + "@detailingDays,"
                     + "@dman,"
-                    + "@dateJobCreated,"
+                    
                     + "@floorlevel,"
                     + "@productSupplier,"
                     + "@supplierRef,"
-                    + "@stairsIncluded,"
-                    + "@salesman,"
+                   
                     + "@supplyType,"
                     + "@slabM2,"
                     + "@beamM2,"
@@ -4245,8 +4290,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("floorlevel", floorlevel));
                         command.Parameters.Add(new SqlParameter("productSupplier", productSupplier));
                         command.Parameters.Add(new SqlParameter("supplierRef", supplierRef));
-                        command.Parameters.Add(new SqlParameter("stairsIncluded", stairsIncluded));
-                        command.Parameters.Add(new SqlParameter("salesman", loggedInUser));
+                       
                         command.Parameters.Add(new SqlParameter("supplyType", supplyType));
                         command.Parameters.Add(new SqlParameter("slabM2", slabM2));
                         command.Parameters.Add(new SqlParameter("beamM2", beamM2));
@@ -4506,13 +4550,32 @@ namespace MCPApp
             }
         }
 
-        public string UpdateJobPlannerFromDesignBoardJob(string jobNo,DateTime designDate, DateTime requiredDate, string stairsIncl, string productSupplier)
+        public string UpdateJobPlannerFromDesignBoardJob(string jobNo,DateTime designDate, string designStatus,DateTime requiredDate)
         {
+            string approvedFlag = "";
+            string onShopFlag = "";
+
+            if (designStatus.ToUpper() == "ONSHOP")
+            {
+                approvedFlag = "Y";
+                onShopFlag = "Y";
+            }
+            else if(designStatus.ToUpper() == "APPROVED")
+            {
+                approvedFlag = "Y";
+                onShopFlag = "N";
+            }
+            else
+            {
+                approvedFlag = "";
+                onShopFlag = "";
+            }
+
             string updateQry = "UPDATE dbo.JobPlanner "
                                 + "SET designDate = @designDate,"
+                                + "Approved = @approvedFlag,"
+                                + "OnShop = @onShopFlag,"
                                 + "requiredDate = @requiredDate,"
-                                + "stairsIncl = @stairsIncl,"
-                                + "productSupplier = @productSupplier,"
                                 + "modifiedDate = @modifiedDate,"
                                 + "modifiedBy = @modifiedBy "
                                 + "WHERE LEFT(jobNo,8) = @jobNo";
@@ -4528,8 +4591,8 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("jobNo", jobNo.Substring(0, 8)));
                         command.Parameters.Add(new SqlParameter("designDate", designDate));
                         command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
-                        command.Parameters.Add(new SqlParameter("stairsIncl", stairsIncl));
-                        command.Parameters.Add(new SqlParameter("productSupplier", productSupplier));
+                        command.Parameters.Add(new SqlParameter("approvedFlag", approvedFlag));
+                        command.Parameters.Add(new SqlParameter("onShopFlag", onShopFlag));
                         command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
                         command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
                         command.ExecuteNonQuery();
@@ -7359,17 +7422,12 @@ namespace MCPApp
             }
         }
 
-        public string UpdateWhiteBoardFromDesignBoardJob(string jobNo, DateTime requiredDate,string supplyType, string products, string suppShortname,string stairsIncl,
-            string stairsSupplier, string drawingsEmailedFlag, string draughtsman,string salesman)
+        public string UpdateWhiteBoardFromDesignBoardJob(string jobNo, DateTime requiredDate,string supplyType, string suppShortname,string draughtsman,string salesman)
         {
             string updateQry = "UPDATE dbo.WhiteBoard "
                                 + "SET supplyType = @supplyType,"
                                 + "requiredDate = @requiredDate,"
-                                + "products = @products,"
                                 + "suppShortname = @suppShortname,"
-                                + "stairsIncl = @stairsIncl,"
-                                + "stairsSupplier = @stairsSupplier,"
-                                + "drawingsEmailedFlag = @drawingsEmailedFlag,"
                                 + "draughtsman = @draughtsman,"
                                 + "salesman = @salesman,"
                                 + "modifiedDate = @modifiedDate,"
@@ -7387,11 +7445,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("jobNo", jobNo.Substring(0, 8)));
                         command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
                         command.Parameters.Add(new SqlParameter("supplyType", supplyType));
-                        command.Parameters.Add(new SqlParameter("products", products));
                         command.Parameters.Add(new SqlParameter("suppShortname", suppShortname));
-                        command.Parameters.Add(new SqlParameter("stairsIncl", stairsIncl));
-                        command.Parameters.Add(new SqlParameter("stairsSupplier", stairsSupplier));
-                        command.Parameters.Add(new SqlParameter("drawingsEmailedFlag", drawingsEmailedFlag));
                         command.Parameters.Add(new SqlParameter("draughtsman", draughtsman));
                         command.Parameters.Add(new SqlParameter("salesman", salesman));
                         command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));

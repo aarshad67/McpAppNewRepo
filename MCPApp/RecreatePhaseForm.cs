@@ -96,7 +96,7 @@ namespace MCPApp
             if (!mcData.IsDesignBoardJobExists(nextJobNo))
             {
                 //jobNo,designDate, designStatus, requiredDate, floorlevel, suppShortname, supplierRef, stairsIncluded, salesman, supplyType, slabM2, beamM2, beamLM
-                dbErr = mcData.CreateDesignBoardJob(nextJobNo, DateTime.Now.AddYears(1), "NOT DRAWN", DateTime.Now.AddYears(1), "", "", "", "N", "", "", 0, 0, 0, "");
+                dbErr = mcData.CreateDesignBoardJob(nextJobNo, DateTime.Now.AddYears(1), "NOT DRAWN", DateTime.Now.AddYears(1),0, "", "", "", "", "", 0, 0, 0, "");
             }
             if (err == "OK" && wbErr == "OK" && dbErr == "OK")
             {

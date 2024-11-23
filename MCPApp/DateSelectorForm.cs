@@ -38,6 +38,7 @@ namespace MCPApp
         private void DateSelectorForm_Load(object sender, EventArgs e)
         {
             this.Text = "Select REQUIRED/DELIVERY date";
+            mcCalendar.CalendarDimensions = new System.Drawing.Size(4, 3);
             mcCalendar.MaxSelectionCount = 1;
             mcCalendar.SetDate(requiredDate);
         }

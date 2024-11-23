@@ -158,7 +158,8 @@ namespace MCPApp
             this.statusContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectDesignStatusToolStripMenuItem});
             this.statusContextMenuStrip1.Name = "statusContextMenuStrip1";
-            this.statusContextMenuStrip1.Size = new System.Drawing.Size(244, 36);
+            this.statusContextMenuStrip1.Size = new System.Drawing.Size(244, 69);
+            this.statusContextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.statusContextMenuStrip1_Opening);
             // 
             // selectDesignStatusToolStripMenuItem
             // 
