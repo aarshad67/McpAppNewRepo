@@ -229,6 +229,7 @@ namespace MCPApp
                 designerColumn.DataSource = designerBindingSource;
                 designerColumn.ValueMember = "designer";
                 designerColumn.DisplayMember = "designer";
+                designerColumn.ReadOnly = false;
                 jobDGV.Columns.Add(designerColumn);
 
 
@@ -1391,13 +1392,17 @@ namespace MCPApp
 
             }
 
-
+            if (e.ColumnIndex == 6) // designer
+            {
+                string designer = jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString();
+            }
 
             if (e.ColumnIndex != 10 && e.ColumnIndex != 11 && e.ColumnIndex != 12 && e.ColumnIndex != 16 && e.ColumnIndex != 17) { return; }
 
             if (e.ColumnIndex == 10)
             {
                 DisplayTotalSlabM2();
+                //return;
             }
 
             if (e.ColumnIndex == 11) //BeamLM
@@ -1407,12 +1412,14 @@ namespace MCPApp
                 int beamM2 = (int)Math.Round(halvedBeamLM, 0);
                 jobDGV[12, e.RowIndex].Value = beamM2;
                 DisplayTotalBeamM2();
+                //return;
             }
 
             if (e.ColumnIndex == 12)
             {
                 
                 DisplayTotalBeamM2();
+           //     return;
             }
 
             if (e.ColumnIndex == 16)
@@ -1431,6 +1438,7 @@ namespace MCPApp
                     this.jobDGV.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = parsedValue.ToString("F2");
                 }
                 DisplayTotalInvValue();
+              //  return;
             }
 
             if(e.ColumnIndex == 17)
@@ -1449,6 +1457,7 @@ namespace MCPApp
                     this.jobDGV.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = parsedValue.ToString("F2");
                 }
                 DisplayTotalJobMgnValue();
+              //  return;
             }
 
             if (mcData.IsJobLockExist("JP", jobNo, "jobDGV_CellEndEdit", loggedInUser)) { return; }
@@ -1460,6 +1469,8 @@ namespace MCPApp
         {
             if (!jobDGV.Focused) { return; }
             e.Control.KeyPress -= new KeyPressEventHandler(Column1_KeyPress);
+
+            string jobNo = jobDGV[jobDGV.CurrentCell.ColumnIndex, jobDGV.CurrentCell.RowIndex].Value.ToString();
             if (jobDGV.CurrentCell.ColumnIndex == 10 || jobDGV.CurrentCell.ColumnIndex == 11 || jobDGV.CurrentCell.ColumnIndex == 12 || jobDGV.CurrentCell.ColumnIndex == 16 || jobDGV.CurrentCell.ColumnIndex == 17) //Desired Column
             {
                 TextBox tb = e.Control as TextBox;
@@ -1467,7 +1478,27 @@ namespace MCPApp
                 {
                     tb.KeyPress += new KeyPressEventHandler(Column1_KeyPress);
                 }
+                return;
             }
+
+            if (jobDGV.CurrentCell.ColumnIndex == 6) // designer
+            {
+                ComboBox combo = e.Control as ComboBox;
+                if (combo != null)
+                {
+                    combo.SelectedIndexChanged -=
+            new EventHandler(ComboBox_SelectedIndexChanged);
+
+                    // Add the event handler. 
+                    combo.SelectedIndexChanged +=
+                        new EventHandler(ComboBox_SelectedIndexChanged);
+                }
+            }
+        }
+
+        private void ComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           // string designer = 
         }
 
         private void Column1_KeyPress(object sender, KeyPressEventArgs e)
@@ -1527,10 +1558,11 @@ namespace MCPApp
             string custName = mcData.GetCustName(customerCode);
             string err = "OK"; // initialised to "OK" so that whether WB job exists or not we ca get past check and populate DGV
             string wbErr = "OK"; // initialised to "OK" so that whether WB job exists or not we ca get past check and populate DGV
+            string dbErr = "OK";
 
             if (!mcData.IsJobExists(nextJobNo))
             {
-                err = mcData.CreateJobPlanner(parentJob, nextJobNo, nextJobNo.Substring(6, 2), "", DateTime.Now.AddYears(1), DateTime.Now.AddYears(1), siteAddress, "N", "N", "N", 0, 0, 0, "", "", "", "", 0,0, "");
+                err = mcData.CreateJobPlanner(parentJob, nextJobNo, nextJobNo.Substring(6, 2), "", DateTime.Now.AddYears(1), DateTime.Now.AddYears(1), siteAddress, "N", "N", "N", 0, 0, 0, "", "", "", "", 0,0, "","");
             }
 
             if (!mcData.IsWhiteboardJobExists(nextJobNo))
@@ -1539,10 +1571,16 @@ namespace MCPApp
 
                 "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
             }
+
+            if(!mcData.IsDesignBoardJobExists(nextJobNo))
+            {
+                dbErr = mcData.CreateDesignBoardJob(nextJobNo, DateTime.Now.AddYears(1), "NOT DRAWN", DateTime.Now.AddYears(1), 1, "", "", "", "", "", 0, 0, 0, "");
+            }
+
             this.Cursor = Cursors.Default;
 
 
-            if (err == "OK" && wbErr == "OK")
+            if (err == "OK" && wbErr == "OK" && dbErr == "OK")
             {
                 this.Cursor = Cursors.WaitCursor;
                 if (sourceDT != null)
@@ -3352,7 +3390,16 @@ namespace MCPApp
         private void jobDGV_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (!jobDGV.Focused) { return; }
+
+
+            
             string jobNo = jobDGV[0, e.RowIndex].Value.ToString();
+
+            if (e.ColumnIndex == 6) // designer
+            {
+                string designer = jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString();
+            }
+
             string response = mcData.GetJobLockedUser(jobNo, "JP");
             if (!response.Equals("n/a") && !response.Equals(loggedInUser))
             {

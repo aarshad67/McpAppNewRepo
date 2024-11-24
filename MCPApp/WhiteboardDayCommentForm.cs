@@ -13,6 +13,8 @@ namespace MCPApp
     public partial class WhiteboardDayCommentForm : Form
     {
         MeltonData mcData = new MeltonData();
+        private string _source = "";
+        private string _addNote = "";
         private string dayComment = "";
         public string DayComment
         {
@@ -33,6 +35,14 @@ namespace MCPApp
             InitializeComponent();
         }
 
+        public WhiteboardDayCommentForm(string job, string addNote, string source)
+        {
+            InitializeComponent();
+            jobNo = job;
+            _source = "DB"; // designboard
+            _addNote = addNote;
+        }
+
         public WhiteboardDayCommentForm(string job,DateTime date,string comment)
         {
             InitializeComponent();
@@ -43,8 +53,17 @@ namespace MCPApp
 
         private void WhiteboardDayCommentForm_Load(object sender, EventArgs e)
         {
-            this.Text = String.Format("Add comment to job no.{0} on day [{1}, {2}]", jobNo, requiredDate.DayOfWeek.ToString().ToUpper(), requiredDate.ToShortDateString());
-            commentTextBox.Text = dayComment != "N/A" ? dayComment : String.Empty;
+            if(_source == "DB")
+            {
+                this.Text = $"Add/Edit Additional Design Board Job Notes for Job [{jobNo}]";
+                commentTextBox.Text = _addNote;
+            }
+            else
+            {
+                this.Text = String.Format("Add comment to job no.{0} on day [{1}, {2}]", jobNo, requiredDate.DayOfWeek.ToString().ToUpper(), requiredDate.ToShortDateString());
+                commentTextBox.Text = dayComment != "N/A" ? dayComment : String.Empty;
+            }
+            
           //  FillFixersCombo();
         }
 

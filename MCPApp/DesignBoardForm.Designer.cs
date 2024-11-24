@@ -46,12 +46,15 @@ namespace MCPApp
             this.dateChangeContextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.canToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
+            this.AdditionalCommentContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.AddAdditionalCommentMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.supplierContextMenuStrip.SuspendLayout();
             this.productContextMenuStrip.SuspendLayout();
             this.wbDailyContextMenuStrip1.SuspendLayout();
             this.jobContextMenuStrip1.SuspendLayout();
             this.statusContextMenuStrip1.SuspendLayout();
             this.dateChangeContextMenuStrip1.SuspendLayout();
+            this.AdditionalCommentContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // cancelButton
@@ -158,7 +161,7 @@ namespace MCPApp
             this.statusContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectDesignStatusToolStripMenuItem});
             this.statusContextMenuStrip1.Name = "statusContextMenuStrip1";
-            this.statusContextMenuStrip1.Size = new System.Drawing.Size(244, 69);
+            this.statusContextMenuStrip1.Size = new System.Drawing.Size(244, 36);
             this.statusContextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.statusContextMenuStrip1_Opening);
             // 
             // selectDesignStatusToolStripMenuItem
@@ -194,6 +197,23 @@ namespace MCPApp
             this.label1.TabIndex = 20;
             this.label1.Text = "label1";
             // 
+            // AdditionalCommentContextMenuStrip
+            // 
+            this.AdditionalCommentContextMenuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.AdditionalCommentContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.AddAdditionalCommentMenuItem});
+            this.AdditionalCommentContextMenuStrip.Name = "AdditionalCommentContextMenuStrip";
+            this.AdditionalCommentContextMenuStrip.Size = new System.Drawing.Size(290, 69);
+            this.AdditionalCommentContextMenuStrip.Text = "Add Additional Comment";
+            this.AdditionalCommentContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.AdditionalCommentContextMenuStrip_Opening);
+            // 
+            // AddAdditionalCommentMenuItem
+            // 
+            this.AddAdditionalCommentMenuItem.Name = "AddAdditionalCommentMenuItem";
+            this.AddAdditionalCommentMenuItem.Size = new System.Drawing.Size(289, 32);
+            this.AddAdditionalCommentMenuItem.Text = "Add Additional Comment";
+            this.AddAdditionalCommentMenuItem.Click += new System.EventHandler(this.AddAdditionalCommentMenuItem_Click);
+            // 
             // DesignBoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -217,6 +237,7 @@ namespace MCPApp
             this.jobContextMenuStrip1.ResumeLayout(false);
             this.statusContextMenuStrip1.ResumeLayout(false);
             this.dateChangeContextMenuStrip1.ResumeLayout(false);
+            this.AdditionalCommentContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -239,5 +260,7 @@ namespace MCPApp
         private System.Windows.Forms.ContextMenuStrip dateChangeContextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem canToolStripMenuItem;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ContextMenuStrip AdditionalCommentContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem AddAdditionalCommentMenuItem;
     }
 }

@@ -116,7 +116,7 @@
             this.continueButton.Name = "continueButton";
             this.continueButton.Size = new System.Drawing.Size(298, 52);
             this.continueButton.TabIndex = 7;
-            this.continueButton.Text = "UPDATE";
+            this.continueButton.Text = "Create Phase Job(s)";
             this.continueButton.UseVisualStyleBackColor = true;
             this.continueButton.Click += new System.EventHandler(this.continueButton_Click);
             // 

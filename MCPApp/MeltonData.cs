@@ -4251,7 +4251,7 @@ namespace MCPApp
         {
 
             string insertQry = "INSERT INTO dbo.DesignBoard("
-                    + "jobNo,designDate, designStatus, requiredDate,detailingDays,dman,floorlevel, productSupplier, supplierRef, supplyType, slabM2, beamM2, beamLM,sortType, modifiedDate, modifiedBy) "
+                    + "jobNo,designDate, designStatus, requiredDate,detailingDays,dman,salesman,floorlevel, productSupplier, supplierRef, supplyType, slabM2, beamM2, beamLM,sortType, modifiedDate, modifiedBy) "
                     + "VALUES("
                     + "@jobNo,"
                     + "@designDate,"
@@ -4259,7 +4259,7 @@ namespace MCPApp
                     + "@requiredDate,"
                     + "@detailingDays,"
                     + "@dman,"
-                    
+                    + "@salesman,"
                     + "@floorlevel,"
                     + "@productSupplier,"
                     + "@supplierRef,"
@@ -4286,7 +4286,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
                         command.Parameters.Add(new SqlParameter("detailingDays", detailingDays));
                         command.Parameters.Add(new SqlParameter("dman", dman));
-                        
+                        command.Parameters.Add(new SqlParameter("salesman", loggedInUser));
                         command.Parameters.Add(new SqlParameter("floorlevel", floorlevel));
                         command.Parameters.Add(new SqlParameter("productSupplier", productSupplier));
                         command.Parameters.Add(new SqlParameter("supplierRef", supplierRef));
@@ -4317,11 +4317,11 @@ namespace MCPApp
 
 
         public string CreateJobPlanner(int parentJobNo, string jobNo, string phaseNo, string floorLevel, DateTime requiredDate, DateTime designDate, string siteAddress, string approved, string OnShop, string stairsIncl,
-                                                                 int slabM2, int beamM2, int beamLm, string productSupplier, string supplyType, string supplierRef, string lastComment, decimal phaseInvValue, decimal jobMgnValue, string sortType)
+                                                                 int slabM2, int beamM2, int beamLm, string productSupplier, string supplyType, string supplierRef, string lastComment, decimal phaseInvValue, decimal jobMgnValue, string sortType,string dman)
         {
 
             string insertQry = "INSERT INTO dbo.JobPlanner("
-                                            + "parentJobNo,jobNo,phaseNo,floorLevel,requiredDate,designDate,siteAddress,approved,OnShop,stairsIncl,slabM2,beamM2, beamLm,supplyType, productSupplier, supplierRef, lastComment, phaseInvValue,jobMgnValue,completedFlag,modifiedDate,modifiedBy,jobCreatedBy,jobCreatedDate,sortType) "
+                                            + "parentJobNo,jobNo,phaseNo,floorLevel,requiredDate,designDate,siteAddress,approved,OnShop,stairsIncl,slabM2,beamM2, beamLm,supplyType, productSupplier, supplierRef, lastComment, phaseInvValue,jobMgnValue,completedFlag,modifiedDate,modifiedBy,jobCreatedBy,jobCreatedDate,dman,sortType) "
                                             + "VALUES("
                                             + "@parentJobNo,"
                                             + "@jobNo,"
@@ -4347,6 +4347,7 @@ namespace MCPApp
                                             + "@modifiedBy,"
                                             + "@jobCreatedBy,"
                                             + "@jobCreatedDate,"
+                                            + "@dman,"
                                             + "@sortType)";
 
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -4380,6 +4381,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
                         command.Parameters.Add(new SqlParameter("jobCreatedBy", loggedInUser));
                         command.Parameters.Add(new SqlParameter("jobCreatedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("dman", dman));
                         command.Parameters.Add(new SqlParameter("sortType", sortType));
                         command.ExecuteNonQuery();
                     }
@@ -4808,6 +4810,43 @@ namespace MCPApp
                     string msg = $"UpdateDesignBoardSupplierShortName() Error : {ex.Message.ToString()}";
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignBoardSupplierShortName({jobNo},{shortname})", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateDesignBoardAdditionalComment(string jobNo, string additionalNotes)
+        {
+
+
+            string insertQry = "UPDATE dbo.DesignBoard "
+                                + "SET additionalNotes = @additionalNotes,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE LEFT(jobNo,8) = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo.Substring(0, 8)));
+                        command.Parameters.Add(new SqlParameter("additionalNotes", additionalNotes));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateDesignBoardAdditionalComment() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignBoardAdditionalComment({jobNo},......)", ex.Message.ToString());
                     return msg;
                 }
 
@@ -6701,7 +6740,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("blocks", blocks));
                         command.Parameters.Add(new SqlParameter("drawingsEmailedFlag", drawingsEmailedFlag));
                         command.Parameters.Add(new SqlParameter("draughtsman", draughtsman));
-                        command.Parameters.Add(new SqlParameter("salesman", salesman));
+                        command.Parameters.Add(new SqlParameter("salesman", loggedInUser));
                         command.Parameters.Add(new SqlParameter("lastComment", lastComment));
                         command.Parameters.Add(new SqlParameter("completedFlag", "N"));
                         command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
@@ -7319,6 +7358,44 @@ namespace MCPApp
             }
         }
 
+        public string UpdateDesignBoardJobDate(string jobNo, DateTime requiredDate)
+        {
+            //  string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
+
+            string insertQry = "UPDATE dbo.DesignBoard "
+                                + "SET requiredDate = @requiredDate,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE jobNo = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                  //  string err2 = CreateJobDayAudit(jobNo, requiredDate.Date, $"UpdateDesignBoardJobDate(....{requiredDate.ToShortDateString()}......)");
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("UpdateDesignBoardJobDate() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("UpdateDesignBoardJobDate({0},{1})", jobNo, requiredDate.ToShortDateString()), ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
         public string UpdateWhiteBoardJobProduct(string jobNo, string revisedProduct)
         {
            string insertQry = "UPDATE dbo.WhiteBoard "
@@ -7648,6 +7725,142 @@ namespace MCPApp
                     string msg = $"UpdateDesignBoardJobProduct() Error : {ex.Message.ToString()}";
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignBoardJobProduct({jobNo},{product})", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public void UpdateDesignBoardColourCodeDayFlags(string jobNo, DateTime designDate,int ddaysCount, int dow)
+        {
+            int numDays = 0;
+            string err = "";
+            switch (dow)
+            {
+                case 1: //MON
+                    numDays = (dow + ddaysCount) - 1;
+                    if (numDays == 1)
+                    {
+                        err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "Y", "N", "N", "N", "N");
+                    }
+                    else if (numDays == 2)
+                    {
+                        err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "Y", "Y", "N", "N", "N");
+                    }
+                    else if (numDays == 3)
+                    {
+                        err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "Y", "Y", "Y", "N", "N");
+                    }
+                    else if (numDays == 4)
+                    {
+                        err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "Y", "Y", "Y", "Y", "N");
+                    }
+                    else if (numDays >= 5)
+                    {
+                        err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "Y", "Y", "Y", "Y", "Y");
+                    }
+                    break;
+                case 2: //TUE
+                    numDays = (dow + ddaysCount) - 1;
+                    if (numDays == 1)
+                    {
+                        err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "N", "Y", "N", "N", "N");
+                    }
+                    else if (numDays == 2)
+                    {
+                        err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "N", "Y", "Y", "N", "N");
+                    }
+                    else if (numDays == 3)
+                    {
+                        err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "N", "Y", "Y", "Y", "N");
+                    }
+                    else if (numDays >= 4)
+                    {
+                        err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "N", "Y", "Y", "Y", "Y");
+                    }
+                    break;
+                case 3: //WED
+                    numDays = (dow + ddaysCount) - 1;
+                    if (numDays == 1)
+                    {
+                        err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "N", "N", "Y", "N", "N");
+                    }
+                    else if (numDays == 2)
+                    {
+                        err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "N", "N", "Y", "Y", "N");
+                    }
+                    else if (numDays >= 3)
+                    {
+                        err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "N", "N", "Y", "Y", "Y");
+                    }
+                    break;
+                case 4: //THU
+                    numDays = (dow + ddaysCount) - 1;
+                    if (numDays == 1)
+                    {
+                        err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "N", "N", "N", "Y", "N");
+                    }
+                    else if (numDays >= 2)
+                    {
+                        err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "N", "N", "N", "Y", "Y");
+                    }
+                    break;
+                case 5: //FRI
+                    numDays = (dow + ddaysCount) - 1;
+                    if (numDays >= 1)
+                    {
+                        err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "N", "N", "N", "N", "Y");
+                    }
+                    break;
+                default:
+                    err = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, "N", "N", "N", "N", "N");
+                    break;
+            }
+        }
+
+        public string UpdateDesignBoardColorCodeFlags(string jobNo,DateTime designDate, int detailingDays,string monFlag, string tueFlag, string wedFlag, string thuFlag, string friFlag)
+        {
+
+
+            string insertQry = "UPDATE dbo.DesignBoard "
+                                + "SET designDate = @designDate,"
+                                + "detailingDays = @detailingDays,"
+                                + "monFlag = @monFlag,"
+                                + "tueFlag = @tueFlag,"
+                                + "wedFlag = @wedFlag,"
+                                + "thuFlag = @thuFlag,"
+                                + "friFlag = @friFlag,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE jobNo = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("designDate", designDate));
+                        command.Parameters.Add(new SqlParameter("detailingDays", detailingDays));
+                        command.Parameters.Add(new SqlParameter("monFlag", monFlag));
+                        command.Parameters.Add(new SqlParameter("tueFlag", tueFlag));
+                        command.Parameters.Add(new SqlParameter("wedFlag", wedFlag));
+                        command.Parameters.Add(new SqlParameter("thuFlag", thuFlag));
+                        command.Parameters.Add(new SqlParameter("friFlag", friFlag));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateDesignBoardColorCodeFlags() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "UpdateDesignBoardColorCodeFlags(.......)", ex.Message.ToString());
                     return msg;
                 }
 

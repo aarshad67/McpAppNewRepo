@@ -116,6 +116,7 @@ namespace MCPApp
                             ((DataGridView)dgv).CellBeginEdit += new DataGridViewCellCancelEventHandler(dbDataGridView_CellBeginEdit);
                             ((DataGridView)dgv).CellEndEdit += new DataGridViewCellEventHandler(dbDataGridView_CellEndEdit);
                             ((DataGridView)dgv).CellFormatting += new DataGridViewCellFormattingEventHandler(dbDataGridView_CellFormatting);
+                            
                         }
                     }
 
@@ -126,6 +127,11 @@ namespace MCPApp
 
 
             Cursor.Current = Cursors.Hand;
+        }
+
+        private void dbDataGridView_DoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void dbDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -143,16 +149,22 @@ namespace MCPApp
             {
                 if (dbDataGridView[0, e.RowIndex].Value == null) { return; }
                 DateTime designDate = Convert.ToDateTime(dbDataGridView[1, e.RowIndex].Value.ToString()).Date;
-                int dow = (int)designDate.DayOfWeek - 1;
+                int dow = (int)designDate.DayOfWeek;
                 string inputStr = dbDataGridView[0, e.RowIndex].Value == null ? "" : dbDataGridView[e.ColumnIndex, e.RowIndex].Value.ToString();
                 int detailDayCount = Convert.ToInt16(inputStr);
-                if(detailDayCount > 4) { dbDataGridView[e.ColumnIndex, e.RowIndex].Value = "";  return; }
+                //if(detailDayCount > 4) { dbDataGridView[e.ColumnIndex, e.RowIndex].Value = "";  return; }
                 string warning = $"Design Date for Job [{jobNo}] CANNOT go beyond the end of the working week";
                 switch (dow)
                 {
-                    case 0: // mon
+                    case 1: // mon
+                        if (detailDayCount > 5)
+                        {
+                            MessageBox.Show(warning);
+                            dbDataGridView[e.ColumnIndex, e.RowIndex].Value = "";
+                            return;
+                        }
                         break;
-                    case 1: // tues
+                    case 2: // tues
                         if (detailDayCount > 4)
                         {
                             MessageBox.Show(warning);
@@ -160,7 +172,7 @@ namespace MCPApp
                             return;
                         }
                             break;
-                    case 2: //wed
+                    case 3: //wed
                         if (detailDayCount > 3)
                         {
                             MessageBox.Show(warning);
@@ -168,7 +180,7 @@ namespace MCPApp
                             return;
                         }
                         break;
-                    case 3: //thu
+                    case 4: //thu
                         if (detailDayCount > 2)
                         {
                             MessageBox.Show(warning);
@@ -176,7 +188,7 @@ namespace MCPApp
                             return;
                         }
                         break;
-                    case 4: // fri
+                    case 5: // fri
                         if (detailDayCount > 1)
                         {
                             MessageBox.Show(warning);
@@ -187,6 +199,182 @@ namespace MCPApp
                     default:
                         break;
                 }
+                mcData.UpdateDesignBoardColourCodeDayFlags(jobNo, designDate, detailDayCount, dow);
+                ColourCodeDayCells(dbDataGridView, e.RowIndex, detailDayCount, dow);
+            }
+        }
+
+        private void ColourCodeDayCells(DataGridView dgv, int rowNo, int ddaysCount, int dow)
+        {
+            int numDays = 0;
+            string err = "";
+            int detailingDaysColIndex = 2;
+            int monColIndex = 16;
+            int tueColIndex = 17;
+            int wedColIndex = 18;
+            int thuColIndex = 19;
+            int friColIndex = 20;
+            dgv[detailingDaysColIndex, rowNo].Value = ddaysCount.ToString();
+            switch (dow)
+            {
+                case 1: //MON
+                    numDays = (dow + ddaysCount) - 1;
+                    if (numDays == 1)
+                    {
+                        //err = UpdateDesignBoardColorCodeFlags(jobNo, "Y", "N", "N", "N", "N");
+                        dgv[monColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[tueColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[wedColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[thuColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[friColIndex, rowNo].Style.BackColor = Color.White;
+                    }
+                    else if (numDays == 2)
+                    {
+                        //err = UpdateDesignBoardColorCodeFlags(jobNo, "Y", "Y", "N", "N", "N");
+                        dgv[monColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[tueColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[wedColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[thuColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[friColIndex, rowNo].Style.BackColor = Color.White;
+                    }
+                    else if (numDays == 3)
+                    {
+                        //err = UpdateDesignBoardColorCodeFlags(jobNo, "Y", "Y", "Y", "N", "N");
+                        dgv[monColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[tueColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[wedColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[thuColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[friColIndex, rowNo].Style.BackColor = Color.White;
+                    }
+                    else if (numDays == 4)
+                    {
+                        //err = UpdateDesignBoardColorCodeFlags(jobNo, "Y", "Y", "Y", "Y", "N");
+                        dgv[monColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[tueColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[wedColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[thuColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[friColIndex, rowNo].Style.BackColor = Color.White;
+                    }
+                    else if (numDays >= 5)
+                    {
+                        //err = UpdateDesignBoardColorCodeFlags(jobNo, "Y", "Y", "Y", "Y", "Y");
+                        dgv[monColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[tueColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[wedColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[thuColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[friColIndex, rowNo].Style.BackColor = Color.Yellow;
+                    }
+                    break;
+                case 2: //TUE
+                    numDays = (dow + ddaysCount) - 1;
+                    if (numDays == 1)
+                    {
+                        //err = UpdateDesignBoardColorCodeFlags(jobNo, "N", "Y", "N", "N", "N");
+                        dgv[monColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[tueColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[wedColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[thuColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[friColIndex, rowNo].Style.BackColor = Color.White;
+                    }
+                    else if (numDays == 2)
+                    {
+                        //err = UpdateDesignBoardColorCodeFlags(jobNo, "N", "Y", "Y", "N", "N");
+                        dgv[monColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[tueColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[wedColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[thuColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[friColIndex, rowNo].Style.BackColor = Color.White;
+                    }
+                    else if (numDays == 3)
+                    {
+                        //err = UpdateDesignBoardColorCodeFlags(jobNo, "N", "Y", "Y", "Y", "N");
+                        dgv[monColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[tueColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[wedColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[thuColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[friColIndex, rowNo].Style.BackColor = Color.White;
+                    }
+                    else if (numDays >= 4)
+                    {
+                        //err = UpdateDesignBoardColorCodeFlags(jobNo, "N", "Y", "Y", "Y", "Y");
+                        dgv[monColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[tueColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[wedColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[thuColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[friColIndex, rowNo].Style.BackColor = Color.Yellow;
+                    }
+                    break;
+                case 3: //WED
+                    numDays = (dow + ddaysCount) - 1;
+                    if (numDays == 1)
+                    {
+                        //err = UpdateDesignBoardColorCodeFlags(jobNo, "N", "N", "Y", "N", "N");
+                        dgv[monColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[tueColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[wedColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[thuColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[friColIndex, rowNo].Style.BackColor = Color.White;
+                    }
+                    else if (numDays == 2)
+                    {
+                        //err = UpdateDesignBoardColorCodeFlags(jobNo, "N", "N", "Y", "Y", "N");
+                        dgv[monColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[tueColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[wedColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[thuColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[friColIndex, rowNo].Style.BackColor = Color.White;
+                    }
+                    else if (numDays >= 3)
+                    {
+                        //err = UpdateDesignBoardColorCodeFlags(jobNo, "N", "N", "Y", "Y", "Y");
+                        dgv[monColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[tueColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[wedColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[thuColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[friColIndex, rowNo].Style.BackColor = Color.Yellow;
+                    }
+                    break;
+                case 4: //THU
+                    numDays = (dow + ddaysCount) - 1;
+                    if (numDays == 1)
+                    {
+                        //err = UpdateDesignBoardColorCodeFlags(jobNo, "N", "N", "N", "Y", "N");
+                        dgv[monColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[tueColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[wedColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[thuColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[friColIndex, rowNo].Style.BackColor = Color.White;
+                    }
+                    else if (numDays >= 2)
+                    {
+                        //err = UpdateDesignBoardColorCodeFlags(jobNo, "N", "N", "N", "Y", "Y");
+                        dgv[monColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[tueColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[wedColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[thuColIndex, rowNo].Style.BackColor = Color.Yellow;
+                        dgv[friColIndex, rowNo].Style.BackColor = Color.Yellow;
+                    }
+                    break;
+                case 5: //FRI
+                    numDays = (dow + ddaysCount) - 1;
+                    if (numDays >= 1)
+                    {
+                        //err = UpdateDesignBoardColorCodeFlags(jobNo, "N", "N", "N", "N", "Y");
+                        dgv[monColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[tueColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[wedColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[thuColIndex, rowNo].Style.BackColor = Color.White;
+                        dgv[friColIndex, rowNo].Style.BackColor = Color.Yellow;
+                    }
+                    break;
+                default:
+                    //err = UpdateDesignBoardColorCodeFlags(jobNo, "N", "N", "N", "N", "N");
+                    dgv[monColIndex, rowNo].Style.BackColor = Color.White;
+                    dgv[tueColIndex, rowNo].Style.BackColor = Color.White;
+                    dgv[wedColIndex, rowNo].Style.BackColor = Color.White;
+                    dgv[thuColIndex, rowNo].Style.BackColor = Color.White;
+                    dgv[friColIndex, rowNo].Style.BackColor = Color.Yellow;
+                    break;
             }
         }
 
@@ -354,14 +542,14 @@ namespace MCPApp
                 //mcData.GetSupplierColourByShortname(stairsSupplier, out srgb1, out srgb2, out srgb3);
                 //    dateCreated = mcData.GetJobCreatedDate(jobNo).ToString("dd/MMM/yyyy hh:mm tt");
 
-                monFlag = dateStr.Substring(0, 3).ToUpper() == "MON" ? "Y" : String.Empty;
-                tueFlag = dateStr.Substring(0, 3).ToUpper() == "TUE" ? "Y" : String.Empty;
-                wedFlag = dateStr.Substring(0, 3).ToUpper() == "WED" ? "Y" : String.Empty;
-                thuFlag = dateStr.Substring(0, 3).ToUpper() == "THU" ? "Y" : String.Empty;
-                friFlag = dateStr.Substring(0, 3).ToUpper() == "FRI" ? "Y" : String.Empty;
-             //   satFlag = dateStr.Substring(0, 3).ToUpper() == "SAT" ? "Y" : String.Empty;
-             //   sunFlag = dateStr.Substring(0, 3).ToUpper() == "SUN" ? "Y" : String.Empty;
-                
+                monFlag = dr["monFlag"].ToString();
+                tueFlag = dr["tueFlag"].ToString();
+                wedFlag = dr["wedFlag"].ToString();
+                thuFlag = dr["thuFlag"].ToString();
+                friFlag = dr["friFlag"].ToString();
+                //   satFlag = dateStr.Substring(0, 3).ToUpper() == "SAT" ? "Y" : String.Empty;
+                //   sunFlag = dateStr.Substring(0, 3).ToUpper() == "SUN" ? "Y" : String.Empty;
+
                 DataGridViewRow drow = new DataGridViewRow();
                 drow.CreateCells(myDGV);
                 drow.Cells[0].Value = dr["jobNo"].ToString();
@@ -667,7 +855,7 @@ namespace MCPApp
                 //21
                 DataGridViewTextBoxColumn notesColumn = new DataGridViewTextBoxColumn();
                 notesColumn.DataPropertyName = "additionalNotes";
-                notesColumn.HeaderText = "Additonal Notes (Dbl Clk)";
+                notesColumn.HeaderText = "Additonal Notes (Right Click)";
                 notesColumn.Width = 200;
                 notesColumn.ReadOnly = true;
                 dbDataGridView.Columns.Add(notesColumn);
@@ -764,6 +952,11 @@ namespace MCPApp
                     column.ContextMenuStrip = supplierContextMenuStrip;
 
                 }
+
+                if (column.Index == 21)
+                {
+                    column.ContextMenuStrip = AdditionalCommentContextMenuStrip;
+                }
             }
         }
 
@@ -801,26 +994,20 @@ namespace MCPApp
             string fieldName = "";
             switch (dayColIndex)
             {
-                case 17:
+                case 16:
                     fieldName = "wcMonday";
                     break;
-                case 18:
+                case 17:
                     fieldName = "wcTuesday";
                     break;
-                case 19:
+                case 18:
                     fieldName = "wcWednesday";
                     break;
-                case 20:
+                case 19:
                     fieldName = "wcThursday";
                     break;
-                case 21:
+                case 20:
                     fieldName = "wcFriday";
-                    break;
-                case 22:
-                    fieldName = "wcSaturday";
-                    break;
-                case 23:
-                    fieldName = "wcSunday";
                     break;
                 default:
                     break;
@@ -844,12 +1031,12 @@ namespace MCPApp
         private void addCommenttoolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dbDataGridView[0, rowIndex].Value == null) { return; }
-            if (colIndex != 17 && colIndex != 18 && colIndex != 19 && colIndex != 20 && colIndex != 21 && colIndex != 22 && colIndex != 23) { return; }
+            if (colIndex != 16 && colIndex != 17 && colIndex != 18 && colIndex != 19 && colIndex != 20) { return; }
             string jobNo = dbDataGridView[0, this.rowIndex].Value.ToString();
-            DateTime reqDate = Convert.ToDateTime(dbDataGridView[4, this.rowIndex].Value.ToString()).Date;
+            DateTime designDate = Convert.ToDateTime(dbDataGridView[1, this.rowIndex].Value.ToString()).Date;
             string comment = dbDataGridView[this.colIndex, this.rowIndex].Value == null ? "N/A" : dbDataGridView[this.colIndex, this.rowIndex].Value.ToString();
-            int diffDays = colIndex - 17;
-            DateTime commentDate = mcData.GetMonday(reqDate).AddDays(diffDays).AddDays(0);
+            int diffDays = colIndex - 16;
+            DateTime commentDate = mcData.GetMonday(designDate).AddDays(diffDays).AddDays(0);
             WhiteboardDayCommentForm commentForm = new WhiteboardDayCommentForm(jobNo, commentDate, comment);
             commentForm.ShowDialog();
             dbDataGridView[this.colIndex, this.rowIndex].Value = commentForm.DayComment;
@@ -1002,26 +1189,45 @@ namespace MCPApp
             //  "dateJobCreated = " + createdDate.ToShortDateString() + Environment.NewLine +
             //  "completedFlag = " + completedFlag + Environment.NewLine;
 
-            if (MessageBox.Show(testline, "Confirm you want save Design Board Job No.[" + jobNo + "] line ? ", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
-            {
-                string err = mcData.UpdateDesignBoardLine(jobNo, designDate, designStatus, detailingDays, requiredDate,dman,floorLevel, productSupplier,
-                                        supplierRef, salesman, supplyType, slabM2, beamM2, beamLM,
-                                        wcMonday, wcTuesday, wcWednesday, wcThursday, wcFriday,additionalNotes,sortType);
-                if (err == "OK")
-                {
-                    string jpDesignStatus = mcData.GetJobPlannerStatusFromDesignerJob(jobNo);
-                    string err1 = mcData.UpdateJobPlannerFromDesignBoardJob(jobNo, designDate, jpDesignStatus, requiredDate);
-                    string err2 = mcData.UpdateWhiteBoardFromDesignBoardJob(jobNo, requiredDate,supplyType, productSupplier, dman, salesman);
-                    MessageBox.Show("Design Board JobNo[" + jobNo + "] line saved successfully");
-                    return;
-                }
-                else
-                {
-                    mcData.CreateErrorAudit("DesignboardForm.cs", "sAVEJobLineToolStripMenuItem_Click on Job[" + jobNo + "]", err);
-                    MessageBox.Show($"Error saving JobNo[{jobNo}] : {err} ");
-                    return;
+            //if (MessageBox.Show(testline, "Confirm you want save Design Board Job No.[" + jobNo + "] line ? ", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+            //{
+            //    string err = mcData.UpdateDesignBoardLine(jobNo, designDate, designStatus, detailingDays, requiredDate,dman,floorLevel, productSupplier,
+            //                            supplierRef, salesman, supplyType, slabM2, beamM2, beamLM,
+            //                            wcMonday, wcTuesday, wcWednesday, wcThursday, wcFriday,additionalNotes,sortType);
+            //    if (err == "OK")
+            //    {
+            //        string jpDesignStatus = mcData.GetJobPlannerStatusFromDesignerJob(jobNo);
+            //        string err1 = mcData.UpdateJobPlannerFromDesignBoardJob(jobNo, designDate, jpDesignStatus, requiredDate);
+            //        string err2 = mcData.UpdateWhiteBoardFromDesignBoardJob(jobNo, requiredDate,supplyType, productSupplier, dman, salesman);
+            //        MessageBox.Show("Design Board JobNo[" + jobNo + "] line saved successfully");
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        mcData.CreateErrorAudit("DesignboardForm.cs", "sAVEJobLineToolStripMenuItem_Click on Job[" + jobNo + "]", err);
+            //        MessageBox.Show($"Error saving JobNo[{jobNo}] : {err} ");
+            //        return;
 
-                }
+            //    }
+            //}
+
+            string err = mcData.UpdateDesignBoardLine(jobNo, designDate, designStatus, detailingDays, requiredDate, dman, floorLevel, productSupplier,
+                                        supplierRef, salesman, supplyType, slabM2, beamM2, beamLM,
+                                        wcMonday, wcTuesday, wcWednesday, wcThursday, wcFriday, additionalNotes, sortType);
+            if (err == "OK")
+            {
+                string jpDesignStatus = mcData.GetJobPlannerStatusFromDesignerJob(jobNo);
+                string err1 = mcData.UpdateJobPlannerFromDesignBoardJob(jobNo, designDate, jpDesignStatus, requiredDate);
+                string err2 = mcData.UpdateWhiteBoardFromDesignBoardJob(jobNo, requiredDate, supplyType, productSupplier, dman, salesman);
+                MessageBox.Show("Design Board JobNo[" + jobNo + "] line saved successfully");
+                return;
+            }
+            else
+            {
+                mcData.CreateErrorAudit("DesignboardForm.cs", "sAVEJobLineToolStripMenuItem_Click on Job[" + jobNo + "]", err);
+                MessageBox.Show($"Error saving JobNo[{jobNo}] : {err} ");
+                return;
+
             }
             return;
         }
@@ -1055,55 +1261,83 @@ namespace MCPApp
             
             if (dbDataGridView[0, rowIndex].Value == null) { return; }
             string jobNo = dbDataGridView[0, this.rowIndex].Value.ToString();
+            int detailingDays = String.IsNullOrWhiteSpace(dbDataGridView[2, this.rowIndex].Value.ToString()) ? 0 : Convert.ToInt16(dbDataGridView[2, this.rowIndex].Value.ToString());
             if (mcData.IsJobCompleted(jobNo)) { return; }
-            DateTime selectDesignDate = DateTime.MinValue;
+            DateTime selectedDate = DateTime.MinValue;
 
             if (colIndex == 1)
             {
+                string warning = $@"Changing DESIGN DATE for Job [{jobNo}] will mean resetting DETAILING DAYS to 1.{Environment.NewLine} 
+                                    Any notes belonging to the old design date week will remain but NEW notes will be required for the new design date{Environment.NewLine}
+                                    Do you wish to continue ?";
+                if( MessageBox.Show(warning,"Changing Design Date",MessageBoxButtons.YesNo) == DialogResult.No) { return; }
                 if (dbDataGridView[1, rowIndex].Value == null)
                 {
                     DateSelectorForm dateForm1 = new DateSelectorForm();
                     dateForm1.ShowDialog();
-                    selectDesignDate = dateForm1.RequiredDate;
-                    dbDataGridView[1, rowIndex].Value = selectDesignDate.Date.ToShortDateString();
-                    return;
+                    selectedDate = dateForm1.RequiredDate;
+                    dbDataGridView[1, rowIndex].Value = selectedDate.Date.ToShortDateString();
+                    
                 }
                 else
                 {
                     DateTime currDate = Convert.ToDateTime(dbDataGridView[1, rowIndex].Value.ToString());
                     DateSelectorForm dateForm = new DateSelectorForm(currDate);
                     dateForm.ShowDialog();
-                    selectDesignDate = dateForm.RequiredDate;
-                    dbDataGridView[1, rowIndex].Value = selectDesignDate.Date.ToShortDateString();
-                    return;
+                    selectedDate = dateForm.RequiredDate;
+                    dbDataGridView[1, rowIndex].Value = selectedDate.Date.ToShortDateString();
+                    
                 }
+                mcData.UpdateDesignBoardColourCodeDayFlags(jobNo, selectedDate, 1, (int)selectedDate.DayOfWeek);
+                ColourCodeDayCells(dbDataGridView, rowIndex, 5, 0);
+                return;
             }
 
-            if (colIndex == 4)
+            if (colIndex == 7)
             {
-                if (dbDataGridView[4, rowIndex].Value == null)
+                if (dbDataGridView[7, rowIndex].Value == null)
                 {
                     DateSelectorForm dateForm1 = new DateSelectorForm();
                     dateForm1.ShowDialog();
-                    selectDesignDate = dateForm1.RequiredDate;
-                    dbDataGridView[4, rowIndex].Value = selectDesignDate.Date.ToShortDateString();
-                    return;
+                    selectedDate = dateForm1.RequiredDate;
+                    dbDataGridView[7, rowIndex].Value = selectedDate.Date.ToShortDateString();
                 }
                 else
                 {
-                    DateTime currDate = Convert.ToDateTime(dbDataGridView[4, rowIndex].Value.ToString());
+                    DateTime currDate = Convert.ToDateTime(dbDataGridView[7, rowIndex].Value.ToString());
                     DateSelectorForm dateForm = new DateSelectorForm(currDate);
                     dateForm.ShowDialog();
-                    selectDesignDate = dateForm.RequiredDate;
-                    dbDataGridView[4, rowIndex].Value = selectDesignDate.Date.ToShortDateString();
-                    return;
+                    selectedDate = dateForm.RequiredDate;
+                    dbDataGridView[7, rowIndex].Value = selectedDate.Date.ToShortDateString();
                 }
+                string err1 = mcData.UpdateJobPlannerJobDate(jobNo, selectedDate);
+                string err2 = mcData.UpdateWhiteBoardJobDate(jobNo, selectedDate);
+                string err3 = mcData.UpdateDesignBoardJobDate(jobNo, selectedDate);
+                return;
             }
 
 
         }
 
         private void statusContextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void AdditionalCommentContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            if (dbDataGridView[0, rowIndex].Value == null) { return; }
+            if (colIndex != 21) { return; }
+            string jobNo = dbDataGridView[0, this.rowIndex].Value.ToString();
+            string existingNote = dbDataGridView[21, this.rowIndex].Value.ToString();
+            WhiteboardDayCommentForm frm = new WhiteboardDayCommentForm(jobNo, existingNote, "DB");
+            frm.ShowDialog();
+            dbDataGridView[21, this.rowIndex].Value = frm.DayComment; // re-using WB day comment for designboard additionl comments
+            string result = mcData.UpdateDesignBoardAdditionalComment(jobNo, frm.DayComment);
+            return;
+        }
+
+        private void AddAdditionalCommentMenuItem_Click(object sender, EventArgs e)
         {
 
         }

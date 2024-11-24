@@ -446,16 +446,23 @@ namespace MCPApp
                 {
                    // if (jobDGV[0, e.RowIndex].Value == null) { return; }
                     DateTime designDate = Convert.ToDateTime(jobDGV[5, e.RowIndex].Value.ToString()).Date;
-                    int dow = (int)designDate.DayOfWeek - 1;
+                    int dow = (int)designDate.DayOfWeek;
                     string inputStr = jobDGV[0, e.RowIndex].Value == null ? "" : jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString();
                     int detailDayCount = Convert.ToInt16(inputStr);
                     if (detailDayCount > 4) { jobDGV[e.ColumnIndex, e.RowIndex].Value = ""; return; }
                     string warning = $"Design Date for Job [{jobNo}] CANNOT go beyond the end of the working week";
                     switch (dow)
                     {
-                        case 0: // mon
+                        case 1: // mon
+                            if (detailDayCount > 5)
+                            {
+                                MessageBox.Show(warning);
+                                jobDGV[e.ColumnIndex, e.RowIndex].Value = "";
+                                return;
+                            }
+                            
                             break;
-                        case 1: // tues
+                        case 2: // tues
                             if (detailDayCount > 4)
                             {
                                 MessageBox.Show(warning);
@@ -463,7 +470,7 @@ namespace MCPApp
                                 return;
                             }
                             break;
-                        case 2: //wed
+                        case 3: //wed
                             if (detailDayCount > 3)
                             {
                                 MessageBox.Show(warning);
@@ -471,7 +478,7 @@ namespace MCPApp
                                 return;
                             }
                             break;
-                        case 3: //thu
+                        case 4: //thu
                             if (detailDayCount > 2)
                             {
                                 MessageBox.Show(warning);
@@ -479,7 +486,7 @@ namespace MCPApp
                                 return;
                             }
                             break;
-                        case 4: // fri
+                        case 5: // fri
                             if (detailDayCount > 1)
                             {
                                 MessageBox.Show(warning);
@@ -512,6 +519,8 @@ namespace MCPApp
             }
 
         }
+
+        
 
 
 
@@ -771,7 +780,7 @@ namespace MCPApp
 
                     if (!mcData.IsJobExists(jobNo))
                     {
-                        err = mcData.CreateJobPlanner(parentJobNo, jobNo, phaseNo, floorLevel, requiredDate, designDate, siteAddress, "N", "N", stairsIncl, slabM2, beamM2, beamLm, shortname, supplyType, supplierRef, lastComment, phaseInvValue, jobMgnValue, sortType);
+                        err = mcData.CreateJobPlanner(parentJobNo, jobNo, phaseNo, floorLevel, requiredDate, designDate, siteAddress, "N", "N", stairsIncl, slabM2, beamM2, beamLm, shortname, supplyType, supplierRef, lastComment, phaseInvValue, jobMgnValue, sortType,dman);
                         if (err != "OK")
                         {
                             MessageBox.Show(String.Format("CreateJobPlanner ERROR ( Job {0} ) : {1}", jobNo, err));
@@ -783,7 +792,7 @@ namespace MCPApp
                     if (!mcData.IsWhiteboardJobExists(jobNo))
                     {
                         wbErr = mcData.CreateWhiteBoard(jobNo, requiredDate, custCode, siteAddress, supplyType, "", beamM2 + slabM2, 0, phaseInvValue, "N", shortname, stairsIncl, "", floorLevel, "", "N", "", "", "", "", "", "", "", "",
-                                                            "", "N", "N", "N", "", "", "", "N", "", "", "", "N", "N", "", "", "N", "", "",lastComment, sortType);
+                                                            "", "N", "N", "N", "", "", "", "N", "", "", "", "N", "N", "", "", "N", dman, "",lastComment, sortType);
 
                         if (wbErr != "OK")
                         {
@@ -806,6 +815,7 @@ namespace MCPApp
                             errFound = true;
                             break;
                         }
+                        mcData.UpdateDesignBoardColourCodeDayFlags(jobNo, designDate, detailingDays, (int)designDate.DayOfWeek);
                     }
 
 
@@ -908,7 +918,7 @@ namespace MCPApp
 
                     if (!mcData.IsJobExists(jobNo))
                     {
-                        err = mcData.CreateJobPlanner(parentJobNo, jobNo, phaseNo, floorLevel, requiredDate, designDate, siteAddress, "N", "N", stairsIncl, slabM2, beamM2, beamLm, shortname, supplyType, supplierRef, lastComment, phaseInvValue, jobMgnValue, sortType);
+                        err = mcData.CreateJobPlanner(parentJobNo, jobNo, phaseNo, floorLevel, requiredDate, designDate, siteAddress, "N", "N", stairsIncl, slabM2, beamM2, beamLm, shortname, supplyType, supplierRef, lastComment, phaseInvValue, jobMgnValue, sortType,dman);
                         if (err != "OK")
                         {
                             MessageBox.Show(String.Format("CreateJobPlanner ERROR ( Job {0} ) : {1}", jobNo, err));
@@ -920,7 +930,7 @@ namespace MCPApp
                     if (!mcData.IsWhiteboardJobExists(jobNo))
                     {
                         wbErr = mcData.CreateWhiteBoard(jobNo, requiredDate, custCode, siteAddress, supplyType, "", beamM2 + slabM2, 0, phaseInvValue, "N", shortname, stairsIncl, "", floorLevel, "", "N", "", "", "", "", "", "", "", "",
-                                                                "", "N", "N", "N", "", "", "", "N", "", "", "", "N", "N", "", "", "N", "", "", lastComment, sortType);
+                                                                "", "N", "N", "N", "", "", "", "N", "", "", "", "N", "N", "", "", "N", dman,"", lastComment, sortType);
                         if (wbErr != "OK")
                         {
                             MessageBox.Show(String.Format("CreateWhiteBoard ERROR ( Job {0} ) : {1}", jobNo, wbErr));
