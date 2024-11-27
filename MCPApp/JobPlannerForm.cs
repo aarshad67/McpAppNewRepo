@@ -31,6 +31,9 @@ namespace MCPApp
         private int rowIndex = 0;
         private int colIndex = 0;
 
+        private string jobNumber = "";
+        private bool singleJobSearchOnly = false;
+
         public JobPlannerForm(string mode)
         {
             InitializeComponent();
@@ -56,6 +59,13 @@ namespace MCPApp
             parentJobNo = parentJob;
         }
 
+        public JobPlannerForm(bool isSingleJobOnly, string job)
+        {
+            InitializeComponent();
+            singleJobSearchOnly = isSingleJobOnly;
+            jobNumber = job;
+        }
+
         private void JobPlannerForm_Load(object sender, EventArgs e)
         {
             this.Text = "Job Planner (" + jobPlannerMode + ") - " + DateTime.Now.DayOfWeek.ToString() + " " + DateTime.Now.ToLongDateString();
@@ -67,6 +77,11 @@ namespace MCPApp
                 dgvDT = sourceDT;
                 PopulateDGV(dgvDT);
                 
+            }
+            else if(singleJobSearchOnly)
+            {
+                dgvDT = mcData.GetJobPlannerDTByJob(jobNumber);
+                PopulateDGV(dgvDT);
             }
             else if (parentJobNo > 0)
             {
@@ -567,6 +582,95 @@ namespace MCPApp
 
         }
 
+        private void PopulateDGVByJobNo(string job)
+        {
+            DataTable jobDT = mcData.GetJobPlannerByJobNoDT(job);
+            if (jobDT.Rows.Count == 0) { return; }
+            int row = 0;
+            int rgb1, rgb2, rgb3 = 255;
+            string suppShortname = "";
+            int daysDiff = 0;
+            string approved = "";
+            string jobNo = "";
+            string custName = "";
+            string custCode = "";
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                jobDGV.Rows.Clear();
+                List<DataGridViewRow> rows = new List<DataGridViewRow>();
+                foreach (DataRow dr in jobDT.Rows)
+                {
+                    jobNo = dr["jobNo"].ToString();
+                    custCode = mcData.GetCustomerCodeByJobNo(jobNo);
+                    custName = mcData.GetCustName(custCode);
+                    approved = dr["approved"].ToString();
+                    daysDiff = mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
+                    suppShortname = dr["productSupplier"].ToString();
+                    mcData.GetSupplierColourByShortname(suppShortname, out rgb1, out rgb2, out rgb3);
+                    //jobDGV.Rows.Add();
+                    DataGridViewRow drow = new DataGridViewRow();
+                    drow.CreateCells(jobDGV);
+                    drow.Cells[0].Value = jobNo;
+                    drow.Cells[1].Value = custName;
+                    drow.Cells[2].Value = dr["floorLevel"].ToString();
+                    drow.Cells[3].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0, 3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
+                    drow.Cells[4].Value = Convert.ToDateTime(dr["designDate"].ToString()).ToShortDateString();
+                    drow.Cells[5].Value = dr["siteAddress"].ToString();
+                    drow.Cells[6].Value = dr["dman"].ToString();
+                    drow.Cells[7].Value = dr["approved"].ToString() == "Y" ? true : false;
+                    drow.Cells[8].Value = dr["onshop"].ToString() == "Y" ? true : false;
+                    //drow.Cells[7].Value = dr["approved"].ToString() == "Y" ? 0 : mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
+                    //drow.Cells[7].Style.ForeColor = approved != "Y" && daysDiff > 0 ? Color.Red : Color.Black;
+                    drow.Cells[9].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
+                    drow.Cells[10].Value = dr["slabM2"].ToString();
+                    drow.Cells[11].Value = dr["beamLm"].ToString();
+                    drow.Cells[12].Value = dr["beamM2"].ToString();
+                    drow.Cells[13].Value = dr["productSupplier"].ToString();
+                    drow.Cells[13].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
+                    drow.Cells[14].Value = dr["supplyType"].ToString();
+                    drow.Cells[15].Value = dr["supplierRef"].ToString();
+                    drow.Cells[16].Value = dr["phaseInvValue"].ToString();
+                    drow.Cells[17].Value = dr["jobMgnValue"].ToString();
+                    drow.Cells[18].Value = mcData.GetLastComment(dr["jobNo"].ToString());
+                    drow.Cells[19].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
+                    drow.Cells[20].Value = dr["jobCreatedBy"].ToString();
+                    rows.Add(drow);
+                }
+                jobDGV.Rows.AddRange(rows.ToArray());
+                foreach (DataGridViewRow jobRow in jobDGV.Rows)
+                {
+                    if (mcData.IsJobCompleted(jobRow.Cells[0].Value.ToString()))
+                    {
+                        jobRow.DefaultCellStyle.ForeColor = Color.Gray;
+                    }
+                    else
+                    {
+                        jobRow.DefaultCellStyle.ForeColor = Color.Black;
+                    }
+                }
+                jobDGV.CurrentCell = jobDGV.Rows[0].Cells[0];
+
+                DisplayTotalInvValue();
+                DisplayTotalJobMgnValue();
+                DisplayTotalBeamM2();
+                DisplayTotalSlabM2();
+                //   MessageBox.Show(row.ToString());
+                this.Cursor = Cursors.Default;
+                return;
+            }
+            catch (Exception ex)
+            {
+                string msg = String.Format("PopulateDGV() Error : {0}", ex.Message.ToString());
+                logger.LogLine(msg);
+                MessageBox.Show(msg);
+                string audit = mcData.CreateErrorAudit("JobPlannerForm.cs", String.Format("PopulateDGVByParentJob({0})", parentJobNo.ToString()), msg);
+                return;
+            }
+
+
+        }
+
         private void PopulateDGVByQry(string qry)
         {
 
@@ -850,6 +954,19 @@ namespace MCPApp
                     string dbErr = mcData.UpdateDesignBoardJobFromJP(jobNo, designDate, floorLevel, suppShortname,
                                         supplierRef, stairsIncl, supplyType, slabM2, beamM2, beamLm,
                                         mon, tue, wed, thu, fri, sat, sun, sortType);
+                    
+                    if (onshop == "Y")
+                    {
+                        string dbErr2 = mcData.UpdateDesignStatus(jobNo, "ON SHOP");
+                    }
+                    else if ( approved == "Y" && onshop == "N")
+                    {
+                        string dbErr3 = mcData.UpdateDesignStatus(jobNo, "APPROVED(NOT ON SHOP)");
+                    }
+                    else
+                    {
+                        // do nothing
+                    }
                 }
                 return;
             }
@@ -1203,6 +1320,7 @@ namespace MCPApp
                     {
                         string err1 = mcData.UpdateJobPlannerSupplierShortName(job, suppShortName);
                         string err2 = mcData.UpdateWhiteBoardSupplierShortName(job, suppShortName, rgb1, rgb2, rgb3);
+                        string err3 = mcData.UpdateDesignBoardSupplierShortName(job, suppShortName);
                     }
                     jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[13];
                     jobDGV.Rows[e.RowIndex].Cells[13].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
@@ -1393,6 +1511,11 @@ namespace MCPApp
             }
 
             if (e.ColumnIndex == 6) // designer
+            {
+                string designer = jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString();
+            }
+
+            if (e.ColumnIndex == 7 || e.ColumnIndex == 8) // Approved/ON Shop
             {
                 string designer = jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString();
             }

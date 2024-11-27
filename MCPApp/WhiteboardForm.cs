@@ -2285,6 +2285,7 @@ namespace MCPApp
                 {
                     string err1 = mcData.UpdateWhiteBoardSupplierShortName(jobNo, suppShortName, rgb1, rgb2, rgb3);
                     string err2 = mcData.UpdateJobPlannerSupplierShortName(jobNo, suppShortName);
+                    string err3 = mcData.UpdateDesignBoardSupplierShortName(jobNo, suppShortName);
 
                 }
 

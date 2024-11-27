@@ -418,7 +418,7 @@ namespace MCPApp
             string dateCreated = "";
 
             this.Cursor = Cursors.WaitCursor;
-            DataTable dt = mcData.GeDesignboardByDateRangeDT(myStartDate, myEndDate);
+            DataTable dt = mcData.GetDesignboardByDateRangeDT(myStartDate, myEndDate);
 
             //added by abs
             //myDGV.DataSource = dt;
