@@ -7731,7 +7731,61 @@ namespace MCPApp
             }
         }
 
-        public void UpdateDesignBoardColourCodeDayFlags(string jobNo, DateTime designDate,int ddaysCount, int dow)
+        public string UpdateDesignBoardQuantities(string jobNo, int slabM2, int beamLM, int beamM2)
+        {
+
+
+            string insertQry = "UPDATE dbo.DesignBoard "
+                                + "SET slabM2 = @slabM2,"
+                                + "beamLM = @beamLM,"
+                                + "beamM2 = @beamM2,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE jobNo = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("slabM2", slabM2));
+                        command.Parameters.Add(new SqlParameter("beamLM", beamLM));
+                        command.Parameters.Add(new SqlParameter("beamM2", beamM2));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateDesignBoardQuantities() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignBoardQuantities({jobNo},....)", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public void UpdateDesignBoardColourCodeDayFlags(string jobNo, DateTime designDate, int ddaysCount, int dow)
+        {
+            string monFlag = "N";
+            string tueFlag = "N";
+            string wedFlag = "N";
+            string thuFlag = "N";
+            string friFlag = "N";
+
+            GetDesignBoardDaysColourFlags(dow, ddaysCount, out monFlag, out tueFlag, out wedFlag, out thuFlag, out friFlag);
+            string result = UpdateDesignBoardColorCodeFlags(jobNo, designDate, ddaysCount, monFlag, tueFlag, wedFlag, thuFlag, friFlag);
+            return;
+        }
+
+        public void UpdateDesignBoardColourCodeDayFlagsOld(string jobNo, DateTime designDate,int ddaysCount, int dow)
         {
             int numDays = 0;
             string err = "";
@@ -7898,6 +7952,154 @@ namespace MCPApp
                     string msg = $"UpdateDesignStatus() Error : {ex.Message.ToString()}";
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignStatus({jobNo},{designStatus})", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateDesignboardDesigner(string jobNo, string dman)
+        {
+
+
+            string insertQry = "UPDATE dbo.DesignBoard "
+                                + "SET dman = @dman,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE jobNo = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("dman", dman));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateDesignboardDesigner() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignboardDesigner({jobNo},{dman})", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateDesignboardSupplyType(string jobNo, string supplyType)
+        {
+
+
+            string insertQry = "UPDATE dbo.DesignBoard "
+                                + "SET supplyType = @supplyType,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE jobNo = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("supplyType", supplyType));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateDesignboardSupplyType() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignboardSupplyType({jobNo},{supplyType})", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateDesignboardSalesman(string jobNo, string salesman)
+        {
+
+
+            string insertQry = "UPDATE dbo.DesignBoard "
+                                + "SET salesman = @salesman,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE jobNo = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("salesman", salesman));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateDesignboardSalesman() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateDesignboardSalesman({jobNo},{salesman})", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateWhiteboardSalesman(string jobNo, string salesman)
+        {
+
+
+            string insertQry = "UPDATE dbo.Whiteboard "
+                                + "SET salesman = @salesman,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE jobNo = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("salesman", salesman));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateWhiteboardSalesman() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateWhiteboardSalesman({jobNo},{salesman})", ex.Message.ToString());
                     return msg;
                 }
 
@@ -8394,7 +8596,48 @@ namespace MCPApp
 
         }
 
+        public void GetDesignBoardDaysColourFlags(int dow, int detailingDays, out string mon, out string tue, out string wed, out string thu, out string fri)
+        {
+            string error;
 
+
+            mon = "";
+            tue = "";
+            wed = "";
+            thu = "";
+            fri = "";
+            
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand($"SELECT * FROM dbo.DesignBoardColorCodingMatrix WHERE dow = {dow} and detailingDays = {detailingDays}", conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                mon = reader["monFlag"].ToString();
+                                tue = reader["tueFlag"].ToString();
+                                wed = reader["wedFlag"].ToString();
+                                thu = reader["thuFlag"].ToString();
+                                fri = reader["friFlag"].ToString();
+                                
+                            }
+                        }
+                    }
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    error = ex.Message.ToString();
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetDesignBoardDaysColourFlags({dow},{detailingDays})", ex.Message.ToString());
+                    return;
+                }
+
+            }
+        }
 
         public void GetWhiteboardDays(string jobNo, out string mon, out string tue, out string wed, out string thu, out string fri, out string sat, out string sun)
         {
@@ -9096,6 +9339,35 @@ namespace MCPApp
 
         }
 
+        public DataTable GetSalesmanDT()
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    string qry = "SELECT userID FROM dbo.Users ORDER BY userID";
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetSalesmanDT() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "GetSalesmanDT()", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
         public DataTable GetAllDesignStatus()
         {
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -9439,6 +9711,26 @@ namespace MCPApp
                 }
             }
             return isLetter;
+        }
+
+        public DataTable GetSupplyTypeDT()
+        {
+            DataTable suppTypeDT = new DataTable();
+            suppTypeDT.Columns.Clear();
+            suppTypeDT.Columns.Add("suppType", typeof(string));
+
+            List<String> typeList = new List<String>() { "SF", "XF", "SO", "XO" };
+
+            DataRow dr;
+
+            foreach (var type in typeList)
+            {
+                dr = suppTypeDT.NewRow();
+                dr["suppType"] = type;
+                suppTypeDT.Rows.Add(dr);
+            }
+            
+            return suppTypeDT;
         }
 
         #endregion

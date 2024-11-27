@@ -126,32 +126,7 @@ namespace MCPApp
         }
 
 
-        private DataTable GetSupplyTypeDT()
-        {
-            DataTable suppTypeDT = new DataTable();
-            suppTypeDT.Columns.Clear();
-            suppTypeDT.Columns.Add("suppType", typeof(string));
-
-            List<String> typeList = new List<String>() { "SF","XF","SO","XO" };
-
-            DataRow dr;
-
-            foreach (var type in typeList)
-            {
-                dr = suppTypeDT.NewRow();
-                dr["suppType"] = type;
-                suppTypeDT.Rows.Add(dr);
-            }
-            /*
-            DataRow dr = suppTypeDT.NewRow();
-            dr["suppType"] = "SO";
-            suppTypeDT.Rows.Add(dr);
-            dr = suppTypeDT.NewRow();
-            dr["suppType"] = "SF";
-            suppTypeDT.Rows.Add(dr);
-            */
-            return suppTypeDT;
-        }
+        
 
         private void BuildDGV()
         {
@@ -166,7 +141,7 @@ namespace MCPApp
                 designerBindngSource.DataSource = designersDT;
 
                 BindingSource suppTypeBindngSource = new BindingSource();
-                suppTypeBindngSource.DataSource = GetSupplyTypeDT();
+                suppTypeBindngSource.DataSource = mcData.GetSupplyTypeDT();
 
                 jobDGV.Columns.Clear();
                 
