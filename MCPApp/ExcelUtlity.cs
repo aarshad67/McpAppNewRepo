@@ -128,7 +128,112 @@ namespace MCPApp
 
         }
 
-        
+        public bool WriteDataTableToExcel(System.Data.DataTable dataTable, string worksheetName, string saveAsLocation, string ReporType, int dateColumnIndex1, int dateColumnIndex2)
+        {
+            Microsoft.Office.Interop.Excel.Application excel;
+            Microsoft.Office.Interop.Excel.Workbook excelworkBook;
+            Microsoft.Office.Interop.Excel.Worksheet excelSheet;
+            Microsoft.Office.Interop.Excel.Range excelCellrange;
+            Microsoft.Office.Interop.Excel.Range excel1stDateCellrange;
+            Microsoft.Office.Interop.Excel.Range excel2ndDateCellrange;
+
+            try
+            {
+                // Start Excel and get Application object.
+                excel = new Microsoft.Office.Interop.Excel.Application();
+
+                // for making Excel visible
+                excel.Visible = false;
+                excel.DisplayAlerts = false;
+
+                // Creation a new Workbook
+                excelworkBook = excel.Workbooks.Add(Type.Missing);
+
+                // Workk sheet
+                excelSheet = (Microsoft.Office.Interop.Excel.Worksheet)excelworkBook.ActiveSheet;
+                excelSheet.Name = worksheetName;
+
+
+                excelSheet.Cells[1, 1] = ReporType;
+                excelSheet.Cells[1, 2] = "Date : " + DateTime.Now.ToShortDateString();
+
+                // loop through each row and add values to our sheet
+                int rowcount = 2;
+
+                foreach (DataRow datarow in dataTable.Rows)
+                {
+                    rowcount += 1;
+                    for (int i = 1; i <= dataTable.Columns.Count; i++)
+                    {
+                        // on the first iteration we add the column headers
+                        if (rowcount == 3)
+                        {
+                            excelSheet.Cells[2, i] = dataTable.Columns[i - 1].ColumnName;
+                            excelSheet.Cells.Font.Color = System.Drawing.Color.Black;
+
+                        }
+
+                        excelSheet.Cells[rowcount, i] = datarow[i - 1].ToString();
+
+                        //for alternate rows
+                        if (rowcount > 3)
+                        {
+                            if (i == dataTable.Columns.Count)
+                            {
+                                if (rowcount % 2 == 0)
+                                {
+                                    excelCellrange = excelSheet.Range[excelSheet.Cells[rowcount, 1], excelSheet.Cells[rowcount, dataTable.Columns.Count]];
+                                    FormattingExcelCells(excelCellrange, "#CCCCFF", System.Drawing.Color.Black, false);
+                                }
+
+                            }
+                        }
+
+                    }
+
+                }
+
+                // now we resize the columns
+                excelCellrange = excelSheet.Range[excelSheet.Cells[1, 1], excelSheet.Cells[rowcount, dataTable.Columns.Count]];
+                excelCellrange.EntireColumn.WrapText = false;
+                excelCellrange.EntireColumn.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignLeft;
+                excelCellrange.EntireColumn.AutoFit();
+                excel1stDateCellrange = excelSheet.Range[excelSheet.Cells[1, dateColumnIndex1], excelSheet.Cells[rowcount, dateColumnIndex1]];
+                excel1stDateCellrange.EntireColumn.NumberFormat = "DD/MM/YYYY";
+                excel2ndDateCellrange = excelSheet.Range[excelSheet.Cells[1, dateColumnIndex2], excelSheet.Cells[rowcount, dateColumnIndex2]];
+                excel2ndDateCellrange.EntireColumn.NumberFormat = "DD/MM/YYYY";
+                Microsoft.Office.Interop.Excel.Borders border = excelCellrange.Borders;
+                border.LineStyle = Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous;
+                border.Weight = 2d;
+
+
+                excelCellrange = excelSheet.Range[excelSheet.Cells[1, 1], excelSheet.Cells[2, dataTable.Columns.Count]];
+                FormattingExcelCells(excelCellrange, "#000099", System.Drawing.Color.White, true);
+
+
+                //now save the workbook and exit Excel
+
+
+                excelworkBook.SaveAs(saveAsLocation); ;
+                excelworkBook.Close();
+                excel.Quit();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return false;
+            }
+            finally
+            {
+                excelSheet = null;
+                excelCellrange = null;
+                excelworkBook = null;
+            }
+
+        }
+
+
 
         /// <summary>
         /// FUNCTION FOR FORMATTING EXCEL CELLS

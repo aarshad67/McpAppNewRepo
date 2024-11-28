@@ -367,11 +367,11 @@
     <Compile Include="WhiteboardParametersForm.Designer.cs">
       <DependentUpon>WhiteboardParametersForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="WhiteboardRptForm.cs">
+    <Compile Include="MyBoardReportForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WhiteboardRptForm.Designer.cs">
-      <DependentUpon>WhiteboardRptForm.cs</DependentUpon>
+    <Compile Include="MyBoardReportForm.Designer.cs">
+      <DependentUpon>MyBoardReportForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AddCustomerForm.resx">
       <DependentUpon>AddCustomerForm.cs</DependentUpon>
@@ -538,8 +538,8 @@
     <EmbeddedResource Include="WhiteboardParametersForm.resx">
       <DependentUpon>WhiteboardParametersForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WhiteboardRptForm.resx">
-      <DependentUpon>WhiteboardRptForm.cs</DependentUpon>
+    <EmbeddedResource Include="MyBoardReportForm.resx">
+      <DependentUpon>MyBoardReportForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

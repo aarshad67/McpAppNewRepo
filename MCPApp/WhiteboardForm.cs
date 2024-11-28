@@ -2913,8 +2913,8 @@ namespace MCPApp
             DateTime requiredDate = Convert.ToDateTime(wbDataGridView.Rows[i].Cells[1].Value.ToString());
             DateTime wcDate = mcData.GetMonday(requiredDate);
             this.Cursor = Cursors.Default;
-            WhiteboardRptForm wbRptForm = new WhiteboardRptForm(wcDate);
-            wbRptForm.ShowDialog();
+            MyBoardReportForm rptForm = new MyBoardReportForm("WB",wcDate);
+            rptForm.ShowDialog();
 
         }
 

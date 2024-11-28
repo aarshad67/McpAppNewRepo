@@ -1,6 +1,6 @@
 ﻿namespace MCPApp
 {
-    partial class WhiteboardRptForm
+    partial class MyBoardReportForm
     {
         /// <summary>
         /// Required designer variable.
@@ -130,7 +130,7 @@
             this.GenerateButton.UseVisualStyleBackColor = true;
             this.GenerateButton.Click += new System.EventHandler(this.GenerateButton_Click);
             // 
-            // WhiteboardRptForm
+            // MyBoardReportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -144,7 +144,7 @@
             this.Controls.Add(this.GenerateButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "WhiteboardRptForm";
+            this.Name = "MyBoardReportForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WhiteboardRptForm";
             this.Load += new System.EventHandler(this.WhiteboardRptForm_Load);

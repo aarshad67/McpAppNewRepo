@@ -1310,7 +1310,15 @@ namespace MCPApp
 
         private void exportToEXCELToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            this.Cursor = Cursors.WaitCursor;
+            this.dbDataGridView.NotifyCurrentCellDirty(true);
+            int i = this.rowIndex;
+            if (this.dbDataGridView.Rows[i].Cells[0].Value == null || this.dbDataGridView.Rows[i].Cells[0].Value.ToString().Length < 8) { return; }
+            DateTime designDate = Convert.ToDateTime(this.dbDataGridView.Rows[i].Cells[1].Value.ToString());
+            DateTime wcDate = mcData.GetMonday(designDate);
+            this.Cursor = Cursors.Default;
+            MyBoardReportForm rptForm = new MyBoardReportForm("DB", wcDate);
+            rptForm.ShowDialog();
         }
     }
 }

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace MCPApp
 {
-    public partial class WhiteboardRptForm : Form
+    public partial class MyBoardReportForm : Form
     {
         MeltonData mcData = new MeltonData();
         ExcelUtlity excel = new ExcelUtlity();
@@ -29,16 +29,19 @@ namespace MCPApp
             }
         }
 
+        private static string _source = "";
 
-        public WhiteboardRptForm()
+
+        public MyBoardReportForm()
         {
             InitializeComponent();
         }
 
-        public WhiteboardRptForm(DateTime weekCommenceDate)
+        public MyBoardReportForm(string source,DateTime weekCommenceDate)
         {
             InitializeComponent();
             wcDate = weekCommenceDate;
+            _source = source;
         }
 
         private void SelectBFolderButton_Click(object sender, EventArgs e)
@@ -62,8 +65,9 @@ namespace MCPApp
 
         private void WhiteboardRptForm_Load(object sender, EventArgs e)
         {
-
-            this.Text = "WHITEBOARD Report for week commencing " + wcDate.ToString("ddMMMyyyy");
+            string prefix = _source == "WB" ? "WHITEBOARD" : "DESIGNBOARD";
+            this.Text = $"{prefix}  for week commencing " + wcDate.ToString("ddMMMyyyy"); 
+            GenerateButton.Text = _source == "WB" ? "Generate WHITEBOARD Rpt" : "Generate DESIGNBOARD Rpt";
             label2.Text = "";
         }
 
@@ -189,6 +193,102 @@ namespace MCPApp
 
         }
 
+        private void GenerateDesignBoardExcelReport(DataTable sourceDT, DateTime wcDate)
+        {
+
+            DataTable dbDT = new DataTable();
+            dbDT.Columns.Clear();
+            dbDT.Columns.Add("jobNo", typeof(string));
+            dbDT.Columns.Add("designDate", typeof(Double));
+            dbDT.Columns.Add("detailingDays", typeof(int));
+            dbDT.Columns.Add("designStatus", typeof(string));
+            dbDT.Columns.Add("daysUnapproved", typeof(int));
+            dbDT.Columns.Add("dman", typeof(string));
+            dbDT.Columns.Add("salesman", typeof(string));
+            dbDT.Columns.Add("requiredDate", typeof(Double));
+            dbDT.Columns.Add("customer", typeof(string));
+            dbDT.Columns.Add("siteAddress", typeof(string));
+            dbDT.Columns.Add("floorlevel", typeof(string));
+            dbDT.Columns.Add("supplyType", typeof(string));
+            dbDT.Columns.Add("productSupplier", typeof(string));
+            dbDT.Columns.Add("slabM2", typeof(int));
+            dbDT.Columns.Add("beamM2", typeof(int));
+            dbDT.Columns.Add("beamLM", typeof(int));
+            dbDT.Columns.Add("wcMonday", typeof(string));
+            dbDT.Columns.Add("wcTuesday", typeof(string));
+            dbDT.Columns.Add("wcWednesday", typeof(string));
+            dbDT.Columns.Add("wcThursday", typeof(string));
+            dbDT.Columns.Add("wcFriday", typeof(string));
+            dbDT.Columns.Add("additionalNotes", typeof(string));
+            
+
+
+            string dateCreated = "";
+            string custName = "";
+            string siteAddress = "";
+            DateTime designDate;
+            Double designDateValue;
+            DateTime reqDate;
+            Double reqDateValue;
+            string jobNo = "";
+            string rptName = "DB_wc " + wcDate.ToString("ddMMMyyyy");
+            string fullRptName = rptName + "_" + DateTime.Now.ToString("ddMMMyyyyhhmmss") + ".xlsx";
+            string fullFilePath = System.IO.Path.Combine(pathTextBox.Text, fullRptName);
+            int daysDiff = 0;
+            DateTime dateJobCreated;
+            foreach (DataRow row in sourceDT.Rows)
+            {
+                DataRow dr = dbDT.NewRow();
+                jobNo = row["jobNo"].ToString();
+                if (!mcData.IsValidDesignBoardJob(jobNo)) { continue; }
+                dr["jobNo"] = jobNo;
+                dateCreated = mcData.GetJobCreatedDate(jobNo).ToString("dd/MMM/yyyy hh:mm tt");
+                designDate = Convert.ToDateTime(row["designDate"]);
+                designDateValue = designDate.ToOADate();
+                reqDate = Convert.ToDateTime(row["requiredDate"]);
+                reqDateValue = reqDate.ToOADate();
+                dr["designDate"] = designDateValue;
+                dr["requiredDate"] = reqDateValue;
+                dr["detailingDays"] = row["detailingDays"];//== null ? 0 : Convert.ToInt16(row["detailingDays"]);
+                dr["designStatus"] = row["designStatus"].ToString();
+                if (row["designStatus"].ToString().ToUpper().Contains("APPROVED") || row["designStatus"].ToString().ToUpper() == "ON SHOP")
+                {
+                    daysDiff = 0;
+                }
+                else
+                {
+                    dateJobCreated = mcData.GetJobCreatedDateByJobNo(jobNo);
+                    daysDiff = mcData.GetDaysDiffBetweenTwDates(dateJobCreated.Date);
+                }
+                dr["daysUnapproved"] = daysDiff;
+                dr["dman"] = row["dman"].ToString();
+                dr["salesman"] = row["salesman"].ToString();
+                
+                custName = mcData.GetCustomerNameByJobNo(jobNo);
+                dr["customer"] = custName;
+                siteAddress = mcData.GetSiteAddressFromJobNo(jobNo);
+                dr["siteAddress"] = siteAddress;
+                dr["floorlevel"] = row["floorlevel"].ToString();
+                dr["supplyType"] = row["supplyType"].ToString();
+                dr["productSupplier"] = row["productSupplier"].ToString();
+                dr["slabM2"] = Convert.ToInt32(row["slabM2"].ToString());
+                dr["beamM2"] = Convert.ToInt32(row["beamM2"].ToString());
+                dr["beamLM"] = Convert.ToInt32(row["beamLM"].ToString());
+                dr["wcMonday"] = row["wcMonday"].ToString();
+                dr["wcTuesday"] = row["wcTuesday"].ToString();
+                dr["wcWednesday"] = row["wcWednesday"].ToString();
+                dr["wcThursday"] = row["wcThursday"].ToString();
+                dr["wcFriday"] = row["wcFriday"].ToString();
+                dr["additionalNotes"] = row["additionalNotes"].ToString();
+
+
+                dbDT.Rows.Add(dr);
+                label2.Text = jobNo;
+            }
+            excel.WriteDataTableToExcel(dbDT, rptName, fullFilePath, rptName, 2,8);
+
+        }
+
         private void OpenLocationFolder()
         {
             try
@@ -205,9 +305,21 @@ namespace MCPApp
         private void GenerateButton_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            
-            DataTable wbDT = mcData.GetWhiteboardByDateRangeDT(wcDate, wcDate.AddDays(6));
-            GenerateWhiteboardExcelReport(wbDT, wcDate);
+            DataTable rptDT = new DataTable();
+            if(_source == "WB")
+            {
+                rptDT = mcData.GetWhiteboardByDateRangeDT(wcDate, wcDate.AddDays(6));
+                GenerateWhiteboardExcelReport(rptDT, wcDate);
+            }
+            else if( _source == "DB")
+            {
+                rptDT = mcData.GetDesignboardByDateRangeDT(wcDate, wcDate.AddDays(6));
+                GenerateDesignBoardExcelReport(rptDT, WcDate);
+            }
+            else
+            {
+               //do nothing
+            }
             this.Cursor = Cursors.Default;
 
             string message = "Report(s) successfully created in [" + pathTextBox.Text + "] location." + Environment.NewLine + "" + Environment.NewLine + "Do you wish to check the excel file(s) now?";

@@ -9124,6 +9124,44 @@ namespace MCPApp
             }
         }
 
+        public bool IsValidDesignBoardJob(string jobNo)
+        {
+            char lastCharacter = jobNo[jobNo.Length - 1];
+            string jobNumber = jobNo;
+            if (Char.IsLetter(lastCharacter))
+            {
+                jobNumber = jobNo.Substring(0, 8);
+            }
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand($"SELECT count(*) FROM dbo.DesignBoard WHERE jobNo = '{jobNumber}' AND designStatus != 'ON SHOP'", conn))
+                    {
+                        Int32 numjobs = (Int32)command.ExecuteScalar();
+
+                        if (numjobs > 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"IsValidDesignBoardJob() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"IsValidDesignBoardJob({jobNo})", ex.Message.ToString());
+                    return false;
+                }
+
+            }
+        }
+
         public bool IsDesignBoardJob(string jobNo)
         {
             char lastCharacter = jobNo[jobNo.Length - 1];
