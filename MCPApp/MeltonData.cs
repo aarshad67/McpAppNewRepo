@@ -5727,6 +5727,42 @@ namespace MCPApp
             }
         }
 
+        public string GetCreatedByFromJobNo(string jobNo)
+        {
+            string jobCreatedBy = "";
+
+            string qry = $"SELECT jobCreatedBy FROM dbo.JobPlanner WHERE jobNo = '{jobNo}'";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(qry, conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                jobCreatedBy = reader["jobCreatedBy"].ToString();
+                            }
+                        }
+                    }
+
+                    return jobCreatedBy;
+
+
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"GetCreatedByFromJobNo() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetCreatedByFromJobNo({jobNo})", ex.Message.ToString());
+                    return jobCreatedBy;
+                }
+
+            }
+        }
+
         public DateTime GetDesignDateByJobNo(string jobNo)
         {
             DateTime date = DateTime.MinValue;

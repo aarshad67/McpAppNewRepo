@@ -424,54 +424,9 @@ namespace MCPApp
                     int dow = (int)designDate.DayOfWeek;
                     string inputStr = jobDGV[0, e.RowIndex].Value == null ? "" : jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString();
                     int detailDayCount = Convert.ToInt16(inputStr);
-                    if (detailDayCount > 4) { jobDGV[e.ColumnIndex, e.RowIndex].Value = ""; return; }
-                    string warning = $"Design Date for Job [{jobNo}] CANNOT go beyond the end of the working week";
-                    switch (dow)
-                    {
-                        case 1: // mon
-                            if (detailDayCount > 5)
-                            {
-                                MessageBox.Show(warning);
-                                jobDGV[e.ColumnIndex, e.RowIndex].Value = "";
-                                return;
-                            }
-                            
-                            break;
-                        case 2: // tues
-                            if (detailDayCount > 4)
-                            {
-                                MessageBox.Show(warning);
-                                jobDGV[e.ColumnIndex, e.RowIndex].Value = "";
-                                return;
-                            }
-                            break;
-                        case 3: //wed
-                            if (detailDayCount > 3)
-                            {
-                                MessageBox.Show(warning);
-                                jobDGV[e.ColumnIndex, e.RowIndex].Value = "";
-                                return;
-                            }
-                            break;
-                        case 4: //thu
-                            if (detailDayCount > 2)
-                            {
-                                MessageBox.Show(warning);
-                                jobDGV[e.ColumnIndex, e.RowIndex].Value = "";
-                                return;
-                            }
-                            break;
-                        case 5: // fri
-                            if (detailDayCount > 1)
-                            {
-                                MessageBox.Show(warning);
-                                jobDGV[e.ColumnIndex, e.RowIndex].Value = "";
-                                return;
-                            }
-                            break;
-                        default:
-                            break;
-                    }
+                    int numRemaining = mcData.GetDesignDateRemainingDays(dow, detailDayCount);
+                    jobDGV[e.ColumnIndex, e.RowIndex].Value = numRemaining;
+                    
                 }
 
 

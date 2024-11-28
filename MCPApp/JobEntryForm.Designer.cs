@@ -201,7 +201,7 @@
             this.jobDGV.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.jobDGV.Name = "jobDGV";
             this.jobDGV.RowHeadersWidth = 62;
-            this.jobDGV.Size = new System.Drawing.Size(2228, 707);
+            this.jobDGV.Size = new System.Drawing.Size(1883, 707);
             this.jobDGV.TabIndex = 120;
             this.jobDGV.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.jobDGV_CellBeginEdit);
             this.jobDGV.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.jobDGV_CellContentClick);
@@ -266,8 +266,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(2280, 1060);
-            this.ControlBox = false;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(1935, 1046);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.createJobBtn);
             this.Controls.Add(this.cancelButton);

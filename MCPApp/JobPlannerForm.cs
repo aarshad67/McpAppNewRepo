@@ -1063,6 +1063,7 @@ namespace MCPApp
         {
             DataTable dt = new DataTable();
             Double reqDate;
+            Double designDate;
             int dd = 0;
             int mm = 0;
             int yyyy = 0;
@@ -1077,25 +1078,27 @@ namespace MCPApp
                 dt.Columns.Add("phaseNo", typeof(string)); //2
                 dt.Columns.Add("floorLevel", typeof(string));//3
                 dt.Columns.Add("requiredDate", typeof(Double));//4
-                dt.Columns.Add("custName", typeof(string)); //5
-                dt.Columns.Add("siteAddress", typeof(string));//6
-                // newJobDT.Columns.Add("drawn", typeof(string));//6
-                dt.Columns.Add("approved", typeof(string));//7
-                dt.Columns.Add("OnShop", typeof(string));//8
-                dt.Columns.Add("stairsIncl", typeof(string));//9
-                dt.Columns.Add("slabM2", typeof(string));//10
+                dt.Columns.Add("designDate", typeof(Double));//5
+                dt.Columns.Add("custName", typeof(string)); //6
+                dt.Columns.Add("siteAddress", typeof(string));//7
+                dt.Columns.Add("dman", typeof(string));//7
+                // newJobDT.Columns.Add("drawn", typeof(string));//8
+                dt.Columns.Add("approved", typeof(string));//9
+                dt.Columns.Add("OnShop", typeof(string));//10
+                dt.Columns.Add("stairsIncl", typeof(string));//11
+                dt.Columns.Add("slabM2", typeof(string));//12
 
-                dt.Columns.Add("beamLm", typeof(string));//11
-                dt.Columns.Add("beamM2", typeof(string));//12
-                dt.Columns.Add("supplyType", typeof(string));//13
-                dt.Columns.Add("productSupplier", typeof(string));//14
-                dt.Columns.Add("supplierRef", typeof(string));//15
-                dt.Columns.Add("lastComment", typeof(string));//16
-                dt.Columns.Add("phaseInvValue", typeof(string));//17
-                dt.Columns.Add("jobMgnValue", typeof(string));//17
-                dt.Columns.Add("completed", typeof(string));//18
-                dt.Columns.Add("modifiedDate", typeof(string));//19
-                dt.Columns.Add("modifiedBy", typeof(string));//20
+                dt.Columns.Add("beamLm", typeof(string));//13
+                dt.Columns.Add("beamM2", typeof(string));//14
+                dt.Columns.Add("supplyType", typeof(string));//15
+                dt.Columns.Add("productSupplier", typeof(string));//16
+                dt.Columns.Add("supplierRef", typeof(string));//17
+                dt.Columns.Add("lastComment", typeof(string));//18
+                dt.Columns.Add("phaseInvValue", typeof(string));//19
+                dt.Columns.Add("jobMgnValue", typeof(string));//20
+                dt.Columns.Add("completed", typeof(string));//21
+              //  dt.Columns.Add("modifiedDate", typeof(string));//22
+                dt.Columns.Add("rep", typeof(string));//23
 
                 DataRow dr = dt.NewRow();
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
@@ -1109,25 +1112,27 @@ namespace MCPApp
                     dr["floorLevel"] = jobDGV.Rows[i].Cells[2].Value.ToString();
                     reqDate = mcData.GetCorrectDate(Convert.ToDateTime(jobDGV.Rows[i].Cells[3].Value)).ToOADate();
                     dr["requiredDate"] = reqDate;
+                    designDate = mcData.GetCorrectDate(Convert.ToDateTime(jobDGV.Rows[i].Cells[4].Value)).ToOADate();
+                    dr["designDate"] = designDate;
                     dr["custName"] = jobDGV.Rows[i].Cells[1].Value.ToString();
-                    dr["siteAddress"] = jobDGV.Rows[i].Cells[4].Value.ToString();
-                    //   dr["drawn"] =  (bool)jobDGV.Rows[i].Cells[5].Value ? "Y" : "N";
-                    dr["approved"] = (bool)jobDGV.Rows[i].Cells[6].Value ? "Y" : "N";
-                    dr["OnShop"] = (bool)jobDGV.Rows[i].Cells[6].Value ? "Y" : "N";
-                    dr["stairsIncl"] = (bool)jobDGV.Rows[i].Cells[8].Value ? "Y" : "N";
-                    dr["slabM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[9].Value);
-                    dr["beamLm"] = Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value);
-                    dr["beamM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value);
-
-                    dr["supplyType"] = jobDGV.Rows[i].Cells[13].Value.ToString();
-                    dr["supplierRef"] = jobDGV.Rows[i].Cells[14].Value.ToString();
-                    dr["productSupplier"] = jobDGV.Rows[i].Cells[12].Value.ToString();
-                    dr["lastComment"] = jobDGV.Rows[i].Cells[16].Value.ToString();
-                    dr["phaseInvValue"] = Convert.ToDecimal(jobDGV.Rows[i].Cells[15].Value);
-                    dr["jobMgnValue"] = Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value);
+                    dr["siteAddress"] = jobDGV.Rows[i].Cells[5].Value.ToString();
+                    dr["dman"] = jobDGV.Rows[i].Cells[6].Value.ToString();
+                    dr["approved"] = (bool)jobDGV.Rows[i].Cells[7].Value ? "Y" : "N";
+                    dr["OnShop"] = (bool)jobDGV.Rows[i].Cells[8].Value ? "Y" : "N";
+                    dr["stairsIncl"] = (bool)jobDGV.Rows[i].Cells[9].Value ? "Y" : "N";
+                    dr["slabM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value);
+                    dr["beamLm"] = Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value);
+                    dr["beamM2"] = Convert.ToInt32(jobDGV.Rows[i].Cells[12].Value);
+                    dr["productSupplier"] = jobDGV.Rows[i].Cells[13].Value.ToString();
+                    dr["supplyType"] = jobDGV.Rows[i].Cells[14].Value.ToString();
+                    dr["supplierRef"] = jobDGV.Rows[i].Cells[15].Value.ToString();
+                    dr["phaseInvValue"] = Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value);
+                    dr["jobMgnValue"] = Convert.ToDecimal(jobDGV.Rows[i].Cells[17].Value);
+                    dr["lastComment"] = jobDGV.Rows[i].Cells[18].Value.ToString();
+                    
                     dr["completed"] = mcData.GetCompletedFlagFromJob(jobDGV.Rows[i].Cells[0].Value.ToString());
-                    dr["modifiedDate"] = Convert.ToDateTime(jobDGV.Rows[i].Cells[18].Value);
-                    dr["modifiedBy"] = jobDGV.Rows[i].Cells[19].Value.ToString();
+                    // dr["modifiedDate"] = Convert.ToDateTime(jobDGV.Rows[i].Cells[18].Value);
+                    dr["rep"] = mcData.GetCreatedByFromJobNo(jobDGV.Rows[i].Cells[0].Value.ToString());
 
                     dt.Rows.Add(dr);
                 }

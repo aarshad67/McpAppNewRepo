@@ -541,6 +541,7 @@ namespace MCPApp
                 dbDataGridView.Controls[1].Visible = true;
                 dbDataGridView.ScrollBars = ScrollBars.Both;
                 dbDataGridView.Columns.Clear();
+                dbDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
                 //0
                 DataGridViewTextBoxColumn jobNoColumn = new DataGridViewTextBoxColumn();//0
@@ -556,7 +557,7 @@ namespace MCPApp
                 //1
                 DataGridViewTextBoxColumn designDateColumn = new DataGridViewTextBoxColumn();
                 designDateColumn.HeaderText = "Design Date (Right Click)";
-                designDateColumn.Width = 80;
+                designDateColumn.Width = 50;
                 designDateColumn.ReadOnly = true;
                 designDateColumn.Frozen = true;
                 designDateColumn.DefaultCellStyle.BackColor = Color.Yellow;
@@ -569,7 +570,7 @@ namespace MCPApp
                 DataGridViewTextBoxColumn detailingDaysColumn = new DataGridViewTextBoxColumn();
                 detailingDaysColumn.DataPropertyName = "detailingDays";
                 detailingDaysColumn.HeaderText = "Detail Days";
-                detailingDaysColumn.Width = 60;
+                detailingDaysColumn.Width = 40;
                 detailingDaysColumn.ReadOnly = false;
                 detailingDaysColumn.Frozen = true;
                 dbDataGridView.Columns.Add(detailingDaysColumn);
@@ -585,7 +586,7 @@ namespace MCPApp
                 //4
                 DataGridViewTextBoxColumn daysUnapprovedColumn = new DataGridViewTextBoxColumn();
                 daysUnapprovedColumn.HeaderText = "Days UnApprvd";
-                daysUnapprovedColumn.Width = 70;
+                daysUnapprovedColumn.Width = 40;
                 daysUnapprovedColumn.Frozen = true;
                 daysUnapprovedColumn.ReadOnly = true;
                 dbDataGridView.Columns.Add(daysUnapprovedColumn);
@@ -624,7 +625,7 @@ namespace MCPApp
                 //7
                 DataGridViewTextBoxColumn reqDateColumn = new DataGridViewTextBoxColumn();
                 reqDateColumn.HeaderText = "Req Date (Right Click)";
-                reqDateColumn.Width = 80;
+                reqDateColumn.Width = 50;
                 reqDateColumn.ReadOnly = true;
              //   reqDateColumn.Frozen = true;
                 reqDateColumn.DefaultCellStyle.ForeColor = Color.Blue;
@@ -891,7 +892,7 @@ namespace MCPApp
         private void DesignBoardForm_Load(object sender, EventArgs e)
         {
             this.Text = String.Format("Design Board spanning period between {0} and {1}", dbStartDate.ToString("dd/MMM/yyyy"), dbEndDate.ToString("dd/MMM/yyyy"));
-            
+            label1.Text = "NOTE : Right click on the DAYS (and Additional Comments) to add notes";
             
             suppTypeBindngSource.DataSource = mcData.GetSupplyTypeDT();
             salesmanBindngSource.DataSource = mcData.GetSalesmanDT();
