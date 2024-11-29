@@ -558,6 +558,7 @@ namespace MCPApp
                             {
                                 MessageBox.Show("ERROR Missing job fields - Floor Level, Site Address and Supply Type (SO / SF) must be specified for a job");
                                 this.Cursor = Cursors.Default;
+                                int numDeleted = mcData.DeleteParentJob(Convert.ToInt32(parentJobNoTextBox.Text));
                                 return;
                             }
                             string result = JobsDGVToDB();

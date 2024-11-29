@@ -7182,8 +7182,8 @@ namespace MCPApp
 
 
         public string UpdateDesignBoardJobFromJP(string jobNo, DateTime designDate, string floorlevel, string productSupplier,
-                                        string supplierRef, string stairsIncluded, string supplyType, int slabM2, int beamM2, int beamLM,
-                                        string wcMonday, string wcTuesday, string wcWednesday, string wcThursday, string wcFriday, string wcSaturday, string wcSunday,string sortType)
+                                        string supplierRef, string supplyType, int slabM2, int beamM2, int beamLM,
+                                        string wcMonday, string wcTuesday, string wcWednesday, string wcThursday, string wcFriday, string wcSaturday, string wcSunday,string sortType,string dman)
         {
 
             // string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
@@ -7193,7 +7193,6 @@ namespace MCPApp
                                 + "floorlevel = @floorlevel,"
                                 + "productSupplier = @productSupplier,"
                                 + "supplierRef = @supplierRef,"
-                                + "stairsIncluded = @stairsIncluded,"
                                 + "supplyType = @supplyType,"
                                 + "slabM2 = @slabM2,"
                                 + "beamM2 = @beamM2,"
@@ -7203,9 +7202,8 @@ namespace MCPApp
                                 + "wcWednesday = @wcWednesday,"
                                 + "wcThursday = @wcThursday,"
                                 + "wcFriday = @wcFriday,"
-                                + "wcSaturday = @wcSaturday,"
-                                + "wcSunday = @wcSunday,"
                                 + "sortType = @sortType,"
+                                + "dman = @dman,"
                                 + "modifiedDate = @modifiedDate,"
                                 + "modifiedBy = @modifiedBy "
                                 + "WHERE jobNo = @jobNo";
@@ -7222,7 +7220,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("floorlevel", floorlevel));
                         command.Parameters.Add(new SqlParameter("productSupplier", productSupplier));
                         command.Parameters.Add(new SqlParameter("supplierRef", supplierRef));
-                        command.Parameters.Add(new SqlParameter("stairsIncluded", stairsIncluded)); //
+                        
                         command.Parameters.Add(new SqlParameter("supplyType", supplyType));
                         command.Parameters.Add(new SqlParameter("slabM2", slabM2));
                         command.Parameters.Add(new SqlParameter("beamM2", beamM2));
@@ -7232,9 +7230,9 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("wcWednesday", wcWednesday));
                         command.Parameters.Add(new SqlParameter("wcThursday", wcThursday));
                         command.Parameters.Add(new SqlParameter("wcFriday", wcFriday));
-                        command.Parameters.Add(new SqlParameter("wcSaturday", wcSaturday));
-                        command.Parameters.Add(new SqlParameter("wcSunday", wcSunday));
+                        
                         command.Parameters.Add(new SqlParameter("sortType", sortType));
+                        command.Parameters.Add(new SqlParameter("dman", dman));
                         command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
                         command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
 
@@ -8529,7 +8527,7 @@ namespace MCPApp
         }
 
         public string UpdateWhiteboardViaJobPlanner(string jobNo, string floorLevel, DateTime requiredDate, string siteAddress, int slabM2, int beamM2, string supplyType, string suppShortname,
-            string stairsIncl, string lastComment, string wcMonday, string wcTuesday, string wcWednesday, string wcThursday, string wcFriday, string wcSaturday, string wcSunday, decimal phaseInvoiceValue, string sortType)
+            string stairsIncl, string lastComment, string wcMonday, string wcTuesday, string wcWednesday, string wcThursday, string wcFriday, string wcSaturday, string wcSunday, decimal phaseInvoiceValue, string sortType, string draughtsman)
         {
             // string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
 
@@ -8544,7 +8542,7 @@ namespace MCPApp
                                     + "stairsIncl = @stairsIncl, "
                                     + "lastComment = @lastComment, "
                                     + "salesPrice = @salesPrice, "
-                                    //+ "wcMonday = @wcMonday, "
+                                    + "draughtsman = @draughtsman, "
                                     //+ "wcTuesday = @wcTuesday, "
                                     //+ "wcWednesday = @wcWednesday, "
                                     //+ "wcThursday = @wcThursday, "
@@ -8573,7 +8571,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("stairsIncl", stairsIncl));
                         command.Parameters.Add(new SqlParameter("lastComment", lastComment));
                         command.Parameters.Add(new SqlParameter("salesPrice", phaseInvoiceValue));
-                        //command.Parameters.Add(new SqlParameter("wcMonday", wcMonday));
+                        command.Parameters.Add(new SqlParameter("draughtsman", draughtsman));
                         //command.Parameters.Add(new SqlParameter("wcTuesday", wcTuesday));
                         //command.Parameters.Add(new SqlParameter("wcWednesday", wcWednesday));
                         //command.Parameters.Add(new SqlParameter("wcThursday", wcThursday));

@@ -945,15 +945,15 @@ namespace MCPApp
                         MessageBox.Show(String.Format("UpdatedJobsDGVToDB() ERROR : {0}", err));
                         break;
                     }
-                    string wbErr = mcData.UpdateWhiteboardViaJobPlanner(jobNo, floorLevel, requiredDate, siteAddress, slabM2, beamM2, supplyType, suppShortname, stairsIncl, lastComment, mon, tue, wed, thu, fri, sat, sun, phaseInvValue, sortType);
+                    string wbErr = mcData.UpdateWhiteboardViaJobPlanner(jobNo, floorLevel, requiredDate, siteAddress, slabM2, beamM2, supplyType, suppShortname, stairsIncl, lastComment, mon, tue, wed, thu, fri, sat, sun, phaseInvValue, sortType, dman);
                     if (wbErr != "OK")
                     {
                         MessageBox.Show(String.Format("UpdatedJobsDGVToDB() ERROR : {0}", wbErr));
                         break;
                     }
                     string dbErr = mcData.UpdateDesignBoardJobFromJP(jobNo, designDate, floorLevel, suppShortname,
-                                        supplierRef, stairsIncl, supplyType, slabM2, beamM2, beamLm,
-                                        mon, tue, wed, thu, fri, sat, sun, sortType);
+                                        supplierRef, supplyType, slabM2, beamM2, beamLm,
+                                        mon, tue, wed, thu, fri, sat, sun, sortType,dman);
                     
                     if (onshop == "Y")
                     {

@@ -281,7 +281,19 @@ namespace MCPApp
 
             if (String.IsNullOrWhiteSpace(custCodeTextBox.Text)) { MessageBox.Show("Customer account needs adding"); custCodeTextBox.Focus(); return; }
 
-            if (String.IsNullOrWhiteSpace(siteAddressTextBox.Text)) { MessageBox.Show("Site Address needs adding"); siteAddressTextBox.Focus(); return; }
+            if (String.IsNullOrWhiteSpace(siteAddressTextBox.Text)) 
+            { 
+                MessageBox.Show("Site Address needs adding"); 
+                siteAddressTextBox.Focus(); 
+                return; }
+
+            if(parentJobNoTextBox.Text.Length > 5) 
+            { 
+                MessageBox.Show("Parent Job Number MUST be 5 digits long");
+                parentJobNoTextBox.Text = "";
+                parentJobNoTextBox.Focus(); 
+                return; 
+            }
 
             if (!updateDetailsFlag)
             {
