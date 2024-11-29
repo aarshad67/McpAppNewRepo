@@ -953,7 +953,7 @@ namespace MCPApp
                     }
                     string dbErr = mcData.UpdateDesignBoardJobFromJP(jobNo, designDate, floorLevel, suppShortname,
                                         supplierRef, supplyType, slabM2, beamM2, beamLm,
-                                        mon, tue, wed, thu, fri, sat, sun, sortType,dman);
+                                        mon, tue, wed, thu, fri, sat, sun, sortType,dman,requiredDate);
                     
                     if (onshop == "Y")
                     {

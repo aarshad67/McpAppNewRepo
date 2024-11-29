@@ -7183,13 +7183,14 @@ namespace MCPApp
 
         public string UpdateDesignBoardJobFromJP(string jobNo, DateTime designDate, string floorlevel, string productSupplier,
                                         string supplierRef, string supplyType, int slabM2, int beamM2, int beamLM,
-                                        string wcMonday, string wcTuesday, string wcWednesday, string wcThursday, string wcFriday, string wcSaturday, string wcSunday,string sortType,string dman)
+                                        string wcMonday, string wcTuesday, string wcWednesday, string wcThursday, string wcFriday, string wcSaturday, string wcSunday,string sortType,string dman, DateTime requiredDate)
         {
 
             // string loggedInUser = ConfigurationManager.AppSettings["LoggedInUser"];
             // string custName = GetCustName(custCode);
             string insertQry = "UPDATE dbo.DesignBoard "
                                 + "SET designDate = @designDate,"
+                                + "requiredDate = @requiredDate,"
                                 + "floorlevel = @floorlevel,"
                                 + "productSupplier = @productSupplier,"
                                 + "supplierRef = @supplierRef,"
@@ -7217,6 +7218,7 @@ namespace MCPApp
                     {
                         command.Parameters.Add(new SqlParameter("jobNo", jobNo));
                         command.Parameters.Add(new SqlParameter("designDate", designDate));
+                        command.Parameters.Add(new SqlParameter("requiredDate", requiredDate));
                         command.Parameters.Add(new SqlParameter("floorlevel", floorlevel));
                         command.Parameters.Add(new SqlParameter("productSupplier", productSupplier));
                         command.Parameters.Add(new SqlParameter("supplierRef", supplierRef));
