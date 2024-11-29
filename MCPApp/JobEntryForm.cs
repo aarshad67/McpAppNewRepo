@@ -433,7 +433,7 @@ namespace MCPApp
 
                 if (e.ColumnIndex == 11) //BeamLM
                 {
-                    int beamLM = Convert.ToInt32(jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString());
+                    int beamLM = jobDGV[e.ColumnIndex, e.RowIndex].Value == null ? 0 : Convert.ToInt32(jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString());
                     decimal halvedBeamLM = beamLM * 0.5m;
                     int beamM2 = (int)Math.Round(halvedBeamLM, 0);
                     jobDGV[12, e.RowIndex].Value = beamM2;
@@ -624,8 +624,8 @@ namespace MCPApp
                     }
                     
                     floorLevel = jobDGV.Rows[i].Cells[3].Value == null ? "" : jobDGV.Rows[i].Cells[3].Value.ToString();
-                    siteAddr = jobDGV.Rows[i].Cells[6].Value == null ? "" : jobDGV.Rows[i].Cells[6].Value.ToString();
-                    supplyType = jobDGV.Rows[i].Cells[12].Value == null ? "" : jobDGV.Rows[i].Cells[12].Value.ToString();
+                    siteAddr = jobDGV.Rows[i].Cells[8].Value == null ? "" : jobDGV.Rows[i].Cells[8].Value.ToString();
+                    supplyType = jobDGV.Rows[i].Cells[14].Value == null ? "" : jobDGV.Rows[i].Cells[14].Value.ToString();
 
                     if (String.IsNullOrWhiteSpace(floorLevel) || String.IsNullOrWhiteSpace(siteAddr) || String.IsNullOrWhiteSpace(supplyType))
                     {
