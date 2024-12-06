@@ -6505,6 +6505,7 @@ namespace MCPApp
             string qry1 = @"SELECT * FROM dbo.DesignBoard 
                                 WHERE designDate between @startDate and @endDate 
                                 AND designStatus != 'ON SHOP' 
+                                AND dman NOT LIKE '%WIN%' 
                                 ORDER BY designStatusSeq,designDate,jobNo";
    
             using (SqlConnection conn = new SqlConnection(connStr))
