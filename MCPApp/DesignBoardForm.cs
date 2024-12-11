@@ -1267,6 +1267,7 @@ namespace MCPApp
                     
                 }
                 mcData.UpdateDesignBoardColourCodeDayFlags(jobNo, selectedDate, 1, (int)selectedDate.DayOfWeek);
+                mcData.UpdateJobPlannerDesignDate(jobNo, selectedDate);
                 ColourCodeDayCells(dbDataGridView, rowIndex, 5, 0);
 
                 if(!mcData.IsDateWithinDateRange(selectedDate,dbStartDate,dbEndDate))
@@ -1278,7 +1279,7 @@ namespace MCPApp
                 }
                 else
                 {
-                    this.Dispose();
+                 //   this.Dispose();
                     this.Text = String.Format("Design Board spanning period between {0} and {1}", dbStartDate.ToString("dd/MMM/yyyy"), dbEndDate.ToString("dd/MMM/yyyy"));
 
 
