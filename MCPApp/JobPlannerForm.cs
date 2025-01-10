@@ -3627,7 +3627,8 @@ namespace MCPApp
             int roundedNumWeeks = (int)Decimal.Round(numWeeks, 1) + 1;
             DesignBoardForm dbForm = new DesignBoardForm(phaseJob, startDate, lastDate, dt, roundedNumWeeks);
             dbForm.ShowDialog();
-           // PopulateDGV(mcData.GetJobPlannerDTByJob(phaseJob));
+           // BuildDGV();
+            PopulateDGV(mcData.GetJobPlannerDTByParentJob(phaseJob.Substring(0,5)));
             return;
         }
 

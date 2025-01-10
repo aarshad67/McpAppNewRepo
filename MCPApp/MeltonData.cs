@@ -3209,6 +3209,37 @@ namespace MCPApp
 
         }
 
+        public DataTable GetJobPlannerDTByParentJob(string parentJobNo)
+        {
+            string qry = "";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    //qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' ORDER BY supplyType,requiredDate";
+                    qry = $"SELECT * FROM dbo.JobPlanner WHERE jobNo LIKE '{parentJobNo}%' ORDER BY jobNo";
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"GetJobPlannerDTByParentJob() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetJobPlannerDTByParentJob({parentJobNo})", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
         public DataTable GetJobsNotOnShopDT()
         {
             string oldQry = "";
