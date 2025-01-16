@@ -1279,17 +1279,14 @@ namespace MCPApp
                 }
                 else
                 {
-                 //   this.Dispose();
-                    this.Text = String.Format("Design Board spanning period between {0} and {1}", dbStartDate.ToString("dd/MMM/yyyy"), dbEndDate.ToString("dd/MMM/yyyy"));
-
-
-                    suppTypeBindngSource.DataSource = mcData.GetSupplyTypeDT();
-                    salesmanBindngSource.DataSource = mcData.GetSalesmanDT();
-                    BuildTabs();
+                    //commented out due to each date change taking 2 mins because of refresh
+                    //this.Text = String.Format("Design Board spanning period between {0} and {1}", dbStartDate.ToString("dd/MMM/yyyy"), dbEndDate.ToString("dd/MMM/yyyy"));
+                    //suppTypeBindngSource.DataSource = mcData.GetSupplyTypeDT();
+                    //salesmanBindngSource.DataSource = mcData.GetSalesmanDT();
                     //BuildTabs();
-                    //PopulateDesignBoardDGV(this.dbDataGridView, dbStartDate, dbEndDate);
+                    return;
                 }
-                return;
+               // return;
             }
 
             if (colIndex == 7)
@@ -1361,6 +1358,19 @@ namespace MCPApp
             this.Cursor = Cursors.Default;
             MyBoardReportForm rptForm = new MyBoardReportForm("DB", wcDate);
             rptForm.ShowDialog();
+        }
+
+        private async void RefreshBtn_Click(object sender, EventArgs e)
+        {
+            RefreshBtn.Text = "Pls Wait.Refreshing ....";
+            await Task.Delay(2000);
+            this.Text = String.Format("Design Board spanning period between {0} and {1}", dbStartDate.ToString("dd/MMM/yyyy"), dbEndDate.ToString("dd/MMM/yyyy"));
+            suppTypeBindngSource.DataSource = mcData.GetSupplyTypeDT();
+            salesmanBindngSource.DataSource = mcData.GetSalesmanDT();
+            BuildTabs();
+            MessageBox.Show("DesignBoard has refreshed successfully");
+            RefreshBtn.Text = "Refresh the Design Board ";
+            return;
         }
     }
 }

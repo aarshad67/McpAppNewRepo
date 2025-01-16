@@ -48,6 +48,7 @@ namespace MCPApp
             this.AdditionalCommentContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.AddAdditionalCommentMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
+            this.RefreshBtn = new System.Windows.Forms.Button();
             this.supplierContextMenuStrip.SuspendLayout();
             this.productContextMenuStrip.SuspendLayout();
             this.wbDailyContextMenuStrip1.SuspendLayout();
@@ -211,6 +212,20 @@ namespace MCPApp
             this.label1.TabIndex = 20;
             this.label1.Text = "label1";
             // 
+            // RefreshBtn
+            // 
+            this.RefreshBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.RefreshBtn.BackColor = System.Drawing.Color.Green;
+            this.RefreshBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RefreshBtn.ForeColor = System.Drawing.Color.White;
+            this.RefreshBtn.Location = new System.Drawing.Point(1227, 923);
+            this.RefreshBtn.Name = "RefreshBtn";
+            this.RefreshBtn.Size = new System.Drawing.Size(233, 69);
+            this.RefreshBtn.TabIndex = 21;
+            this.RefreshBtn.Text = "Refresh the Design Board ";
+            this.RefreshBtn.UseVisualStyleBackColor = false;
+            this.RefreshBtn.Click += new System.EventHandler(this.RefreshBtn_Click);
+            // 
             // DesignBoardForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -219,6 +234,7 @@ namespace MCPApp
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1689, 1015);
+            this.Controls.Add(this.RefreshBtn);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.weeksTabControl);
             this.Controls.Add(this.cancelButton);
@@ -259,5 +275,6 @@ namespace MCPApp
         private System.Windows.Forms.ToolStripMenuItem GoToJobPlannerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToEXCELToolStripMenuItem;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button RefreshBtn;
     }
 }
