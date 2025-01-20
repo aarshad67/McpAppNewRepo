@@ -291,6 +291,7 @@ namespace MCPApp
             {
                 DataRow dr = jobsDT.NewRow();
                 jobNo = row["jobNo"].ToString();
+                if(mcData.IsJobCancelled(jobNo)) { continue; }
                 custCode = mcData.GetCustomerCodeByJobNo(jobNo);
                 custName = mcData.GetCustName(custCode);
                 reqDate = Convert.ToDateTime(row["requiredDate"]);
