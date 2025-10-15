@@ -40,8 +40,7 @@ namespace MCPApp
                 sheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.ActiveSheet;
                 sheet.Name = worksheetName;
 
-                //var allColsRange = sheet.UsedRange;
-                //allColsRange.WrapText = false;
+                
 
 
                 // Title - top row
