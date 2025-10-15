@@ -20,8 +20,99 @@ namespace MCPApp
         /// <returns></returns>
         /// 
 
-        
 
+        public bool WriteDataTableToExcelQuick(DataTable dataTable, string worksheetName, string saveAsLocation, string reportType, int dateColumnIndex)
+        {
+            Microsoft.Office.Interop.Excel.Application excel = null;
+            Microsoft.Office.Interop.Excel.Workbook workbook = null;
+            Microsoft.Office.Interop.Excel.Worksheet sheet = null;
+            Microsoft.Office.Interop.Excel.Range range = null;
+
+            try
+            {
+                excel = new Microsoft.Office.Interop.Excel.Application
+                {
+                    Visible = false,
+                    DisplayAlerts = false
+                };
+
+                workbook = excel.Workbooks.Add(Type.Missing);
+                sheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.ActiveSheet;
+                sheet.Name = worksheetName;
+
+                //var allColsRange = sheet.UsedRange;
+                //allColsRange.WrapText = false;
+
+
+                // Title - top row
+                var titleRange = sheet.Range["A1", "I1"];
+                titleRange.Merge();
+                titleRange.Value = $"{reportType} report ran on {DateTime.Now:G}";
+                titleRange.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.DarkBlue);
+                titleRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                titleRange.Font.Bold = true;
+
+                int rows = dataTable.Rows.Count;
+                int cols = dataTable.Columns.Count;
+
+                // ✅ Create a 2D array for bulk write
+                object[,] data = new object[rows + 1, cols];
+
+                // Headers
+                for (int c = 0; c < cols; c++)
+                    data[0, c] = dataTable.Columns[c].ColumnName;
+
+                // Data
+                for (int r = 0; r < rows; r++)
+                    for (int c = 0; c < cols; c++)
+                        data[r + 1, c] = dataTable.Rows[r][c];
+
+                // ✅ Write all at once
+                var startCell = (Microsoft.Office.Interop.Excel.Range)sheet.Cells[2, 1];
+                var endCell = (Microsoft.Office.Interop.Excel.Range)sheet.Cells[rows + 2, cols];
+                range = sheet.Range[startCell, endCell];
+                range.Value2 = data;
+                range.WrapText = false;
+
+                // Format header
+                var headerRange = sheet.Range[sheet.Cells[2, 1], sheet.Cells[2, cols]];
+                headerRange.Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.DarkBlue);
+                headerRange.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.White);
+                headerRange.Font.Bold = true;
+
+                Microsoft.Office.Interop.Excel.Range freezePoint = (Microsoft.Office.Interop.Excel.Range)sheet.Cells[3, 1]; // Cell A3 → everything above this row will freeze
+                freezePoint.Activate();
+                excel.ActiveWindow.FreezePanes = true;
+
+                // Format columns
+                range.EntireColumn.AutoFit();
+
+                // Format date columns
+                var dateRange1 = sheet.Range[sheet.Cells[3, dateColumnIndex], sheet.Cells[rows + 2, dateColumnIndex]];
+                dateRange1.NumberFormat = "DD/MM/YYYY";
+                var dateRange2 = sheet.Range[sheet.Cells[3, dateColumnIndex + 1], sheet.Cells[rows + 2, dateColumnIndex + 1]];
+                dateRange2.NumberFormat = "DD/MM/YYYY";
+
+                workbook.SaveAs(saveAsLocation);
+                workbook.Close();
+                excel.Quit();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+                return false;
+            }
+            finally
+            {
+                sheet = null;
+                range = null;
+                workbook = null;
+                excel = null;
+                GC.Collect();
+            }
+        }
 
         public bool WriteDataTableToExcel(System.Data.DataTable dataTable, string worksheetName, string saveAsLocation, string ReporType,int dateColumnIndex)
         {

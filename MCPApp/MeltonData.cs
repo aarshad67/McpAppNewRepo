@@ -1080,6 +1080,42 @@ namespace MCPApp
 
         }
 
+        public string GetDesignStatusByJobNo(string jobNo)
+        {
+            string status = "";
+
+            string qry = String.Format("SELECT designStatus FROM dbo.DesignBoard WHERE jobNo = '{0}'", jobNo);
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(qry, conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                status = reader["designStatus"].ToString();
+                            }
+                        }
+                    }
+
+                    return status;
+
+
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"GetDesignStatusByJobNo() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"GetDesignStatusByJobNo({jobNo})", ex.Message.ToString());
+                    return status;
+                }
+
+            }
+        }
+
         public string GetCustomerNameByJobNo(string jobNo)
         {
             string custName = "";
@@ -3330,6 +3366,37 @@ namespace MCPApp
                 {
                     conn.Open();
                     qry = String.Format("SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND onShop = 'Y' AND productSupplier = '{0}' ORDER BY sortType,requiredDate", shortname);
+
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetOnShopJobPlannerDTByShortNameDT() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", "GetOnShopJobPlannerDTByShortNameDT()", ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
+        public DataTable GetOnShopNotOnShopJobsBySupplierDT(string shortname)
+        {
+            string qry = "";
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    qry = String.Format("SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND productSupplier = '{0}' ORDER BY sortType,requiredDate", shortname);
 
 
                     SqlCommand cmd = new SqlCommand(qry, conn);

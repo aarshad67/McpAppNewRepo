@@ -232,7 +232,7 @@ namespace MCPApp
                 shortName = suppDGV.Rows[i].Cells[3].Value.ToString();
                 fileName = $"{shortName.ToUpper()}_{suppCode.ToUpper()}_{DateTime.Now.ToString("ddMMMyyyyhhmmss")}.xlsx";
                 fullFilePath = Path.Combine(pathTextBox.Text, fileName);
-                sourceDT = mcData.GetOnShopJobPlannerDTByShortNameDT(shortName);
+                sourceDT = mcData.GetOnShopNotOnShopJobsBySupplierDT(shortName);
                 label3.Text = $"{shortName.ToUpper()} - A/C {suppCode.ToUpper()}"; 
                 GenerateDataTable(excludeAddressFlag,excludeCustFlag, shortName, suppName, suppCode, fullFilePath);
             }
@@ -266,6 +266,7 @@ namespace MCPApp
             string jobNo = "";
             string custName = "";
             string custCode = "";
+            string designStatus = "";
             DateTime reqDate;
             Double dateValue;
             jobsDT.Columns.Clear();
@@ -281,6 +282,7 @@ namespace MCPApp
             {
                 jobsDT.Columns.Add("SiteAddress", typeof(string)); 
             }
+            jobsDT.Columns.Add("DesignStatus", typeof(string));
             jobsDT.Columns.Add("SupplyType", typeof(string)); 
             jobsDT.Columns.Add("SupplierRef", typeof(string));
             jobsDT.Columns.Add("Comments", typeof(string));
@@ -294,6 +296,7 @@ namespace MCPApp
                 if(mcData.IsJobCancelled(jobNo)) { continue; }
                 custCode = mcData.GetCustomerCodeByJobNo(jobNo);
                 custName = mcData.GetCustName(custCode);
+                designStatus = mcData.GetDesignStatusByJobNo(jobNo);
                 reqDate = Convert.ToDateTime(row["requiredDate"]);
                 dateValue = reqDate.ToOADate();
               //  var parsedDate = DateTime.ParseExact(reqDate, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
@@ -310,7 +313,7 @@ namespace MCPApp
                 {
                     dr["SiteAddress"] = row["siteAddress"].ToString();
                 }
-
+                dr["DesignStatus"] = designStatus;
                 dr["SupplyType"] = row["supplyType"].ToString();
                 dr["SupplierRef"] = row["supplierRef"].ToString();
                 dr["Comments"] = row["lastComment"].ToString();
@@ -319,7 +322,7 @@ namespace MCPApp
 
             }
             
-            excel.WriteDataTableToExcel(jobsDT, tabName, fullFilePath, $"Supplier : {supplierName} (A/C {supplierCode})" ,2);
+            excel.WriteDataTableToExcelQuick(jobsDT, tabName, fullFilePath, $"Supplier : {supplierName} (A/C {supplierCode})" ,2);
             
         }
 
