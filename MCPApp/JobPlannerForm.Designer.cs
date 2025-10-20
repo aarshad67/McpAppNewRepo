@@ -102,6 +102,7 @@
             this.btnLockedJobs = new System.Windows.Forms.Button();
             this.txtTotalJobMgn = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.updateJobToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.jobDGV)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -120,11 +121,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.jobDGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.jobDGV.Location = new System.Drawing.Point(18, 178);
-            this.jobDGV.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.jobDGV.Location = new System.Drawing.Point(12, 116);
             this.jobDGV.Name = "jobDGV";
             this.jobDGV.RowHeadersWidth = 62;
-            this.jobDGV.Size = new System.Drawing.Size(2092, 883);
+            this.jobDGV.Size = new System.Drawing.Size(1395, 574);
             this.jobDGV.TabIndex = 121;
             this.jobDGV.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.jobDGV_CellBeginEdit);
             this.jobDGV.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.jobDGV_CellClick);
@@ -144,9 +144,10 @@
             this.cancelButton.BackColor = System.Drawing.Color.Red;
             this.cancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelButton.ForeColor = System.Drawing.Color.White;
-            this.cancelButton.Location = new System.Drawing.Point(202, 1068);
+            this.cancelButton.Location = new System.Drawing.Point(135, 694);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(166, 80);
+            this.cancelButton.Size = new System.Drawing.Size(111, 52);
             this.cancelButton.TabIndex = 145;
             this.cancelButton.Text = "CANCEL";
             this.cancelButton.UseVisualStyleBackColor = false;
@@ -168,99 +169,100 @@
             this.goToJobInDesignBoardToolStripMenuItem,
             this.removeSupplierToolStripMenuItem,
             this.jobDateAuditToolStripMenuItem,
-            this.viewIssuesReportedAtSiteForJobToolStripMenuItem});
+            this.viewIssuesReportedAtSiteForJobToolStripMenuItem,
+            this.updateJobToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(371, 420);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(261, 334);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // amendParentJobToolStripMenuItem
             // 
             this.amendParentJobToolStripMenuItem.Name = "amendParentJobToolStripMenuItem";
-            this.amendParentJobToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
+            this.amendParentJobToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
             this.amendParentJobToolStripMenuItem.Text = "Amend Parent Job";
             this.amendParentJobToolStripMenuItem.Click += new System.EventHandler(this.amendParentJobToolStripMenuItem_Click);
             // 
             // addNewPhaseToolStripMenuItem1
             // 
             this.addNewPhaseToolStripMenuItem1.Name = "addNewPhaseToolStripMenuItem1";
-            this.addNewPhaseToolStripMenuItem1.Size = new System.Drawing.Size(370, 32);
+            this.addNewPhaseToolStripMenuItem1.Size = new System.Drawing.Size(260, 22);
             this.addNewPhaseToolStripMenuItem1.Text = "Add a new phase";
             this.addNewPhaseToolStripMenuItem1.Click += new System.EventHandler(this.addNewPhaseToolStripMenuItem1_Click);
             // 
             // cancelJobToolStripMenuItem
             // 
             this.cancelJobToolStripMenuItem.Name = "cancelJobToolStripMenuItem";
-            this.cancelJobToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
+            this.cancelJobToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
             this.cancelJobToolStripMenuItem.Text = "CANCEL Phase Job";
             this.cancelJobToolStripMenuItem.Click += new System.EventHandler(this.cancelJobToolStripMenuItem_Click);
             // 
             // recreateToolStripMenuItem1
             // 
             this.recreateToolStripMenuItem1.Name = "recreateToolStripMenuItem1";
-            this.recreateToolStripMenuItem1.Size = new System.Drawing.Size(370, 32);
+            this.recreateToolStripMenuItem1.Size = new System.Drawing.Size(260, 22);
             this.recreateToolStripMenuItem1.Text = "Re-create a deleted phase";
             this.recreateToolStripMenuItem1.Click += new System.EventHandler(this.recreateToolStripMenuItem1_Click);
             // 
             // CustomerDetailToolStripMenuItem
             // 
             this.CustomerDetailToolStripMenuItem.Name = "CustomerDetailToolStripMenuItem";
-            this.CustomerDetailToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
+            this.CustomerDetailToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
             this.CustomerDetailToolStripMenuItem.Text = "View Customer Details";
             this.CustomerDetailToolStripMenuItem.Click += new System.EventHandler(this.CustomerDetailToolStripMenuItem_Click);
             // 
             // siteDetailToolStripMenuItem
             // 
             this.siteDetailToolStripMenuItem.Name = "siteDetailToolStripMenuItem";
-            this.siteDetailToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
+            this.siteDetailToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
             this.siteDetailToolStripMenuItem.Text = "View Site Details";
             this.siteDetailToolStripMenuItem.Click += new System.EventHandler(this.siteDetailToolStripMenuItem_Click);
             // 
             // completeJobToolStripMenuItem
             // 
             this.completeJobToolStripMenuItem.Name = "completeJobToolStripMenuItem";
-            this.completeJobToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
+            this.completeJobToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
             this.completeJobToolStripMenuItem.Text = "Complete the Job";
             this.completeJobToolStripMenuItem.Click += new System.EventHandler(this.completeJobToolStripMenuItem_Click);
             // 
             // uncompleteToolStripMenuItem1
             // 
             this.uncompleteToolStripMenuItem1.Name = "uncompleteToolStripMenuItem1";
-            this.uncompleteToolStripMenuItem1.Size = new System.Drawing.Size(370, 32);
+            this.uncompleteToolStripMenuItem1.Size = new System.Drawing.Size(260, 22);
             this.uncompleteToolStripMenuItem1.Text = "Un-complete Job";
             this.uncompleteToolStripMenuItem1.Click += new System.EventHandler(this.uncompleteToolStripMenuItem1_Click);
             // 
             // whiteboardToolStripMenuItem
             // 
             this.whiteboardToolStripMenuItem.Name = "whiteboardToolStripMenuItem";
-            this.whiteboardToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
+            this.whiteboardToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
             this.whiteboardToolStripMenuItem.Text = "Go To Job in Whiteboard";
             this.whiteboardToolStripMenuItem.Click += new System.EventHandler(this.whiteboardToolStripMenuItem_Click);
             // 
             // goToJobInDesignBoardToolStripMenuItem
             // 
             this.goToJobInDesignBoardToolStripMenuItem.Name = "goToJobInDesignBoardToolStripMenuItem";
-            this.goToJobInDesignBoardToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
+            this.goToJobInDesignBoardToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
             this.goToJobInDesignBoardToolStripMenuItem.Text = "Go to Job in Design Board";
             this.goToJobInDesignBoardToolStripMenuItem.Click += new System.EventHandler(this.goToJobInDesignBoardToolStripMenuItem_Click);
             // 
             // removeSupplierToolStripMenuItem
             // 
             this.removeSupplierToolStripMenuItem.Name = "removeSupplierToolStripMenuItem";
-            this.removeSupplierToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
+            this.removeSupplierToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
             this.removeSupplierToolStripMenuItem.Text = "Remove Supplier";
             this.removeSupplierToolStripMenuItem.Click += new System.EventHandler(this.removeSupplierToolStripMenuItem_Click);
             // 
             // jobDateAuditToolStripMenuItem
             // 
             this.jobDateAuditToolStripMenuItem.Name = "jobDateAuditToolStripMenuItem";
-            this.jobDateAuditToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
+            this.jobDateAuditToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
             this.jobDateAuditToolStripMenuItem.Text = "Audit of Job Date(s) Movements";
             this.jobDateAuditToolStripMenuItem.Click += new System.EventHandler(this.jobDateAuditToolStripMenuItem_Click);
             // 
             // viewIssuesReportedAtSiteForJobToolStripMenuItem
             // 
             this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Name = "viewIssuesReportedAtSiteForJobToolStripMenuItem";
-            this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Size = new System.Drawing.Size(370, 32);
+            this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
             this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Text = "View Issues Reported At Site for Job";
             this.viewIssuesReportedAtSiteForJobToolStripMenuItem.Click += new System.EventHandler(this.viewIssuesReportedAtSiteForJobToolStripMenuItem_Click);
             // 
@@ -268,10 +270,9 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(1535, 1081);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(1023, 703);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(140, 65);
+            this.label1.Size = new System.Drawing.Size(93, 42);
             this.label1.TabIndex = 146;
             this.label1.Text = "Total Inv Value(£) :";
             // 
@@ -280,10 +281,9 @@
             this.totalInvoiceValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalInvoiceValueTextBox.BackColor = System.Drawing.Color.Aqua;
             this.totalInvoiceValueTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalInvoiceValueTextBox.Location = new System.Drawing.Point(1637, 1081);
-            this.totalInvoiceValueTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.totalInvoiceValueTextBox.Location = new System.Drawing.Point(1091, 703);
             this.totalInvoiceValueTextBox.Name = "totalInvoiceValueTextBox";
-            this.totalInvoiceValueTextBox.Size = new System.Drawing.Size(162, 30);
+            this.totalInvoiceValueTextBox.Size = new System.Drawing.Size(109, 23);
             this.totalInvoiceValueTextBox.TabIndex = 147;
             // 
             // groupBox1
@@ -298,21 +298,18 @@
             this.groupBox1.Controls.Add(this.rbDrawn);
             this.groupBox1.Controls.Add(this.rbApproved);
             this.groupBox1.Controls.Add(this.rbOnShop);
-            this.groupBox1.Location = new System.Drawing.Point(202, 18);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox1.Location = new System.Drawing.Point(135, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(632, 151);
+            this.groupBox1.Size = new System.Drawing.Size(421, 98);
             this.groupBox1.TabIndex = 148;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filter By";
             // 
             // filter1Button
             // 
-            this.filter1Button.Location = new System.Drawing.Point(526, 23);
-            this.filter1Button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.filter1Button.Location = new System.Drawing.Point(351, 15);
             this.filter1Button.Name = "filter1Button";
-            this.filter1Button.Size = new System.Drawing.Size(92, 108);
+            this.filter1Button.Size = new System.Drawing.Size(61, 70);
             this.filter1Button.TabIndex = 151;
             this.filter1Button.Text = "SEARCH";
             this.filter1Button.UseVisualStyleBackColor = true;
@@ -321,10 +318,9 @@
             // rbCompleted
             // 
             this.rbCompleted.AutoSize = true;
-            this.rbCompleted.Location = new System.Drawing.Point(369, 29);
-            this.rbCompleted.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbCompleted.Location = new System.Drawing.Point(246, 19);
             this.rbCompleted.Name = "rbCompleted";
-            this.rbCompleted.Size = new System.Drawing.Size(132, 24);
+            this.rbCompleted.Size = new System.Drawing.Size(91, 17);
             this.rbCompleted.TabIndex = 11;
             this.rbCompleted.TabStop = true;
             this.rbCompleted.Text = "COMPLETED";
@@ -333,10 +329,9 @@
             // rbInProgress
             // 
             this.rbInProgress.AutoSize = true;
-            this.rbInProgress.Location = new System.Drawing.Point(369, 65);
-            this.rbInProgress.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbInProgress.Location = new System.Drawing.Point(246, 42);
             this.rbInProgress.Name = "rbInProgress";
-            this.rbInProgress.Size = new System.Drawing.Size(147, 24);
+            this.rbInProgress.Size = new System.Drawing.Size(99, 17);
             this.rbInProgress.TabIndex = 10;
             this.rbInProgress.TabStop = true;
             this.rbInProgress.Text = "IN-PROGRESS";
@@ -346,10 +341,9 @@
             // 
             this.rbAll.AutoSize = true;
             this.rbAll.Enabled = false;
-            this.rbAll.Location = new System.Drawing.Point(369, 95);
-            this.rbAll.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbAll.Location = new System.Drawing.Point(246, 62);
             this.rbAll.Name = "rbAll";
-            this.rbAll.Size = new System.Drawing.Size(63, 24);
+            this.rbAll.Size = new System.Drawing.Size(44, 17);
             this.rbAll.TabIndex = 9;
             this.rbAll.TabStop = true;
             this.rbAll.Text = "ALL";
@@ -359,10 +353,9 @@
             // 
             this.rbNotDrawn.AutoSize = true;
             this.rbNotDrawn.Enabled = false;
-            this.rbNotDrawn.Location = new System.Drawing.Point(178, 100);
-            this.rbNotDrawn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbNotDrawn.Location = new System.Drawing.Point(119, 65);
             this.rbNotDrawn.Name = "rbNotDrawn";
-            this.rbNotDrawn.Size = new System.Drawing.Size(131, 24);
+            this.rbNotDrawn.Size = new System.Drawing.Size(93, 17);
             this.rbNotDrawn.TabIndex = 8;
             this.rbNotDrawn.TabStop = true;
             this.rbNotDrawn.Text = "NOT DRAWN";
@@ -371,10 +364,9 @@
             // rbNotOnShop
             // 
             this.rbNotOnShop.AutoSize = true;
-            this.rbNotOnShop.Location = new System.Drawing.Point(178, 29);
-            this.rbNotOnShop.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbNotOnShop.Location = new System.Drawing.Point(119, 19);
             this.rbNotOnShop.Name = "rbNotOnShop";
-            this.rbNotOnShop.Size = new System.Drawing.Size(142, 24);
+            this.rbNotOnShop.Size = new System.Drawing.Size(100, 17);
             this.rbNotOnShop.TabIndex = 7;
             this.rbNotOnShop.TabStop = true;
             this.rbNotOnShop.Text = "NOT ON SHOP";
@@ -383,10 +375,9 @@
             // rbNotApproved
             // 
             this.rbNotApproved.AutoSize = true;
-            this.rbNotApproved.Location = new System.Drawing.Point(178, 65);
-            this.rbNotApproved.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbNotApproved.Location = new System.Drawing.Point(119, 42);
             this.rbNotApproved.Name = "rbNotApproved";
-            this.rbNotApproved.Size = new System.Drawing.Size(159, 24);
+            this.rbNotApproved.Size = new System.Drawing.Size(110, 17);
             this.rbNotApproved.TabIndex = 6;
             this.rbNotApproved.TabStop = true;
             this.rbNotApproved.Text = "NOT APPROVED";
@@ -396,10 +387,9 @@
             // 
             this.rbDrawn.AutoSize = true;
             this.rbDrawn.Enabled = false;
-            this.rbDrawn.Location = new System.Drawing.Point(26, 100);
-            this.rbDrawn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbDrawn.Location = new System.Drawing.Point(17, 65);
             this.rbDrawn.Name = "rbDrawn";
-            this.rbDrawn.Size = new System.Drawing.Size(95, 24);
+            this.rbDrawn.Size = new System.Drawing.Size(67, 17);
             this.rbDrawn.TabIndex = 5;
             this.rbDrawn.TabStop = true;
             this.rbDrawn.Text = "DRAWN";
@@ -408,10 +398,9 @@
             // rbApproved
             // 
             this.rbApproved.AutoSize = true;
-            this.rbApproved.Location = new System.Drawing.Point(26, 65);
-            this.rbApproved.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbApproved.Location = new System.Drawing.Point(17, 42);
             this.rbApproved.Name = "rbApproved";
-            this.rbApproved.Size = new System.Drawing.Size(123, 24);
+            this.rbApproved.Size = new System.Drawing.Size(84, 17);
             this.rbApproved.TabIndex = 4;
             this.rbApproved.TabStop = true;
             this.rbApproved.Text = "APPROVED";
@@ -420,10 +409,9 @@
             // rbOnShop
             // 
             this.rbOnShop.AutoSize = true;
-            this.rbOnShop.Location = new System.Drawing.Point(26, 29);
-            this.rbOnShop.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbOnShop.Location = new System.Drawing.Point(17, 19);
             this.rbOnShop.Name = "rbOnShop";
-            this.rbOnShop.Size = new System.Drawing.Size(106, 24);
+            this.rbOnShop.Size = new System.Drawing.Size(74, 17);
             this.rbOnShop.TabIndex = 3;
             this.rbOnShop.TabStop = true;
             this.rbOnShop.Text = "ON SHOP";
@@ -434,11 +422,9 @@
             this.groupBox2.Controls.Add(this.rbSupplyFix);
             this.groupBox2.Controls.Add(this.rbSupplyOnly);
             this.groupBox2.Controls.Add(this.rbBoth);
-            this.groupBox2.Location = new System.Drawing.Point(18, 18);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox2.Size = new System.Drawing.Size(162, 151);
+            this.groupBox2.Size = new System.Drawing.Size(108, 98);
             this.groupBox2.TabIndex = 149;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Supply Type";
@@ -446,10 +432,9 @@
             // rbSupplyFix
             // 
             this.rbSupplyFix.AutoSize = true;
-            this.rbSupplyFix.Location = new System.Drawing.Point(46, 100);
-            this.rbSupplyFix.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbSupplyFix.Location = new System.Drawing.Point(31, 65);
             this.rbSupplyFix.Name = "rbSupplyFix";
-            this.rbSupplyFix.Size = new System.Drawing.Size(88, 24);
+            this.rbSupplyFix.Size = new System.Drawing.Size(62, 17);
             this.rbSupplyFix.TabIndex = 2;
             this.rbSupplyFix.TabStop = true;
             this.rbSupplyFix.Text = "SF / XF";
@@ -458,10 +443,9 @@
             // rbSupplyOnly
             // 
             this.rbSupplyOnly.AutoSize = true;
-            this.rbSupplyOnly.Location = new System.Drawing.Point(46, 65);
-            this.rbSupplyOnly.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbSupplyOnly.Location = new System.Drawing.Point(31, 42);
             this.rbSupplyOnly.Name = "rbSupplyOnly";
-            this.rbSupplyOnly.Size = new System.Drawing.Size(92, 24);
+            this.rbSupplyOnly.Size = new System.Drawing.Size(66, 17);
             this.rbSupplyOnly.TabIndex = 1;
             this.rbSupplyOnly.TabStop = true;
             this.rbSupplyOnly.Text = "SO / XO";
@@ -470,10 +454,9 @@
             // rbBoth
             // 
             this.rbBoth.AutoSize = true;
-            this.rbBoth.Location = new System.Drawing.Point(46, 29);
-            this.rbBoth.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.rbBoth.Location = new System.Drawing.Point(31, 19);
             this.rbBoth.Name = "rbBoth";
-            this.rbBoth.Size = new System.Drawing.Size(78, 24);
+            this.rbBoth.Size = new System.Drawing.Size(55, 17);
             this.rbBoth.TabIndex = 0;
             this.rbBoth.TabStop = true;
             this.rbBoth.Text = "BOTH";
@@ -493,21 +476,18 @@
             this.currentYearFiltersGroupBox.Controls.Add(this.febButton);
             this.currentYearFiltersGroupBox.Controls.Add(this.julButton);
             this.currentYearFiltersGroupBox.Controls.Add(this.janButton);
-            this.currentYearFiltersGroupBox.Location = new System.Drawing.Point(843, 18);
-            this.currentYearFiltersGroupBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.currentYearFiltersGroupBox.Location = new System.Drawing.Point(562, 12);
             this.currentYearFiltersGroupBox.Name = "currentYearFiltersGroupBox";
-            this.currentYearFiltersGroupBox.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.currentYearFiltersGroupBox.Size = new System.Drawing.Size(482, 151);
+            this.currentYearFiltersGroupBox.Size = new System.Drawing.Size(321, 98);
             this.currentYearFiltersGroupBox.TabIndex = 151;
             this.currentYearFiltersGroupBox.TabStop = false;
             this.currentYearFiltersGroupBox.Text = "Filter by MONTH";
             // 
             // decButton
             // 
-            this.decButton.Location = new System.Drawing.Point(399, 80);
-            this.decButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.decButton.Location = new System.Drawing.Point(266, 52);
             this.decButton.Name = "decButton";
-            this.decButton.Size = new System.Drawing.Size(66, 57);
+            this.decButton.Size = new System.Drawing.Size(44, 37);
             this.decButton.TabIndex = 11;
             this.decButton.Text = "DEC";
             this.decButton.UseVisualStyleBackColor = true;
@@ -515,10 +495,9 @@
             // 
             // junButton
             // 
-            this.junButton.Location = new System.Drawing.Point(399, 29);
-            this.junButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.junButton.Location = new System.Drawing.Point(266, 19);
             this.junButton.Name = "junButton";
-            this.junButton.Size = new System.Drawing.Size(66, 57);
+            this.junButton.Size = new System.Drawing.Size(44, 37);
             this.junButton.TabIndex = 10;
             this.junButton.Text = "JUN";
             this.junButton.UseVisualStyleBackColor = true;
@@ -526,10 +505,9 @@
             // 
             // novButton
             // 
-            this.novButton.Location = new System.Drawing.Point(324, 80);
-            this.novButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.novButton.Location = new System.Drawing.Point(216, 52);
             this.novButton.Name = "novButton";
-            this.novButton.Size = new System.Drawing.Size(66, 57);
+            this.novButton.Size = new System.Drawing.Size(44, 37);
             this.novButton.TabIndex = 9;
             this.novButton.Text = "NOV";
             this.novButton.UseVisualStyleBackColor = true;
@@ -537,10 +515,9 @@
             // 
             // mayButton
             // 
-            this.mayButton.Location = new System.Drawing.Point(324, 29);
-            this.mayButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.mayButton.Location = new System.Drawing.Point(216, 19);
             this.mayButton.Name = "mayButton";
-            this.mayButton.Size = new System.Drawing.Size(66, 57);
+            this.mayButton.Size = new System.Drawing.Size(44, 37);
             this.mayButton.TabIndex = 8;
             this.mayButton.Text = "MAY";
             this.mayButton.UseVisualStyleBackColor = true;
@@ -548,10 +525,9 @@
             // 
             // octButton
             // 
-            this.octButton.Location = new System.Drawing.Point(249, 80);
-            this.octButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.octButton.Location = new System.Drawing.Point(166, 52);
             this.octButton.Name = "octButton";
-            this.octButton.Size = new System.Drawing.Size(66, 57);
+            this.octButton.Size = new System.Drawing.Size(44, 37);
             this.octButton.TabIndex = 7;
             this.octButton.Text = "OCT";
             this.octButton.UseVisualStyleBackColor = true;
@@ -559,10 +535,9 @@
             // 
             // aprButton
             // 
-            this.aprButton.Location = new System.Drawing.Point(249, 29);
-            this.aprButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.aprButton.Location = new System.Drawing.Point(166, 19);
             this.aprButton.Name = "aprButton";
-            this.aprButton.Size = new System.Drawing.Size(66, 57);
+            this.aprButton.Size = new System.Drawing.Size(44, 37);
             this.aprButton.TabIndex = 6;
             this.aprButton.Text = "APR";
             this.aprButton.UseVisualStyleBackColor = true;
@@ -570,10 +545,9 @@
             // 
             // sepButton
             // 
-            this.sepButton.Location = new System.Drawing.Point(170, 80);
-            this.sepButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.sepButton.Location = new System.Drawing.Point(113, 52);
             this.sepButton.Name = "sepButton";
-            this.sepButton.Size = new System.Drawing.Size(70, 57);
+            this.sepButton.Size = new System.Drawing.Size(47, 37);
             this.sepButton.TabIndex = 5;
             this.sepButton.Text = "SEP";
             this.sepButton.UseVisualStyleBackColor = true;
@@ -581,10 +555,9 @@
             // 
             // marButton
             // 
-            this.marButton.Location = new System.Drawing.Point(170, 29);
-            this.marButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.marButton.Location = new System.Drawing.Point(113, 19);
             this.marButton.Name = "marButton";
-            this.marButton.Size = new System.Drawing.Size(70, 57);
+            this.marButton.Size = new System.Drawing.Size(47, 37);
             this.marButton.TabIndex = 4;
             this.marButton.Text = "MAR";
             this.marButton.UseVisualStyleBackColor = true;
@@ -592,10 +565,9 @@
             // 
             // augButton
             // 
-            this.augButton.Location = new System.Drawing.Point(90, 80);
-            this.augButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.augButton.Location = new System.Drawing.Point(60, 52);
             this.augButton.Name = "augButton";
-            this.augButton.Size = new System.Drawing.Size(70, 57);
+            this.augButton.Size = new System.Drawing.Size(47, 37);
             this.augButton.TabIndex = 3;
             this.augButton.Text = "AUG";
             this.augButton.UseVisualStyleBackColor = true;
@@ -603,10 +575,9 @@
             // 
             // febButton
             // 
-            this.febButton.Location = new System.Drawing.Point(90, 29);
-            this.febButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.febButton.Location = new System.Drawing.Point(60, 19);
             this.febButton.Name = "febButton";
-            this.febButton.Size = new System.Drawing.Size(70, 57);
+            this.febButton.Size = new System.Drawing.Size(47, 37);
             this.febButton.TabIndex = 2;
             this.febButton.Text = "FEB";
             this.febButton.UseVisualStyleBackColor = true;
@@ -614,10 +585,9 @@
             // 
             // julButton
             // 
-            this.julButton.Location = new System.Drawing.Point(12, 80);
-            this.julButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.julButton.Location = new System.Drawing.Point(8, 52);
             this.julButton.Name = "julButton";
-            this.julButton.Size = new System.Drawing.Size(69, 57);
+            this.julButton.Size = new System.Drawing.Size(46, 37);
             this.julButton.TabIndex = 1;
             this.julButton.Text = "JUL";
             this.julButton.UseVisualStyleBackColor = true;
@@ -625,10 +595,9 @@
             // 
             // janButton
             // 
-            this.janButton.Location = new System.Drawing.Point(12, 29);
-            this.janButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.janButton.Location = new System.Drawing.Point(8, 19);
             this.janButton.Name = "janButton";
-            this.janButton.Size = new System.Drawing.Size(69, 57);
+            this.janButton.Size = new System.Drawing.Size(46, 37);
             this.janButton.TabIndex = 0;
             this.janButton.Text = "JAN";
             this.janButton.UseVisualStyleBackColor = true;
@@ -637,10 +606,9 @@
             // getAllJobsButton
             // 
             this.getAllJobsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.getAllJobsButton.Location = new System.Drawing.Point(1824, 25);
-            this.getAllJobsButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.getAllJobsButton.Location = new System.Drawing.Point(1216, 16);
             this.getAllJobsButton.Name = "getAllJobsButton";
-            this.getAllJobsButton.Size = new System.Drawing.Size(116, 145);
+            this.getAllJobsButton.Size = new System.Drawing.Size(77, 94);
             this.getAllJobsButton.TabIndex = 152;
             this.getAllJobsButton.Text = "GET ALL JOBS";
             this.getAllJobsButton.UseVisualStyleBackColor = true;
@@ -652,9 +620,10 @@
             this.updateButton.BackColor = System.Drawing.Color.Green;
             this.updateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.updateButton.ForeColor = System.Drawing.Color.White;
-            this.updateButton.Location = new System.Drawing.Point(16, 1069);
+            this.updateButton.Location = new System.Drawing.Point(11, 695);
+            this.updateButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.updateButton.Name = "updateButton";
-            this.updateButton.Size = new System.Drawing.Size(179, 80);
+            this.updateButton.Size = new System.Drawing.Size(119, 52);
             this.updateButton.TabIndex = 152;
             this.updateButton.Text = "UPDATE AND CLOSE";
             this.updateButton.UseVisualStyleBackColor = false;
@@ -665,20 +634,18 @@
             this.totalSlabM2TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalSlabM2TextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.totalSlabM2TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalSlabM2TextBox.Location = new System.Drawing.Point(1078, 1085);
-            this.totalSlabM2TextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.totalSlabM2TextBox.Location = new System.Drawing.Point(719, 705);
             this.totalSlabM2TextBox.Name = "totalSlabM2TextBox";
-            this.totalSlabM2TextBox.Size = new System.Drawing.Size(142, 30);
+            this.totalSlabM2TextBox.Size = new System.Drawing.Size(96, 23);
             this.totalSlabM2TextBox.TabIndex = 154;
             // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(954, 1085);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(636, 705);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(116, 65);
+            this.label2.Size = new System.Drawing.Size(77, 42);
             this.label2.TabIndex = 153;
             this.label2.Text = "Total SLAB M2";
             // 
@@ -687,20 +654,18 @@
             this.totalBeamM2TextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.totalBeamM2TextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.totalBeamM2TextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.totalBeamM2TextBox.Location = new System.Drawing.Point(1367, 1082);
-            this.totalBeamM2TextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.totalBeamM2TextBox.Location = new System.Drawing.Point(911, 703);
             this.totalBeamM2TextBox.Name = "totalBeamM2TextBox";
-            this.totalBeamM2TextBox.Size = new System.Drawing.Size(118, 30);
+            this.totalBeamM2TextBox.Size = new System.Drawing.Size(80, 23);
             this.totalBeamM2TextBox.TabIndex = 156;
             // 
             // label3
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(1231, 1084);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(821, 705);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(128, 65);
+            this.label3.Size = new System.Drawing.Size(85, 42);
             this.label3.TabIndex = 155;
             this.label3.Text = "Total BEAM M2";
             // 
@@ -718,21 +683,18 @@
             this.nextYearFiltersGroupBox.Controls.Add(this.feb2Button);
             this.nextYearFiltersGroupBox.Controls.Add(this.jul2Button);
             this.nextYearFiltersGroupBox.Controls.Add(this.jan2Button);
-            this.nextYearFiltersGroupBox.Location = new System.Drawing.Point(1334, 18);
-            this.nextYearFiltersGroupBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.nextYearFiltersGroupBox.Location = new System.Drawing.Point(889, 12);
             this.nextYearFiltersGroupBox.Name = "nextYearFiltersGroupBox";
-            this.nextYearFiltersGroupBox.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.nextYearFiltersGroupBox.Size = new System.Drawing.Size(482, 151);
+            this.nextYearFiltersGroupBox.Size = new System.Drawing.Size(321, 98);
             this.nextYearFiltersGroupBox.TabIndex = 158;
             this.nextYearFiltersGroupBox.TabStop = false;
             this.nextYearFiltersGroupBox.Text = "Filter by MONTH";
             // 
             // dec2Button
             // 
-            this.dec2Button.Location = new System.Drawing.Point(399, 80);
-            this.dec2Button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dec2Button.Location = new System.Drawing.Point(266, 52);
             this.dec2Button.Name = "dec2Button";
-            this.dec2Button.Size = new System.Drawing.Size(66, 57);
+            this.dec2Button.Size = new System.Drawing.Size(44, 37);
             this.dec2Button.TabIndex = 11;
             this.dec2Button.Text = "DEC";
             this.dec2Button.UseVisualStyleBackColor = true;
@@ -740,10 +702,9 @@
             // 
             // jun2Button
             // 
-            this.jun2Button.Location = new System.Drawing.Point(399, 29);
-            this.jun2Button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.jun2Button.Location = new System.Drawing.Point(266, 19);
             this.jun2Button.Name = "jun2Button";
-            this.jun2Button.Size = new System.Drawing.Size(66, 57);
+            this.jun2Button.Size = new System.Drawing.Size(44, 37);
             this.jun2Button.TabIndex = 10;
             this.jun2Button.Text = "JUN";
             this.jun2Button.UseVisualStyleBackColor = true;
@@ -751,10 +712,9 @@
             // 
             // nov2Button
             // 
-            this.nov2Button.Location = new System.Drawing.Point(324, 80);
-            this.nov2Button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.nov2Button.Location = new System.Drawing.Point(216, 52);
             this.nov2Button.Name = "nov2Button";
-            this.nov2Button.Size = new System.Drawing.Size(66, 57);
+            this.nov2Button.Size = new System.Drawing.Size(44, 37);
             this.nov2Button.TabIndex = 9;
             this.nov2Button.Text = "NOV";
             this.nov2Button.UseVisualStyleBackColor = true;
@@ -762,10 +722,9 @@
             // 
             // may2Button
             // 
-            this.may2Button.Location = new System.Drawing.Point(324, 29);
-            this.may2Button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.may2Button.Location = new System.Drawing.Point(216, 19);
             this.may2Button.Name = "may2Button";
-            this.may2Button.Size = new System.Drawing.Size(66, 57);
+            this.may2Button.Size = new System.Drawing.Size(44, 37);
             this.may2Button.TabIndex = 8;
             this.may2Button.Text = "MAY";
             this.may2Button.UseVisualStyleBackColor = true;
@@ -773,10 +732,9 @@
             // 
             // oct2Button
             // 
-            this.oct2Button.Location = new System.Drawing.Point(249, 80);
-            this.oct2Button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.oct2Button.Location = new System.Drawing.Point(166, 52);
             this.oct2Button.Name = "oct2Button";
-            this.oct2Button.Size = new System.Drawing.Size(66, 57);
+            this.oct2Button.Size = new System.Drawing.Size(44, 37);
             this.oct2Button.TabIndex = 7;
             this.oct2Button.Text = "OCT";
             this.oct2Button.UseVisualStyleBackColor = true;
@@ -784,10 +742,9 @@
             // 
             // apr2Button
             // 
-            this.apr2Button.Location = new System.Drawing.Point(249, 29);
-            this.apr2Button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.apr2Button.Location = new System.Drawing.Point(166, 19);
             this.apr2Button.Name = "apr2Button";
-            this.apr2Button.Size = new System.Drawing.Size(66, 57);
+            this.apr2Button.Size = new System.Drawing.Size(44, 37);
             this.apr2Button.TabIndex = 6;
             this.apr2Button.Text = "APR";
             this.apr2Button.UseVisualStyleBackColor = true;
@@ -795,10 +752,9 @@
             // 
             // sep2Button
             // 
-            this.sep2Button.Location = new System.Drawing.Point(170, 80);
-            this.sep2Button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.sep2Button.Location = new System.Drawing.Point(113, 52);
             this.sep2Button.Name = "sep2Button";
-            this.sep2Button.Size = new System.Drawing.Size(70, 57);
+            this.sep2Button.Size = new System.Drawing.Size(47, 37);
             this.sep2Button.TabIndex = 5;
             this.sep2Button.Text = "SEP";
             this.sep2Button.UseVisualStyleBackColor = true;
@@ -806,10 +762,9 @@
             // 
             // mar2Button
             // 
-            this.mar2Button.Location = new System.Drawing.Point(170, 29);
-            this.mar2Button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.mar2Button.Location = new System.Drawing.Point(113, 19);
             this.mar2Button.Name = "mar2Button";
-            this.mar2Button.Size = new System.Drawing.Size(70, 57);
+            this.mar2Button.Size = new System.Drawing.Size(47, 37);
             this.mar2Button.TabIndex = 4;
             this.mar2Button.Text = "MAR";
             this.mar2Button.UseVisualStyleBackColor = true;
@@ -817,10 +772,9 @@
             // 
             // aug2Button
             // 
-            this.aug2Button.Location = new System.Drawing.Point(90, 80);
-            this.aug2Button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.aug2Button.Location = new System.Drawing.Point(60, 52);
             this.aug2Button.Name = "aug2Button";
-            this.aug2Button.Size = new System.Drawing.Size(70, 57);
+            this.aug2Button.Size = new System.Drawing.Size(47, 37);
             this.aug2Button.TabIndex = 3;
             this.aug2Button.Text = "AUG";
             this.aug2Button.UseVisualStyleBackColor = true;
@@ -828,10 +782,9 @@
             // 
             // feb2Button
             // 
-            this.feb2Button.Location = new System.Drawing.Point(90, 29);
-            this.feb2Button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.feb2Button.Location = new System.Drawing.Point(60, 19);
             this.feb2Button.Name = "feb2Button";
-            this.feb2Button.Size = new System.Drawing.Size(70, 57);
+            this.feb2Button.Size = new System.Drawing.Size(47, 37);
             this.feb2Button.TabIndex = 2;
             this.feb2Button.Text = "FEB";
             this.feb2Button.UseVisualStyleBackColor = true;
@@ -839,10 +792,9 @@
             // 
             // jul2Button
             // 
-            this.jul2Button.Location = new System.Drawing.Point(12, 80);
-            this.jul2Button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.jul2Button.Location = new System.Drawing.Point(8, 52);
             this.jul2Button.Name = "jul2Button";
-            this.jul2Button.Size = new System.Drawing.Size(69, 57);
+            this.jul2Button.Size = new System.Drawing.Size(46, 37);
             this.jul2Button.TabIndex = 1;
             this.jul2Button.Text = "JUL";
             this.jul2Button.UseVisualStyleBackColor = true;
@@ -850,10 +802,9 @@
             // 
             // jan2Button
             // 
-            this.jan2Button.Location = new System.Drawing.Point(12, 29);
-            this.jan2Button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.jan2Button.Location = new System.Drawing.Point(8, 19);
             this.jan2Button.Name = "jan2Button";
-            this.jan2Button.Size = new System.Drawing.Size(69, 57);
+            this.jan2Button.Size = new System.Drawing.Size(46, 37);
             this.jan2Button.TabIndex = 0;
             this.jan2Button.Text = "JAN";
             this.jan2Button.UseVisualStyleBackColor = true;
@@ -864,21 +815,18 @@
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.latestButton);
             this.groupBox4.Controls.Add(this.earliestButton);
-            this.groupBox4.Location = new System.Drawing.Point(1960, 25);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox4.Location = new System.Drawing.Point(1307, 16);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox4.Size = new System.Drawing.Size(148, 149);
+            this.groupBox4.Size = new System.Drawing.Size(99, 97);
             this.groupBox4.TabIndex = 159;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Date Order";
             // 
             // latestButton
             // 
-            this.latestButton.Location = new System.Drawing.Point(18, 86);
-            this.latestButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.latestButton.Location = new System.Drawing.Point(12, 56);
             this.latestButton.Name = "latestButton";
-            this.latestButton.Size = new System.Drawing.Size(122, 43);
+            this.latestButton.Size = new System.Drawing.Size(81, 28);
             this.latestButton.TabIndex = 1;
             this.latestButton.Text = "LATEST";
             this.latestButton.UseVisualStyleBackColor = true;
@@ -886,10 +834,9 @@
             // 
             // earliestButton
             // 
-            this.earliestButton.Location = new System.Drawing.Point(18, 37);
-            this.earliestButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.earliestButton.Location = new System.Drawing.Point(12, 24);
             this.earliestButton.Name = "earliestButton";
-            this.earliestButton.Size = new System.Drawing.Size(122, 43);
+            this.earliestButton.Size = new System.Drawing.Size(81, 28);
             this.earliestButton.TabIndex = 0;
             this.earliestButton.Text = "EARLIEST";
             this.earliestButton.UseVisualStyleBackColor = true;
@@ -899,10 +846,9 @@
             // 
             this.excelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.excelButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.excelButton.Location = new System.Drawing.Point(547, 1069);
-            this.excelButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.excelButton.Location = new System.Drawing.Point(365, 695);
             this.excelButton.Name = "excelButton";
-            this.excelButton.Size = new System.Drawing.Size(145, 75);
+            this.excelButton.Size = new System.Drawing.Size(97, 49);
             this.excelButton.TabIndex = 160;
             this.excelButton.Text = "EXPORT TO EXCEL";
             this.excelButton.UseVisualStyleBackColor = false;
@@ -914,9 +860,10 @@
             this.btnLockedJobs.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.btnLockedJobs.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLockedJobs.ForeColor = System.Drawing.Color.Black;
-            this.btnLockedJobs.Location = new System.Drawing.Point(374, 1068);
+            this.btnLockedJobs.Location = new System.Drawing.Point(249, 694);
+            this.btnLockedJobs.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnLockedJobs.Name = "btnLockedJobs";
-            this.btnLockedJobs.Size = new System.Drawing.Size(166, 80);
+            this.btnLockedJobs.Size = new System.Drawing.Size(111, 52);
             this.btnLockedJobs.TabIndex = 161;
             this.btnLockedJobs.Text = "LOCKED JOBS";
             this.btnLockedJobs.UseVisualStyleBackColor = false;
@@ -927,30 +874,37 @@
             this.txtTotalJobMgn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTotalJobMgn.BackColor = System.Drawing.Color.Aqua;
             this.txtTotalJobMgn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTotalJobMgn.Location = new System.Drawing.Point(1953, 1078);
-            this.txtTotalJobMgn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtTotalJobMgn.Location = new System.Drawing.Point(1302, 701);
             this.txtTotalJobMgn.Name = "txtTotalJobMgn";
-            this.txtTotalJobMgn.Size = new System.Drawing.Size(162, 30);
+            this.txtTotalJobMgn.Size = new System.Drawing.Size(109, 23);
             this.txtTotalJobMgn.TabIndex = 163;
             // 
             // label4
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(1833, 1079);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Location = new System.Drawing.Point(1222, 701);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(140, 65);
+            this.label4.Size = new System.Drawing.Size(93, 42);
             this.label4.TabIndex = 162;
             this.label4.Text = "Total Job Mgn(£) :";
             // 
+            // updateJobToolStripMenuItem
+            // 
+            this.updateJobToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.updateJobToolStripMenuItem.ForeColor = System.Drawing.Color.Blue;
+            this.updateJobToolStripMenuItem.Name = "updateJobToolStripMenuItem";
+            this.updateJobToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
+            this.updateJobToolStripMenuItem.Text = "UPDATE THIS JOB";
+            this.updateJobToolStripMenuItem.Click += new System.EventHandler(this.updateJobToolStripMenuItem_Click);
+            // 
             // JobPlannerForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(2128, 1195);
+            this.ClientSize = new System.Drawing.Size(1419, 777);
             this.Controls.Add(this.txtTotalJobMgn);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnLockedJobs);
@@ -971,7 +925,6 @@
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.jobDGV);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "JobPlannerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "JobPlannerForm";
@@ -1066,5 +1019,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripMenuItem goToJobInDesignBoardToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewIssuesReportedAtSiteForJobToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem updateJobToolStripMenuItem;
     }
 }

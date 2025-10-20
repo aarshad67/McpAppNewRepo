@@ -963,6 +963,10 @@ namespace MCPApp
                     {
                         string dbErr3 = mcData.UpdateDesignStatus(jobNo, "APPROVED(NOT ON SHOP)");
                     }
+                    else if (approved == "N" && onshop == "N")
+                    {
+                        string dbErr4 = mcData.UpdateDesignStatus(jobNo, "APPROVED(NOT ON SHOP)");
+                    }
                     else
                     {
                         // do nothing
@@ -3627,8 +3631,8 @@ namespace MCPApp
             int roundedNumWeeks = (int)Decimal.Round(numWeeks, 1) + 1;
             DesignBoardForm dbForm = new DesignBoardForm(phaseJob, startDate, lastDate, dt, roundedNumWeeks);
             dbForm.ShowDialog();
-           // BuildDGV();
-            PopulateDGV(mcData.GetJobPlannerDTByParentJob(phaseJob.Substring(0,5)));
+           
+            //PopulateDGV(mcData.GetJobPlannerDTByParentJob(phaseJob.Substring(0,5)));
             return;
         }
 
@@ -3691,6 +3695,294 @@ namespace MCPApp
             //{
             //    e.Handled = true;
             //}
+        }
+
+        private void updateJobToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            jobDGV.NotifyCurrentCellDirty(true);
+            UpdateJobLine(this.rowIndex);
+            
+        }
+
+        private void UpdateJobLine(int selectedRowIndex)
+        {
+            int parentJobNo;
+            string jobNo;
+            string phaseNo;
+            string floorLevel;
+            DateTime requiredDate;
+            DateTime designDate;
+            string siteAddress;
+            string drawn;
+            string approved;
+            string onshop;
+            string dman;
+            string stairsIncl;
+            int slabM2;
+            int beamM2;
+            int beamLm;
+            string supplyType;
+            string suppShortname;
+            string supplierRef;
+            string lastComment;
+            decimal phaseInvValue;
+            decimal jobMgnValue;
+            string sortType;
+
+            int i = selectedRowIndex;
+
+            if (jobDGV.Rows[i].Cells[0].Value == null || jobDGV.Rows[i].Cells[0].Value.ToString().Length < 8) { return; }
+            jobNo = jobDGV[0, this.rowIndex].Value.ToString();
+
+            string response = mcData.GetJobLockedUser(jobNo, "JP");
+            if (!response.Equals("n/a") && !response.Equals(loggedInUser))
+            {
+                string userName = mcData.GetUserFullNameFromUserID(response);
+                MessageBox.Show($"Job {jobNo} islocked by {userName}. Cannot save this job");
+                return;
+
+            }
+
+            int numJobLockDeleted = mcData.DeleteJobLocks("JP", jobNo);
+            if (numJobLockDeleted.Equals(0))
+            {
+                MessageBox.Show($"Unable to remove lock(s) on Job {jobNo}. Cannot continue");
+                return;
+            }
+
+            if (mcData.IsJobCompleted(jobNo))
+            {
+                MessageBox.Show($"Job {jobNo} is already COMPLETED. Cannot update it");
+                return;
+            }
+
+            parentJobNo = Convert.ToInt32(jobDGV.Rows[i].Cells[0].Value.ToString().Substring(0, 5));
+            jobNo = jobDGV.Rows[i].Cells[0].Value.ToString();
+
+            phaseNo = jobDGV.Rows[i].Cells[0].Value.ToString().Substring(6, 2);
+            floorLevel = jobDGV.Rows[i].Cells[2].Value.ToString();
+            requiredDate = Convert.ToDateTime(jobDGV.Rows[i].Cells[3].Value);
+            designDate = Convert.ToDateTime(jobDGV.Rows[i].Cells[4].Value);
+            siteAddress = jobDGV.Rows[i].Cells[5].Value.ToString();
+            dman = jobDGV.Rows[i].Cells[6].Value.ToString();
+            approved = (bool)jobDGV.Rows[i].Cells[7].Value ? "Y" : "N";
+            onshop = (bool)jobDGV.Rows[i].Cells[8].Value ? "Y" : "N";
+            stairsIncl = (bool)jobDGV.Rows[i].Cells[9].Value ? "Y" : "N";
+            slabM2 = Convert.ToInt32(jobDGV.Rows[i].Cells[10].Value);
+            beamLm = Convert.ToInt32(jobDGV.Rows[i].Cells[11].Value);
+            beamM2 = Convert.ToInt32(jobDGV.Rows[i].Cells[12].Value);
+            suppShortname = jobDGV.Rows[i].Cells[13].Value.ToString();
+            supplyType = jobDGV.Rows[i].Cells[14].Value.ToString();
+            sortType = "S" + supplyType.Substring(1, 1);
+
+
+            supplierRef = jobDGV.Rows[i].Cells[15].Value.ToString();
+
+            phaseInvValue = jobDGV.Rows[i].Cells[16].Value == null || jobDGV.Rows[i].Cells[16].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value);
+            jobMgnValue = jobDGV.Rows[i].Cells[17].Value == null || jobDGV.Rows[i].Cells[17].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[17].Value);
+            lastComment = jobDGV.Rows[i].Cells[18].Value.ToString();
+            string mon = "";
+            string tue = "";
+            string wed = "";
+            string thu = "";
+            string fri = "";
+            string sat = "";
+            string sun = "";
+            string dayValue = "";
+
+            mcData.GetWhiteboardDays(jobNo, out mon, out tue, out wed, out thu, out fri, out sat, out sun);
+
+            if (!String.IsNullOrWhiteSpace(mon))
+            {
+                dayValue = mon;
+            }
+            if (!String.IsNullOrWhiteSpace(tue))
+            {
+                dayValue = tue;
+            }
+            if (!String.IsNullOrWhiteSpace(wed))
+            {
+                dayValue = wed;
+            }
+            if (!String.IsNullOrWhiteSpace(thu))
+            {
+                dayValue = thu;
+            }
+            if (!String.IsNullOrWhiteSpace(fri))
+            {
+                dayValue = fri;
+            }
+            if (!String.IsNullOrWhiteSpace(sat))
+            {
+                dayValue = sat;
+            }
+            if (!String.IsNullOrWhiteSpace(sun))
+            {
+                dayValue = sun;
+            }
+
+
+            if (requiredDate.DayOfWeek.ToString().ToUpper() == "MONDAY")
+            {
+                mon = dayValue;
+                tue = "";
+                wed = "";
+                thu = "";
+                fri = "";
+                sat = "";
+                sun = "";
+            }
+            if (requiredDate.DayOfWeek.ToString().ToUpper() == "TUESDAY")
+            {
+                tue = dayValue;
+                mon = "";
+                wed = "";
+                thu = "";
+                fri = "";
+                sat = "";
+                sun = "";
+            }
+            if (requiredDate.DayOfWeek.ToString().ToUpper() == "WEDNESDAY")
+            {
+                wed = dayValue;
+                mon = "";
+                tue = "";
+                thu = "";
+                fri = "";
+                sat = "";
+                sun = "";
+            }
+            if (requiredDate.DayOfWeek.ToString().ToUpper() == "THURSDAY")
+            {
+                thu = dayValue;
+                mon = "";
+                tue = "";
+                wed = "";
+                fri = "";
+                sat = "";
+                sun = "";
+            }
+            if (requiredDate.DayOfWeek.ToString().ToUpper() == "FRIDAY")
+            {
+                fri = dayValue;
+                mon = "";
+                tue = "";
+                wed = "";
+                thu = "";
+                sat = "";
+                sun = "";
+            }
+            if (requiredDate.DayOfWeek.ToString().ToUpper() == "SATURDAY")
+            {
+                sat = dayValue;
+                mon = "";
+                tue = "";
+                wed = "";
+                thu = "";
+                fri = "";
+                sun = "";
+            }
+            if (requiredDate.DayOfWeek.ToString().ToUpper() == "SUNDAY")
+            {
+                sun = dayValue;
+                mon = "";
+                tue = "";
+                wed = "";
+                thu = "";
+                fri = "";
+                sat = "";
+            }
+
+            string err = mcData.UpdateJobPlanner(jobNo, floorLevel, requiredDate, siteAddress, approved, onshop,
+                    stairsIncl, slabM2, beamM2, beamLm, supplyType, suppShortname, supplierRef, lastComment, phaseInvValue, sortType, designDate, jobMgnValue, dman);
+            bool isPassed1 = false;
+            bool isPassed2 = false;
+            bool isPassed3 = false;
+           
+
+            if (err != "OK")
+            {
+                MessageBox.Show(String.Format("UpdatedJobsDGVToDB() ERROR : {0}", err));
+                isPassed1 = false;
+                return;
+            }
+            else
+            {
+                isPassed1 = true;
+            }
+                
+            string wbErr = mcData.UpdateWhiteboardViaJobPlanner(jobNo, floorLevel, requiredDate, siteAddress, slabM2, beamM2, supplyType, suppShortname, stairsIncl, lastComment, mon, tue, wed, thu, fri, sat, sun, phaseInvValue, sortType, dman);
+            if (wbErr != "OK")
+            {
+                MessageBox.Show(String.Format("UpdatedJobsDGVToDB() ERROR : {0}", wbErr));
+                isPassed2 = false;
+            }
+            else
+            {
+                isPassed2 = true;
+            }
+
+            string dbErr = mcData.UpdateDesignBoardJobFromJP(jobNo, designDate, floorLevel, suppShortname,
+                                supplierRef, supplyType, slabM2, beamM2, beamLm,
+                                mon, tue, wed, thu, fri, sat, sun, sortType, dman, requiredDate);
+            if (dbErr == "OK")
+            {
+                isPassed3 = true;
+            }
+            else
+            {
+                isPassed3 = false;
+            }
+
+            bool statusUpdatePassed = false;
+
+            if (onshop == "Y")
+            {
+                string dbErr2 = mcData.UpdateDesignStatus(jobNo, "ON SHOP");
+                if (dbErr2 == "OK")
+                {
+                    statusUpdatePassed = true;
+                }
+                else
+                {
+                    statusUpdatePassed = false;
+                }
+            }
+            else if (approved == "Y" && onshop == "N")
+            {
+                string dbErr3 = mcData.UpdateDesignStatus(jobNo, "APPROVED(NOT ON SHOP)");
+                if (dbErr3 == "OK")
+                {
+                    statusUpdatePassed = true;
+                }
+                else
+                {
+                    statusUpdatePassed = false;
+                }
+            }
+            else if (approved == "N" && onshop == "N")
+            {
+                string dbErr4 = mcData.UpdateDesignStatus(jobNo, "APPROVED(NOT ON SHOP)");
+                if (dbErr4 == "OK")
+                {
+                    statusUpdatePassed = true;
+                }
+                else
+                {
+                    statusUpdatePassed = false;
+                }
+            }
+            else
+            {
+                // do nothing
+            }
+            if(isPassed1 && isPassed2 && isPassed3 && statusUpdatePassed)
+            {
+                MessageBox.Show($"Job [{jobNo}] updated successfully");
+                return;
+            }
+
+
         }
     }
 }
