@@ -283,7 +283,10 @@ namespace MCPApp
                 jobsDT.Columns.Add("SiteAddress", typeof(string)); 
             }
             jobsDT.Columns.Add("DesignStatus", typeof(string));
-            jobsDT.Columns.Add("SupplyType", typeof(string)); 
+            jobsDT.Columns.Add("SupplyType", typeof(string));
+            jobsDT.Columns.Add("SlabM2", typeof(string));
+            jobsDT.Columns.Add("BeamLM", typeof(string));
+            jobsDT.Columns.Add("BeamM2", typeof(string));
             jobsDT.Columns.Add("SupplierRef", typeof(string));
             jobsDT.Columns.Add("Comments", typeof(string));
            
@@ -315,6 +318,9 @@ namespace MCPApp
                 }
                 dr["DesignStatus"] = designStatus;
                 dr["SupplyType"] = row["supplyType"].ToString();
+                dr["SlabM2"] = row["slabM2"].ToString();
+                dr["BeamLM"] = row["beamLm"].ToString();
+                dr["BeamM2"] = row["beamM2"].ToString();
                 dr["SupplierRef"] = row["supplierRef"].ToString();
                 dr["Comments"] = row["lastComment"].ToString();
                 jobsDT.Rows.Add(dr);

@@ -3410,7 +3410,7 @@ namespace MCPApp
                 {
                     string msg = String.Format("GetOnShopJobPlannerDTByShortNameDT() Error : {0}", ex.Message.ToString());
                     logger.LogLine(msg);
-                    string audit = CreateErrorAudit("MeltonData.cs", "GetOnShopJobPlannerDTByShortNameDT()", ex.Message.ToString());
+                    string audit = CreateErrorAudit("MeltonData.cs", "GetOnShopNotOnShopJobsBySupplierDT()", ex.Message.ToString());
                     return null;
                 }
 
