@@ -965,7 +965,7 @@ namespace MCPApp
                     }
                     else if (approved == "N" && onshop == "N")
                     {
-                        string dbErr4 = mcData.UpdateDesignStatus(jobNo, "APPROVED(NOT ON SHOP)");
+                        string dbErr4 = mcData.UpdateDesignStatus(jobNo, "NOT DRAWN");
                     }
                     else
                     {
@@ -3261,11 +3261,13 @@ namespace MCPApp
             string message = $"Given your current logged in details : {Environment.NewLine} {Environment.NewLine} User ID : {loggedInUser} {Environment.NewLine} Database Name : {databaseName} ";
             string fullMessage = $"{message} {Environment.NewLine} {Environment.NewLine} You are NOT permitted to update a LIVE database";
             // string serverName = mcData.GetServerName().ToUpper();
+
             if ((loggedInUser == "aa" || loggedInUser == "test") && !databaseName.Contains("TEST"))
             {
                 MessageBox.Show(fullMessage, "WARNING");
                 return;
             }
+
             this.Cursor = Cursors.WaitCursor;
 
             if (!ValidateDGV())
@@ -3962,7 +3964,7 @@ namespace MCPApp
             }
             else if (approved == "N" && onshop == "N")
             {
-                string dbErr4 = mcData.UpdateDesignStatus(jobNo, "APPROVED(NOT ON SHOP)");
+                string dbErr4 = mcData.UpdateDesignStatus(jobNo, "NOT DRAWN");
                 if (dbErr4 == "OK")
                 {
                     statusUpdatePassed = true;
