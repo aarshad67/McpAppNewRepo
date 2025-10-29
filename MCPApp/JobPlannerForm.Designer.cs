@@ -102,7 +102,6 @@
             this.btnLockedJobs = new System.Windows.Forms.Button();
             this.txtTotalJobMgn = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.updateJobToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.jobDGV)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -145,7 +144,7 @@
             this.cancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelButton.ForeColor = System.Drawing.Color.White;
             this.cancelButton.Location = new System.Drawing.Point(135, 694);
-            this.cancelButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(2);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(111, 52);
             this.cancelButton.TabIndex = 145;
@@ -169,11 +168,10 @@
             this.goToJobInDesignBoardToolStripMenuItem,
             this.removeSupplierToolStripMenuItem,
             this.jobDateAuditToolStripMenuItem,
-            this.viewIssuesReportedAtSiteForJobToolStripMenuItem,
-            this.updateJobToolStripMenuItem});
+            this.viewIssuesReportedAtSiteForJobToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(261, 334);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(261, 312);
+           // this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // amendParentJobToolStripMenuItem
             // 
@@ -621,7 +619,7 @@
             this.updateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.updateButton.ForeColor = System.Drawing.Color.White;
             this.updateButton.Location = new System.Drawing.Point(11, 695);
-            this.updateButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.updateButton.Margin = new System.Windows.Forms.Padding(2);
             this.updateButton.Name = "updateButton";
             this.updateButton.Size = new System.Drawing.Size(119, 52);
             this.updateButton.TabIndex = 152;
@@ -861,7 +859,7 @@
             this.btnLockedJobs.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLockedJobs.ForeColor = System.Drawing.Color.Black;
             this.btnLockedJobs.Location = new System.Drawing.Point(249, 694);
-            this.btnLockedJobs.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLockedJobs.Margin = new System.Windows.Forms.Padding(2);
             this.btnLockedJobs.Name = "btnLockedJobs";
             this.btnLockedJobs.Size = new System.Drawing.Size(111, 52);
             this.btnLockedJobs.TabIndex = 161;
@@ -888,15 +886,6 @@
             this.label4.Size = new System.Drawing.Size(93, 42);
             this.label4.TabIndex = 162;
             this.label4.Text = "Total Job Mgn(£) :";
-            // 
-            // updateJobToolStripMenuItem
-            // 
-            this.updateJobToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.updateJobToolStripMenuItem.ForeColor = System.Drawing.Color.Blue;
-            this.updateJobToolStripMenuItem.Name = "updateJobToolStripMenuItem";
-            this.updateJobToolStripMenuItem.Size = new System.Drawing.Size(260, 22);
-            this.updateJobToolStripMenuItem.Text = "UPDATE THIS JOB";
-            this.updateJobToolStripMenuItem.Click += new System.EventHandler(this.updateJobToolStripMenuItem_Click);
             // 
             // JobPlannerForm
             // 
@@ -1019,6 +1008,5 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripMenuItem goToJobInDesignBoardToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewIssuesReportedAtSiteForJobToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem updateJobToolStripMenuItem;
     }
 }

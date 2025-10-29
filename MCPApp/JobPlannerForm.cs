@@ -965,7 +965,7 @@ namespace MCPApp
                     }
                     else if (approved == "N" && onshop == "N")
                     {
-                        string dbErr4 = mcData.UpdateDesignStatus(jobNo, "NOT DRAWN");
+                        //string dbErr4 = mcData.UpdateDesignStatus(jobNo, "NOT DRAWN");
                     }
                     else
                     {
@@ -3435,10 +3435,7 @@ namespace MCPApp
             return;
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
-
-        }
+        
 
         private void copyAlltoClipboard()
         {
@@ -3701,8 +3698,8 @@ namespace MCPApp
 
         private void updateJobToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            jobDGV.NotifyCurrentCellDirty(true);
-            UpdateJobLine(this.rowIndex);
+            //jobDGV.NotifyCurrentCellDirty(true);
+            //UpdateJobLine(this.rowIndex);
             
         }
 
@@ -3964,15 +3961,15 @@ namespace MCPApp
             }
             else if (approved == "N" && onshop == "N")
             {
-                string dbErr4 = mcData.UpdateDesignStatus(jobNo, "NOT DRAWN");
-                if (dbErr4 == "OK")
-                {
-                    statusUpdatePassed = true;
-                }
-                else
-                {
-                    statusUpdatePassed = false;
-                }
+                //string dbErr4 = mcData.UpdateDesignStatus(jobNo, "NOT DRAWN");
+                //if (dbErr4 == "OK")
+                //{
+                //    statusUpdatePassed = true;
+                //}
+                //else
+                //{
+                //    statusUpdatePassed = false;
+                //}
             }
             else
             {
