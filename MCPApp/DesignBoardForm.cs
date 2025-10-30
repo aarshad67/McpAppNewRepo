@@ -1226,9 +1226,15 @@ namespace MCPApp
             {
                 dbDataGridView[3, rowIndex].Value = form.Status;
                 string err = mcData.UpdateDesignStatus(jobNo, form.Status);
-                if (form.Status.Contains("ON SHOP"))
+                if (form.Status.Contains("APPROVED (NOT ON SHOP)"))
                 {
-                    string err2 = mcData.UpdateJobPlannerDesignStatus(jobNo, form.Status);
+                    string err2 = mcData.UpdateJobPlannerApprovedFlag(jobNo, "Y");
+                    string err3 = mcData.UpdateJobPlannerOnShopFlag(jobNo, "N");
+                }
+                else
+                {
+                    string err4 = mcData.UpdateJobPlannerApprovedFlag(jobNo, "N");
+                    string err5 = mcData.UpdateJobPlannerOnShopFlag(jobNo, "N");
                 }
             }
             return;

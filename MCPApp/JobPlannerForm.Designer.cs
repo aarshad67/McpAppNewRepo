@@ -133,6 +133,7 @@
             this.jobDGV.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.jobDGV_CellMouseUp);
             this.jobDGV.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.jobDGV_CellValidating);
             this.jobDGV.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.jobDGV_CellValueChanged);
+            this.jobDGV.CurrentCellDirtyStateChanged += new System.EventHandler(this.jobDGV_CurrentCellDirtyStateChanged);
             this.jobDGV.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.jobDGV_DataError);
             this.jobDGV.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.jobDGV_EditingControlShowing);
             this.jobDGV.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.jobDGV_KeyPress);
@@ -170,8 +171,7 @@
             this.jobDateAuditToolStripMenuItem,
             this.viewIssuesReportedAtSiteForJobToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(261, 312);
-           // this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(261, 290);
             // 
             // amendParentJobToolStripMenuItem
             // 

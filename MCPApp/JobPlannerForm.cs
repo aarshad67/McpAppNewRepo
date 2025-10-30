@@ -254,6 +254,7 @@ namespace MCPApp
                 approvedColumn.Name = "Approved";
                 approvedColumn.Width = 50;
                 approvedColumn.HeaderText = "Apprvd";
+                approvedColumn.ReadOnly = true;
                 jobDGV.Columns.Add(approvedColumn);
 
                 //8
@@ -955,22 +956,22 @@ namespace MCPApp
                                         supplierRef, supplyType, slabM2, beamM2, beamLm,
                                         mon, tue, wed, thu, fri, sat, sun, sortType,dman,requiredDate);
                     
-                    if (onshop == "Y")
-                    {
-                        string dbErr2 = mcData.UpdateDesignStatus(jobNo, "ON SHOP");
-                    }
-                    else if ( approved == "Y" && onshop == "N")
-                    {
-                        string dbErr3 = mcData.UpdateDesignStatus(jobNo, "APPROVED(NOT ON SHOP)");
-                    }
-                    else if (approved == "N" && onshop == "N")
-                    {
-                        //string dbErr4 = mcData.UpdateDesignStatus(jobNo, "NOT DRAWN");
-                    }
-                    else
-                    {
-                        // do nothing
-                    }
+                    //if (onshop == "Y")
+                    //{
+                    //    string dbErr2 = mcData.UpdateDesignStatus(jobNo, "ON SHOP");
+                    //}
+                    //else if ( approved == "Y" && onshop == "N")
+                    //{
+                    //    string dbErr3 = mcData.UpdateDesignStatus(jobNo, "APPROVED(NOT ON SHOP)");
+                    //}
+                    //else if (approved == "N" && onshop == "N")
+                    //{
+                    //    //string dbErr4 = mcData.UpdateDesignStatus(jobNo, "NOT DRAWN");
+                    //}
+                    //else
+                    //{
+                    //    // do nothing
+                    //}
                 }
                 return;
             }
@@ -3530,6 +3531,23 @@ namespace MCPApp
             {
                 string designer = jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString();
             }
+            if (e.ColumnIndex == 8)
+            {
+                bool isChecked = Convert.ToBoolean(jobDGV.Rows[e.RowIndex].Cells[8].Value);
+               
+                // whether ONSHOP ticked or un-ticked -- > APPROVED checkbox becomes true
+                jobDGV.Rows[e.RowIndex].Cells[7].Value = isChecked ? true : true;
+                string jobStatus = isChecked ? "ON SHOP" : "APPROVED(NOT ON SHOP)";
+                string approvedFlag = "Y";
+                string onShopFlag = isChecked ? "Y" : "N";
+                string statusSetResponse = mcData.UpdateDesignStatus(jobNo, jobStatus);
+                string flagSetStatus1 = mcData.UpdateJobPlannerApprovedFlag(jobNo, approvedFlag);
+                string flagSetStatus2 = mcData.UpdateJobPlannerOnShopFlag(jobNo, onShopFlag);
+
+
+                //MessageBox.Show($"ON SHOP flag for job [{jobNo}] is now [{isChecked.ToString()}]");
+            }
+
 
             string response = mcData.GetJobLockedUser(jobNo, "JP");
             if (!response.Equals("n/a") && !response.Equals(loggedInUser))
@@ -3548,6 +3566,9 @@ namespace MCPApp
         {
             if (!jobDGV.Focused) { return; }
             if (e.RowIndex < 0) { return; }
+
+            
+
             string jobNo = jobDGV[0, e.RowIndex].Value.ToString();
             string response = mcData.GetJobLockedUser(jobNo, "JP");
             if (!response.Equals("n/a") && !response.Equals(loggedInUser))
@@ -3630,9 +3651,35 @@ namespace MCPApp
             int roundedNumWeeks = (int)Decimal.Round(numWeeks, 1) + 1;
             DesignBoardForm dbForm = new DesignBoardForm(phaseJob, startDate, lastDate, dt, roundedNumWeeks);
             dbForm.ShowDialog();
-           
-            //PopulateDGV(mcData.GetJobPlannerDTByParentJob(phaseJob.Substring(0,5)));
-            return;
+
+            jobDGV.Rows[rowIndex].Cells[7].Value = false;
+            jobDGV.Rows[rowIndex].Cells[8].Value = false;
+
+            // 🔹 Then apply logic based on designStatus
+            string designStatus = mcData.GetJobPlannerStatusFromDesignerJob(phaseJob);
+
+            if (!string.IsNullOrWhiteSpace(designStatus))
+            {
+                if (designStatus == "OnShop")
+                {
+                    jobDGV.Rows[rowIndex].Cells[7].Value = true;
+                    jobDGV.Rows[rowIndex].Cells[8].Value = true;
+                }
+                else if (designStatus == "Approved")
+                {
+                    jobDGV.Rows[rowIndex].Cells[7].Value = true;
+                    jobDGV.Rows[rowIndex].Cells[8].Value = false;
+                }
+            }
+            else
+            {
+                jobDGV.EndEdit();
+                jobDGV.Rows[rowIndex].Cells[7].Value = false;
+                jobDGV.Rows[rowIndex].Cells[8].Value = false;
+            }
+
+                //PopulateDGV(mcData.GetJobPlannerDTByParentJob(phaseJob.Substring(0,5)));
+                return;
         }
 
         private void viewIssuesReportedAtSiteForJobToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3982,6 +4029,15 @@ namespace MCPApp
             }
 
 
+        }
+
+        private void jobDGV_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        {
+            if (jobDGV.IsCurrentCellDirty)
+            {
+                // Commit the checkbox change immediately
+                jobDGV.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
         }
     }
 }

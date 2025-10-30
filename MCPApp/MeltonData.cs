@@ -1991,7 +1991,7 @@ namespace MCPApp
                 conn.Open();
                 try
                 {
-                    using (SqlCommand command = new SqlCommand(String.Format("SELECT designStatus FROM dbo.DesignBoad WHERE jobNo = '{0}'", jobNo), conn))
+                    using (SqlCommand command = new SqlCommand(String.Format("SELECT designStatus FROM dbo.DesignBoard WHERE jobNo = '{0}'", jobNo), conn))
                     {
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
@@ -3427,7 +3427,11 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) ORDER BY supplyType,requiredDate";
+                    qry = @"SELECT * FROM dbo.JobPlanner 
+                            WHERE completedFlag != 'Y' 
+                            AND ( beamM2 > 0 OR beamLm > 0 ) 
+                            AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
+                            ORDER BY supplyType,requiredDate";
 
 
                     SqlCommand cmd = new SqlCommand(qry, conn);
@@ -3458,7 +3462,11 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' )  ORDER BY supplyType,requiredDate";
+                    qry = @"SELECT * FROM dbo.JobPlanner 
+                            WHERE completedFlag != 'Y' 
+                            AND ( slabM2 > 0 OR stairsIncl = 'Y' ) 
+                            AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
+                            ORDER BY supplyType,requiredDate";
 
 
                     SqlCommand cmd = new SqlCommand(qry, conn);
@@ -8201,6 +8209,80 @@ namespace MCPApp
             }
         }
 
+        public string UpdateJobPlannerApprovedFlag(string jobNo, string flag)
+        {
+
+
+            string insertQry = "UPDATE dbo.JobPlanner "
+                                + "SET Approved = @flag,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE jobNo = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("flag", flag));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateJobPlannerApprovedFlag() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateJobPlannerApprovedFlag({jobNo},{flag})", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string UpdateJobPlannerOnShopFlag(string jobNo, string flag)
+        {
+
+
+            string insertQry = "UPDATE dbo.JobPlanner "
+                                + "SET OnShop = @flag,"
+                                + "modifiedDate = @modifiedDate,"
+                                + "modifiedBy = @modifiedBy "
+                                + "WHERE jobNo = @jobNo";
+
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("flag", flag));
+                        command.Parameters.Add(new SqlParameter("modifiedDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("modifiedBy", loggedInUser));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = $"UpdateJobPlannerOnShopFlag() Error : {ex.Message.ToString()}";
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", $"UpdateJobPlannerOnShopFlag({jobNo},{flag})", ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
         public string UpdateJobPlannerDesignStatus(string jobNo, string designStatus)
         {
             string approvedFlag = "N";
@@ -9900,7 +9982,7 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    string qry = "SELECT * FROM dbo.DesignStatus ORDER BY designStatusSeq";
+                    string qry = "SELECT * FROM dbo.DesignStatus WHERE designStatusSeq < 5 ORDER BY designStatusSeq";
 
                     SqlCommand cmd = new SqlCommand(qry, conn);
                     DataTable dt = new DataTable();
