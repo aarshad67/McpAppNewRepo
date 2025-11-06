@@ -198,10 +198,13 @@ namespace MCPApp
 
         private void toolStripMenuItemUnlock_Click(object sender, EventArgs e)
         {
+            string lockType = dgv.Rows[rowIndex].Cells[0].Value.ToString();
             string jobNo = dgv.Rows[rowIndex].Cells[1].Value.ToString();
-            if(MessageBox.Show($"Are you sure you wish to the REMOVE lock for job {jobNo}?","Remove Job Lock Confirmation",MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if(String.IsNullOrWhiteSpace(lockType) || String.IsNullOrEmpty(jobNo)) {  return; }
+            
+            if(MessageBox.Show($"Are you sure you wish to the REMOVE [{lockType}] lock for job {jobNo}?","Remove Job Lock Confirmation",MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                int numJobLockDeleted = mcData.DeleteJobLocks("WB", jobNo);
+                int numJobLockDeleted = mcData.DeleteJobLocks(lockType, jobNo);
                 if (numJobLockDeleted > 0)
                 {
                     MessageBox.Show($"Job No. {jobNo} lock successfully removed");
