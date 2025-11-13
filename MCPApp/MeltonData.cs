@@ -2282,9 +2282,50 @@ namespace MCPApp
                 }
                 catch (Exception ex)
                 {
-                    string msg = String.Format("CreateWBDayCommentAudit() Error : {0}", ex.Message.ToString());
+                    string msg = String.Format("CreateJobDayAudit() Error : {0}", ex.Message.ToString());
                     logger.LogLine(msg);
-                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("CreateWBDayCommentAudit({0})", jobNo), ex.Message.ToString());
+                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("CreateJobDayAudit({0})", jobNo), ex.Message.ToString());
+                    return msg;
+                }
+
+            }
+        }
+
+        public string CreateDesignStatusAudit(string jobNo, DateTime designDate, string designStatus, string source)
+        {
+
+            string insertQry = "INSERT INTO dbo.DesignStatusAudit("
+                                            + "jobNo,designDate,designStatus,auditDate,auditUser,source) "
+                                            + "VALUES("
+                                            + "@jobNo,"
+                                            + "@designDate,"
+                                            + "@designStatus,"
+                                            + "@auditDate,"
+                                            + "@auditUser,"
+                                            + "@source)";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(insertQry, conn))
+                    {
+                        command.Parameters.Add(new SqlParameter("jobNo", jobNo));
+                        command.Parameters.Add(new SqlParameter("designDate", designDate));
+                        command.Parameters.Add(new SqlParameter("designStatus", designStatus));
+                        command.Parameters.Add(new SqlParameter("auditDate", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("auditUser", ConfigurationManager.AppSettings["LoggedInUser"]));
+                        command.Parameters.Add(new SqlParameter("source", source));
+                        command.ExecuteNonQuery();
+                    }
+                    return "OK";
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("CreateDesignStatusAudit() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("CreateDesignStatusAudit({0})", jobNo), ex.Message.ToString());
                     return msg;
                 }
 
@@ -2826,6 +2867,35 @@ namespace MCPApp
                     string msg = String.Format("GetJobDayAuditDT() Error : {0}", ex.Message.ToString());
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", String.Format("GetJobDayAuditDT({0})", jobNo), ex.Message.ToString());
+                    return null;
+                }
+
+            }
+
+        }
+
+        public DataTable GetJobDesignStatusAuditDT(string jobNo)
+        {
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+
+                try
+                {
+                    conn.Open();
+                    string qry = string.Format("SELECT * FROM dbo.DesignStatusAudit WHERE jobNo LIKE '{0}%' ORDER BY auditDate DESC", jobNo.Substring(0, 8));
+
+                    SqlCommand cmd = new SqlCommand(qry, conn);
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+
+                    return dt;
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetJobDesignStatusAuditDT() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("GetJobDesignStatusAuditDT({0})", jobNo), ex.Message.ToString());
                     return null;
                 }
 

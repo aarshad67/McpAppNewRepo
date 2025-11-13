@@ -746,6 +746,7 @@ namespace MCPApp
                             errFound = true;
                             break;
                         }
+                        string auditErr = mcData.CreateDesignStatusAudit(jobNo, designDate, "NOT DRAWN", "Job Created In Job Entry Form");
                         mcData.UpdateDesignBoardColourCodeDayFlags(jobNo, designDate, detailingDays, (int)designDate.DayOfWeek);
                     }
 
@@ -879,6 +880,7 @@ namespace MCPApp
                             errFound = true;
                             break;
                         }
+                        string auditErr = mcData.CreateDesignStatusAudit(jobNo, designDate, "NOT DRAWN", "Job Created In Job Entry Form via Job Search > Add Phased Job");
                     }
                 }
 

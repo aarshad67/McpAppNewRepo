@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 
+using Microsoft.Office.Interop.Excel;
+
 namespace MCPApp
 {
     public class ExcelUtlity
@@ -21,7 +23,7 @@ namespace MCPApp
         /// 
 
 
-        public bool WriteDataTableToExcelQuick(DataTable dataTable, string worksheetName, string saveAsLocation, string reportType, int dateColumnIndex)
+        public bool WriteDataTableToExcelQuick(System.Data.DataTable dataTable, string worksheetName, string saveAsLocation, string reportType, int dateColumnIndex)
         {
             Microsoft.Office.Interop.Excel.Application excel = null;
             Microsoft.Office.Interop.Excel.Workbook workbook = null;
@@ -86,6 +88,13 @@ namespace MCPApp
                 // Format columns
                 range.EntireColumn.AutoFit();
 
+                // Format the first column as Text
+                Microsoft.Office.Interop.Excel.Range firstColumn = sheet.Range[
+                    sheet.Cells[1, 1],
+                    sheet.Cells[rows + 2, 1]
+                ];
+                firstColumn.NumberFormat = "@"; // "@" means text format
+
                 // Format date columns
                 var dateRange1 = sheet.Range[sheet.Cells[3, dateColumnIndex], sheet.Cells[rows + 2, dateColumnIndex]];
                 dateRange1.NumberFormat = "DD/MM/YYYY";
@@ -142,6 +151,9 @@ namespace MCPApp
                 excelSheet.Cells[1, 1] = ReporType;
                 excelSheet.Cells[1, 2] = "Date : " + DateTime.Now.ToShortDateString();
 
+                
+
+
                 // loop through each row and add values to our sheet
                 int rowcount = 2;
 
@@ -150,6 +162,14 @@ namespace MCPApp
                     rowcount += 1;
                     for (int i = 1; i <= dataTable.Columns.Count; i++)
                     {
+                        // Format the first column as Text
+                        Microsoft.Office.Interop.Excel.Range firstColumn = excelSheet.Range[
+                            excelSheet.Cells[1, 1],
+                            excelSheet.Cells[rowcount, 1]
+                        ];
+                        firstColumn.NumberFormat = "@"; // "@" means text format
+
+
                         // on the first iteration we add the column headers
                         if (rowcount == 3)
                         {
@@ -282,6 +302,13 @@ namespace MCPApp
                     }
 
                 }
+
+                // Format the first column as Text
+                Microsoft.Office.Interop.Excel.Range firstColumn = excelSheet.Range[
+                    excelSheet.Cells[1, 1],
+                    excelSheet.Cells[rowcount, 1]
+                ];
+                firstColumn.NumberFormat = "@"; // "@" means text format
 
                 // now we resize the columns
                 excelCellrange = excelSheet.Range[excelSheet.Cells[1, 1], excelSheet.Cells[rowcount, dataTable.Columns.Count]];

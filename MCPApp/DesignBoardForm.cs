@@ -1219,6 +1219,7 @@ namespace MCPApp
         {
             if (dbDataGridView[0, rowIndex].Value == null) { return; }
             string jobNo = dbDataGridView[0, this.rowIndex].Value.ToString();
+            DateTime designDate = Convert.ToDateTime(dbDataGridView[1, this.rowIndex].Value.ToString());
             if(mcData.IsJobCompleted(jobNo)) { return; }
             DesignStatusSelectorForm form = new DesignStatusSelectorForm();
             form.ShowDialog();
@@ -1226,6 +1227,7 @@ namespace MCPApp
             {
                 dbDataGridView[3, rowIndex].Value = form.Status;
                 string err = mcData.UpdateDesignStatus(jobNo, form.Status);
+                string auditErr = mcData.CreateDesignStatusAudit(jobNo, designDate, form.Status, "Design Status updated in DesignBoard via right click SELECT DESIGN STATUS option");
                 if (form.Status.Contains("APPROVED (NOT ON SHOP)"))
                 {
                     string err2 = mcData.UpdateJobPlannerApprovedFlag(jobNo, "Y");
@@ -1377,6 +1379,20 @@ namespace MCPApp
             MessageBox.Show("DesignBoard has refreshed successfully");
             RefreshBtn.Text = "Refresh the Design Board ";
             return;
+        }
+
+        private void designStatusAuditForJobToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.dbDataGridView[0, rowIndex].Value == null) { return; }
+            string jobNo = this.dbDataGridView[0, this.rowIndex].Value.ToString();
+            DataTable dt = mcData.GetJobDesignStatusAuditDT(jobNo);
+            if(dt.Rows.Count < 1)
+            {
+                MessageBox.Show($"There are no audit entries for job no. {jobNo}");
+                return;
+            }
+            JobDesignStatusAuditForm auditForm = new JobDesignStatusAuditForm(jobNo,dt);
+            auditForm.ShowDialog();
         }
     }
 }

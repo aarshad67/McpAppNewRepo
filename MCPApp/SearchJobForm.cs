@@ -204,41 +204,45 @@ namespace MCPApp
             bool updateParentJobFlag = true;
             CreateParentJobForm pjForm = new CreateParentJobForm(parentJobNo, updateParentJobFlag);
             pjForm.ShowDialog();
-            DataTable dt = mcData.GetAllParentJobsDT();
-            PopulateDGV(dt);
+            DataTable parentDT = mcData.GetParentJobsDTByJobKey(parentJobNo.ToString());
+            PopulateDGV(parentDT);
+            // DataTable dt = mcData.GetAllParentJobsDT();
+            // PopulateDGV(dt);
             return;
 
 
 
 
-            PopulateDGV(dt);
+            //PopulateDGV(dt);
         }
 
         private void addPhaseJobToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (!jobDGV.Focused) { return; }
-                if (jobDGV[colIndex, rowIndex].Value == null) { return; }
-                int parentJobNo = Convert.ToInt32(jobDGV[colIndex, rowIndex].Value.ToString());
-                DataTable parentDT = mcData.GetParentJobsDT(parentJobNo);
-                bool updatePhaseJobOnly = true;
-                JobEntryForm jobForm = new JobEntryForm(parentDT, updatePhaseJobOnly);
-                jobForm.ShowDialog();
-                if (jobForm.CancelJob)
-                {
-                    this.Dispose();
-                    this.Close();
-                }
-                return;
-            }
-            catch (Exception ex)
-            {
-                string msg = String.Format("addPhaseJobToolStripMenuItem1_Click() Error : {0}", ex.Message.ToString());
-                logger.LogLine(msg);
-                string audit = mcData.CreateErrorAudit("SearchJobForm.cs", "addPhaseJobToolStripMenuItem1_Click()", ex.Message);
-                return;
-            }
+            MessageBox.Show("This function is no longer available. If you wish to add an additional phase to a job, you can do it from the right click [ADD A NEW PHASE] option in Job Planner");
+            return;
+            //try
+            //{
+            //    if (!jobDGV.Focused) { return; }
+            //    if (jobDGV[colIndex, rowIndex].Value == null) { return; }
+            //    int parentJobNo = Convert.ToInt32(jobDGV[colIndex, rowIndex].Value.ToString());
+            //    DataTable parentDT = mcData.GetParentJobsDT(parentJobNo);
+            //    bool updatePhaseJobOnly = true;
+            //    JobEntryForm jobForm = new JobEntryForm(parentDT, updatePhaseJobOnly);
+            //    jobForm.ShowDialog();
+            //    if (jobForm.CancelJob)
+            //    {
+            //        this.Dispose();
+            //        this.Close();
+            //    }
+            //    return;
+            //}
+            //catch (Exception ex)
+            //{
+            //    string msg = String.Format("addPhaseJobToolStripMenuItem1_Click() Error : {0}", ex.Message.ToString());
+            //    logger.LogLine(msg);
+            //    string audit = mcData.CreateErrorAudit("SearchJobForm.cs", "addPhaseJobToolStripMenuItem1_Click()", ex.Message);
+            //    return;
+            //}
         }
 
         private void searchByJobNoButton_Click(object sender, EventArgs e)
@@ -263,6 +267,7 @@ namespace MCPApp
             if (parentDT.Rows.Count < 1)
             {
                 MessageBox.Show("THere are no PARENT jobs found");
+                jobDGV.Rows.Clear();
                 jobNoKeyTextBox.Text = String.Empty;
                 jobNoKeyTextBox.Focus();
 

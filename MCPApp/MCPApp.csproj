@@ -177,6 +177,12 @@
     <Compile Include="FixSuppliersForm.Designer.cs">
       <DependentUpon>FixSuppliersForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="JobDesignStatusAuditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JobDesignStatusAuditForm.Designer.cs">
+      <DependentUpon>JobDesignStatusAuditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="JobPlannerRptNewForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -435,6 +441,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FixSuppliersForm.resx">
       <DependentUpon>FixSuppliersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JobDesignStatusAuditForm.resx">
+      <DependentUpon>JobDesignStatusAuditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="JobPlannerRptNewForm.resx">
       <DependentUpon>JobPlannerRptNewForm.cs</DependentUpon>

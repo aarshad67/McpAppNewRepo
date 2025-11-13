@@ -97,6 +97,7 @@ namespace MCPApp
             {
                 //jobNo,designDate, designStatus, requiredDate, floorlevel, suppShortname, supplierRef, stairsIncluded, salesman, supplyType, slabM2, beamM2, beamLM
                 dbErr = mcData.CreateDesignBoardJob(nextJobNo, DateTime.Now.AddYears(1), "NOT DRAWN", DateTime.Now.AddYears(1),0, "", "", "", "", "", 0, 0, 0, "");
+                string auditErr = mcData.CreateDesignStatusAudit(nextJobNo, DateTime.Now.AddYears(1), "NOT DRAWN", "Job Created In Recreate Phase Form called via Job Planner Right Click RE-CREATE DELETED PHASE option");
             }
             if (err == "OK" && wbErr == "OK" && dbErr == "OK")
             {

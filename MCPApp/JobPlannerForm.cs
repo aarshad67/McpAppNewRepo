@@ -1708,6 +1708,7 @@ namespace MCPApp
             if(!mcData.IsDesignBoardJobExists(nextJobNo))
             {
                 dbErr = mcData.CreateDesignBoardJob(nextJobNo, DateTime.Now.AddYears(1), "NOT DRAWN", DateTime.Now.AddYears(1), 1, "", "", "", "", "", 0, 0, 0, "");
+                string auditErr = mcData.CreateDesignStatusAudit(nextJobNo, DateTime.Now.AddYears(1), "NOT DRAWN", "Job Created In Job Planner via Right Click ADD PHASE option");
             }
 
             this.Cursor = Cursors.Default;
@@ -3538,9 +3539,12 @@ namespace MCPApp
                 // whether ONSHOP ticked or un-ticked -- > APPROVED checkbox becomes true
                 jobDGV.Rows[e.RowIndex].Cells[7].Value = isChecked ? true : true;
                 string jobStatus = isChecked ? "ON SHOP" : "APPROVED(NOT ON SHOP)";
+                string chkBoxAction = isChecked ? "ticked" : "un-ticked";
                 string approvedFlag = "Y";
                 string onShopFlag = isChecked ? "Y" : "N";
                 string statusSetResponse = mcData.UpdateDesignStatus(jobNo, jobStatus);
+                DateTime designDate = mcData.GetDesignDateByJobNo(jobNo);
+                string auditErr = mcData.CreateDesignStatusAudit(jobNo, designDate, jobStatus, $"Design Status updated in Job Planner when ON SHOP checkbox is {chkBoxAction}");
                 string flagSetStatus1 = mcData.UpdateJobPlannerApprovedFlag(jobNo, approvedFlag);
                 string flagSetStatus2 = mcData.UpdateJobPlannerOnShopFlag(jobNo, onShopFlag);
 
@@ -3988,6 +3992,7 @@ namespace MCPApp
                 if (dbErr2 == "OK")
                 {
                     statusUpdatePassed = true;
+                    string auditErr = mcData.CreateDesignStatusAudit(jobNo, designDate, "ON SHOP", "Design Status updated in Job Planner when right click SAVE JOB LINE option clicked");
                 }
                 else
                 {
@@ -4000,6 +4005,7 @@ namespace MCPApp
                 if (dbErr3 == "OK")
                 {
                     statusUpdatePassed = true;
+                    string auditErr = mcData.CreateDesignStatusAudit(jobNo, designDate, "APPROVED(NOT ON SHOP)", "Design Status updated in Job Planner when right click SAVE JOB LINE option clicked");
                 }
                 else
                 {

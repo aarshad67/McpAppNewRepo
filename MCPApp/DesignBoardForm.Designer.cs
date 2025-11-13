@@ -49,6 +49,7 @@ namespace MCPApp
             this.AddAdditionalCommentMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
             this.RefreshBtn = new System.Windows.Forms.Button();
+            this.designStatusAuditForJobToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.supplierContextMenuStrip.SuspendLayout();
             this.productContextMenuStrip.SuspendLayout();
             this.wbDailyContextMenuStrip1.SuspendLayout();
@@ -64,9 +65,10 @@ namespace MCPApp
             this.cancelButton.BackColor = System.Drawing.Color.Red;
             this.cancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelButton.ForeColor = System.Drawing.Color.White;
-            this.cancelButton.Location = new System.Drawing.Point(1503, 923);
+            this.cancelButton.Location = new System.Drawing.Point(1002, 600);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(153, 69);
+            this.cancelButton.Size = new System.Drawing.Size(102, 45);
             this.cancelButton.TabIndex = 17;
             this.cancelButton.Text = "CLOSE";
             this.cancelButton.UseVisualStyleBackColor = false;
@@ -78,10 +80,11 @@ namespace MCPApp
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.weeksTabControl.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
-            this.weeksTabControl.Location = new System.Drawing.Point(28, 12);
+            this.weeksTabControl.Location = new System.Drawing.Point(19, 8);
+            this.weeksTabControl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.weeksTabControl.Name = "weeksTabControl";
             this.weeksTabControl.SelectedIndex = 0;
-            this.weeksTabControl.Size = new System.Drawing.Size(1638, 897);
+            this.weeksTabControl.Size = new System.Drawing.Size(1092, 583);
             this.weeksTabControl.TabIndex = 19;
             // 
             // supplierContextMenuStrip
@@ -90,13 +93,13 @@ namespace MCPApp
             this.supplierContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectSupplierToolStripMenuItem});
             this.supplierContextMenuStrip.Name = "wbContextMenuStrip";
-            this.supplierContextMenuStrip.Size = new System.Drawing.Size(201, 36);
+            this.supplierContextMenuStrip.Size = new System.Drawing.Size(152, 26);
             this.supplierContextMenuStrip.Text = "JOB Option(s)";
             // 
             // selectSupplierToolStripMenuItem
             // 
             this.selectSupplierToolStripMenuItem.Name = "selectSupplierToolStripMenuItem";
-            this.selectSupplierToolStripMenuItem.Size = new System.Drawing.Size(200, 32);
+            this.selectSupplierToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.selectSupplierToolStripMenuItem.Text = "Select Supplier";
             this.selectSupplierToolStripMenuItem.Click += new System.EventHandler(this.selectSupplierToolStripMenuItem_Click);
             // 
@@ -106,13 +109,13 @@ namespace MCPApp
             this.productContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectProductToolStripMenuItem});
             this.productContextMenuStrip.Name = "wbContextMenuStrip";
-            this.productContextMenuStrip.Size = new System.Drawing.Size(198, 36);
+            this.productContextMenuStrip.Size = new System.Drawing.Size(151, 26);
             this.productContextMenuStrip.Text = "Select Product";
             // 
             // selectProductToolStripMenuItem
             // 
             this.selectProductToolStripMenuItem.Name = "selectProductToolStripMenuItem";
-            this.selectProductToolStripMenuItem.Size = new System.Drawing.Size(197, 32);
+            this.selectProductToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.selectProductToolStripMenuItem.Text = "Select Product";
             this.selectProductToolStripMenuItem.Click += new System.EventHandler(this.selectProductToolStripMenuItem_Click);
             // 
@@ -122,12 +125,12 @@ namespace MCPApp
             this.wbDailyContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addCommenttoolStripMenuItem});
             this.wbDailyContextMenuStrip1.Name = "wbDailyContextMenuStrip1";
-            this.wbDailyContextMenuStrip1.Size = new System.Drawing.Size(203, 36);
+            this.wbDailyContextMenuStrip1.Size = new System.Drawing.Size(154, 26);
             // 
             // addCommenttoolStripMenuItem
             // 
             this.addCommenttoolStripMenuItem.Name = "addCommenttoolStripMenuItem";
-            this.addCommenttoolStripMenuItem.Size = new System.Drawing.Size(202, 32);
+            this.addCommenttoolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.addCommenttoolStripMenuItem.Text = "Add Comment";
             this.addCommenttoolStripMenuItem.Click += new System.EventHandler(this.addCommenttoolStripMenuItem_Click);
             // 
@@ -136,21 +139,22 @@ namespace MCPApp
             this.jobContextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.jobContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.GoToJobPlannerToolStripMenuItem,
+            this.designStatusAuditForJobToolStripMenuItem,
             this.exportToEXCELToolStripMenuItem});
             this.jobContextMenuStrip1.Name = "jobContextMenuStrip1";
-            this.jobContextMenuStrip1.Size = new System.Drawing.Size(300, 68);
+            this.jobContextMenuStrip1.Size = new System.Drawing.Size(217, 92);
             // 
             // GoToJobPlannerToolStripMenuItem
             // 
             this.GoToJobPlannerToolStripMenuItem.Name = "GoToJobPlannerToolStripMenuItem";
-            this.GoToJobPlannerToolStripMenuItem.Size = new System.Drawing.Size(299, 32);
+            this.GoToJobPlannerToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.GoToJobPlannerToolStripMenuItem.Text = "Go to Job In JOB PLANNER";
             this.GoToJobPlannerToolStripMenuItem.Click += new System.EventHandler(this.GoToJobPlannerToolStripMenuItem_Click);
             // 
             // exportToEXCELToolStripMenuItem
             // 
             this.exportToEXCELToolStripMenuItem.Name = "exportToEXCELToolStripMenuItem";
-            this.exportToEXCELToolStripMenuItem.Size = new System.Drawing.Size(299, 32);
+            this.exportToEXCELToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
             this.exportToEXCELToolStripMenuItem.Text = "Export To EXCEL";
             this.exportToEXCELToolStripMenuItem.Click += new System.EventHandler(this.exportToEXCELToolStripMenuItem_Click);
             // 
@@ -160,12 +164,12 @@ namespace MCPApp
             this.statusContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectDesignStatusToolStripMenuItem});
             this.statusContextMenuStrip1.Name = "statusContextMenuStrip1";
-            this.statusContextMenuStrip1.Size = new System.Drawing.Size(244, 36);
+            this.statusContextMenuStrip1.Size = new System.Drawing.Size(180, 26);
             // 
             // selectDesignStatusToolStripMenuItem
             // 
             this.selectDesignStatusToolStripMenuItem.Name = "selectDesignStatusToolStripMenuItem";
-            this.selectDesignStatusToolStripMenuItem.Size = new System.Drawing.Size(243, 32);
+            this.selectDesignStatusToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.selectDesignStatusToolStripMenuItem.Text = "Select Design Status";
             this.selectDesignStatusToolStripMenuItem.Click += new System.EventHandler(this.selectDesignStatusToolStripMenuItem_Click);
             // 
@@ -175,12 +179,12 @@ namespace MCPApp
             this.dateChangeContextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.canToolStripMenuItem});
             this.dateChangeContextMenuStrip1.Name = "dateChangeContextMenuStrip1";
-            this.dateChangeContextMenuStrip1.Size = new System.Drawing.Size(187, 36);
+            this.dateChangeContextMenuStrip1.Size = new System.Drawing.Size(143, 26);
             // 
             // canToolStripMenuItem
             // 
             this.canToolStripMenuItem.Name = "canToolStripMenuItem";
-            this.canToolStripMenuItem.Size = new System.Drawing.Size(186, 32);
+            this.canToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.canToolStripMenuItem.Text = "Change Date";
             this.canToolStripMenuItem.Click += new System.EventHandler(this.canToolStripMenuItem_Click);
             // 
@@ -190,14 +194,14 @@ namespace MCPApp
             this.AdditionalCommentContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.AddAdditionalCommentMenuItem});
             this.AdditionalCommentContextMenuStrip.Name = "AdditionalCommentContextMenuStrip";
-            this.AdditionalCommentContextMenuStrip.Size = new System.Drawing.Size(290, 36);
+            this.AdditionalCommentContextMenuStrip.Size = new System.Drawing.Size(212, 26);
             this.AdditionalCommentContextMenuStrip.Text = "Add Additional Comment";
             this.AdditionalCommentContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.AdditionalCommentContextMenuStrip_Opening);
             // 
             // AddAdditionalCommentMenuItem
             // 
             this.AddAdditionalCommentMenuItem.Name = "AddAdditionalCommentMenuItem";
-            this.AddAdditionalCommentMenuItem.Size = new System.Drawing.Size(289, 32);
+            this.AddAdditionalCommentMenuItem.Size = new System.Drawing.Size(211, 22);
             this.AddAdditionalCommentMenuItem.Text = "Add Additional Comment";
             this.AddAdditionalCommentMenuItem.Click += new System.EventHandler(this.AddAdditionalCommentMenuItem_Click);
             // 
@@ -206,9 +210,10 @@ namespace MCPApp
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(23, 972);
+            this.label1.Location = new System.Drawing.Point(15, 632);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 29);
+            this.label1.Size = new System.Drawing.Size(51, 20);
             this.label1.TabIndex = 20;
             this.label1.Text = "label1";
             // 
@@ -218,27 +223,36 @@ namespace MCPApp
             this.RefreshBtn.BackColor = System.Drawing.Color.Green;
             this.RefreshBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RefreshBtn.ForeColor = System.Drawing.Color.White;
-            this.RefreshBtn.Location = new System.Drawing.Point(1227, 923);
+            this.RefreshBtn.Location = new System.Drawing.Point(818, 600);
+            this.RefreshBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.RefreshBtn.Name = "RefreshBtn";
-            this.RefreshBtn.Size = new System.Drawing.Size(233, 69);
+            this.RefreshBtn.Size = new System.Drawing.Size(155, 45);
             this.RefreshBtn.TabIndex = 21;
             this.RefreshBtn.Text = "Refresh the Design Board ";
             this.RefreshBtn.UseVisualStyleBackColor = false;
             this.RefreshBtn.Click += new System.EventHandler(this.RefreshBtn_Click);
             // 
+            // designStatusAuditForJobToolStripMenuItem
+            // 
+            this.designStatusAuditForJobToolStripMenuItem.Name = "designStatusAuditForJobToolStripMenuItem";
+            this.designStatusAuditForJobToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.designStatusAuditForJobToolStripMenuItem.Text = "Design Status Audit for Job";
+            this.designStatusAuditForJobToolStripMenuItem.Click += new System.EventHandler(this.designStatusAuditForJobToolStripMenuItem_Click);
+            // 
             // DesignBoardForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1689, 1015);
+            this.ClientSize = new System.Drawing.Size(1126, 660);
             this.Controls.Add(this.RefreshBtn);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.weeksTabControl);
             this.Controls.Add(this.cancelButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "DesignBoardForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "DesignBoardForm";
@@ -276,5 +290,6 @@ namespace MCPApp
         private System.Windows.Forms.ToolStripMenuItem exportToEXCELToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button RefreshBtn;
+        private System.Windows.Forms.ToolStripMenuItem designStatusAuditForJobToolStripMenuItem;
     }
 }
