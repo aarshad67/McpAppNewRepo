@@ -35,6 +35,7 @@ namespace MCPApp
         private string managerFlag = "";
         private string guestFlag = "";
         private string ipAddress = "";
+        private string reqDateFlag = "";
         Logger logger = new Logger();
         
 
@@ -80,10 +81,11 @@ namespace MCPApp
             managerFlag = managerCheckBox.Checked ? "Y" : "N";
             guestFlag = guestCheckBox.Checked ? "Y" : "N";
             ipAddress = ipTextBox.Text;
+            reqDateFlag = reqDateCheckBox.Checked ? "Y" : "N";
 
             if (mcData.IsUserExists(userIDTextBox.Text.ToUpper()))
             {
-                string err = mcData.UpdateMCPUser(userID, username, fullName, emailAddress, telNo, managerFlag, guestFlag,ipAddress);
+                string err = mcData.UpdateMCPUser(userID, username, fullName, emailAddress, telNo, managerFlag, guestFlag,ipAddress, reqDateFlag);
                 if (err == "OK")
                 {
                     MessageBox.Show(String.Format("User [{0} - {1}] updated successfully", userID, fullName));
@@ -99,7 +101,7 @@ namespace MCPApp
             }
             else
             {
-                string err = mcData.CreateMCPUser(userID, username, fullName, emailAddress, telNo, managerFlag, guestFlag,ipAddress);
+                string err = mcData.CreateMCPUser(userID, username, fullName, emailAddress, telNo, managerFlag, guestFlag,ipAddress, reqDateFlag);
                 if (err == "OK")
                 {
                     MessageBox.Show(String.Format("User [{0} - {1}] created successfully", userID, fullName));
@@ -159,6 +161,7 @@ namespace MCPApp
                     managerCheckBox.Checked = dr["managerFlag"].ToString() == "Y" ? true : false;
                     guestCheckBox.Checked = dr["guestFlag"].ToString() == "Y" ? true : false;
                     ipTextBox.Text = dr["ipAddress"].ToString();
+                    reqDateCheckBox.Checked = dr["reqDateFlag"].ToString() == "Y" ? true : false;
                 }
             }
             catch (Exception ex)

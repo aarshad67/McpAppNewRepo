@@ -114,7 +114,8 @@ namespace MCPApp
                     suppDGV[1, row].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
                     suppDGV[1, row].Value = dr["suppCode"].ToString();
                     suppDGV[2, row].Value = dr["suppName"].ToString();
-                    suppDGV[3, row++].Value = dr["shortname"].ToString();
+                    suppDGV[3, row].Value = dr["shortname"].ToString();
+                    suppDGV[5, row++].Value = true;
 
                 }
                 suppDGV.CurrentCell = suppDGV.Rows[0].Cells[0];

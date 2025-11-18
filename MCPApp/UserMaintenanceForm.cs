@@ -138,7 +138,15 @@ namespace MCPApp
                 ipTextBoxColumn.ReadOnly = true;
                 usersDGV.Columns.Add(ipTextBoxColumn);
 
-               
+                //13
+                DataGridViewTextBoxColumn reqDateFlagTextBoxColumn = new DataGridViewTextBoxColumn();
+                reqDateFlagTextBoxColumn.HeaderText = "Move SF (On Shop) job Date";
+                reqDateFlagTextBoxColumn.Width = 250;
+                reqDateFlagTextBoxColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                reqDateFlagTextBoxColumn.ReadOnly = true;
+                usersDGV.Columns.Add(reqDateFlagTextBoxColumn);
+
+
                 usersDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
                 usersDGV.EnableHeadersVisualStyles = false;
                 usersDGV.Columns[0].DefaultCellStyle.BackColor = Color.Yellow;
@@ -213,7 +221,8 @@ namespace MCPApp
                     usersDGV[9, row].Value = dr["updateRequired"].ToString();
                     usersDGV[10, row].Value = dr["managerFlag"].ToString();
                     usersDGV[11, row].Value = dr["guestFlag"].ToString();
-                    usersDGV[12, row++].Value = dr["ipAddress"].ToString();
+                    usersDGV[12, row].Value = dr["ipAddress"].ToString();
+                    usersDGV[13, row++].Value = dr["reqDateFlag"].ToString();
                 }
                 
                 return;

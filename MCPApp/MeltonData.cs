@@ -242,11 +242,11 @@ namespace MCPApp
 
         }
 
-        public string CreateMCPUser(string userID, string username, string fullName, string emailAddress, string telNo, string managerFlag, string guestFlag, string ipAddress)
+        public string CreateMCPUser(string userID, string username, string fullName, string emailAddress, string telNo, string managerFlag, string guestFlag, string ipAddress, string reqDateFlag)
         {
 
             string insertQry = "INSERT INTO dbo.Users("
-                                            + "userID,username,fullName,emailAddress,telNo,managerFlag,ipAddress,guestFlag) "
+                                            + "userID,username,fullName,emailAddress,telNo,managerFlag,ipAddress,guestFlag, reqDateFlag) "
                                             + "VALUES("
                                             + "@userID,"
                                             + "@username,"
@@ -255,7 +255,8 @@ namespace MCPApp
                                             + "@telNo,"
                                             + "@managerFlag,"
                                             + "@ipAddress,"
-                                            + "@guestFlag)";
+                                            + "@guestFlag,"
+                                            + "@reqDateFlag)";
 
             using (SqlConnection conn = new SqlConnection(connStr))
             {
@@ -272,6 +273,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("managerFlag", managerFlag));
                         command.Parameters.Add(new SqlParameter("guestFlag", guestFlag));
                         command.Parameters.Add(new SqlParameter("ipAddress", ipAddress));
+                        command.Parameters.Add(new SqlParameter("reqDateFlag", reqDateFlag));
                         command.ExecuteNonQuery();
                     }
                     return "OK";
@@ -285,7 +287,7 @@ namespace MCPApp
             }
         }
 
-        public string UpdateMCPUser(string userID, string username, string fullName, string emailAddress, string telNo, string managerFlag, string guestFlag, string ipAddress)
+        public string UpdateMCPUser(string userID, string username, string fullName, string emailAddress, string telNo, string managerFlag, string guestFlag, string ipAddress, string reqDateFlag)
         {
 
             string updateQry = "UPDATE dbo.Users "
@@ -295,7 +297,8 @@ namespace MCPApp
                                     + "telNo = @telNo, "
                                     + "managerFlag = @managerFlag, "
                                     + "ipAddress = @ipAddress, "
-                                    + "guestFlag = @guestFlag"
+                                    + "guestFlag = @guestFlag, "
+                                    + "reqDateFlag = @reqDateFlag"
                                     + " WHERE userID = @userID";
 
 
@@ -314,6 +317,7 @@ namespace MCPApp
                         command.Parameters.Add(new SqlParameter("managerFlag", managerFlag));
                         command.Parameters.Add(new SqlParameter("guestFlag", guestFlag));
                         command.Parameters.Add(new SqlParameter("ipAddress", ipAddress));
+                        command.Parameters.Add(new SqlParameter("reqDateFlag", reqDateFlag));
                         command.ExecuteNonQuery();
                     }
                     return "OK";
@@ -402,6 +406,38 @@ namespace MCPApp
                 {
                     error = ex.Message.ToString();
                     string audit = CreateErrorAudit("MeltonData.cs", $"IsUserManager({userID})", ex.Message.ToString());
+                    return false;
+                }
+
+            }
+        }
+
+        public bool IsUserAllowedToModeOnShopJobDate(string userID)
+        {
+            string error;
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand($"SELECT count(*) FROM dbo.Users WHERE userID = '{userID}' and reqDateFlag = 'Y'", conn))
+                    {
+                        Int32 numUsersFound = (Int32)command.ExecuteScalar();
+
+                        if (numUsersFound > 0)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    error = ex.Message.ToString();
+                    string audit = CreateErrorAudit("MeltonData.cs", $"IsUserAllowedToModeOnShopJobDate({userID})", ex.Message.ToString());
                     return false;
                 }
 
@@ -3466,7 +3502,15 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    qry = String.Format("SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND productSupplier = '{0}' ORDER BY sortType,requiredDate", shortname);
+                    if(shortname.ToUpper().Trim() == "TT BEAMS" || shortname.ToUpper().Trim() == "TT SLAB")
+                    {
+                        qry = String.Format("SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND productSupplier = '{0}' ORDER BY sortType,requiredDate", shortname);
+                    }
+                    else
+                    {
+                        qry = String.Format("SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND OnShop = 'Y' AND productSupplier = '{0}' ORDER BY sortType,requiredDate", shortname);
+                    }
+                        
 
 
                     SqlCommand cmd = new SqlCommand(qry, conn);

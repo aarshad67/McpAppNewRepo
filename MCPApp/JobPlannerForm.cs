@@ -1339,6 +1339,16 @@ namespace MCPApp
 
                 if (e.ColumnIndex == 3)
                 {
+                    string suppType = jobDGV.Rows[e.RowIndex].Cells[14].Value.ToString();
+                    string onShop = (bool)jobDGV.Rows[e.RowIndex].Cells[8].Value ? "Y" : "N";
+                    if(suppType == "SF" && onShop == "Y")
+                    {
+                        if(!mcData.IsUserAllowedToModeOnShopJobDate(loggedInUser))
+                        {
+                            MessageBox.Show($"User [{loggedInUser}] is NOT allowed to move a date for ON SHOP(SF) job [{job}]");
+                            return;
+                        }
+                    }
                     string msg = "Changing the REQUIRED DATE of this job will mean any existing comments in the Whiteboard held against the original required date for this job will be CLEARED."
                                 + Environment.NewLine + Environment.NewLine +
                                 "You can always view the history of any comments made for this job by going to the whiteboard and right clicking on the job and selecting [Job Comments Audit] option"

@@ -1278,22 +1278,24 @@ namespace MCPApp
                 mcData.UpdateJobPlannerDesignDate(jobNo, selectedDate);
                 ColourCodeDayCells(dbDataGridView, rowIndex, 5, 0);
 
-                if(!mcData.IsDateWithinDateRange(selectedDate,dbStartDate,dbEndDate))
-                {
-                    MessageBox.Show($@"New selected design date [{selectedDate.ToShortDateString()}] sits outside this Design Board's 
-                        date range period [{dbStartDate.ToShortDateString()} - {dbEndDate.ToShortDateString()}] {Environment.NewLine}{Environment.NewLine}.
-                        This will require you to close and open the Design Board again in order to the access the moved job ");
-                    return;
-                }
-                else
-                {
-                    //commented out due to each date change taking 2 mins because of refresh
-                    //this.Text = String.Format("Design Board spanning period between {0} and {1}", dbStartDate.ToString("dd/MMM/yyyy"), dbEndDate.ToString("dd/MMM/yyyy"));
-                    //suppTypeBindngSource.DataSource = mcData.GetSupplyTypeDT();
-                    //salesmanBindngSource.DataSource = mcData.GetSalesmanDT();
-                    //BuildTabs();
-                    return;
-                }
+
+                // ****** Mike wanted this pop up message removed  - 14/11/2025 so I am commenting out ******
+                //if(!mcData.IsDateWithinDateRange(selectedDate,dbStartDate,dbEndDate))
+                //{
+                //    MessageBox.Show($@"New selected design date [{selectedDate.ToShortDateString()}] sits outside this Design Board's 
+                //        date range period [{dbStartDate.ToShortDateString()} - {dbEndDate.ToShortDateString()}] {Environment.NewLine}{Environment.NewLine}.
+                //        This will require you to close and open the Design Board again in order to the access the moved job ");
+                //    return;
+                //}
+                //else
+                //{
+                //    //commented out due to each date change taking 2 mins because of refresh
+                //    //this.Text = String.Format("Design Board spanning period between {0} and {1}", dbStartDate.ToString("dd/MMM/yyyy"), dbEndDate.ToString("dd/MMM/yyyy"));
+                //    //suppTypeBindngSource.DataSource = mcData.GetSupplyTypeDT();
+                //    //salesmanBindngSource.DataSource = mcData.GetSalesmanDT();
+                //    //BuildTabs();
+                //    return;
+                //}
                // return;
             }
 

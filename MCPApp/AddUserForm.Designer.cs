@@ -48,13 +48,15 @@
             this.ipTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.reqDateCheckBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // resetButton
             // 
-            this.resetButton.Location = new System.Drawing.Point(802, 52);
+            this.resetButton.Location = new System.Drawing.Point(535, 34);
+            this.resetButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.resetButton.Name = "resetButton";
-            this.resetButton.Size = new System.Drawing.Size(242, 57);
+            this.resetButton.Size = new System.Drawing.Size(161, 37);
             this.resetButton.TabIndex = 10;
             this.resetButton.Text = "RESET PASSWORD";
             this.resetButton.UseVisualStyleBackColor = true;
@@ -64,9 +66,10 @@
             // 
             this.managerCheckBox.AutoSize = true;
             this.managerCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.managerCheckBox.Location = new System.Drawing.Point(442, 405);
+            this.managerCheckBox.Location = new System.Drawing.Point(295, 263);
+            this.managerCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.managerCheckBox.Name = "managerCheckBox";
-            this.managerCheckBox.Size = new System.Drawing.Size(194, 33);
+            this.managerCheckBox.Size = new System.Drawing.Size(131, 24);
             this.managerCheckBox.TabIndex = 5;
             this.managerCheckBox.Text = "Manager/BDM";
             this.managerCheckBox.UseVisualStyleBackColor = true;
@@ -74,9 +77,10 @@
             // removeUserButton
             // 
             this.removeUserButton.ForeColor = System.Drawing.Color.Red;
-            this.removeUserButton.Location = new System.Drawing.Point(442, 535);
+            this.removeUserButton.Location = new System.Drawing.Point(295, 348);
+            this.removeUserButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.removeUserButton.Name = "removeUserButton";
-            this.removeUserButton.Size = new System.Drawing.Size(298, 52);
+            this.removeUserButton.Size = new System.Drawing.Size(199, 34);
             this.removeUserButton.TabIndex = 8;
             this.removeUserButton.Text = "REMOVE USER";
             this.removeUserButton.UseVisualStyleBackColor = true;
@@ -87,9 +91,10 @@
             this.cancelButton.BackColor = System.Drawing.Color.Red;
             this.cancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cancelButton.ForeColor = System.Drawing.Color.White;
-            this.cancelButton.Location = new System.Drawing.Point(780, 535);
+            this.cancelButton.Location = new System.Drawing.Point(520, 348);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(262, 51);
+            this.cancelButton.Size = new System.Drawing.Size(175, 33);
             this.cancelButton.TabIndex = 9;
             this.cancelButton.Text = "CANCEL";
             this.cancelButton.UseVisualStyleBackColor = false;
@@ -97,9 +102,10 @@
             // 
             // updateUserButton
             // 
-            this.updateUserButton.Location = new System.Drawing.Point(98, 535);
+            this.updateUserButton.Location = new System.Drawing.Point(65, 348);
+            this.updateUserButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.updateUserButton.Name = "updateUserButton";
-            this.updateUserButton.Size = new System.Drawing.Size(298, 52);
+            this.updateUserButton.Size = new System.Drawing.Size(199, 34);
             this.updateUserButton.TabIndex = 7;
             this.updateUserButton.Text = "UPDATE USER";
             this.updateUserButton.UseVisualStyleBackColor = true;
@@ -108,17 +114,19 @@
             // telNoTextBox
             // 
             this.telNoTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.telNoTextBox.Location = new System.Drawing.Point(286, 234);
+            this.telNoTextBox.Location = new System.Drawing.Point(191, 152);
+            this.telNoTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.telNoTextBox.Name = "telNoTextBox";
-            this.telNoTextBox.Size = new System.Drawing.Size(492, 35);
+            this.telNoTextBox.Size = new System.Drawing.Size(329, 26);
             this.telNoTextBox.TabIndex = 4;
             // 
             // label7
             // 
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(80, 237);
+            this.label7.Location = new System.Drawing.Point(53, 154);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(200, 35);
+            this.label7.Size = new System.Drawing.Size(133, 23);
             this.label7.TabIndex = 49;
             this.label7.Text = "User Contact Tel:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -126,17 +134,19 @@
             // emailAddressTextBox
             // 
             this.emailAddressTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.emailAddressTextBox.Location = new System.Drawing.Point(286, 186);
+            this.emailAddressTextBox.Location = new System.Drawing.Point(191, 121);
+            this.emailAddressTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.emailAddressTextBox.Name = "emailAddressTextBox";
-            this.emailAddressTextBox.Size = new System.Drawing.Size(492, 35);
+            this.emailAddressTextBox.Size = new System.Drawing.Size(329, 26);
             this.emailAddressTextBox.TabIndex = 3;
             // 
             // label6
             // 
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(80, 186);
+            this.label6.Location = new System.Drawing.Point(53, 121);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(200, 35);
+            this.label6.Size = new System.Drawing.Size(133, 23);
             this.label6.TabIndex = 47;
             this.label6.Text = "User Email Address:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -144,19 +154,21 @@
             // fullNameTextBox
             // 
             this.fullNameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fullNameTextBox.Location = new System.Drawing.Point(286, 135);
+            this.fullNameTextBox.Location = new System.Drawing.Point(191, 88);
+            this.fullNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.fullNameTextBox.MaxLength = 30;
             this.fullNameTextBox.Name = "fullNameTextBox";
-            this.fullNameTextBox.Size = new System.Drawing.Size(492, 35);
+            this.fullNameTextBox.Size = new System.Drawing.Size(329, 26);
             this.fullNameTextBox.TabIndex = 2;
             this.fullNameTextBox.TextChanged += new System.EventHandler(this.fullNameTextBox_TextChanged);
             // 
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(80, 135);
+            this.label2.Location = new System.Drawing.Point(53, 88);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(200, 35);
+            this.label2.Size = new System.Drawing.Size(133, 23);
             this.label2.TabIndex = 39;
             this.label2.Text = "Full Name:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -165,18 +177,20 @@
             // 
             this.userIDTextBox.BackColor = System.Drawing.Color.Yellow;
             this.userIDTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.userIDTextBox.Location = new System.Drawing.Point(286, 29);
+            this.userIDTextBox.Location = new System.Drawing.Point(191, 19);
+            this.userIDTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.userIDTextBox.MaxLength = 10;
             this.userIDTextBox.Name = "userIDTextBox";
-            this.userIDTextBox.Size = new System.Drawing.Size(109, 35);
+            this.userIDTextBox.Size = new System.Drawing.Size(74, 26);
             this.userIDTextBox.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(80, 34);
+            this.label1.Location = new System.Drawing.Point(53, 22);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(200, 35);
+            this.label1.Size = new System.Drawing.Size(133, 23);
             this.label1.TabIndex = 37;
             this.label1.Text = "MCP User ID:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -185,9 +199,10 @@
             // 
             this.guestCheckBox.AutoSize = true;
             this.guestCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guestCheckBox.Location = new System.Drawing.Point(442, 451);
+            this.guestCheckBox.Location = new System.Drawing.Point(295, 293);
+            this.guestCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.guestCheckBox.Name = "guestCheckBox";
-            this.guestCheckBox.Size = new System.Drawing.Size(159, 33);
+            this.guestCheckBox.Size = new System.Drawing.Size(110, 24);
             this.guestCheckBox.TabIndex = 6;
             this.guestCheckBox.Text = "Guest User";
             this.guestCheckBox.UseVisualStyleBackColor = true;
@@ -195,18 +210,20 @@
             // userNameTextBox
             // 
             this.userNameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.userNameTextBox.Location = new System.Drawing.Point(286, 80);
+            this.userNameTextBox.Location = new System.Drawing.Point(191, 52);
+            this.userNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.userNameTextBox.MaxLength = 30;
             this.userNameTextBox.Name = "userNameTextBox";
-            this.userNameTextBox.Size = new System.Drawing.Size(298, 35);
+            this.userNameTextBox.Size = new System.Drawing.Size(200, 26);
             this.userNameTextBox.TabIndex = 1;
             // 
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(80, 85);
+            this.label3.Location = new System.Drawing.Point(53, 55);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(200, 35);
+            this.label3.Size = new System.Drawing.Size(133, 23);
             this.label3.TabIndex = 68;
             this.label3.Text = "Login User Name:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -214,40 +231,56 @@
             // ipTextBox
             // 
             this.ipTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ipTextBox.Location = new System.Drawing.Point(286, 325);
+            this.ipTextBox.Location = new System.Drawing.Point(191, 211);
+            this.ipTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ipTextBox.MaxLength = 30;
             this.ipTextBox.Name = "ipTextBox";
-            this.ipTextBox.Size = new System.Drawing.Size(298, 35);
+            this.ipTextBox.Size = new System.Drawing.Size(200, 26);
             this.ipTextBox.TabIndex = 69;
             this.ipTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ipTextBox_KeyPress);
             // 
             // label4
             // 
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(80, 329);
+            this.label4.Location = new System.Drawing.Point(53, 214);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(200, 35);
+            this.label4.Size = new System.Drawing.Size(133, 23);
             this.label4.TabIndex = 70;
             this.label4.Text = "IP Address";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(802, 127);
+            this.button1.Location = new System.Drawing.Point(535, 83);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(242, 94);
+            this.button1.Size = new System.Drawing.Size(161, 61);
             this.button1.TabIndex = 71;
             this.button1.Text = "RESET WEB PASSWORD";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // reqDateCheckBox
+            // 
+            this.reqDateCheckBox.AutoSize = true;
+            this.reqDateCheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.reqDateCheckBox.Location = new System.Drawing.Point(445, 263);
+            this.reqDateCheckBox.Margin = new System.Windows.Forms.Padding(2);
+            this.reqDateCheckBox.Name = "reqDateCheckBox";
+            this.reqDateCheckBox.Size = new System.Drawing.Size(252, 24);
+            this.reqDateCheckBox.TabIndex = 72;
+            this.reqDateCheckBox.Text = "Can move ON SHOP Job Dates";
+            this.reqDateCheckBox.UseVisualStyleBackColor = true;
+            // 
             // AddUserForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1125, 734);
+            this.ClientSize = new System.Drawing.Size(750, 477);
             this.ControlBox = false;
+            this.Controls.Add(this.reqDateCheckBox);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.ipTextBox);
             this.Controls.Add(this.label4);
@@ -269,7 +302,6 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MinimizeBox = false;
             this.Name = "AddUserForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -301,5 +333,6 @@
         private System.Windows.Forms.TextBox ipTextBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox reqDateCheckBox;
     }
 }
