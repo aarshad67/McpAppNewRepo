@@ -316,6 +316,7 @@
             // rbCompleted
             // 
             this.rbCompleted.AutoSize = true;
+            this.rbCompleted.Enabled = false;
             this.rbCompleted.Location = new System.Drawing.Point(246, 19);
             this.rbCompleted.Name = "rbCompleted";
             this.rbCompleted.Size = new System.Drawing.Size(91, 17);
@@ -350,7 +351,6 @@
             // rbNotDrawn
             // 
             this.rbNotDrawn.AutoSize = true;
-            this.rbNotDrawn.Enabled = false;
             this.rbNotDrawn.Location = new System.Drawing.Point(119, 65);
             this.rbNotDrawn.Name = "rbNotDrawn";
             this.rbNotDrawn.Size = new System.Drawing.Size(93, 17);
@@ -384,7 +384,6 @@
             // rbDrawn
             // 
             this.rbDrawn.AutoSize = true;
-            this.rbDrawn.Enabled = false;
             this.rbDrawn.Location = new System.Drawing.Point(17, 65);
             this.rbDrawn.Name = "rbDrawn";
             this.rbDrawn.Size = new System.Drawing.Size(67, 17);

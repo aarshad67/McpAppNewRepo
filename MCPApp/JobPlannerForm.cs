@@ -207,9 +207,9 @@ namespace MCPApp
 
                 //3
                 DataGridViewTextBoxColumn reqDateTextBoxColumn = new DataGridViewTextBoxColumn();
-                reqDateTextBoxColumn.HeaderText = "Required Date (Dbl Click)";
+                reqDateTextBoxColumn.HeaderText = "Req Date (Dbl Click)";
                 reqDateTextBoxColumn.ValueType = typeof(DateTime);
-                reqDateTextBoxColumn.Width = 120;
+                reqDateTextBoxColumn.Width = 100;
                 reqDateTextBoxColumn.DefaultCellStyle.Format = "dd/MM/YYYY";
                 reqDateTextBoxColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
                 reqDateTextBoxColumn.ReadOnly = true;
@@ -247,8 +247,17 @@ namespace MCPApp
                 designerColumn.ReadOnly = false;
                 jobDGV.Columns.Add(designerColumn);
 
-
                 //7
+                DataGridViewCheckBoxColumn drawnColumn = new DataGridViewCheckBoxColumn();
+                drawnColumn.ValueType = typeof(bool);
+                drawnColumn.Name = "Drawn";
+                drawnColumn.Width = 50;
+                drawnColumn.HeaderText = "Drawn";
+                drawnColumn.ReadOnly = true;
+                jobDGV.Columns.Add(drawnColumn);
+
+
+                //8
                 DataGridViewCheckBoxColumn approvedColumn = new DataGridViewCheckBoxColumn();
                 approvedColumn.ValueType = typeof(bool);
                 approvedColumn.Name = "Approved";
@@ -257,7 +266,7 @@ namespace MCPApp
                 approvedColumn.ReadOnly = true;
                 jobDGV.Columns.Add(approvedColumn);
 
-                //8
+                //9
                 DataGridViewCheckBoxColumn onShopColumn = new DataGridViewCheckBoxColumn();
                 onShopColumn.ValueType = typeof(bool);
                 onShopColumn.Name = "OnShop";
@@ -267,7 +276,7 @@ namespace MCPApp
 
                 
 
-                //9
+                //10
                 DataGridViewCheckBoxColumn stairsCmbColumn = new DataGridViewCheckBoxColumn();
                 stairsCmbColumn.ValueType = typeof(bool);
                 stairsCmbColumn.Name = "Stairs";
@@ -275,28 +284,28 @@ namespace MCPApp
                 stairsCmbColumn.HeaderText = "Stairs";
                 jobDGV.Columns.Add(stairsCmbColumn);
 
-                //10
+                //11
                 DataGridViewTextBoxColumn slabM2TextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 slabM2TextBoxColumn.HeaderText = "Slab M2";
                 slabM2TextBoxColumn.Width = 50;
                 slabM2TextBoxColumn.ReadOnly = false;
                 jobDGV.Columns.Add(slabM2TextBoxColumn);
 
-                //11
+                //12
                 DataGridViewTextBoxColumn beamLmTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 beamLmTextBoxColumn.HeaderText = "Beam LM";
                 beamLmTextBoxColumn.Width = 50;
                 beamLmTextBoxColumn.ReadOnly = false;
                 jobDGV.Columns.Add(beamLmTextBoxColumn);
 
-                //12
+                //13
                 DataGridViewTextBoxColumn beamM2TextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 beamM2TextBoxColumn.HeaderText = "Beam M2";
                 beamM2TextBoxColumn.Width = 50;
                 beamM2TextBoxColumn.ReadOnly = false;
                 jobDGV.Columns.Add(beamM2TextBoxColumn);
 
-                //13
+                //14
                 DataGridViewTextBoxColumn supplierTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 supplierTextBoxColumn.HeaderText = "Supplier (Dbl Click)";
                 supplierTextBoxColumn.Width = 80;
@@ -304,7 +313,7 @@ namespace MCPApp
                 jobDGV.Columns.Add(supplierTextBoxColumn);
 
                 //suppTypeBindngSource
-                //14
+                //15
                 DataGridViewComboBoxColumn suppTypeColumn = new DataGridViewComboBoxColumn();
                 suppTypeColumn.DataPropertyName = "suppType";
                 suppTypeColumn.HeaderText = "SuppType";
@@ -314,14 +323,14 @@ namespace MCPApp
                 suppTypeColumn.DisplayMember = "suppType";
                 jobDGV.Columns.Add(suppTypeColumn);
 
-                //15
+                //16
                 DataGridViewTextBoxColumn suppRefTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 suppRefTextBoxColumn.HeaderText = "Supplier Ref";
                 suppRefTextBoxColumn.Width = 80;
                 suppRefTextBoxColumn.ReadOnly = false;
                 jobDGV.Columns.Add(suppRefTextBoxColumn);
 
-                //16
+                //17
                 DataGridViewTextBoxColumn phasedValueTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 phasedValueTextBoxColumn.HeaderText = "Phase Value(£)";
                 phasedValueTextBoxColumn.Width = 80;
@@ -330,7 +339,7 @@ namespace MCPApp
                 phasedValueTextBoxColumn.ReadOnly = false;
                 jobDGV.Columns.Add(phasedValueTextBoxColumn);
 
-                //17
+                //18
                 DataGridViewTextBoxColumn jobMarginColumn = new DataGridViewTextBoxColumn();  //0
                 jobMarginColumn.HeaderText = "Job Mgn(£)";
                 jobMarginColumn.Width = 80;
@@ -340,21 +349,21 @@ namespace MCPApp
                 jobDGV.Columns.Add(jobMarginColumn);
 
 
-                //18
+                //19
                 DataGridViewTextBoxColumn commentTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 commentTextBoxColumn.HeaderText = "Last Comment (DBL Click)";
                 commentTextBoxColumn.Width = 200;
                 commentTextBoxColumn.ReadOnly = true;
                 jobDGV.Columns.Add(commentTextBoxColumn);
 
-                //19
+                //20
                 DataGridViewTextBoxColumn modifiedDateTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 modifiedDateTextBoxColumn.HeaderText = "Date Created";
                 modifiedDateTextBoxColumn.Width = 130;
                 modifiedDateTextBoxColumn.ReadOnly = true;
                 jobDGV.Columns.Add(modifiedDateTextBoxColumn);
 
-                //20
+                //21
                 DataGridViewTextBoxColumn modifiedByTextBoxColumn = new DataGridViewTextBoxColumn();  //0
                 modifiedByTextBoxColumn.HeaderText = "Rep";
                 modifiedByTextBoxColumn.Width = 30;
@@ -366,13 +375,13 @@ namespace MCPApp
                 jobDGV.EnableHeadersVisualStyles = false;
                 jobDGV.Columns[0].DefaultCellStyle.BackColor = Color.Yellow;
                 jobDGV.Columns[3].DefaultCellStyle.BackColor = Color.LightGreen;
-                jobDGV.Columns[16].DefaultCellStyle.BackColor = Color.Cyan;
                 jobDGV.Columns[17].DefaultCellStyle.BackColor = Color.Cyan;
-                jobDGV.Columns[10].DefaultCellStyle.Format = "D2";
+                jobDGV.Columns[18].DefaultCellStyle.BackColor = Color.Cyan;
                 jobDGV.Columns[11].DefaultCellStyle.Format = "D2";
                 jobDGV.Columns[12].DefaultCellStyle.Format = "D2";
-                jobDGV.Columns[16].DefaultCellStyle.Format = "N2";
+                jobDGV.Columns[13].DefaultCellStyle.Format = "D2";
                 jobDGV.Columns[17].DefaultCellStyle.Format = "N2";
+                jobDGV.Columns[18].DefaultCellStyle.Format = "N2";
                 
 
 
@@ -414,11 +423,114 @@ namespace MCPApp
                 {
 
                     jobNo = dr["jobNo"].ToString();
+                    int.TryParse(dr["rgb1"]?.ToString(), out rgb1);
+                    int.TryParse(dr["rgb2"]?.ToString(), out rgb2);
+                    int.TryParse(dr["rgb3"]?.ToString(), out rgb3);
+                    //rgb1 = Convert.ToInt32(dr["rgb1"]?.ToString());
+                    //rgb2 = Convert.ToInt32(dr["rgb2"]?.ToString());
+                    //rgb3 = Convert.ToInt32(dr["rgb3"]?.ToString());
+                    
+                    approved = dr["approved"]?.ToString();
+                    //daysDiff = mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
+                    suppShortname = dr["productSupplier"].ToString();
+                 
+                    DataGridViewRow drow = new DataGridViewRow();
+                    drow.CreateCells(jobDGV);
+                    drow.Cells[0].Value = jobNo;
+                    drow.Cells[1].Value = dr["custName"].ToString();
+                    drow.Cells[2].Value = dr["floorLevel"].ToString();
+                    drow.Cells[3].Value = Convert.ToDateTime(dr["requiredDate"]?.ToString()).DayOfWeek.ToString().Substring(0, 3) + " " + Convert.ToDateTime(dr["requiredDate"]?.ToString()).ToShortDateString();
+                    drow.Cells[4].Value = Convert.ToDateTime(dr["designDate"]?.ToString()).ToShortDateString();
+                    drow.Cells[5].Value = dr["siteAddress"].ToString();
+                    drow.Cells[6].Value = dr["dman"].ToString();
+                    drow.Cells[7].Value = dr["drawnFlag"].ToString() == "Y" ? true : false;
+                    drow.Cells[8].Value = dr["approved"].ToString() == "Y" ? true : false;
+                    drow.Cells[9].Value = dr["onshop"].ToString() == "Y" ? true : false;
+                    
+                    drow.Cells[10].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
+                    drow.Cells[11].Value = dr["slabM2"].ToString();
+                    drow.Cells[12].Value = dr["beamLm"].ToString();
+                    drow.Cells[13].Value = dr["beamM2"].ToString();
+                    drow.Cells[14].Value = dr["productSupplier"].ToString();
+                    drow.Cells[14].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
+                    drow.Cells[15].Value = dr["supplyType"].ToString();
+                    drow.Cells[16].Value = dr["supplierRef"].ToString();
+                    drow.Cells[17].Value = dr["phaseInvValue"].ToString();
+                    drow.Cells[18].Value = dr["jobMgnValue"].ToString();
+                    drow.Cells[19].Value = dr["comment"].ToString();
+
+                    drow.Cells[20].Value = Convert.ToDateTime(dr["jobCreatedDate"]?.ToString()).ToString("dd/MMM/yyyy hh:mm tt");
+                    drow.Cells[21].Value = dr["jobCreatedBy"].ToString();
+                    rows.Add(drow);
+
+                }
+                jobDGV.Rows.AddRange(rows.ToArray());
+                foreach (DataGridViewRow jobRow in jobDGV.Rows)
+                {
+                    if (mcData.IsJobCompleted(jobRow.Cells[0].Value.ToString()))
+                    {
+                        jobRow.DefaultCellStyle.ForeColor = Color.Gray;
+                    }
+                    else
+                    {
+                        jobRow.DefaultCellStyle.ForeColor = Color.Black;
+                    }
+
+                    if (mcData.IsJobLockExistByOtherUser("JP", jobRow.Cells[0].Value.ToString(), loggedInUser))
+                    {
+                        jobRow.Frozen = true;
+                        jobRow.DefaultCellStyle.ForeColor = Color.Red;
+                    }
+                }
+                jobDGV.CurrentCell = jobDGV.Rows[0].Cells[0];
+
+                DisplayTotalInvValue();
+                DisplayTotalJobMgnValue();
+                DisplayTotalBeamM2();
+                DisplayTotalSlabM2();
+                this.Cursor = Cursors.Default;
+               
+                return;
+            }
+            catch (Exception ex)
+            {
+                string msg = String.Format("PopulateDGV(DataTable jobDT) Error : {0}", ex.Message.ToString());
+                logger.LogLine(msg);
+                MessageBox.Show(msg);
+                string audit = mcData.CreateErrorAudit("JobPlannerForm.cs", "PopulateDGV(DataTable jobDT)", msg);
+                this.Cursor = Cursors.Default;
+                return;
+            }
+
+
+        }
+
+        private void PopulateDGV_Old(DataTable jobDT)
+        {
+            if (jobDT == null) { return; }
+            if (jobDT.Rows.Count == 0) { return; }
+            int row = 0;
+            int rgb1, rgb2, rgb3 = 255;
+            string suppShortname = "";
+            int daysDiff = 0;
+            string approved = "";
+            string jobNo = "";
+            string custName = "";
+            string custCode = "";
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                jobDGV.Rows.Clear();
+                List<DataGridViewRow> rows = new List<DataGridViewRow>();
+                foreach (DataRow dr in jobDT.Rows)
+                {
+
+                    jobNo = dr["jobNo"].ToString();
                     //drow.Cells[0].Value = dr["jobNo"].ToString();
                     custCode = mcData.GetCustomerCodeByJobNo(jobNo);
                     custName = mcData.GetCustName(custCode);
                     approved = dr["approved"].ToString();
-                    daysDiff = mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
+                    //daysDiff = mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
                     suppShortname = dr["productSupplier"].ToString();
                     mcData.GetSupplierColourByShortname(suppShortname, out rgb1, out rgb2, out rgb3);
                     //jobDGV.Rows.Add();
@@ -473,7 +585,7 @@ namespace MCPApp
                 }
                 jobDGV.CurrentCell = jobDGV.Rows[0].Cells[0];
 
-                DisplayTotalInvValue(); 
+                DisplayTotalInvValue();
                 DisplayTotalJobMgnValue();
                 DisplayTotalBeamM2();
                 DisplayTotalSlabM2();
@@ -514,39 +626,47 @@ namespace MCPApp
                 foreach (DataRow dr in jobDT.Rows)
                 {
                     jobNo = dr["jobNo"].ToString();
-                    custCode = mcData.GetCustomerCodeByJobNo(jobNo);
-                    custName = mcData.GetCustName(custCode);
+                    int.TryParse(dr["rgb1"]?.ToString(), out rgb1);
+                    int.TryParse(dr["rgb2"]?.ToString(), out rgb2);
+                    int.TryParse(dr["rgb3"]?.ToString(), out rgb3);
+                    //rgb1 = Convert.ToInt32(dr["rgb1"]?.ToString());
+                    //rgb2 = Convert.ToInt32(dr["rgb2"]?.ToString());
+                    //rgb3 = Convert.ToInt32(dr["rgb3"]?.ToString());
+
+                    // custCode = mcData.GetCustomerCodeByJobNo(jobNo);
+                    // custName = mcData.GetCustName(custCode);
                     approved = dr["approved"].ToString();
                     daysDiff = mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
-                    suppShortname = dr["productSupplier"].ToString();
-                    mcData.GetSupplierColourByShortname(suppShortname, out rgb1, out rgb2, out rgb3);
+                    //suppShortname = dr["productSupplier"].ToString();
+                   // mcData.GetSupplierColourByShortname(suppShortname, out rgb1, out rgb2, out rgb3);
                     //jobDGV.Rows.Add();
                     DataGridViewRow drow = new DataGridViewRow();
                     drow.CreateCells(jobDGV);
                     drow.Cells[0].Value = jobNo;
-                    drow.Cells[1].Value = custName;
+                    drow.Cells[1].Value = dr["custName"].ToString();
                     drow.Cells[2].Value = dr["floorLevel"].ToString();
                     drow.Cells[3].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0, 3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
                     drow.Cells[4].Value = Convert.ToDateTime(dr["designDate"].ToString()).ToShortDateString();
                     drow.Cells[5].Value = dr["siteAddress"].ToString();
                     drow.Cells[6].Value = dr["dman"].ToString();
-                    drow.Cells[7].Value = dr["approved"].ToString() == "Y" ? true : false;
-                    drow.Cells[8].Value = dr["onshop"].ToString() == "Y" ? true : false;
+                    drow.Cells[7].Value = dr["drawnFlag"].ToString() == "Y" ? true : false;
+                    drow.Cells[8].Value = dr["approved"].ToString() == "Y" ? true : false;
+                    drow.Cells[9].Value = dr["onshop"].ToString() == "Y" ? true : false;
                     //drow.Cells[7].Value = dr["approved"].ToString() == "Y" ? 0 : mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
                     //drow.Cells[7].Style.ForeColor = approved != "Y" && daysDiff > 0 ? Color.Red : Color.Black;
-                    drow.Cells[9].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
-                    drow.Cells[10].Value = dr["slabM2"].ToString();
-                    drow.Cells[11].Value = dr["beamLm"].ToString();
-                    drow.Cells[12].Value = dr["beamM2"].ToString();
-                    drow.Cells[13].Value = dr["productSupplier"].ToString();
-                    drow.Cells[13].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
-                    drow.Cells[14].Value = dr["supplyType"].ToString();
-                    drow.Cells[15].Value = dr["supplierRef"].ToString();
-                    drow.Cells[16].Value = dr["phaseInvValue"].ToString();
-                    drow.Cells[17].Value = dr["jobMgnValue"].ToString();
-                    drow.Cells[18].Value = mcData.GetLastComment(dr["jobNo"].ToString());
-                    drow.Cells[19].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
-                    drow.Cells[20].Value = dr["jobCreatedBy"].ToString();
+                    drow.Cells[10].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
+                    drow.Cells[11].Value = dr["slabM2"].ToString();
+                    drow.Cells[12].Value = dr["beamLm"].ToString();
+                    drow.Cells[13].Value = dr["beamM2"].ToString();
+                    drow.Cells[14].Value = dr["productSupplier"].ToString();
+                    drow.Cells[14].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
+                    drow.Cells[15].Value = dr["supplyType"].ToString();
+                    drow.Cells[16].Value = dr["supplierRef"].ToString();
+                    drow.Cells[17].Value = dr["phaseInvValue"].ToString();
+                    drow.Cells[18].Value = dr["jobMgnValue"].ToString();
+                    drow.Cells[19].Value = dr["comment"].ToString();
+                    drow.Cells[20].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
+                    drow.Cells[21].Value = dr["jobCreatedBy"].ToString();
                     rows.Add(drow);
                 }
                 jobDGV.Rows.AddRange(rows.ToArray());
@@ -603,39 +723,43 @@ namespace MCPApp
                 foreach (DataRow dr in jobDT.Rows)
                 {
                     jobNo = dr["jobNo"].ToString();
-                    custCode = mcData.GetCustomerCodeByJobNo(jobNo);
-                    custName = mcData.GetCustName(custCode);
+                    rgb1 = Convert.ToInt32(dr["rgb1"].ToString());
+                    rgb2 = Convert.ToInt32(dr["rgb2"].ToString());
+                    rgb3 = Convert.ToInt32(dr["rgb3"].ToString());
+                    //custCode = mcData.GetCustomerCodeByJobNo(jobNo);
+                    //custName = mcData.GetCustName(custCode);
                     approved = dr["approved"].ToString();
                     daysDiff = mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
                     suppShortname = dr["productSupplier"].ToString();
-                    mcData.GetSupplierColourByShortname(suppShortname, out rgb1, out rgb2, out rgb3);
+                    //mcData.GetSupplierColourByShortname(suppShortname, out rgb1, out rgb2, out rgb3);
                     //jobDGV.Rows.Add();
                     DataGridViewRow drow = new DataGridViewRow();
                     drow.CreateCells(jobDGV);
                     drow.Cells[0].Value = jobNo;
-                    drow.Cells[1].Value = custName;
+                    drow.Cells[1].Value = dr["custName"].ToString();
                     drow.Cells[2].Value = dr["floorLevel"].ToString();
                     drow.Cells[3].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0, 3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
                     drow.Cells[4].Value = Convert.ToDateTime(dr["designDate"].ToString()).ToShortDateString();
                     drow.Cells[5].Value = dr["siteAddress"].ToString();
                     drow.Cells[6].Value = dr["dman"].ToString();
-                    drow.Cells[7].Value = dr["approved"].ToString() == "Y" ? true : false;
-                    drow.Cells[8].Value = dr["onshop"].ToString() == "Y" ? true : false;
+                    drow.Cells[7].Value = dr["drawnFlag"].ToString() == "Y" ? true : false;
+                    drow.Cells[8].Value = dr["approved"].ToString() == "Y" ? true : false;
+                    drow.Cells[9].Value = dr["onshop"].ToString() == "Y" ? true : false;
                     //drow.Cells[7].Value = dr["approved"].ToString() == "Y" ? 0 : mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
                     //drow.Cells[7].Style.ForeColor = approved != "Y" && daysDiff > 0 ? Color.Red : Color.Black;
-                    drow.Cells[9].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
-                    drow.Cells[10].Value = dr["slabM2"].ToString();
-                    drow.Cells[11].Value = dr["beamLm"].ToString();
-                    drow.Cells[12].Value = dr["beamM2"].ToString();
-                    drow.Cells[13].Value = dr["productSupplier"].ToString();
-                    drow.Cells[13].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
-                    drow.Cells[14].Value = dr["supplyType"].ToString();
-                    drow.Cells[15].Value = dr["supplierRef"].ToString();
-                    drow.Cells[16].Value = dr["phaseInvValue"].ToString();
-                    drow.Cells[17].Value = dr["jobMgnValue"].ToString();
-                    drow.Cells[18].Value = mcData.GetLastComment(dr["jobNo"].ToString());
-                    drow.Cells[19].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
-                    drow.Cells[20].Value = dr["jobCreatedBy"].ToString();
+                    drow.Cells[10].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
+                    drow.Cells[11].Value = dr["slabM2"].ToString();
+                    drow.Cells[12].Value = dr["beamLm"].ToString();
+                    drow.Cells[13].Value = dr["beamM2"].ToString();
+                    drow.Cells[14].Value = dr["productSupplier"].ToString();
+                    drow.Cells[14].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
+                    drow.Cells[15].Value = dr["supplyType"].ToString();
+                    drow.Cells[16].Value = dr["supplierRef"].ToString();
+                    drow.Cells[17].Value = dr["phaseInvValue"].ToString();
+                    drow.Cells[18].Value = dr["jobMgnValue"].ToString();
+                    drow.Cells[19].Value = dr["comment"].ToString();
+                    drow.Cells[20].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
+                    drow.Cells[21].Value = dr["jobCreatedBy"].ToString();
                     rows.Add(drow);
                 }
                 jobDGV.Rows.AddRange(rows.ToArray());
@@ -672,7 +796,7 @@ namespace MCPApp
 
         }
 
-        private void PopulateDGVByQry(string qry)
+        private void PopulateDGVByQry_OLD(string qry)
         {
 
             try
@@ -732,6 +856,104 @@ namespace MCPApp
                     drow.Cells[18].Value = mcData.GetLastComment(dr["jobNo"].ToString());
                     drow.Cells[19].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
                     drow.Cells[20].Value = dr["jobCreatedBy"].ToString();
+                    rows.Add(drow);
+
+                }
+                jobDGV.Rows.AddRange(rows.ToArray());
+                foreach (DataGridViewRow jobRow in jobDGV.Rows)
+                {
+                    if (mcData.IsJobCompleted(jobRow.Cells[0].Value.ToString()))
+                    {
+                        jobRow.DefaultCellStyle.ForeColor = Color.Gray;
+                    }
+                    else
+                    {
+                        jobRow.DefaultCellStyle.ForeColor = Color.Black;
+                    }
+                }
+                jobDGV.CurrentCell = jobDGV.Rows[0].Cells[0];
+
+                DisplayTotalInvValue();
+                DisplayTotalJobMgnValue();
+                DisplayTotalBeamM2();
+                DisplayTotalSlabM2();
+                this.Cursor = Cursors.Default;
+                return;
+            }
+            catch (Exception ex)
+            {
+                string msg = String.Format("PopulateDGV() Error : {0}", ex.Message.ToString());
+                logger.LogLine(msg);
+                MessageBox.Show(msg);
+                string audit = mcData.CreateErrorAudit("JobPlannerForm.cs", String.Format("PopulateDGVByQry({0})", qry), msg);
+                return;
+            }
+
+
+        }
+
+        private void PopulateDGVByQry(string qry)
+        {
+
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+
+                DataTable jobDT = mcData.GetJobPlannerDTByQry(qry);
+                if (jobDT.Rows.Count == 0)
+                {
+                    MessageBox.Show("No Jobs found");
+                    this.Cursor = Cursors.Default;
+                    return;
+                }
+                int row = 0;
+                int rgb1, rgb2, rgb3 = 255;
+                string suppShortname = "";
+                int daysDiff = 0;
+                string approved = "";
+                string jobNo = "";
+                string custName = "";
+                string custCode = "";
+                jobDGV.Rows.Clear();
+                List<DataGridViewRow> rows = new List<DataGridViewRow>();
+                foreach (DataRow dr in jobDT.Rows)
+                {
+                    jobNo = dr["jobNo"].ToString();
+                    int.TryParse(dr["rgb1"]?.ToString(), out rgb1);
+                    int.TryParse(dr["rgb2"]?.ToString(), out rgb2);
+                    int.TryParse(dr["rgb3"]?.ToString(), out rgb3);
+                    //rgb1 = Convert.ToInt32(dr["rgb1"]?.ToString());
+                    //rgb2 = Convert.ToInt32(dr["rgb2"]?.ToString());
+                    //rgb3 = Convert.ToInt32(dr["rgb3"]?.ToString());
+
+                    approved = dr["approved"].ToString();
+                    //daysDiff = mcData.GetDaysDiffBetweenTwDates(Convert.ToDateTime(dr["jobCreatedDate"].ToString()));
+
+                    DataGridViewRow drow = new DataGridViewRow();
+                    drow.CreateCells(jobDGV);
+                    drow.Cells[0].Value = jobNo;
+                    drow.Cells[1].Value = dr["custName"].ToString();
+                    drow.Cells[2].Value = dr["floorLevel"].ToString();
+                    drow.Cells[3].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0, 3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
+                    drow.Cells[4].Value = Convert.ToDateTime(dr["designDate"].ToString()).ToShortDateString();
+                    drow.Cells[5].Value = dr["siteAddress"].ToString();
+                    drow.Cells[6].Value = dr["dman"].ToString();
+                    drow.Cells[7].Value = dr["drawnFlag"].ToString() == "Y" ? true : false;
+                    drow.Cells[8].Value = dr["approved"].ToString() == "Y" ? true : false;
+                    drow.Cells[9].Value = dr["onshop"].ToString() == "Y" ? true : false;
+                    drow.Cells[10].Value = dr["stairsIncl"].ToString() == "Y" ? true : false;
+                    drow.Cells[11].Value = dr["slabM2"].ToString();
+                    drow.Cells[12].Value = dr["beamLm"].ToString();
+                    drow.Cells[13].Value = dr["beamM2"].ToString();
+                    drow.Cells[14].Value = dr["productSupplier"].ToString();
+                    drow.Cells[14].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
+                    drow.Cells[15].Value = dr["supplyType"].ToString();
+                    drow.Cells[16].Value = dr["supplierRef"].ToString();
+                    drow.Cells[17].Value = dr["phaseInvValue"].ToString();
+                    drow.Cells[18].Value = dr["jobMgnValue"].ToString();
+                    drow.Cells[19].Value = dr["comment"].ToString();
+                    drow.Cells[20].Value = Convert.ToDateTime(dr["jobCreatedDate"].ToString()).ToString("dd/MMM/yyyy hh:mm tt");
+                    drow.Cells[21].Value = dr["jobCreatedBy"].ToString();
                     rows.Add(drow);
 
                 }
@@ -1301,17 +1523,17 @@ namespace MCPApp
                     return;
                 }
 
-                if (e.ColumnIndex == 13)
+                if (e.ColumnIndex == 14)
                 {
                     //   if (MessageBox.Show("Do you have a PO number for supplier", "Confirm PO Number", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.No) { return; }
                     AddPONumberForm poForm = new AddPONumberForm(job);
                     poForm.ShowDialog();
-                    jobDGV.Rows[e.RowIndex].Cells[15].Value = poForm.PONumber;
+                    jobDGV.Rows[e.RowIndex].Cells[16].Value = poForm.PONumber;
 
 
-                    if (jobDGV.Rows[e.RowIndex].Cells[13].Value != null)
+                    if (jobDGV.Rows[e.RowIndex].Cells[14].Value != null)
                     {
-                        suppForm = new SuppliersListForm(jobDGV.Rows[e.RowIndex].Cells[13].Value.ToString());
+                        suppForm = new SuppliersListForm(jobDGV.Rows[e.RowIndex].Cells[14].Value.ToString());
                     }
                     else
                     {
@@ -1322,7 +1544,7 @@ namespace MCPApp
                     string suppShortName = suppForm.Shortname;
                     string productType = mcData.GetSupplierProductTypeFromShortname(suppShortName);
                     string result = mcData.UpdateWhiteBoardJobProductWithSupplierProductType(job, productType);
-                    jobDGV.Rows[e.RowIndex].Cells[13].Value = suppShortName;
+                    jobDGV.Rows[e.RowIndex].Cells[14].Value = suppShortName;
                     int rgb1, rgb2, rgb3 = 0;
 
                     mcData.GetSupplierColourByShortname(suppShortName, out rgb1, out rgb2, out rgb3);
@@ -1332,15 +1554,15 @@ namespace MCPApp
                         string err2 = mcData.UpdateWhiteBoardSupplierShortName(job, suppShortName, rgb1, rgb2, rgb3);
                         string err3 = mcData.UpdateDesignBoardSupplierShortName(job, suppShortName);
                     }
-                    jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[13];
-                    jobDGV.Rows[e.RowIndex].Cells[13].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
+                    jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[14];
+                    jobDGV.Rows[e.RowIndex].Cells[14].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
                     jobDGV.CurrentCell.Selected = true;
                 }
 
                 if (e.ColumnIndex == 3)
                 {
-                    string suppType = jobDGV.Rows[e.RowIndex].Cells[14].Value.ToString();
-                    string onShop = (bool)jobDGV.Rows[e.RowIndex].Cells[8].Value ? "Y" : "N";
+                    string suppType = jobDGV.Rows[e.RowIndex].Cells[15].Value.ToString();
+                    string onShop = (bool)jobDGV.Rows[e.RowIndex].Cells[9].Value ? "Y" : "N";
                     if(suppType == "SF" && onShop == "Y")
                     {
                         if(!mcData.IsUserAllowedToModeOnShopJobDate(loggedInUser))
@@ -1391,13 +1613,13 @@ namespace MCPApp
                     string err2 = mcData.UpdateDesignDate(job, dateForm.RequiredDate);
                 }
 
-                if (e.ColumnIndex == 18)
+                if (e.ColumnIndex == 19)
                 {
                     //jobDGV.Rows[0].Cells[0].Value
                     JobCommentForm commentForm = new JobCommentForm(jobDGV.Rows[e.RowIndex].Cells[0].Value.ToString());
                     commentForm.ShowDialog();
-                    jobDGV.Rows[e.RowIndex].Cells[18].Value = mcData.GetLastComment(jobDGV.Rows[e.RowIndex].Cells[0].Value.ToString());
-                    jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[18];
+                    jobDGV.Rows[e.RowIndex].Cells[19].Value = mcData.GetLastComment(jobDGV.Rows[e.RowIndex].Cells[0].Value.ToString());
+                    jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[19];
                     jobDGV.CurrentCell.Selected = true;
                 }
             }
@@ -1419,7 +1641,7 @@ namespace MCPApp
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
                 {
                     if (jobDGV.Rows[i].Cells[0].Value == null) { continue; }
-                    value = jobDGV.Rows[i].Cells[16].Value == null || jobDGV.Rows[i].Cells[16].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[16].Value.ToString());
+                    value = jobDGV.Rows[i].Cells[17].Value == null || jobDGV.Rows[i].Cells[17].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[17].Value.ToString());
                    // if (jobDGV.Rows[i].Cells[15].Value == null) { continue; }
                     total += value;
                 }
@@ -1444,7 +1666,7 @@ namespace MCPApp
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
                 {
                     if (jobDGV.Rows[i].Cells[0].Value == null) { continue; }
-                    value = jobDGV.Rows[i].Cells[17].Value == null || jobDGV.Rows[i].Cells[17].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[17].Value.ToString());
+                    value = jobDGV.Rows[i].Cells[18].Value == null || jobDGV.Rows[i].Cells[18].Value == "" ? 0 : Convert.ToDecimal(jobDGV.Rows[i].Cells[18].Value.ToString());
                     //   if (jobDGV.Rows[i].Cells[16].Value == null) { continue; }value
                     total += value;
                 }
@@ -1468,8 +1690,8 @@ namespace MCPApp
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
                 {
                     if (jobDGV.Rows[i].Cells[0].Value == null) { continue; }
-                    if (jobDGV.Rows[i].Cells[10].Value == null) { continue; }
-                    total += Convert.ToDecimal(jobDGV.Rows[i].Cells[10].Value.ToString());
+                    if (jobDGV.Rows[i].Cells[11].Value == null) { continue; }
+                    total += Convert.ToDecimal(jobDGV.Rows[i].Cells[11].Value.ToString());
                 }
 
                 totalSlabM2TextBox.Text = total.ToString("#,#");
@@ -1491,8 +1713,8 @@ namespace MCPApp
                 for (int i = 0; i < jobDGV.Rows.Count; i++)
                 {
                     if (jobDGV.Rows[i].Cells[0].Value == null) { continue; }
-                    if (jobDGV.Rows[i].Cells[12].Value == null) { continue; }
-                    total += Convert.ToDecimal(jobDGV.Rows[i].Cells[12].Value.ToString());
+                    if (jobDGV.Rows[i].Cells[13].Value == null) { continue; }
+                    total += Convert.ToDecimal(jobDGV.Rows[i].Cells[13].Value.ToString());
                 }
 
                 totalBeamM2TextBox.Text = total.ToString("#,#");
@@ -1535,37 +1757,37 @@ namespace MCPApp
                 string designer = jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString();
             }
 
-            if (e.ColumnIndex == 7 || e.ColumnIndex == 8) // Approved/ON Shop
+            if (e.ColumnIndex == 8 || e.ColumnIndex == 9) // Approved/ON Shop
             {
                 string designer = jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString();
             }
 
-            if (e.ColumnIndex != 10 && e.ColumnIndex != 11 && e.ColumnIndex != 12 && e.ColumnIndex != 16 && e.ColumnIndex != 17) { return; }
+            if (e.ColumnIndex != 11 && e.ColumnIndex != 12 && e.ColumnIndex != 13 && e.ColumnIndex != 17 && e.ColumnIndex != 18) { return; }
 
-            if (e.ColumnIndex == 10)
+            if (e.ColumnIndex == 11)
             {
                 DisplayTotalSlabM2();
                 //return;
             }
 
-            if (e.ColumnIndex == 11) //BeamLM
+            if (e.ColumnIndex == 12) //BeamLM
             {
                 int beamLM = Convert.ToInt32(jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString());
                 decimal halvedBeamLM = beamLM * 0.5m;
                 int beamM2 = (int)Math.Round(halvedBeamLM, 0);
-                jobDGV[12, e.RowIndex].Value = beamM2;
+                jobDGV[13, e.RowIndex].Value = beamM2;
                 DisplayTotalBeamM2();
                 //return;
             }
 
-            if (e.ColumnIndex == 12)
+            if (e.ColumnIndex == 13)
             {
                 
                 DisplayTotalBeamM2();
            //     return;
             }
 
-            if (e.ColumnIndex == 16)
+            if (e.ColumnIndex == 17)
             {
                 string newValue = this.jobDGV.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
 
@@ -1584,7 +1806,7 @@ namespace MCPApp
               //  return;
             }
 
-            if(e.ColumnIndex == 17)
+            if(e.ColumnIndex == 18)
             {
                 string newValue = this.jobDGV.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString();
 
@@ -1614,7 +1836,7 @@ namespace MCPApp
             e.Control.KeyPress -= new KeyPressEventHandler(Column1_KeyPress);
 
             string jobNo = jobDGV[jobDGV.CurrentCell.ColumnIndex, jobDGV.CurrentCell.RowIndex].Value.ToString();
-            if (jobDGV.CurrentCell.ColumnIndex == 10 || jobDGV.CurrentCell.ColumnIndex == 11 || jobDGV.CurrentCell.ColumnIndex == 12 || jobDGV.CurrentCell.ColumnIndex == 16 || jobDGV.CurrentCell.ColumnIndex == 17) //Desired Column
+            if (jobDGV.CurrentCell.ColumnIndex == 11 || jobDGV.CurrentCell.ColumnIndex == 12 || jobDGV.CurrentCell.ColumnIndex == 13 || jobDGV.CurrentCell.ColumnIndex == 17 || jobDGV.CurrentCell.ColumnIndex == 18) //Desired Column
             {
                 TextBox tb = e.Control as TextBox;
                 if (tb != null)
@@ -1835,7 +2057,8 @@ namespace MCPApp
         {
             if (!jobDGV.Focused) { return; }
 
-            if (e.ColumnIndex == 16 || e.ColumnIndex == 17)
+
+            if (e.ColumnIndex == 17 || e.ColumnIndex == 18)
             {
                 double value;
                 if (double.TryParse(e.Value.ToString(), out value))
@@ -1844,26 +2067,7 @@ namespace MCPApp
                     e.Value = value.ToString("F2");
                 }
             }
-            //if (!jobDGV.Focused) { return; }
-
-                //if (jobDGV.Rows[e.RowIndex].Cells[0].Value == null)
-                //{
-                //    return;
-                //}
-
-                //string job = jobDGV[0, e.RowIndex].Value.ToString();
-
-
-                //if (mcData.IsJobCompleted(job))
-                //{
-                //    jobDGV.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Blue;
-                //    jobDGV.Rows[e.RowIndex].ReadOnly = true;
-                //}
-                //else
-                //{
-                //    jobDGV.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.Black;
-
-                //}
+            
         }
 
         private void uncompleteToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -1951,22 +2155,25 @@ namespace MCPApp
         public void OrderJobsByEarliestDate()
         {
             this.Cursor = Cursors.WaitCursor;
-            string qry = "SELECT * FROM dbo.JobPlanner WHERE LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate";
+            //string qry = "SELECT * FROM dbo.JobPlanner WHERE LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate";
+            string qry = "SELECT * FROM dbo.JobPlannerExtendedView ORDER BY requiredDate";
 
             if (jobPlannerMode == "SLAB")
             {
-                qry = @"SELECT * FROM dbo.JobPlanner 
-                        WHERE completedFlag != 'Y' AND
-                        LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) AND
-                        ( slabM2 > 0 OR stairsIncl = 'Y' )  ORDER BY requiredDate";
+                //qry = @"SELECT * FROM dbo.JobPlanner 
+                //        WHERE completedFlag != 'Y' AND
+                //        LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) AND
+                //        ( slabM2 > 0 OR stairsIncl = 'Y' )  ORDER BY requiredDate";
+                qry = @"SELECT * FROM dbo.JobPlannerBySlabExtendedView ORDER BY requiredDate";
             }
 
             if (jobPlannerMode == "BEAM")
             {
-                qry = @"SELECT * FROM dbo.JobPlanner 
-                        WHERE completedFlag != 'Y' AND
-                        LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
-                        AND ( beamM2 > 0 OR beamLm > 0 ) ORDER BY requiredDate";
+                //qry = @"SELECT * FROM dbo.JobPlanner 
+                //        WHERE completedFlag != 'Y' AND
+                //        LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) 
+                //        AND ( beamM2 > 0 OR beamLm > 0 ) ORDER BY requiredDate";
+                qry = @"SELECT * FROM dbo.JobPlannerByBeamExtendedView ORDER BY requiredDate";
             }
 
 
@@ -1982,22 +2189,25 @@ namespace MCPApp
         public void OrderJobsByLatestDate()
         {
             this.Cursor = Cursors.WaitCursor;
-            string qry = "SELECT * FROM dbo.JobPlanner ORDER BY requiredDate DESC";
+            //string qry = "SELECT * FROM dbo.JobPlanner ORDER BY requiredDate DESC";
+            string qry = "SELECT * FROM dbo.JobPlannerExtendedView ORDER BY requiredDate DESC";
 
             if (jobPlannerMode == "SLAB")
             {
-                qry = @"SELECT * FROM dbo.JobPlanner 
-                        WHERE completedFlag != 'Y' AND 
-                        LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) AND
-                        ( slabM2 > 0 OR stairsIncl = 'Y' )  ORDER BY requiredDate DESC";
+                //qry = @"SELECT * FROM dbo.JobPlanner 
+                //        WHERE completedFlag != 'Y' AND 
+                //        LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) AND
+                //        ( slabM2 > 0 OR stairsIncl = 'Y' )  ORDER BY requiredDate DESC";
+                qry = @"SELECT * FROM dbo.JobPlannerBySlabExtendedView ORDER BY requiredDate DESC";
             }
 
             if (jobPlannerMode == "BEAM")
             {
-                qry = @"SELECT * FROM dbo.JobPlanner 
-                        WHERE completedFlag != 'Y' AND 
-                        LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) AND
-                        ( beamM2 > 0 OR beamLm > 0 ) ORDER BY requiredDate DESC";
+                //qry = @"SELECT * FROM dbo.JobPlanner 
+                //        WHERE completedFlag != 'Y' AND 
+                //        LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) AND
+                //        ( beamM2 > 0 OR beamLm > 0 ) ORDER BY requiredDate DESC";
+                qry = @"SELECT * FROM dbo.JobPlannerByBeamExtendedView ORDER BY requiredDate DESC";
             }
             PopulateDGVByQry(qry);
             DisplayTotalInvValue();
@@ -2008,7 +2218,7 @@ namespace MCPApp
             return;
         }
 
-        public void FilterByMonth(string month, string year)
+        public void FilterByMonth_OLD(string month, string year)
         {
             if (jobPlannerMode == "ALL")
             {
@@ -2972,6 +3182,760 @@ namespace MCPApp
 
         }
 
+        public void FilterByMonth(string month, string year)
+        {
+            if (jobPlannerMode == "ALL")
+            {
+                string qry = $@"SELECT * FROM dbo.JobPlannerExtendedView
+                            WHERE DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                if (rbBoth.Checked)
+                {
+                    if (rbOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE OnShop = 'Y' AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbNotOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE OnShop = 'N'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE Approved = 'Y'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbNotApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE Approved = 'N'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')
+                            ORDER BY requiredDate";
+                    }
+                    if (rbNotDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            AND designStatus NOT IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')
+                            ORDER BY requiredDate";
+                    }
+                    if (rbAll.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedAllView 
+                            WHERE DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbCompleted.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedCompletedView 
+                            WHERE DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}'  
+                            ORDER BY requiredDate";
+                    }
+                    if (rbInProgress.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                }
+                if (rbSupplyFix.Checked)
+                {
+                    if (rbOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE OnShop = 'Y' 
+                            AND supplyType = 'SF'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbNotOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE OnShop = 'N' 
+                            AND supplyType = 'SF'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE Approved = 'Y' 
+                            AND supplyType = 'SF'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbNotApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE Approved = 'N' 
+                            AND supplyType = 'SF'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE supplyType = 'SF'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbNotDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE supplyType = 'SF'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            AND designStatus NOT IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')
+                            ORDER BY requiredDate";
+                    }
+                    if (rbAll.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedAllView 
+                            WHERE supplyType = 'SF'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbCompleted.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedCompletedView 
+                            WHERE supplyType = 'SF'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbInProgress.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE supplyType = 'SF'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                }
+                if (rbSupplyOnly.Checked)
+                {
+                    if (rbOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE OnShop = 'Y' 
+                            AND supplyType = 'SO'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbNotOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE OnShop = 'N' 
+                            AND supplyType = 'SO'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE Approved = 'Y' 
+                            AND supplyType = 'SO'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbNotApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE Approved = 'N' 
+                            AND supplyType = 'SO'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE supplyType = 'SO'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')
+                            ORDER BY requiredDate";
+                    }
+                    if (rbNotDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE supplyType = 'SO'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            AND designStatus NOT IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')
+                            ORDER BY requiredDate";
+                    }
+                    if (rbAll.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedAllView
+                            WHERE supplyType = 'SO'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbCompleted.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedCompletedView
+                            WHERE supplyType = 'SO'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbInProgress.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerExtendedView 
+                            WHERE supplyType = 'SO'  
+                            AND DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                }
+
+                PopulateDGVByQry(qry);
+                DisplayTotalInvValue();
+                DisplayTotalJobMgnValue();
+                DisplayTotalBeamM2();
+                DisplayTotalSlabM2();
+                return;
+            }
+
+            if (jobPlannerMode == "SLAB")
+            {
+                string qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                if (rbBoth.Checked)
+                {
+                    if (rbOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                    WHERE OnShop = 'Y' 
+                                    AND DATENAME(month,requiredDate) = '{month}' 
+                                    AND DATENAME(year,requiredDate) = '{year}'  
+                                    ORDER BY requiredDate";
+                    }
+                    if (rbNotOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE OnShop = 'N'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView
+                                WHERE Approved = 'Y'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE Approved = 'N'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                            WHERE DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            AND designStatus NOT IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')
+                            ORDER BY requiredDate";
+                    }
+                    if (rbAll.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedAllView 
+                            WHERE DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                    if (rbCompleted.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedCompletedView 
+                                WHERE DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}'  
+                                ORDER BY requiredDate";
+                    }
+                    if (rbInProgress.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                }
+                if (rbSupplyFix.Checked)
+                {
+                    if (rbOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE OnShop = 'Y' 
+                                AND supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE OnShop = 'N' 
+                                AND supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE Approved = 'Y' 
+                                AND supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE Approved = 'N' 
+                                AND supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE supplyType = 'SF' 
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')
+                                ORDER BY requiredDate";
+                    }
+                    if (rbAll.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedAllView 
+                                WHERE supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbCompleted.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedCompletedView 
+                                WHERE supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbInProgress.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                }
+                if (rbSupplyOnly.Checked)
+                {
+                    if (rbOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE OnShop = 'Y' 
+                                AND supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE OnShop = 'N' 
+                                AND supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE Approved = 'Y' 
+                                AND supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE Approved = 'N' 
+                                AND supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                AND designStatus NOT IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')
+                                ORDER BY requiredDate";
+                    }
+                    if (rbAll.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedAllView 
+                                WHERE supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbCompleted.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedCompletedView 
+                                WHERE supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbInProgress.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerBySlabExtendedView 
+                                WHERE supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                }
+
+                PopulateDGVByQry(qry);
+                DisplayTotalInvValue();
+                DisplayTotalJobMgnValue();
+                DisplayTotalBeamM2();
+                DisplayTotalSlabM2();
+                return;
+            }
+
+            if (jobPlannerMode == "BEAM")
+            {
+                string qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                if (rbBoth.Checked)
+                {
+                    if (rbOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE OnShop = 'Y' 
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE OnShop = 'N'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE Approved = 'Y'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE Approved = 'N'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')
+                                ORDER BY requiredDate";
+                    }
+                    if (rbAll.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedAllView 
+                                WHERE DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbCompleted.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedCompletedView 
+                                WHERE DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}'  
+                                ORDER BY requiredDate";
+                    }
+                    if (rbInProgress.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                            WHERE DATENAME(month,requiredDate) = '{month}' 
+                            AND DATENAME(year,requiredDate) = '{year}' 
+                            ORDER BY requiredDate";
+                    }
+                }
+                if (rbSupplyFix.Checked)
+                {
+                    if (rbOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE OnShop = 'Y' 
+                                AND supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE OnShop = 'N' 
+                                AND supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE Approved = 'Y' 
+                                AND supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE Approved = 'N' 
+                                AND supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                AND designStatus NOT IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')
+                                ORDER BY requiredDate";
+                    }
+                    if (rbAll.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedAllView 
+                                WHERE supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbCompleted.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedCompletedView 
+                                WHERE completedFlag = 'Y' 
+                                AND supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbInProgress.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE supplyType = 'SF'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                }
+                if (rbSupplyOnly.Checked)
+                {
+                    if (rbOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE OnShop = 'Y' 
+                                AND supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotOnShop.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE OnShop = 'N' 
+                                AND supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE Approved = 'Y' 
+                                AND supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotApproved.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE Approved = 'N' 
+                                AND supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbNotDrawn.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')
+                                ORDER BY requiredDate";
+                    }
+                    if (rbAll.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedAllView 
+                                WHERE supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbCompleted.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedCompletedView 
+                                WHERE completedFlag = 'Y' 
+                                AND supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = '{month}' 
+                                AND DATENAME(year,requiredDate) = '{year}' 
+                                ORDER BY requiredDate";
+                    }
+                    if (rbInProgress.Checked)
+                    {
+                        qry = $@"SELECT * FROM dbo.JobPlannerByBeamExtendedView 
+                                WHERE supplyType = 'SO'  
+                                AND DATENAME(month,requiredDate) = 'month' 
+                                AND DATENAME(year,requiredDate) = 'year' 
+                                ORDER BY requiredDate";
+                    }
+                }
+
+                PopulateDGVByQry(qry);
+                DisplayTotalInvValue();
+                DisplayTotalJobMgnValue();
+                DisplayTotalBeamM2();
+                DisplayTotalSlabM2();
+                return;
+            }
+
+
+
+        }
+
         private void janButton_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
@@ -3071,18 +4035,18 @@ namespace MCPApp
         private void getAllJobsButton_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            string qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY supplyType,requiredDate";
+            string qry = "SELECT * FROM dbo.JobPlannerExtendedView ORDER BY supplyType,requiredDate";
             if (jobPlannerMode == "ALL")
             {
-                qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY supplyType,requiredDate";
+                qry = "SELECT * FROM dbo.JobPlannerExtendedView ORDER BY supplyType,requiredDate";
             }
             if (jobPlannerMode == "BEAM")
             {
-                qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) AND ( beamM2 > 0 OR beamLm > 0 ) ORDER BY supplyType,requiredDate";
+                qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView ORDER BY supplyType,requiredDate";
             }
             if (jobPlannerMode == "SLAB")
             {
-                qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) AND ( slabM2 > 0 OR stairsIncl = 'Y' )  ORDER BY supplyType,requiredDate";
+                qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView ORDER BY supplyType,requiredDate";
             }
 
             PopulateDGVByQry(qry);
@@ -3120,42 +4084,42 @@ namespace MCPApp
             if (jobPlannerMode == "ALL")
             {
                 this.Cursor = Cursors.WaitCursor;
-                string qry = "SELECT * FROM dbo.JobPlanner WHERE LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY jobNo";
+                string qry = "SELECT * FROM dbo.JobPlannerExtended ORDER BY jobNo";
                 if (rbBoth.Checked)
                 {
-                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'Y' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'N' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'Y' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'N' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'Y' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'N' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
+                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE OnShop = 'Y' ORDER BY requiredDate"; }
+                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE OnShop = 'N' ORDER BY requiredDate"; }
+                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE Approved = 'Y' ORDER BY requiredDate"; }
+                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE Approved = 'N' ORDER BY requiredDate"; }
+                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') ORDER BY requiredDate"; }
+                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE designStatus NOT IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') ORDER BY requiredDate"; }
+                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedAllView ORDER BY requiredDate"; }
+                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedCompletedView ORDER BY requiredDate"; }
+                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView ORDER BY requiredDate"; }
                 }
                 if (rbSupplyFix.Checked)
                 {
-                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'Y' AND sortType = 'SF' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'N' AND sortType = 'SF' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'Y' AND sortType = 'SF' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'N' AND sortType = 'SF' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'Y' AND sortType = 'SF' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'N' AND sortType = 'SF' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE sortType = 'SF' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND sortType = 'SF' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND sortType = 'SF' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
+                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE OnShop = 'Y' AND sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE OnShop = 'N' AND sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE Approved = 'Y' AND sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE Approved = 'N' AND sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE sortType = 'SF' AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')  ORDER BY requiredDate"; }
+                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE sortType = 'SF' AND designStatus NOT IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')  ORDER BY requiredDate"; }
+                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedAllView WHERE sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedCompletedView WHERE sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE sortType = 'SF' ORDER BY requiredDate"; }
                 }
                 if (rbSupplyOnly.Checked)
                 {
-                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'Y' AND sortType = 'SO' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'N' AND sortType = 'SO' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'Y' AND sortType = 'SO' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'N' AND sortType = 'SO' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'Y' AND sortType = 'SO' AND completedFlag != 'Y' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'N' AND sortType = 'SO' AND completedFlag != 'Y' ORDER BY requiredDate"; }
-                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE sortType = 'SO' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND sortType = 'SO' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND sortType = 'SO' AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
+                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE OnShop = 'Y' AND sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE OnShop = 'N' AND sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE Approved = 'Y' AND sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE Approved = 'N' AND sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE sortType = 'SO' AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') ORDER BY requiredDate"; }
+                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE sortType = 'SO' AND designStatus NOT IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP')  ORDER BY requiredDate"; }
+                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedAllView WHERE sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedCompletedView WHERE sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlannerExtendedView WHERE sortType = 'SO' ORDER BY requiredDate"; }
                 }
                 PopulateDGVByQry(qry);
                 DisplayTotalInvValue();
@@ -3169,42 +4133,42 @@ namespace MCPApp
             if (jobPlannerMode == "BEAM")
             {
                 this.Cursor = Cursors.WaitCursor;
-                string qry = "SELECT * FROM dbo.JobPlanner WHERE ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY jobNo";
+                string qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView ORDER BY jobNo";
                 if (rbBoth.Checked)
                 {
-                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'Y' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'N' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'Y' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'N' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'Y' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'N' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlanner AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
+                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE OnShop = 'Y' ORDER BY requiredDate"; }
+                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE OnShop = 'N' ORDER BY requiredDate"; }
+                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE Approved = 'Y' ORDER BY requiredDate"; }
+                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE Approved = 'N' ORDER BY requiredDate"; }
+                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') ORDER BY requiredDate"; }
+                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') ORDER BY requiredDate"; }
+                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedAllView ORDER BY requiredDate"; }
+                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedCompletedView ORDER BY requiredDate"; }
+                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView ORDER BY requiredDate"; }
                 }
                 if (rbSupplyFix.Checked)
                 {
-                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'Y' AND sortType = 'SF' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'N' AND sortType = 'SF' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'Y' AND sortType = 'SF' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'N' AND sortType = 'SF' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'Y' AND sortType = 'SF' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'N' AND sortType = 'SF' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE sortType = 'SF' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND sortType = 'SF' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND sortType = 'SF' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
+                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE OnShop = 'Y' AND sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE OnShop = 'N' AND sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE Approved = 'Y' AND sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE Approved = 'N' AND sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE sortType = 'SF' AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') ORDER BY requiredDate"; }
+                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE sortType = 'SF' AND  designStatus NOT IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') ORDER BY requiredDate"; }
+                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedAllView WHERE sortType = 'SF' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
+                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedCompletedView WHERE sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE sortType = 'SF' ORDER BY requiredDate"; }
                 }
                 if (rbSupplyOnly.Checked)
                 {
-                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'Y' AND sortType = 'SO' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'N' AND sortType = 'SO' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'Y' AND sortType = 'SO' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'N' AND sortType = 'SO' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'Y' AND sortType = 'SO' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'N' AND sortType = 'SO' AND completedFlag != 'Y' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE sortType = 'SO' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND sortType = 'SO' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
-                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND sortType = 'SO' AND ( beamM2 > 0 OR beamLm > 0 ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY requiredDate"; }
+                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE OnShop = 'Y' AND sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE OnShop = 'N' AND sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE Approved = 'Y' AND sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE Approved = 'N' AND sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE sortType = 'SO' AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') ORDER BY requiredDate"; }
+                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE sortType = 'SO' AND designStatus NOT IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') ORDER BY requiredDate"; }
+                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedAllView WHERE sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedCompletedView WHERE sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlannerByBeamExtendedView WHERE sortType = 'SO' ORDER BY requiredDate"; }
                 }
                 PopulateDGVByQry(qry);
                 DisplayTotalInvValue();
@@ -3218,42 +4182,42 @@ namespace MCPApp
             if (jobPlannerMode == "SLAB")
             {
                 this.Cursor = Cursors.WaitCursor;
-                string qry = "SELECT * FROM dbo.JobPlanner AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY jobNo";
+                string qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView  ORDER BY jobNo";
                 if (rbBoth.Checked)
                 {
-                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'Y' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'N' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'Y' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'N' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'Y' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'N' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlanner AND ( slabM2 > 0 OR stairsIncl = 'Y' )   AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )ORDER BY requiredDate"; }
-                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
+                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE OnShop = 'Y' ORDER BY requiredDate"; }
+                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE OnShop = 'N' ORDER BY requiredDate"; }
+                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE Approved = 'Y' ORDER BY requiredDate"; }
+                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE Approved = 'N' ORDER BY requiredDate"; }
+                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') ORDER BY requiredDate"; }
+                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE designStatus NOT IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') ORDER BY requiredDate"; }
+                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedAllView ORDER BY requiredDate"; }
+                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedCompletedView ORDER BY requiredDate"; }
+                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView ORDER BY requiredDate"; }
                 }
                 if (rbSupplyFix.Checked)
                 {
-                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'Y' AND sortType = 'SF' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'N' AND sortType = 'SF' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'Y' AND sortType = 'SF' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'N' AND sortType = 'SF' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'Y' AND sortType = 'SF' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'N' AND sortType = 'SF' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE sortType = 'SF' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND sortType = 'SF' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND sortType = 'SF' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
+                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE OnShop = 'Y' AND sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE OnShop = 'N' AND sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE Approved = 'Y' AND sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE Approved = 'N' AND sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE sortType = 'SF' AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') ORDER BY requiredDate"; }
+                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE Drawn = 'N' AND sortType = 'SF' AND designStatus NOT IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') ORDER BY requiredDate"; }
+                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedAllView WHERE sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedCompletedView WHERE sortType = 'SF' ORDER BY requiredDate"; }
+                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE sortType = 'SF' ORDER BY requiredDate"; }
                 }
                 if (rbSupplyOnly.Checked)
                 {
-                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'Y' AND sortType = 'SO' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE OnShop = 'N' AND sortType = 'SO' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'Y' AND sortType = 'SO' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Approved = 'N' AND sortType = 'SO' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'Y' AND sortType = 'SO' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE Drawn = 'N' AND sortType = 'SO' AND completedFlag != 'Y' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE sortType = 'SO' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag = 'Y' AND sortType = 'SO' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
-                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND sortType = 'SO' AND ( slabM2 > 0 OR stairsIncl = 'Y' ) AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )  ORDER BY requiredDate"; }
+                    if (rbOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE OnShop = 'Y' AND sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbNotOnShop.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE OnShop = 'N' AND sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE Approved = 'Y' AND sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbNotApproved.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE Approved = 'N' AND sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE sortType = 'SO' AND designStatus IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') ORDER BY requiredDate"; }
+                    if (rbNotDrawn.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE sortType = 'SO' AND designStatus NOT IN ('DRAWN','COMMENTS RECIEVED','APPROVED (NOT ON SHOP)','ON SHOP') ORDER BY requiredDate"; }
+                    if (rbAll.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedAllView WHERE sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbCompleted.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedCompletedView WHERE sortType = 'SO' ORDER BY requiredDate"; }
+                    if (rbInProgress.Checked) { qry = "SELECT * FROM dbo.JobPlannerBySlabExtendedView WHERE sortType = 'SO' ORDER BY requiredDate"; }
                 }
                 PopulateDGVByQry(qry);
                 DisplayTotalInvValue();
@@ -3542,12 +4506,12 @@ namespace MCPApp
             {
                 string designer = jobDGV[e.ColumnIndex, e.RowIndex].Value.ToString();
             }
-            if (e.ColumnIndex == 8)
+            if (e.ColumnIndex == 9) //onShop
             {
                 bool isChecked = Convert.ToBoolean(jobDGV.Rows[e.RowIndex].Cells[8].Value);
                
                 // whether ONSHOP ticked or un-ticked -- > APPROVED checkbox becomes true
-                jobDGV.Rows[e.RowIndex].Cells[7].Value = isChecked ? true : true;
+                jobDGV.Rows[e.RowIndex].Cells[8].Value = isChecked ? true : true;
                 string jobStatus = isChecked ? "ON SHOP" : "APPROVED(NOT ON SHOP)";
                 string chkBoxAction = isChecked ? "ticked" : "un-ticked";
                 string approvedFlag = "Y";
@@ -3722,7 +4686,7 @@ namespace MCPApp
         {
             if (!jobDGV.Focused) { return; }
 
-            if (e.ColumnIndex == 16 || e.ColumnIndex == 17)
+            if (e.ColumnIndex == 17 || e.ColumnIndex == 18)
             {
                 string newValue = e.FormattedValue.ToString();
 

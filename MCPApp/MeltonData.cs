@@ -3298,8 +3298,9 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    //qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' ORDER BY supplyType,requiredDate";
-                    qry = "SELECT * FROM dbo.ListJobsNotCompletedOrCancelledViewV4 ORDER BY supplyType,requiredDate";
+                    ///////qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' ORDER BY supplyType,requiredDate";
+                    //qry = "SELECT * FROM dbo.ListJobsNotCompletedOrCancelledViewV4 ORDER BY supplyType,requiredDate";
+                    qry = "SELECT * FROM dbo.JobPlannerExtendedView ORDER BY supplyType,requiredDate";
 
                     SqlCommand cmd = new SqlCommand(qry, conn);
                     DataTable dt = new DataTable();
@@ -3329,8 +3330,9 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    //qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' ORDER BY supplyType,requiredDate";
-                    qry = $"SELECT * FROM dbo.JobPlanner WHERE jobNo = '{jobNo}'";
+                    //////qry = "SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' ORDER BY supplyType,requiredDate";
+                    //qry = $"SELECT * FROM dbo.JobPlanner WHERE jobNo = '{jobNo}'";
+                    qry = $"SELECT * FROM dbo.JobPlannerExtendedView WHERE jobNo = '{jobNo}'";
 
                     SqlCommand cmd = new SqlCommand(qry, conn);
                     DataTable dt = new DataTable();
@@ -3541,11 +3543,14 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    qry = @"SELECT * FROM dbo.JobPlanner 
-                            WHERE completedFlag != 'Y' 
-                            AND ( beamM2 > 0 OR beamLm > 0 ) 
-                            AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY supplyType,requiredDate";
+                    //qry = @"SELECT * FROM dbo.JobPlanner 
+                    //        WHERE completedFlag != 'Y' 
+                    //        AND ( beamM2 > 0 OR beamLm > 0 ) 
+                    //        AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
+                    //        ORDER BY supplyType,requiredDate";
+
+                    qry = @"SELECT * FROM dbo.JobPlannerByBeamExtended ORDER BY supplyType,requiredDate";
+
 
 
                     SqlCommand cmd = new SqlCommand(qry, conn);
@@ -3576,11 +3581,13 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    qry = @"SELECT * FROM dbo.JobPlanner 
-                            WHERE completedFlag != 'Y' 
-                            AND ( slabM2 > 0 OR stairsIncl = 'Y' ) 
-                            AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
-                            ORDER BY supplyType,requiredDate";
+                    //qry = @"SELECT * FROM dbo.JobPlanner 
+                    //        WHERE completedFlag != 'Y' 
+                    //        AND ( slabM2 > 0 OR stairsIncl = 'Y' ) 
+                    //        AND LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob )
+                    //        ORDER BY supplyType,requiredDate";
+
+                    qry = @"SELECT * FROM dbo.JobPlannerBySlabExtended ORDER BY supplyType,requiredDate";
 
 
                     SqlCommand cmd = new SqlCommand(qry, conn);
@@ -3995,8 +4002,9 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    string qry = $"select * from dbo.JobPlanner where parentJobNo = '{parentJobNo}' and LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY jobNo";
-                  //  string qry = String.Format("SELECT * FROM dbo.JobPlanner WHERE parentJobNo = {0} ORDER BY jobNo", parentJobNo);
+                    string qry = $"select * from dbo.JobPlannerExtendedView where parentJobNo = '{parentJobNo}' ORDER BY jobNo";
+                    //string qry = $"select * from dbo.JobPlanner where parentJobNo = '{parentJobNo}' and LEFT(jobNo,8) NOT in ( SELECT LEFT(jobNo, 8) FROM dbo.CancelledJob ) ORDER BY jobNo";
+                    /////  string qry = String.Format("SELECT * FROM dbo.JobPlanner WHERE parentJobNo = {0} ORDER BY jobNo", parentJobNo);
 
                     SqlCommand cmd = new SqlCommand(qry, conn);
                     DataTable dt = new DataTable();
@@ -4017,6 +4025,7 @@ namespace MCPApp
 
         }
 
+        // this DataTable method is no longer used
         public DataTable GetJobPlannerByJobNoDT(string jobNo)
         {
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -4025,7 +4034,7 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    string qry = $"select * from dbo.JobPlanner where jobNo = '{jobNo}'";
+                    string qry = $"select * from dbo.JobPlannerView where jobNo = '{jobNo}'";
                     //  string qry = String.Format("SELECT * FROM dbo.JobPlanner WHERE parentJobNo = {0} ORDER BY jobNo", parentJobNo);
 
                     SqlCommand cmd = new SqlCommand(qry, conn);
