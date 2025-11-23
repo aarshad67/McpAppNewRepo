@@ -3504,7 +3504,7 @@ namespace MCPApp
                 try
                 {
                     conn.Open();
-                    if(shortname.ToUpper().Trim() == "TT BEAMS" || shortname.ToUpper().Trim() == "TT SLAB")
+                    if(shortname.ToUpper().Trim() == "TT SLAB") // only "TT SLABS" supplier shows all statuses
                     {
                         qry = String.Format("SELECT * FROM dbo.JobPlanner WHERE completedFlag != 'Y' AND productSupplier = '{0}' ORDER BY sortType,requiredDate", shortname);
                     }

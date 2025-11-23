@@ -4508,7 +4508,7 @@ namespace MCPApp
             }
             if (e.ColumnIndex == 9) //onShop
             {
-                bool isChecked = Convert.ToBoolean(jobDGV.Rows[e.RowIndex].Cells[8].Value);
+                bool isChecked = Convert.ToBoolean(jobDGV.Rows[e.RowIndex].Cells[9].Value);
                
                 // whether ONSHOP ticked or un-ticked -- > APPROVED checkbox becomes true
                 jobDGV.Rows[e.RowIndex].Cells[8].Value = isChecked ? true : true;
@@ -4521,7 +4521,8 @@ namespace MCPApp
                 string auditErr = mcData.CreateDesignStatusAudit(jobNo, designDate, jobStatus, $"Design Status updated in Job Planner when ON SHOP checkbox is {chkBoxAction}");
                 string flagSetStatus1 = mcData.UpdateJobPlannerApprovedFlag(jobNo, approvedFlag);
                 string flagSetStatus2 = mcData.UpdateJobPlannerOnShopFlag(jobNo, onShopFlag);
-
+                // regardless of whether ON SHOP is ticked or un-ticked DRAWN FLAG should be ticked because the only statuses valid here are ON SHOP or APPROVED(NOT ON SHOP)
+                jobDGV.Rows[e.RowIndex].Cells[7].Value = true;
 
                 //MessageBox.Show($"ON SHOP flag for job [{jobNo}] is now [{isChecked.ToString()}]");
             }
