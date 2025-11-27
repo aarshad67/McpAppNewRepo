@@ -30,6 +30,8 @@ namespace MCPApp
         BindingSource salesmanBindngSource = new BindingSource();
         private bool _singleJobSearchOnly = false;
 
+        //public bool ChangesMade { get; private set; } = false;
+
 
         public DesignBoardForm()
         {
@@ -124,8 +126,9 @@ namespace MCPApp
                             dbDataGridView.CellBeginEdit += new DataGridViewCellCancelEventHandler(dbDataGridView_CellBeginEdit);
                             dbDataGridView.CellEndEdit += new DataGridViewCellEventHandler(dbDataGridView_CellEndEdit);
                             dbDataGridView.CellFormatting += new DataGridViewCellFormattingEventHandler(dbDataGridView_CellFormatting);
+                            dbDataGridView.CellDoubleClick += new DataGridViewCellEventHandler(DbDataGridView_CellDoubleClick);
 
-                            
+
                         }
                     }
 
@@ -136,6 +139,121 @@ namespace MCPApp
 
 
             Cursor.Current = Cursors.Hand;
+        }
+
+        private void DbDataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (!dbDataGridView.Focused) { return; }
+
+            if (dbDataGridView.Rows[e.RowIndex].Cells[0].Value == null)
+            {
+                return;
+            }
+
+            string job = dbDataGridView.Rows[e.RowIndex].Cells[0].Value.ToString();
+            DateTime selectedDate = DateTime.MinValue;
+            if (e.ColumnIndex == 1) // Design Date
+            {
+                if (dbDataGridView[1, e.RowIndex].Value == null)
+                {
+                    DateSelectorForm dateForm1 = new DateSelectorForm();
+                    dateForm1.ShowDialog();
+                    selectedDate = dateForm1.RequiredDate;
+                    dbDataGridView[1, e.RowIndex].Value = selectedDate.Date.ToShortDateString();
+
+                }
+                else
+                {
+                    DateTime currDate = Convert.ToDateTime(dbDataGridView[1, e.RowIndex].Value.ToString());
+                    DateSelectorForm dateForm = new DateSelectorForm(currDate);
+                    dateForm.ShowDialog();
+                    selectedDate = dateForm.RequiredDate;
+                    dbDataGridView[1, e.RowIndex].Value = selectedDate.Date.ToShortDateString();
+
+                }
+                mcData.UpdateDesignBoardColourCodeDayFlags(job, selectedDate, 1, (int)selectedDate.DayOfWeek);
+                mcData.UpdateJobPlannerDesignDate(job, selectedDate);
+                ColourCodeDayCells(dbDataGridView, e.RowIndex, 5, 0);
+            }
+
+            if (e.ColumnIndex == 7) // Required Date
+            {
+                if (dbDataGridView[7, e.RowIndex].Value == null)
+                {
+                    DateSelectorForm dateForm1 = new DateSelectorForm();
+                    dateForm1.ShowDialog();
+                    selectedDate = dateForm1.RequiredDate;
+                    dbDataGridView[7, e.RowIndex].Value = selectedDate.Date.ToShortDateString();
+                }
+                else
+                {
+                    DateTime currDate = Convert.ToDateTime(dbDataGridView[7, e.RowIndex].Value.ToString());
+                    DateSelectorForm dateForm = new DateSelectorForm(currDate);
+                    dateForm.ShowDialog();
+                    selectedDate = dateForm.RequiredDate;
+                    dbDataGridView[7, e.RowIndex].Value = selectedDate.Date.ToShortDateString();
+                }
+                string err1 = mcData.UpdateJobPlannerJobDate(job, selectedDate);
+                string err2 = mcData.UpdateWhiteBoardJobDate(job, selectedDate);
+                string err3 = mcData.UpdateDesignBoardJobDate(job, selectedDate);
+                //ChangesMade = true;
+                return;
+            }
+
+            if (e.ColumnIndex == 3) // Design Status
+            {
+                if (dbDataGridView[0, e.RowIndex].Value == null) { return; }
+                string jobNo = dbDataGridView[0, e.RowIndex].Value.ToString();
+                DateTime designDate = Convert.ToDateTime(dbDataGridView[1, e.RowIndex].Value.ToString());
+                if (mcData.IsJobCompleted(jobNo)) { return; }
+                DesignStatusSelectorForm form = new DesignStatusSelectorForm();
+                form.ShowDialog();
+                if (!String.IsNullOrWhiteSpace(form.Status))
+                {
+                    dbDataGridView[3, e.RowIndex].Value = form.Status;
+                    string err = mcData.UpdateDesignStatus(jobNo, form.Status);
+                    string auditErr = mcData.CreateDesignStatusAudit(jobNo, designDate, form.Status, "Design Status updated in DesignBoard via right click SELECT DESIGN STATUS option");
+                    if (form.Status.Contains("APPROVED (NOT ON SHOP)"))
+                    {
+                        string err2 = mcData.UpdateJobPlannerApprovedFlag(jobNo, "Y");
+                        string err3 = mcData.UpdateJobPlannerOnShopFlag(jobNo, "N");
+                    }
+                    else
+                    {
+                        string err4 = mcData.UpdateJobPlannerApprovedFlag(jobNo, "N");
+                        string err5 = mcData.UpdateJobPlannerOnShopFlag(jobNo, "N");
+                    }
+                    //ChangesMade = true;
+                }
+                return;
+            }
+
+            if(e.ColumnIndex == 12)
+            {
+                SuppliersListForm myForm;
+                int rgb1, rgb2, rgb3 = 255;
+                if (dbDataGridView[12, e.RowIndex].Value == null)
+                {
+                    myForm = new SuppliersListForm();
+                }
+                else
+                {
+                    myForm = new SuppliersListForm(dbDataGridView.Rows[e.RowIndex].Cells[12].Value.ToString());
+                }
+                myForm.ShowDialog();
+                string suppShortName = myForm.Shortname;
+                dbDataGridView[12, e.RowIndex].Value = suppShortName;
+                mcData.GetSupplierColourByShortname(suppShortName, out rgb1, out rgb2, out rgb3);
+                dbDataGridView[12, rowIndex].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
+                if (!String.IsNullOrWhiteSpace(suppShortName))
+                {
+                    string err1 = mcData.UpdateWhiteBoardSupplierShortName(job, suppShortName, rgb1, rgb2, rgb3);
+                    string err2 = mcData.UpdateJobPlannerSupplierShortName(job, suppShortName);
+                    string err3 = mcData.UpdateDesignBoardSupplierShortName(job, suppShortName);
+                }
+
+                return;
+            }
         }
 
         private void DbDataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
@@ -152,10 +270,10 @@ namespace MCPApp
             }
         }
 
-        private void dbDataGridView_DoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        //private void dbDataGridView_DoubleClick(object sender, DataGridViewCellEventArgs e)
+        //{
+            
+        //}
 
         private void dbDataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
@@ -596,7 +714,7 @@ namespace MCPApp
 
                 //1
                 DataGridViewTextBoxColumn designDateColumn = new DataGridViewTextBoxColumn();
-                designDateColumn.HeaderText = "Design Date (Right Click)";
+                designDateColumn.HeaderText = "Design Date (Dbl Click)";
                 designDateColumn.Width = 50;
                 designDateColumn.ReadOnly = true;
                 designDateColumn.Frozen = true;
@@ -617,7 +735,7 @@ namespace MCPApp
 
                 //3
                 DataGridViewTextBoxColumn designStatusColumn = new DataGridViewTextBoxColumn();
-                designStatusColumn.HeaderText = "Design Status (Right Click)";
+                designStatusColumn.HeaderText = "Design Status (Dbl Click)";
                 designStatusColumn.Width = 120;
                 designStatusColumn.Frozen = true;
                 designStatusColumn.ReadOnly = true;
@@ -664,7 +782,7 @@ namespace MCPApp
 
                 //7
                 DataGridViewTextBoxColumn reqDateColumn = new DataGridViewTextBoxColumn();
-                reqDateColumn.HeaderText = "Req Date (Right Click)";
+                reqDateColumn.HeaderText = "Req Date (Dbl Click)";
                 reqDateColumn.Width = 50;
                 reqDateColumn.ReadOnly = true;
              //   reqDateColumn.Frozen = true;
@@ -723,7 +841,7 @@ namespace MCPApp
                 //12
                 DataGridViewTextBoxColumn productSupplierColumn = new DataGridViewTextBoxColumn();
                 productSupplierColumn.DataPropertyName = "productSupplier";
-                productSupplierColumn.HeaderText = "Supplier (Right Click)";
+                productSupplierColumn.HeaderText = "Supplier (Dbl Click)";
                 productSupplierColumn.Width = 70;
                 productSupplierColumn.ReadOnly = true;
                 dbDataGridView.Columns.Add(productSupplierColumn);
@@ -1238,6 +1356,7 @@ namespace MCPApp
                     string err4 = mcData.UpdateJobPlannerApprovedFlag(jobNo, "N");
                     string err5 = mcData.UpdateJobPlannerOnShopFlag(jobNo, "N");
                 }
+                //ChangesMade = true;
             }
             return;
         }
@@ -1253,10 +1372,11 @@ namespace MCPApp
 
             if (colIndex == 1)
             {
-                string warning = $@"Changing DESIGN DATE for Job [{jobNo}] will mean resetting DETAILING DAYS to 1.{Environment.NewLine} 
-                                    Any notes belonging to the old design date week will remain but NEW notes will be required for the new design date{Environment.NewLine}
-                                    Do you wish to continue ?";
-                if( MessageBox.Show(warning,"Changing Design Date",MessageBoxButtons.YesNo) == DialogResult.No) { return; }
+                // 26.11.2025 - Mike does not require this popup anymore
+                //string warning = $@"Changing DESIGN DATE for Job [{jobNo}] will mean resetting DETAILING DAYS to 1.{Environment.NewLine} 
+                //                    Any notes belonging to the old design date week will remain but NEW notes will be required for the new design date{Environment.NewLine}
+                //                    Do you wish to continue ?";
+                //if( MessageBox.Show(warning,"Changing Design Date",MessageBoxButtons.YesNo) == DialogResult.No) { return; }
                 if (dbDataGridView[1, rowIndex].Value == null)
                 {
                     DateSelectorForm dateForm1 = new DateSelectorForm();
@@ -1319,6 +1439,7 @@ namespace MCPApp
                 string err1 = mcData.UpdateJobPlannerJobDate(jobNo, selectedDate);
                 string err2 = mcData.UpdateWhiteBoardJobDate(jobNo, selectedDate);
                 string err3 = mcData.UpdateDesignBoardJobDate(jobNo, selectedDate);
+                //ChangesMade = true;
                 return;
             }
 
@@ -1396,5 +1517,7 @@ namespace MCPApp
             JobDesignStatusAuditForm auditForm = new JobDesignStatusAuditForm(jobNo,dt);
             auditForm.ShowDialog();
         }
+
+        
     }
 }

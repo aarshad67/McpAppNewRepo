@@ -1571,34 +1571,58 @@ namespace MCPApp
                             return;
                         }
                     }
-                    string msg = "Changing the REQUIRED DATE of this job will mean any existing comments in the Whiteboard held against the original required date for this job will be CLEARED."
-                                + Environment.NewLine + Environment.NewLine +
-                                "You can always view the history of any comments made for this job by going to the whiteboard and right clicking on the job and selecting [Job Comments Audit] option"
 
-                                + Environment.NewLine + Environment.NewLine +
-                                "Are you happy to continue ?";
-                    if (MessageBox.Show(msg, String.Format("Confirm Job REQUIRED DATE change for Job No {0}", job), MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    string fullDate = jobDGV.Rows[e.RowIndex].Cells[3].Value.ToString();
+                    string datePart = fullDate.Substring(4, 10);
+                    DateTime reqDate = Convert.ToDateTime(datePart);
+                    DateSelectorForm dateForm = new DateSelectorForm(reqDate);
+                    dateForm.ShowDialog();
+                    //jobDGV[2, row].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0,3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
+                    jobDGV.Rows[e.RowIndex].Cells[3].Value = dateForm.RequiredDate.DayOfWeek.ToString().Substring(0, 3) + " " + dateForm.RequiredDate.ToShortDateString();
+                    string err = mcData.UpdateJobPlannerJobDate(job, dateForm.RequiredDate);
+                    if (err == "OK")
                     {
-                        string fullDate = jobDGV.Rows[e.RowIndex].Cells[3].Value.ToString();
-                        string datePart = fullDate.Substring(4, 10);
-                        DateTime reqDate = Convert.ToDateTime(datePart);
-                        DateSelectorForm dateForm = new DateSelectorForm(reqDate);
-                        dateForm.ShowDialog();
-                        //jobDGV[2, row].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0,3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
-                        jobDGV.Rows[e.RowIndex].Cells[3].Value = dateForm.RequiredDate.DayOfWeek.ToString().Substring(0, 3) + " " + dateForm.RequiredDate.ToShortDateString();
-                        string err = mcData.UpdateJobPlannerJobDate(job, dateForm.RequiredDate);
-                        if (err == "OK")
-                        {
-                            string err2 = mcData.UpdateWhiteBoardJobDate(job, dateForm.RequiredDate);
-                            if (err2 == "OK")
-                            {
-                                // string err2a = mcData.CreateJobDayAudit(job, dateForm.RequiredDate, $"UpdateWhiteBoardJobDate(....{dateForm.RequiredDate.ToShortDateString()}......)");
-                            }
-                            string err3 = mcData.ClearWhiteboardJobDayComments(job);
-                        }
-                        jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[3];
-                        jobDGV.CurrentCell.Selected = true;
+                        string err2 = mcData.UpdateWhiteBoardJobDate(job, dateForm.RequiredDate);
+                        string err3 = mcData.UpdateDesignBoardJobDate(job,dateForm.RequiredDate);
+                        //if (err2 == "OK")
+                        //{
+                        //    // string err2a = mcData.CreateJobDayAudit(job, dateForm.RequiredDate, $"UpdateWhiteBoardJobDate(....{dateForm.RequiredDate.ToShortDateString()}......)");
+                        //}
+                        string err4 = mcData.ClearWhiteboardJobDayComments(job);
                     }
+                    jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[3];
+                    jobDGV.CurrentCell.Selected = true;
+
+                    //26.11.2025 - Mike wants this warning message removed
+                    //
+                    //string msg = "Changing the REQUIRED DATE of this job will mean any existing comments in the Whiteboard held against the original required date for this job will be CLEARED."
+                    //            + Environment.NewLine + Environment.NewLine +
+                    //            "You can always view the history of any comments made for this job by going to the whiteboard and right clicking on the job and selecting [Job Comments Audit] option"
+
+                    //            + Environment.NewLine + Environment.NewLine +
+                    //            "Are you happy to continue ?";
+                    //if (MessageBox.Show(msg, String.Format("Confirm Job REQUIRED DATE change for Job No {0}", job), MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    //{
+                    //    string fullDate = jobDGV.Rows[e.RowIndex].Cells[3].Value.ToString();
+                    //    string datePart = fullDate.Substring(4, 10);
+                    //    DateTime reqDate = Convert.ToDateTime(datePart);
+                    //    DateSelectorForm dateForm = new DateSelectorForm(reqDate);
+                    //    dateForm.ShowDialog();
+                    //    //jobDGV[2, row].Value = Convert.ToDateTime(dr["requiredDate"].ToString()).DayOfWeek.ToString().Substring(0,3) + " " + Convert.ToDateTime(dr["requiredDate"].ToString()).ToShortDateString();
+                    //    jobDGV.Rows[e.RowIndex].Cells[3].Value = dateForm.RequiredDate.DayOfWeek.ToString().Substring(0, 3) + " " + dateForm.RequiredDate.ToShortDateString();
+                    //    string err = mcData.UpdateJobPlannerJobDate(job, dateForm.RequiredDate);
+                    //    if (err == "OK")
+                    //    {
+                    //        string err2 = mcData.UpdateWhiteBoardJobDate(job, dateForm.RequiredDate);
+                    //        if (err2 == "OK")
+                    //        {
+                    //            // string err2a = mcData.CreateJobDayAudit(job, dateForm.RequiredDate, $"UpdateWhiteBoardJobDate(....{dateForm.RequiredDate.ToShortDateString()}......)");
+                    //        }
+                    //        string err3 = mcData.ClearWhiteboardJobDayComments(job);
+                    //    }
+                    //    jobDGV.CurrentCell = jobDGV.Rows[e.RowIndex].Cells[3];
+                    //    jobDGV.CurrentCell.Selected = true;
+                    //}
                 }
 
                 if (e.ColumnIndex == 4)
@@ -4631,8 +4655,19 @@ namespace MCPApp
             DesignBoardForm dbForm = new DesignBoardForm(phaseJob, startDate, lastDate, dt, roundedNumWeeks);
             dbForm.ShowDialog();
 
-            jobDGV.Rows[rowIndex].Cells[7].Value = false;
             jobDGV.Rows[rowIndex].Cells[8].Value = false;
+            jobDGV.Rows[rowIndex].Cells[9].Value = false;
+
+            DateTime reqDate = mcData.GetReqDateFromJobPlanner(phaseJob);
+            DateTime designDate = mcData.GetDesignDateFromJobPlanner(phaseJob);
+            string supplier = mcData.GetJobPlannerSupplier(phaseJob);
+            int rgb1, rgb2, rgb3 = 255;
+            mcData.GetSupplierColourByShortname(supplier, out rgb1, out rgb2, out rgb3);
+
+            jobDGV.Rows[rowIndex].Cells[3].Value = reqDate.DayOfWeek.ToString().Substring(0, 3) + " " + reqDate.ToShortDateString(); ;
+            jobDGV.Rows[rowIndex].Cells[4].Value = designDate.ToShortDateString();
+            jobDGV.Rows[rowIndex].Cells[14].Value = supplier;
+            jobDGV.Rows[rowIndex].Cells[14].Style.BackColor = Color.FromArgb(rgb1, rgb2, rgb3);
 
             // 🔹 Then apply logic based on designStatus
             string designStatus = mcData.GetJobPlannerStatusFromDesignerJob(phaseJob);
@@ -4643,18 +4678,27 @@ namespace MCPApp
                 {
                     jobDGV.Rows[rowIndex].Cells[7].Value = true;
                     jobDGV.Rows[rowIndex].Cells[8].Value = true;
+                    jobDGV.Rows[rowIndex].Cells[9].Value = true;
                 }
                 else if (designStatus == "Approved")
                 {
                     jobDGV.Rows[rowIndex].Cells[7].Value = true;
+                    jobDGV.Rows[rowIndex].Cells[8].Value = true;
+                    jobDGV.Rows[rowIndex].Cells[9].Value = false;
+                }
+                else if (designStatus == "NotDrawn")
+                {
+                    jobDGV.Rows[rowIndex].Cells[7].Value = false;
                     jobDGV.Rows[rowIndex].Cells[8].Value = false;
+                    jobDGV.Rows[rowIndex].Cells[9].Value = false;
                 }
             }
             else
             {
                 jobDGV.EndEdit();
-                jobDGV.Rows[rowIndex].Cells[7].Value = false;
+                jobDGV.Rows[rowIndex].Cells[7].Value = true;
                 jobDGV.Rows[rowIndex].Cells[8].Value = false;
+                jobDGV.Rows[rowIndex].Cells[9].Value = false;
             }
 
                 //PopulateDGV(mcData.GetJobPlannerDTByParentJob(phaseJob.Substring(0,5)));

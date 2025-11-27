@@ -2045,6 +2045,10 @@ namespace MCPApp
                     {
                         jpDesignStatus = "Approved";
                     }
+                    else if (designStatus == "NOT DRAWN")
+                    {
+                        jpDesignStatus = "NotDrawn";
+                    }
                     else
                     {
                         jpDesignStatus = "";
@@ -6094,6 +6098,78 @@ namespace MCPApp
                     string msg = String.Format("GetJobCreatedDate() Error : {0}", ex.Message.ToString());
                     logger.LogLine(msg);
                     string audit = CreateErrorAudit("MeltonData.cs", String.Format("GetJobCreatedDate({0})", jobNo), ex.Message.ToString());
+                    return DateTime.Now;
+                }
+            }
+        }
+
+
+        public DateTime GetReqDateFromJobPlanner(string jobNo)
+        {
+            DateTime date = DateTime.MinValue;
+
+            string qry = String.Format("SELECT requiredDate FROM dbo.JobPlanner WHERE jobNo = '{0}'", jobNo);
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(qry, conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                date = Convert.ToDateTime(reader["requiredDate"].ToString());
+                            }
+                        }
+                    }
+
+                    return date;
+
+
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetReqDateFromJobPlanner() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("GetReqDateFromJobPlanner({0})", jobNo), ex.Message.ToString());
+                    return DateTime.Now;
+                }
+
+            }
+        }
+
+        public DateTime GetDesignDateFromJobPlanner(string jobNo)
+        {
+            DateTime date = DateTime.MinValue;
+
+            string qry = String.Format("SELECT designDate FROM dbo.JobPlanner WHERE jobNo = '{0}'", jobNo);
+            using (SqlConnection conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(qry, conn))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                date = Convert.ToDateTime(reader["designDate"].ToString());
+                            }
+                        }
+                    }
+
+                    return date;
+
+
+                }
+                catch (Exception ex)
+                {
+                    string msg = String.Format("GetDesignDateFromJobPlanner() Error : {0}", ex.Message.ToString());
+                    logger.LogLine(msg);
+                    string audit = CreateErrorAudit("MeltonData.cs", String.Format("GetDesignDateFromJobPlanner({0})", jobNo), ex.Message.ToString());
                     return DateTime.Now;
                 }
 
