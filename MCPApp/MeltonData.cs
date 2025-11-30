@@ -469,7 +469,7 @@ namespace MCPApp
                 {
                     error = ex.Message.ToString();
                     string audit = CreateErrorAudit("MeltonData.cs", String.Format("GetUserFullNameFromUserName({0})", username), ex.Message.ToString());
-                    return "*** UNKWOWN USERNAME***";
+                    return "UKN"; // "*** UNKWOWN USERNAME***";
                 }
 
             }
@@ -500,7 +500,7 @@ namespace MCPApp
                 {
                     error = ex.Message.ToString();
                     string audit = CreateErrorAudit("MeltonData.cs", String.Format("GetUserFullNameFromUserID({0})", userID), ex.Message.ToString());
-                    return "*** UNKWOWN USER ID***";
+                    return "UKN"; //"*** UNKWOWN USER ID***";
                 }
 
             }
@@ -531,7 +531,7 @@ namespace MCPApp
                 {
                     error = ex.Message.ToString();
                     string audit = CreateErrorAudit("MeltonData.cs", String.Format("GetUserIDFromUserName({0})", username), ex.Message.ToString());
-                    return "*** UNKWOWN USERNAME***";
+                    return "UKN"; //"*** UNKWOWN USERNAME***";
                 }
 
             }
